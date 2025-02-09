@@ -1,3 +1,4 @@
+import { LoaderFunction, redirect } from "@remix-run/cloudflare";
 import { Link, Outlet, useLoaderData, useNavigate } from "@remix-run/react";
 import { useEffect } from "react";
 import { useCurrentUser } from "~/hooks/auth";
@@ -33,6 +34,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export default function FtLayout() {
     const { data, isLoading } = useCurrentUser();
     const navigate = useNavigate();
+    const tooken = useLoaderData()
+    console.log(tooken);
 
     useEffect(() => {
         if (data) {
