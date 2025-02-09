@@ -33,34 +33,30 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
  
 export default function FtLayout() {
     const navigate = useNavigate();
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        if (typeof window !== "undefined") {
-            const token = localStorage.getItem("__FlowTune_Token");
-            console.log("token", token);
-            
-            if (token) {
-                navigate("/", { replace: true });
+        if(typeof window !== "undefined"){
+            const token = localStorage.getItem("__FlowTune_Token")
+            if(token){
+                navigate("/", {replace: true})
             }
         }
-        setIsLoading(false);
-    }, []);
 
-    if (isLoading) {
-        return null;
+        setIsLoading(false)
+    }, [])
+
+    if(isLoading){
+        return null
     }
-
     return (
-        <div className="h-screen w-screen bg-gray-900 flex flex-col justify-center items-center">
-            <div className="w-full max-w-md bg-gray-800 shadow-lg rounded-xl p-8">
-                <div className="text-center">
-                    <h2 className="text-3xl font-extrabold text-white">
-                        Welcome Back To FlowTune
-                    </h2>
+        <div className="min-h-screen h-full bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8 -mt-10">
+            <div className="sm:mx-auto sm:w-full sm:max-w-md">
+                <div className="text-center mt-6">
+                    <h2 className="text-3xl font-extrabold text-gray-900">Welcome Back To FlowTune</h2>
                 </div>
 
-                <div className="mt-6 bg-gray-700 p-6 rounded-lg">
+                <div className="mt-8 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                     <GoogleSignInButton />
                     <Divider />
                     <div className="flex flex-col items-center">
