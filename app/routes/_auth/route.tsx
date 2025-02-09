@@ -33,7 +33,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
  
 export default function FtLayout() {
     const navigate = useNavigate();
-    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         if(typeof window !== "undefined"){
@@ -42,13 +41,8 @@ export default function FtLayout() {
                 navigate("/", {replace: true})
             }
         }
-
-        setIsLoading(false)
     }, [])
 
-    if(isLoading){
-        return null
-    }
     return (
         <div className="min-h-screen h-full bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8 -mt-10">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
