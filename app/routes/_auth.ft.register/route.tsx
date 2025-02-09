@@ -48,10 +48,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
         try {
             const graphqlClient = createGraphqlClient();
-
+            const {signupUser} = await graphqlClient.request(signupUserMutation, {input: {username, email}})
 
             return json<ActionData>({
-                isSignupSuccess: true,
+                isSignupSuccess: signupUser,
                 isVerifyEmailSuccess: false,
                 formData: { username, fullName, email, password }
             });
