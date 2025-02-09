@@ -178,6 +178,12 @@ export default function Register() {
                             profileImageURL: actionData.user?.profileImageURL || ""
                         }
                     })
+
+                    if (typeof window !== "undefined") { 
+                        // This code runs only on the client-side
+                        localStorage.setItem("__FlowTune_Token", actionData.authToken || "")
+                    }
+                    
                     navigate("/", { replace: true });
                 } catch (error) {
                     console.error("Failed to set cookie", error);

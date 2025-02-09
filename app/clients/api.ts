@@ -4,7 +4,7 @@ export const createGraphqlClient = (token?: string) => {
     const Token = token || ""
 
     return new GraphQLClient('https://remix-project-server.onrender.com/graphql', {
-        credentials: "same-origin",
+        // credentials: "include",
         headers: {
             Authorization: `Bearer ${Token}`
         },

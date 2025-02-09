@@ -7,7 +7,12 @@ export const useCurrentUser = () => {
     return useQuery({
         queryKey: ["currentUser"],
         queryFn: async () => {
-            const graphqlClient = createGraphqlClient()
+            let token = ""
+            if (typeof window !== "undefined") { 
+                token = localStorage.getItem("__FlowTune_Token") || ""
+            }
+            
+            const graphqlClient = createGraphqlClient(token)
             const { getCurrentUser } = await graphqlClient.request(getCurrentUserQuery)
             return getCurrentUser
         },
