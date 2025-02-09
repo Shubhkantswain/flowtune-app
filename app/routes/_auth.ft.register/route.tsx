@@ -1,4 +1,3 @@
-import { json, type ActionFunctionArgs } from "@remix-run/cloudflare";
 import { Form, useActionData, useNavigate, useNavigation } from "@remix-run/react";
 import { useEffect } from "react";
 import { createGraphqlClient } from "~/clients/api";
@@ -8,12 +7,13 @@ import { useCurrentUser, useSetCookie } from "~/hooks/auth";
 import SubmitButton from "../_auth/Components/SubmitButton";
 
 import VerifyEmailTokenForm from "./_components/VerifyEmailTokenForm";
-import { MetaFunction } from "@remix-run/cloudflare";
-import { useQueryClient } from "@tanstack/react-query";
 import GeneralError from "../_auth/Components/GeneralError";
 import RegisterForm from "./_components/RegisterForm";
 import { ActionData } from "~/types";
 import { FORM_TYPES } from "~/constants";
+import { json, MetaFunction } from "@remix-run/cloudflare";
+import { ActionFunctionArgs } from "@remix-run/cloudflare";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const meta: MetaFunction = () => {
     return [

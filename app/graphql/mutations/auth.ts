@@ -43,3 +43,9 @@ export const loginUserMutation = graphql(`
         }
     }
 `)
+
+export const sendReqMutation = graphql(`#graphql
+    mutation SendReq($text: String!) {
+  sendReq(text: $text)
+}
+`)
