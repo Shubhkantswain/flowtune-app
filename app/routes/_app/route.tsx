@@ -12,7 +12,7 @@ export default function AppLayout() {
                 <Header />
 
                 {/* Main Content */}
-                <main className="flex-1 overflow-y-auto pb-24 bg-gradient-to-b from-black via-[#121212] to-[#1a1a1a] text-gray-300">
+                <main className="flex-1 overflow-y-auto pb-24 bg-gradient-to-b from-black via-[#0a0a0a] to-[#050505] text-gray-300">
                     <Outlet />
                 </main>
 
