@@ -48,12 +48,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
         try {
             const graphqlClient = createGraphqlClient();
-            const { signupUser } = await graphqlClient.request(signupUserMutation, {
-                input: { username, email }
-            });
+
 
             return json<ActionData>({
-                isSignupSuccess: signupUser,
+                isSignupSuccess: true,
                 isVerifyEmailSuccess: false,
                 formData: { username, fullName, email, password }
             });
@@ -78,7 +76,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         const password = formData.get("password")?.toString().trim() ?? "";
 
         console.log("email", email);
-        
+
         if (!verificationToken) {
             return json<ActionData>({
                 isSignupSuccess: true,
