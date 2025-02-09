@@ -11,18 +11,8 @@ function SendReq() {
         setLoading(true);
         setError(null);
 
-        try {
-            const graphqlClient = createGraphqlClient();
-            const { sendReq } = await graphqlClient.request(sendReqMutation, { text: "hello" });
-
-            console.log("GraphQL Response:", sendReq); // ✅ Debugging log
-            setResponseData(sendReq);
-        } catch (err) {
-            console.error("GraphQL Error:", err);
-            setError("Failed to send request");
-        } finally {
-            setLoading(false);
-        }
+        const graphqlClient = createGraphqlClient();
+        const { sendReq } = await graphqlClient.request(sendReqMutation, { text: "hello" });
     };
 
     return (
