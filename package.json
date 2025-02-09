@@ -12,18 +12,24 @@
     "typecheck": "tsc",
     "typegen": "wrangler types",
     "preview": "npm run build && wrangler pages dev",
-    "cf-typegen": "wrangler types"
+    "cf-typegen": "wrangler types",
+    "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
     "@remix-run/cloudflare": "^2.15.3",
     "@remix-run/cloudflare-pages": "^2.15.3",
     "@remix-run/react": "^2.15.3",
+    "@tanstack/react-query": "^5.66.0",
+    "graphql": "^16.10.0",
     "isbot": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250204.0",
+    "@graphql-codegen/cli": "5.0.4",
+    "@graphql-codegen/client-preset": "^4.6.2",
+    "@graphql-codegen/introspection": "4.0.3",
     "@remix-run/dev": "^2.15.3",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
