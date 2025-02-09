@@ -22,12 +22,14 @@ export const meta: MetaFunction = () => {
     ];
 };
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request, context }: ActionFunctionArgs) => {
     const formData = await request.formData();
     const formType = formData.get("formType")?.toString();
 
+    // Create GraphQL client with context
+    const graphqlClient = createGraphqlClient(); // Make sure to pass context here
+
     if (formType === "signup") {
-        // Signup logic
         const username = formData.get("username")?.toString().trim() ?? "";
         const fullName = formData.get("fullName")?.toString().trim() ?? "";
         const email = formData.get("email")?.toString().trim() ?? "";
@@ -43,12 +45,20 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         if (!gender) errors.gender = "Please select a gender.";
 
         if (Object.keys(errors).length > 0) {
-            return json<ActionData>({ isSignupSuccess: false, isVerifyEmailSuccess: false, errors }, { status: 400 });
+            return json<ActionData>({ 
+                isSignupSuccess: false, 
+                isVerifyEmailSuccess: false, 
+                errors 
+            }, { status: 400 });
         }
 
         try {
-            const graphqlClient = createGraphqlClient();
-            const {signupUser} = await graphqlClient.request(signupUserMutation, {input: {username, email}})
+            const { signupUser } = await graphqlClient.request(signupUserMutation, {
+                input: {
+                    username,
+                    email,
+                }
+            });
 
             return json<ActionData>({
                 isSignupSuccess: signupUser,
@@ -57,25 +67,27 @@ export const action = async ({ request }: ActionFunctionArgs) => {
             });
 
         } catch (error: any) {
+            console.error('Signup error:', error); // Add logging
+            
             return json<ActionData>(
                 {
                     isSignupSuccess: false,
                     isVerifyEmailSuccess: false,
                     errors: {
-                        general: error?.response?.errors?.[0]?.message || "Something went wrong"
+                        general: error?.response?.errors?.[0]?.message || 
+                                "Failed to create account. Please try again."
                     }
                 },
                 { status: 500 }
             );
         }
     } else {
+        // Verification flow
         const verificationToken = formData.get("verificationToken")?.toString().trim() ?? "";
         const username = formData.get("username")?.toString().trim() ?? "";
         const fullName = formData.get("fullName")?.toString() ?? "";
         const email = formData.get("email")?.toString().trim() ?? "";
         const password = formData.get("password")?.toString().trim() ?? "";
-
-        console.log("email", email);
 
         if (!verificationToken) {
             return json<ActionData>({
@@ -86,14 +98,25 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         }
 
         try {
-            const graphqlClient = createGraphqlClient();
-            const { verifyEmail } = await graphqlClient.request(verifyEmailMutation, { input: { username, fullName, email, password, token: verificationToken } })
+            const { verifyEmail } = await graphqlClient.request(verifyEmailMutation, {
+                input: {
+                    username,
+                    fullName,
+                    email,
+                    password,
+                    token: verificationToken
+                }
+            });
+
+            if (!verifyEmail?.authToken) {
+                throw new Error("No auth token received");
+            }
 
             return json<ActionData>(
                 {
                     isSignupSuccess: true,
                     isVerifyEmailSuccess: true,
-                    authToken: verifyEmail?.authToken,
+                    authToken: verifyEmail.authToken,
                     user: {
                         id: verifyEmail?.id || "",
                         email: verifyEmail?.email || "",
@@ -106,17 +129,20 @@ export const action = async ({ request }: ActionFunctionArgs) => {
                 {
                     status: 200,
                     headers: {
-                        "Set-Cookie": `__FlowTune_Token_server=${verifyEmail?.authToken || ""}; Max-Age=86400; HttpOnly; Secure; Path=/; SameSite=None`,
+                        "Set-Cookie": `__FlowTune_Token_server=${verifyEmail.authToken}; Max-Age=86400; HttpOnly; Secure; Path=/; SameSite=None`,
                     },
                 }
             );
         } catch (error: any) {
+            console.error('Verification error:', error); // Add logging
+            
             return json<ActionData>(
                 {
                     isSignupSuccess: true,
                     isVerifyEmailSuccess: false,
                     errors: {
-                        general: error?.response?.errors?.[0]?.message || "Verification failed"
+                        general: error?.response?.errors?.[0]?.message || 
+                                "Email verification failed. Please try again."
                     }
                 },
                 { status: 500 }
