@@ -22,13 +22,6 @@ export const verifyEmailMutation = graphql(`
     }
 `)
 
-export const setCookieMutation = graphql(`
-    #graphql
-    mutation SetCookie($authToken: String!) {
-        setCookie(authToken: $authToken)
-    }
-`)
-
 export const loginUserMutation = graphql(`
     #graphql
     mutation LoginUser($input: LoginUserInput!) {

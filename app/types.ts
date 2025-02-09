@@ -5,7 +5,7 @@ export interface Option {
     label: string;
 }
 
-export interface ActionData {
+export interface RegisterActionData {
     isSignupSuccess: boolean;
     isVerifyEmailSuccess: boolean;
     authToken?: string;
@@ -31,5 +31,23 @@ export interface ActionData {
         gender?: string;
         general?: string;
         verificationToken?: string;
+    };
+}
+
+export interface SigninActionData {
+    isLoginSuccess: boolean;
+    authToken?: string;
+    user?: {
+        id: string
+        email: string
+        username: string
+        fullName: string
+        bio: string
+        profileImageURL: string
+    };
+    errors?: {
+        usernameOrEmail?: string;
+        password?: string;
+        general?: string;
     };
 }

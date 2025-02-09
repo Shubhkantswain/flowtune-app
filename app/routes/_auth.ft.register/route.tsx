@@ -2,18 +2,16 @@ import { Form, useActionData, useNavigate, useNavigation } from "@remix-run/reac
 import { useEffect } from "react";
 import { createGraphqlClient } from "~/clients/api";
 import { signupUserMutation, verifyEmailMutation } from "~/graphql/mutations/auth";
-// import { serialize } from "cookie";
-import { useCurrentUser, useSetCookie } from "~/hooks/auth";
 import SubmitButton from "../_auth/Components/SubmitButton";
 
 import VerifyEmailTokenForm from "./_components/VerifyEmailTokenForm";
 import GeneralError from "../_auth/Components/GeneralError";
 import RegisterForm from "./_components/RegisterForm";
-import { ActionData } from "~/types";
 import { FORM_TYPES } from "~/constants";
 import { json, MetaFunction } from "@remix-run/cloudflare";
 import { ActionFunctionArgs } from "@remix-run/cloudflare";
 import { useQueryClient } from "@tanstack/react-query";
+import { RegisterActionData } from "~/types";
 
 export const meta: MetaFunction = () => {
     return [
@@ -36,7 +34,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
         const password = formData.get("password")?.toString().trim() ?? "";
         const gender = formData.get("gender")?.toString().trim() ?? "";
 
-        let errors: ActionData["errors"] = {};
+        let errors: RegisterActionData["errors"] = {};
 
         if (!username) errors.username = "Username is required.";
         if (!fullName) errors.fullName = "Full name is required.";
@@ -45,7 +43,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
         if (!gender) errors.gender = "Please select a gender.";
 
         if (Object.keys(errors).length > 0) {
-            return json<ActionData>({ 
+            return json<RegisterActionData>({ 
                 isSignupSuccess: false, 
                 isVerifyEmailSuccess: false, 
                 errors 
@@ -60,7 +58,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
                 }
             });
 
-            return json<ActionData>({
+            return json<RegisterActionData>({
                 isSignupSuccess: signupUser,
                 isVerifyEmailSuccess: false,
                 formData: { username, fullName, email, password }
@@ -69,7 +67,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
         } catch (error: any) {
             console.error('Signup error:', error); // Add logging
             
-            return json<ActionData>(
+            return json<RegisterActionData>(
                 {
                     isSignupSuccess: false,
                     isVerifyEmailSuccess: false,
@@ -90,7 +88,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
         const password = formData.get("password")?.toString().trim() ?? "";
 
         if (!verificationToken) {
-            return json<ActionData>({
+            return json<RegisterActionData>({
                 isSignupSuccess: true,
                 isVerifyEmailSuccess: false,
                 errors: { verificationToken: "Verification Token is required." }
@@ -112,7 +110,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
                 throw new Error("No auth token received");
             }
 
-            return json<ActionData>(
+            return json<RegisterActionData>(
                 {
                     isSignupSuccess: true,
                     isVerifyEmailSuccess: true,
@@ -136,7 +134,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
         } catch (error: any) {
             console.error('Verification error:', error); // Add logging
             
-            return json<ActionData>(
+            return json<RegisterActionData>(
                 {
                     isSignupSuccess: true,
                     isVerifyEmailSuccess: false,
@@ -152,14 +150,13 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
 };
 
 export default function Register() {
-    const actionData = useActionData<ActionData>();
+    const actionData = useActionData<RegisterActionData>();
     const routerNavigation = useNavigation();
     const isSubmitting = routerNavigation.state === "submitting";
 
     const isSignupSuccessful = actionData?.isSignupSuccess;
     const isEmailVerificationSuccessful = actionData?.isVerifyEmailSuccess;
 
-    const { mutateAsync } = useSetCookie();
     const navigate = useNavigate();
     const queryClient = useQueryClient()
 
@@ -167,7 +164,6 @@ export default function Register() {
         if (isEmailVerificationSuccessful) {
             const handleSetCookie = async () => {
                 try {
-                    await mutateAsync(actionData?.authToken || "");
                     queryClient.setQueryData(['currentUser'], () => {
                         return {
                             id: actionData.user?.id || "",

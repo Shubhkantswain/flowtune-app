@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import InputField from "~/routes/_auth/Components/InputField";
-import { ActionData } from "~/types";
 import { genderOptions } from "~/constants";
 import SelectField from "./SelectField";
 import PasswordField from "~/routes/_auth/Components/PasswordField";
-
+import { RegisterActionData } from "~/types";
 
 interface RegisterFormProps {
-  actionData?: ActionData
+  actionData?: RegisterActionData
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ actionData }) => {

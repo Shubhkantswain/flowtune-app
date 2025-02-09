@@ -1,9 +1,9 @@
 import React from 'react'
 import InputField from '~/routes/_auth/Components/InputField'
-import { ActionData } from '~/types'
+import { RegisterActionData } from '~/types'
 
 interface VerifyEmailTokenFormProps {
-    actionData?: ActionData
+    actionData?: RegisterActionData
 }
 
 const VerifyEmailTokenForm: React.FC<VerifyEmailTokenFormProps> = ({ actionData }) => {
