@@ -4,11 +4,10 @@ import { useTrackStore } from '~/store/useTrackStore'
 function RightControllers() {
     const { trackDetails, togglePlay } = useTrackStore()
     const isPlaying = trackDetails.isPlaying
-
     return (
         <div className="flex items-center justify-end flex-1 md:w-1/3 space-x-2">
             {/* Play Button for Small Screens (Visible Only on Small Screens) */}
-            <button className="w-12 h-12 hover:bg-[#727171] bg-[#313232] rounded-full flex items-center justify-center hover:scale-105 transition-transform" onClick={() => trackDetails.id && togglePlay()}>
+            <button className="w-10 h-10 rounded-full flex items-center justify-center hover:scale-105 transition-transform md:hidden" onClick={() => trackDetails.id && togglePlay()}>
                 {
                     isPlaying ? (
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><defs><path id="ic_playback_pause-a" d="M9,22 L6,22 C5.45,22 5,21.55 5,21 L5,3 C5,2.45 5.45,2 6,2 L9,2 C9.55,2 10,2.45 10,3 L10,21 C10,21.55 9.55,22 9,22 Z M19,21 L19,3 C19,2.45 18.55,2 18,2 L15,2 C14.45,2 14,2.45 14,3 L14,21 C14,21.55 14.45,22 15,22 L18,22 C18.55,22 19,21.55 19,21 Z"></path></defs><g fill-rule="evenodd" fill="transparent"><rect width="24" height="24"></rect><use fill-rule="nonzero" href="#ic_playback_pause-a" fill="currentColor"></use></g></svg>
