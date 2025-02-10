@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export type ScrollDirection = 'left' | 'right';
 
 export interface Option {
@@ -51,3 +53,10 @@ export interface SigninActionData {
         general?: string;
     };
 }
+
+export type ExploreItem = {
+    title: string;
+    svg: ReactNode;
+    color: string;
+    image: string;
+};
