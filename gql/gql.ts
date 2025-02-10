@@ -18,6 +18,7 @@ type Documents = {
     "\n    #graphql\n    mutation VerifyEmail($input: VerifyEmailInput!) {\n        verifyEmail(input: $input) {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            authToken\n        }\n    }\n": typeof types.VerifyEmailDocument,
     "\n    #graphql\n    mutation LoginUser($input: LoginUserInput!) {\n        loginUser(input: $input) {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            authToken\n        }\n    }\n": typeof types.LoginUserDocument,
     "#graphql\n    mutation SendReq($text: String!) {\n  sendReq(text: $text)\n}\n": typeof types.SendReqDocument,
+    "\n    #graphql\n    mutation CreateTrack($payload: createTrackPayload!) {\n        createTrack(payload: $payload) {\n            id\n            title\n            artist\n            duration\n            coverImageUrl\n            audioFileUrl\n            hasLiked\n            authorName\n        }\n    }\n": typeof types.CreateTrackDocument,
     "\n    #graphql\n    query GetCurrentUser {\n        getCurrentUser {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n        }\n    }\n": typeof types.GetCurrentUserDocument,
     "\n    #graphql\n    query GetFeedTracks {\n        getFeedTracks {\n            id\n            title\n            artist\n            duration\n            coverImageUrl\n            audioFileUrl\n            hasLiked\n            authorName\n        }\n    }\n": typeof types.GetFeedTracksDocument,
 };
@@ -26,6 +27,7 @@ const documents: Documents = {
     "\n    #graphql\n    mutation VerifyEmail($input: VerifyEmailInput!) {\n        verifyEmail(input: $input) {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            authToken\n        }\n    }\n": types.VerifyEmailDocument,
     "\n    #graphql\n    mutation LoginUser($input: LoginUserInput!) {\n        loginUser(input: $input) {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            authToken\n        }\n    }\n": types.LoginUserDocument,
     "#graphql\n    mutation SendReq($text: String!) {\n  sendReq(text: $text)\n}\n": types.SendReqDocument,
+    "\n    #graphql\n    mutation CreateTrack($payload: createTrackPayload!) {\n        createTrack(payload: $payload) {\n            id\n            title\n            artist\n            duration\n            coverImageUrl\n            audioFileUrl\n            hasLiked\n            authorName\n        }\n    }\n": types.CreateTrackDocument,
     "\n    #graphql\n    query GetCurrentUser {\n        getCurrentUser {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n        }\n    }\n": types.GetCurrentUserDocument,
     "\n    #graphql\n    query GetFeedTracks {\n        getFeedTracks {\n            id\n            title\n            artist\n            duration\n            coverImageUrl\n            audioFileUrl\n            hasLiked\n            authorName\n        }\n    }\n": types.GetFeedTracksDocument,
 };
@@ -60,6 +62,10 @@ export function graphql(source: "\n    #graphql\n    mutation LoginUser($input: 
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "#graphql\n    mutation SendReq($text: String!) {\n  sendReq(text: $text)\n}\n"): (typeof documents)["#graphql\n    mutation SendReq($text: String!) {\n  sendReq(text: $text)\n}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    #graphql\n    mutation CreateTrack($payload: createTrackPayload!) {\n        createTrack(payload: $payload) {\n            id\n            title\n            artist\n            duration\n            coverImageUrl\n            audioFileUrl\n            hasLiked\n            authorName\n        }\n    }\n"): (typeof documents)["\n    #graphql\n    mutation CreateTrack($payload: createTrackPayload!) {\n        createTrack(payload: $payload) {\n            id\n            title\n            artist\n            duration\n            coverImageUrl\n            audioFileUrl\n            hasLiked\n            authorName\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

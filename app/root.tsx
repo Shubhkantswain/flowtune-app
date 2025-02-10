@@ -9,6 +9,8 @@ import {
 
 import "./tailwind.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SnackbarProvider } from "notistack";
+import { Toaster } from "sonner";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -35,8 +37,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-      <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClient}>
           {children}
+          <Toaster />
         </QueryClientProvider>
         <ScrollRestoration />
         <Scripts />
