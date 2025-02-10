@@ -12,9 +12,11 @@ interface NowPlayingProps {
   currentTime: string;
   duration: string;
   handleSeek: (event: React.MouseEvent<HTMLDivElement>) => void;
+  handleSkip: (direction: 'forward' | 'backward') => void
 }
 
-const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, setIsOpen, progress, currentTime, duration, handleSeek }) => {
+
+const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, setIsOpen, progress, currentTime, duration, handleSeek, handleSkip }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const { trackDetails } = useTrackStore()
 
@@ -87,7 +89,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, setIsOpen, progress, cu
         </div>
         
         {/* Controls */}
-        <TrackControllers />
+        <TrackControllers handleSkip={handleSkip} />
       </div>
     </div>
   );

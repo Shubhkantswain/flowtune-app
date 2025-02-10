@@ -41,13 +41,15 @@ const Playbackcontroller = () => {
     const handleSkip = (direction: 'forward' | 'backward') => {
         const audio = audioRef.current;
         if (!audio) return;
-
-        const skipAmount = 10; // seconds
+    
+        const skipForward = 30; // seconds for forward skip
+        const skipBackward = 15; // seconds for backward skip
         const currentTime = audio.currentTime;
+        
         const newTime = direction === 'forward'
-            ? Math.min(currentTime + skipAmount, audio.duration)
-            : Math.max(currentTime - skipAmount, 0);
-
+            ? Math.min(currentTime + skipForward, audio.duration)
+            : Math.max(currentTime - skipBackward, 0);
+    
         // Update audio time
         audio.currentTime = newTime;
     };
@@ -153,7 +155,7 @@ const Playbackcontroller = () => {
                     )
                 }
             </div>
-            <NowPlaying isOpen={isOpen} setIsOpen={setIsOpen} progress={progress} currentTime={currentTime} duration={duration} handleSeek={handleSeek} />
+            <NowPlaying isOpen={isOpen} setIsOpen={setIsOpen} progress={progress} currentTime={currentTime} duration={duration} handleSeek={handleSeek} handleSkip={handleSkip} />
         </>
     )
 }
