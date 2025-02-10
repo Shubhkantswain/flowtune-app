@@ -28,7 +28,7 @@ function DesktopSearch() {
                 ${isSearchPage ? 'scale-105 translate-y-0' : 'translate-y-0'}
                 ${isHovered ? 'w-80' : 'w-72'}
                 hover:ring-2 hover:ring-blue-200 hover:ring-opacity-50
-                group
+                group cursor-pointer
             `}
             onClick={handleInputClick}
             onMouseEnter={() => setIsHovered(true)}

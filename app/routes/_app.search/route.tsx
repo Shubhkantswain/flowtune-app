@@ -1,128 +1,41 @@
 import React from 'react';
 
-const UserPage = () => {
-  const playlist = {
-    title: "Today's Top Hits",
-    coverImage: 'https://m.media-amazon.com/images/S/dmp-catalog-images-prod/images/4731f943-5683-4832-b200-145fe1dc6172/4731f943-5683-4832-b200-145fe1dc6172--1619766509._SX576_SY576_BL0_QL100__UX250_FMwebp_QL85_.jpg',
-    description: "The most popular tracks right now",
-    totalSongs: 50,
-    duration: "2 hr 45 min",
-    tracks: [
-      {
-        title: "Song One",
-        artist: "Artist Name",
-        duration: "3:24",
-        image: "https://m.media-amazon.com/images/I/41Z7Z9uYlEL._SX354_SY354_BL0_QL100__UX358_FMwebp_QL85_.jpg",
-        plays: "1.2M",
-        date: "10-01-2025",
-        description: "This memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats and memorable melody.beats and memorable melody.beats and memorable melody.beats and memorable melody.beats and memorable melody.beats and memorable melody.beats and memorable melody."
-      },
-      {
-        title: "Song Two",
-        artist: "Artist Name",
-        duration: "4:12",
-        image: "https://m.media-amazon.com/images/I/51Ls+9riaXL._SX354_SY354_BL0_QL100__UX358_FMwebp_QL85_.jpg",
-        plays: "856K",
-        date: "09-01-2025",
-        description: "An emotional journey through sound and rhythm, this track showcases the artist's vocal range."
-      },
-    ]
-  };
+const BrowsePage = () => {
+  const categories = [
+    { title: 'Love', svg: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" /></svg>, color: 'bg-gradient-to-r from-pink-600 to-purple-600', image: '/api/placeholder/60/60' },
+    { title: 'Workout', svg: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-dumbbell"><path d="M14.4 14.4 9.6 9.6" /><path d="M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z" /><path d="m21.5 21.5-1.4-1.4" /><path d="M3.9 3.9 2.5 2.5" /><path d="M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z" /></svg>, color: 'bg-gradient-to-r from-emerald-700 to-green-500', image: '/api/placeholder/60/60' },
+    { title: 'Birthday Party', svg: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-party-popper"><path d="M5.8 11.3 2 22l10.7-3.79" /><path d="M4 3h.01" /><path d="M22 8h.01" /><path d="M15 2h.01" /><path d="M22 20h.01" /><path d="m22 2-2.24.75a2.9 2.9 0 0 0-1.96 3.12c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10" /><path d="m22 13-.82-.33c-.86-.34-1.82.2-1.98 1.11c-.11.7-.72 1.22-1.43 1.22H17" /><path d="m11 2 .33.82c.34.86-.2 1.82-1.11 1.98C9.52 4.9 9 5.52 9 6.23V7" /><path d="M11 13c1.93 1.93 2.83 4.17 2 5-.83.83-3.07-.07-5-2-1.93-1.93-2.83-4.17-2-5 .83-.83 3.07.07 5 2Z" /></svg>, color: 'bg-gradient-to-r from-purple-600 to-indigo-600', image: '/api/placeholder/60/60' },
+    { title: 'Chill', svg: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-smile"><circle cx="12" cy="12" r="10" /><path d="M8 14s1.5 2 4 2 4-2 4-2" /><line x1="9" x2="9.01" y1="9" y2="9" /><line x1="15" x2="15.01" y1="9" y2="9" /></svg>, color: 'bg-gradient-to-r from-slate-800 to-gray-600', image: '/api/placeholder/60/60' },
+    { title: 'Travel', svg: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-plane"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z" /></svg>, color: 'bg-gradient-to-r from-blue-700 to-cyan-500', image: '/api/placeholder/60/60' },
+    { title: 'Happy', svg: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-smile"><circle cx="12" cy="12" r="10" /><path d="M8 14s1.5 2 4 2 4-2 4-2" /><line x1="9" x2="9.01" y1="9" y2="9" /><line x1="15" x2="15.01" y1="9" y2="9" /></svg>, color: 'bg-gradient-to-r from-yellow-500 to-orange-500', image: '/api/placeholder/60/60' },
+    { title: 'Sleep', svg: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-bed"><path d="M2 4v16" /><path d="M2 8h18a2 2 0 0 1 2 2v10" /><path d="M2 17h20" /><path d="M6 8v9" /></svg>, color: 'bg-gradient-to-r from-indigo-600 to-purple-600', image: '/api/placeholder/60/60' },
+    { title: 'Sad', svg: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-frown"><circle cx="12" cy="12" r="10" /><path d="M16 16s-1.5-2-4-2-4 2-4 2" /><line x1="9" x2="9.01" y1="9" y2="9" /><line x1="15" x2="15.01" y1="9" y2="9" /></svg>, color: 'bg-gradient-to-r from-red-700 to-orange-600', image: '/api/placeholder/60/60' },
+    { title: 'Bath', svg: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-bath"><path d="M10 4 8 6" /><path d="M17 19v2" /><path d="M2 12h20" /><path d="M7 19v2" /><path d="M9 5 7.621 3.621A2.121 2.121 0 0 0 4 5v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5" /></svg>, color: 'bg-gradient-to-r from-teal-600 to-emerald-500', image: '/api/placeholder/60/60' },
+  ];
 
   return (
-    <div className="text-white relative min-h-screen">
-      <div
-        className="absolute inset-0 bg-gradient-to-b from-transparent to-black z-0"
-        style={{
-          backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,1) 100%), url(${playlist.coverImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center top',
-          filter: 'blur(20px)',
-          opacity: '0.6',
-        }}
-      />
+    <div className="min-h-screen p-4 sm:p-6 md:p-8 bg-black text-white">
+      <h1 className="text-lg font-bold mb-4">Moods & Activities</h1>
 
-      <div className="relative z-10">
-        <div className="p-4 sm:p-6 md:p-8">
-          <div className="py-8 md:py-12 flex flex-col md:flex-row items-center md:items-start gap-8">
-            <img
-              src={playlist.coverImage}
-              alt={playlist.title}
-              className="w-56 h-56 md:w-64 md:h-64 rounded-lg shadow-xl"
-            />
-            <div className="flex flex-col items-center md:items-start gap-4 text-center md:text-left">
-              <h1 className="text-4xl md:text-5xl font-bold">{playlist.title}</h1>
-              <p className="text-gray-400">{playlist.description}</p>
-              <div className="text-sm text-gray-400">
-                {playlist.totalSongs} songs • {playlist.duration}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        {categories.map((category, index) => (
+          <div
+            key={index}
+            className={`${category.color} rounded-lg p-3 h-24 relative overflow-hidden cursor-pointer transition-transform hover:scale-105`}
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-sm font-bold mb-1">{category.title}</h2>
               </div>
-              <div className="flex items-center gap-4 mt-4">
-                <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-2 rounded-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"><defs><path id="ic_action_favorite-a" d="M16,3 C14.499,3 13.092,3.552 12,4.544 C10.908,3.552 9.501,3 8,3 C4.691,3 2,5.691 2,9 C2,14.535 8.379,18.788 11.445,20.832 C11.613,20.944 11.807,21 12,21 C12.193,21 12.387,20.944 12.555,20.832 C15.62,18.788 22,14.535 22,9 C22,5.691 19.309,3 16,3 Z M12,18.797 C9.077,16.832 4,13.186 4,9 C4,6.794 5.794,5 8,5 C9.263,5 10.429,5.592 11.198,6.625 C11.575,7.131 12.425,7.131 12.802,6.625 C13.571,5.592 14.737,5 16,5 C18.206,5 20,6.794 20,9 C20,13.186 14.923,16.832 12,18.797 Z"></path></defs><g fill-rule="evenodd" fill="transparent"><rect width="24" height="24"></rect><use fill-rule="nonzero" href="#ic_action_favorite-a" fill="currentColor"></use></g></svg>
-                  Follow
-                </button>
-                <button className="p-2 hover:bg-white/10 rounded-full transition-colors">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><defs><path id="ic_action_more-a" d="M19,14 C17.895,14 17,13.105 17,12 C17,10.895 17.895,10 19,10 C20.105,10 21,10.895 21,12 C21,13.105 20.105,14 19,14 Z M14,12 C14,10.895 13.105,10 12,10 C10.895,10 10,10.895 10,12 C10,13.105 10.895,14 12,14 C13.105,14 14,13.105 14,12 Z M7,12 C7,10.895 6.105,10 5,10 C3.895,10 3,10.895 3,12 C3,13.105 3.895,14 5,14 C6.105,14 7,13.105 7,12 Z"></path></defs><g fill-rule="evenodd" fill="transparent"><rect width="24" height="24"></rect><use fill-rule="nonzero" href="#ic_action_more-a" fill="currentColor"></use></g></svg>
-                </button>
+              <div className="bg-white/20 backdrop-blur-2xl w-16 h-16 flex items-center justify-center rounded-md transform rotate-12 absolute bottom-0 right-0">
+                {category.svg}
               </div>
             </div>
           </div>
-
-          <div className="mt-6 md:mt-8">
-            <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6">Episodes</h2>
-            <div className="space-y-5 md:space-y-6">
-              {playlist.tracks.map((track, index) => (
-                <div
-                  key={index}
-                  className="group bg-white/5 hover:bg-white/10 transition-colors rounded-lg p-3 md:p-4 cursor-pointer"
-                >
-                  <div className="flex gap-3 md:gap-4">
-                    <div className="min-w-[50px] md:min-w-[60px]">
-                      <img
-                        src={track.image}
-                        alt={track.title}
-                        className="w-12 h-12 sm:w-14 sm:h-14 md:w-14 md:h-14 rounded-md"
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex justify-between items-center">
-                        <div className="space-y-1 flex-1">
-                          <div className="text-gray-400 text-xs md:text-sm">{track.date}</div>
-                          <h3 className="font-medium text-base md:text-lg truncate">{track.title}</h3>
-                          <p className="text-gray-400 text-xs md:text-sm line-clamp-2 max-w-2xl">{track.description}</p>
-                        </div>
-                        <div className="hidden md:flex items-center gap-4 ml-4">
-                          <button className="group-hover:bg-white/20 backdrop-blur-sm bg-white/10 rounded-full p-1.5 md:p-2 transition-all">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><defs><path id="ic_playback_play-a" d="M21.54933,11.208 L7.32711083,2.131 C7.05155533,1.955 6.7155554,1.957 6.44177768,2.136 C6.16799996,2.315 6,2.644 6,3 L6,21 C6,21.354 6.16711108,21.683 6.43911102,21.862 C6.57777765,21.954 6.73333318,22 6.8888887,22 C7.038222,22 7.18666641,21.958 7.32177749,21.873 L21.5439967,12.951 C21.8239966,12.775 21.9991077,12.442 22,12.081 C22.0008855,11.72 21.8293299,11.386 21.54933,11.208 Z"></path></defs><g fill-rule="evenodd" fill="transparent"><rect width="24" height="24"></rect><use href="#ic_playback_play-a" fill="currentColor"></use></g></svg>
-                          </button>
-                          <div className="text-gray-400 text-xs md:text-sm w-12 text-center">{track.duration}</div>
-                          <button className="group-hover:bg-white/20 backdrop-blur-sm bg-white/10 rounded-full p-1 md:p-1.5 transition-all">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><defs><path id="ic_action_add-a" d="M21,11 L13,11 L13,3 C13,2.448 12.552,2 12,2 C11.448,2 11,2.448 11,3 L11,11 L3,11 C2.448,11 2,11.448 2,12 C2,12.552 2.448,13 3,13 L11,13 L11,21 C11,21.553 11.448,22 12,22 C12.552,22 13,21.553 13,21 L13,13 L21,13 C21.552,13 22,12.552 22,12 C22,11.448 21.552,11 21,11 Z"></path></defs><g fill-rule="evenodd" fill="transparent"><rect width="24" height="24"></rect><use href="#ic_action_add-a" fill="currentColor"></use></g></svg>
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="md:hidden flex items-center justify-between mt-3 md:mt-4">
-                        <div className="flex items-center gap-2">
-                          <button className="bg-white/10 backdrop-blur-sm hover:bg-white/20 rounded-full p-1.5 transition-all">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><defs><path id="ic_playback_play-a" d="M21.54933,11.208 L7.32711083,2.131 C7.05155533,1.955 6.7155554,1.957 6.44177768,2.136 C6.16799996,2.315 6,2.644 6,3 L6,21 C6,21.354 6.16711108,21.683 6.43911102,21.862 C6.57777765,21.954 6.73333318,22 6.8888887,22 C7.038222,22 7.18666641,21.958 7.32177749,21.873 L21.5439967,12.951 C21.8239966,12.775 21.9991077,12.442 22,12.081 C22.0008855,11.72 21.8293299,11.386 21.54933,11.208 Z"></path></defs><g fill-rule="evenodd" fill="transparent"><rect width="24" height="24"></rect><use href="#ic_playback_play-a" fill="currentColor"></use></g></svg>
-                          </button>
-                          <span className="text-gray-400 text-xs md:text-sm">{track.duration}</span>
-                        </div>
-                        <button className="bg-white/10 backdrop-blur-sm hover:bg-white/20 rounded-full p-1.5 transition-all">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><defs><path id="ic_action_add-a" d="M21,11 L13,11 L13,3 C13,2.448 12.552,2 12,2 C11.448,2 11,2.448 11,3 L11,11 L3,11 C2.448,11 2,11.448 2,12 C2,12.552 2.448,13 3,13 L11,13 L11,21 C11,21.553 11.448,22 12,22 C12.552,22 13,21.553 13,21 L13,13 L21,13 C21.552,13 22,12.552 22,12 C22,11.448 21.552,11 21,11 Z"></path></defs><g fill-rule="evenodd" fill="transparent"><rect width="24" height="24"></rect><use href="#ic_action_add-a" fill="currentColor"></use></g></svg>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
 };
 
-export default UserPage;
+export default BrowsePage;
