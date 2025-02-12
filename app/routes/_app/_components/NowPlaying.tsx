@@ -4,6 +4,7 @@ import ProgressBar from './ProgressBar';
 import { useTrackStore } from '~/store/useTrackStore';
 import TrackInfo from './TrackInfo';
 import TrackControllers from './TrackControllers';
+import { useLikeTrack } from '~/hooks/track';
 
 interface NowPlayingProps {
   isOpen: boolean;
@@ -12,13 +13,13 @@ interface NowPlayingProps {
   currentTime: string;
   duration: string;
   handleSeek: (event: React.MouseEvent<HTMLDivElement>) => void;
-  handleSkip: (direction: 'forward' | 'backward') => void
+  handleSkip: (direction: 'forward' | 'backward') => void;
 }
-
 
 const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, setIsOpen, progress, currentTime, duration, handleSeek, handleSkip }) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const { trackDetails } = useTrackStore()
+  const { trackDetails, setTrackDetails } = useTrackStore()
+  const { mutateAsync: likeTrack, isPending } = useLikeTrack()
 
   useEffect(() => {
     if (isOpen) {
@@ -47,49 +48,80 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, setIsOpen, progress, cu
       <div className="relative z-10 max-w-3xl mx-auto min-h-full">
         {/* Header */}
         <div className="p-4 flex items-center justify-between backdrop-blur-sm">
-            <button
-                onClick={() => setIsOpen(false)}
-                className="text-zinc-400 hover:text-white transition-colors duration-300"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6" /></svg>
-            </button>
-            <button className="text-zinc-400 hover:text-white transition-colors duration-300">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-list-music"><path d="M21 15V6" /><path d="M18.5 18a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" /><path d="M12 12H3" /><path d="M16 6H3" /><path d="M12 18H3" /></svg>
-            </button>
+          <button
+            onClick={() => setIsOpen(false)}
+            className="text-zinc-400 hover:text-white transition-colors duration-300"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6" /></svg>
+          </button>
+          <button className="text-zinc-400 hover:text-white transition-colors duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-list-music"><path d="M21 15V6" /><path d="M18.5 18a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" /><path d="M12 12H3" /><path d="M16 6H3" /><path d="M12 18H3" /></svg>
+          </button>
         </div>
 
         {/* Album Art and Info */}
         <div className="px-8 pt-8 -mt-10">
-            <div
-                className={`aspect-square w-full max-w-sm lg:max-w-[300px] lg:ml-0 mx-auto bg-zinc-800 rounded-lg mb-8 will-change-transform transition-transform duration-500 ease-out transform ${trackDetails.isPlaying ? 'scale-100' : 'scale-95'
-                    }`}
-            >
-                <img
-                    src={trackDetails.coverImageUrl || ""}
-                    alt="Album art"
-                    className="w-full h-full object-cover rounded-lg"
-                />
-            </div>
+          <div
+            className={`aspect-square w-full max-w-sm lg:max-w-[300px] lg:ml-0 mx-auto bg-zinc-800 rounded-lg mb-8 will-change-transform transition-transform duration-500 ease-out transform ${trackDetails.isPlaying ? 'scale-100' : 'scale-95'
+              }`}
+          >
+            <img
+              src={trackDetails.coverImageUrl || ""}
+              alt="Album art"
+              className="w-full h-full object-cover rounded-lg"
+            />
+          </div>
 
-            <div className="space-y-1 text-center lg:text-left">
-                <h2 className="text-2xl md:text-3xl font-semibold transition-all duration-300">{trackDetails.title}</h2>
-                <p className="text-zinc-400 transition-all duration-300">{trackDetails.artist}</p>
+          <div className="flex justify-between items-center">
+            <div className="space-y-1 text-left">
+              <h2 className="text-2xl md:text-3xl font-semibold transition-all duration-300">
+                {trackDetails.title}
+              </h2>
+              <p className="text-zinc-400 transition-all duration-300">
+                {trackDetails.artist}
+              </p>
             </div>
+            {/* <Heart className="w-6 h-6 text-zinc-400 hover:text-white transition-colors" /> */}
+
+            <button
+              className={`hover:text-white transition-colors duration-300 ${trackDetails.hasLiked ? "text-[#fa586a]" : "text-zinc-400"
+                }`}
+              onClick={async () => {
+                await likeTrack(trackDetails.id)
+                setTrackDetails({ hasLiked: !trackDetails.hasLiked })
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill={trackDetails.hasLiked ? "#fa586a" : "none"}
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-heart"
+              >
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+              </svg>
+            </button>
+          </div>
         </div>
 
         {/* Progress Bar */}
         <div className="px-8 mt-8">
-            <div className="h-1 bg-zinc-800/50 backdrop-blur-sm rounded-full overflow-hidden cursor-pointer" onClick={(e) => handleSeek(e)}>
-                <div className="h-full w-1/3 bg-white/90 rounded-full transition-all duration-300 ease-out" style={{ width: `${progress}%` }}></div>
-            </div>
-            <div className="flex justify-between mt-2 text-xs text-zinc-400">
-                <span>{currentTime}</span>
-                <span>{duration}</span>
-            </div>
+          <div className="h-1 bg-zinc-800/50 backdrop-blur-sm rounded-full overflow-hidden cursor-pointer" onClick={(e) => handleSeek(e)}>
+            <div className="h-full w-1/3 bg-white/90 rounded-full transition-all duration-300 ease-out" style={{ width: `${progress}%` }}></div>
+          </div>
+          <div className="flex justify-between mt-2 text-xs text-zinc-400">
+            <span>{currentTime}</span>
+            <span>{duration}</span>
+          </div>
         </div>
-        
+
         {/* Controls */}
-        <TrackControllers handleSkip={handleSkip} />
+        <TrackControllers handleSkip={handleSkip}/>
       </div>
     </div>
   );

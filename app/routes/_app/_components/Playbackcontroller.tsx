@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTrackStore } from '~/store/useTrackStore';
-import { useNavigate } from '@remix-run/react';
 import ProgressBar from './ProgressBar';
 import LeftTrackInfo from './LeftTrackInfo';
 import RightControllers from './RightControllers';
@@ -13,9 +12,9 @@ const Playbackcontroller = () => {
     const [duration, setDuration] = useState("0:00");
     const [currentTime, setCurrentTime] = useState("0:00")
     const { trackDetails, setTrackDetails, togglePlay } = useTrackStore();
-    const [volume, setVolume] = useState(0.5)
-
     const audioRef = useRef<HTMLAudioElement | null>(null);
+
+    console.log("trackdetail", trackDetails);
 
     const handleSeek = (event: React.MouseEvent<HTMLDivElement>) => {
         const audio = audioRef.current;
@@ -41,24 +40,22 @@ const Playbackcontroller = () => {
     const handleSkip = (direction: 'forward' | 'backward') => {
         const audio = audioRef.current;
         if (!audio) return;
-    
+
         const skipForward = 30; // seconds for forward skip
         const skipBackward = 15; // seconds for backward skip
         const currentTime = audio.currentTime;
-        
+
         const newTime = direction === 'forward'
             ? Math.min(currentTime + skipForward, audio.duration)
             : Math.max(currentTime - skipBackward, 0);
-    
+
         // Update audio time
         audio.currentTime = newTime;
     };
 
-    const handleVolumeChange = (event: React.MouseEvent<HTMLDivElement>) => {
-        const slider = event.currentTarget;
-        const rect = slider.getBoundingClientRect();
-        const clickPosition = event.clientX - rect.left;
-        const newVolume = clickPosition / rect.width;
+    const handleVolumeChange = (value: number) => {
+        // Convert the value (0, 25, 50, 75, 100) to a range between 0 and 1
+        const newVolume = value / 100;
 
         // Ensure volume stays within the bounds of 0 to 1
         const boundedVolume = Math.max(0, Math.min(1, newVolume));
@@ -67,9 +64,6 @@ const Playbackcontroller = () => {
         if (audioRef.current) {
             audioRef.current.volume = boundedVolume;
         }
-
-        // Update the state
-        setVolume(boundedVolume);
     };
 
     useEffect(() => {
@@ -77,6 +71,7 @@ const Playbackcontroller = () => {
         if (!audio || !trackDetails.audioFileUrl) return;
 
         if ((trackDetails.isPlaying && audio.paused)) {
+            setTrackDetails({ audoRef: audioRef })
             audio.play();
         } else if (!trackDetails.isPlaying && !audio.paused) {
             audio.pause();

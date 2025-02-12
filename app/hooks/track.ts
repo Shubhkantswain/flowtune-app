@@ -3,7 +3,7 @@ import { CreateTrackPayload } from "gql/graphql";
 import { enqueueSnackbar } from "notistack";
 import { toast } from "sonner";
 import { createGraphqlClient } from "~/clients/api";
-import { createTrackMutation } from "~/graphql/mutations/track";
+import { createTrackMutation, likeTrackMutation } from "~/graphql/mutations/track";
 
 export const useCreateTrack = () => {
     return useMutation({
@@ -41,6 +41,24 @@ export const useCreateTrack = () => {
         onError: (error) => {
             const errorMessage = error.message.split(":").pop()?.trim() || "Something went wrong";
             toast.success(errorMessage)
+        },
+    });
+};
+
+export const useLikeTrack = () => {
+    return useMutation({
+        mutationFn: async (trackId: string) => {
+            try {
+                const graphqlClient = createGraphqlClient();
+                const { likeTrack } = await graphqlClient.request(likeTrackMutation, { trackId });
+                return likeTrack;
+            } catch (error: any) {
+                throw new Error(error?.response?.errors?.[0]?.message || "Something went wrong");
+            }
+        },
+        onError: (error: any) => {
+            const errorMessage = error.message.split(':').pop()?.trim() || "Something went wrong";
+            toast.error(errorMessage);
         },
     });
 };

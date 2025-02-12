@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useLikeTrack } from '~/hooks/track'
 import { useTrackStore } from '~/store/useTrackStore'
+import BottomControls from './BottomControls'
 
 function TrackControllers({ handleSkip }: { handleSkip: (direction: 'forward' | 'backward') => void }) {
-    const { trackDetails, togglePlay } = useTrackStore()
+    const { trackDetails, togglePlay, setTrackDetails, handleVolumeChange } = useTrackStore()
     const isPlaying = trackDetails.isPlaying
+    const { mutateAsync: likeTrack, isPending } = useLikeTrack()
+
+    const [volume, setVolume] = useState(0.5)
+
+    console.log("volume", volume);
 
     return (
         <div className="px-8 py-12 lg:-mt-8">
@@ -40,7 +47,7 @@ function TrackControllers({ handleSkip }: { handleSkip: (direction: 'forward' | 
                 </button>
 
                 {/* Skip Forward 10s Button (Visible on Larger Screens, Hidden on Medium Screens) */}
-                <button className="p-2 text-white hover:text-white transition-colors"  onClick={() => handleSkip('forward')}>
+                <button className="p-2 text-white hover:text-white transition-colors" onClick={() => handleSkip('forward')}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <defs>
                             <path id="ic_playback_jumpforward30-a" d="M9.089,15.13 C8.858,15.13 8.614,15.105 8.357,15.056 C8.1,15.007 7.862,14.939 7.642,14.852 C7.567,14.823 7.517,14.79 7.49,14.752 C7.464,14.715 7.451,14.65 7.451,14.557 L7.451,14.045 C7.451,13.912 7.5,13.846 7.598,13.846 C7.615,13.846 7.634,13.849 7.655,13.855 C7.674,13.861 7.708,13.869 7.754,13.881 C8.326,14.043 8.757,14.124 9.046,14.124 C9.416,14.124 9.698,14.044 9.891,13.885 C10.085,13.726 10.181,13.494 10.181,13.187 C10.181,12.915 10.092,12.715 9.913,12.584 C9.734,12.454 9.457,12.389 9.081,12.389 C8.93,12.389 8.805,12.395 8.704,12.406 C8.602,12.418 8.517,12.423 8.447,12.423 C8.332,12.423 8.274,12.354 8.274,12.215 L8.274,11.903 C8.274,11.799 8.284,11.721 8.304,11.669 C8.323,11.617 8.366,11.556 8.429,11.487 L9.827,9.98 L7.746,9.98 C7.671,9.98 7.616,9.963 7.581,9.928 C7.547,9.893 7.529,9.839 7.529,9.763 L7.529,9.209 C7.529,9.128 7.547,9.072 7.581,9.04 C7.616,9.008 7.671,8.992 7.746,8.992 L10.971,8.992 C11.052,8.992 11.108,9.008 11.14,9.04 C11.171,9.072 11.187,9.128 11.187,9.209 L11.187,9.686 C11.187,9.79 11.177,9.868 11.157,9.92 C11.137,9.972 11.095,10.033 11.032,10.102 L9.662,11.498 C10.217,11.527 10.653,11.692 10.971,11.992 C11.289,12.293 11.448,12.689 11.448,13.18 C11.448,13.579 11.348,13.925 11.148,14.22 C10.949,14.515 10.671,14.74 10.316,14.896 C9.96,15.052 9.552,15.13 9.089,15.13 Z M14.542,15.13 C13.808,15.13 13.244,14.859 12.851,14.315 C12.458,13.772 12.262,12.994 12.262,11.983 C12.262,10.977 12.46,10.203 12.855,9.66 C13.251,9.117 13.813,8.845 14.541,8.845 C15.269,8.845 15.831,9.117 16.227,9.66 C16.622,10.204 16.82,10.978 16.82,11.983 C16.82,12.994 16.624,13.772 16.231,14.315 C15.84,14.858 15.276,15.13 14.542,15.13 Z M14.542,14.09 C14.894,14.09 15.146,13.928 15.296,13.604 C15.446,13.28 15.521,12.74 15.521,11.983 C15.521,11.232 15.446,10.694 15.296,10.371 C15.145,10.047 14.894,9.885 14.542,9.885 C14.19,9.885 13.938,10.047 13.788,10.371 C13.638,10.694 13.563,11.232 13.563,11.983 C13.563,12.74 13.638,13.28 13.788,13.604 C13.939,13.928 14.19,14.09 14.542,14.09 Z M20.99,2.402 C20.954,2.221 20.821,2.075 20.644,2.022 C20.471,1.968 20.276,2.016 20.146,2.147 L18.875,3.418 C16.948,1.865 14.553,1 12,1 C5.935,1 1,5.935 1,12 C1,18.065 5.935,23 12,23 C15.492,23 18.699,21.396 20.801,18.601 C21.132,18.16 21.043,17.533 20.602,17.201 C20.162,16.87 19.535,16.958 19.202,17.4 C17.481,19.688 14.857,21 12,21 C7.038,21 3,16.963 3,12 C3,7.038 7.038,3 12,3 C14.012,3 15.901,3.662 17.447,4.846 L16.147,6.146 C16.016,6.276 15.968,6.468 16.022,6.645 C16.076,6.821 16.221,6.954 16.403,6.99 L21.403,7.99 C21.435,7.997 21.468,8 21.5,8 C21.631,8 21.759,7.948 21.854,7.854 C21.972,7.736 22.024,7.566 21.991,7.402 L20.99,2.402 Z"></path>
@@ -53,15 +60,25 @@ function TrackControllers({ handleSkip }: { handleSkip: (direction: 'forward' | 
                 </button>
             </div>
 
-            {/* Bottom Controls */}
-            <div className="flex items-center justify-between max-w-md mx-auto">
-                <button className="text-zinc-400 hover:text-white transition-colors duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-volume-2"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z" /><path d="M16 9a5 5 0 0 1 0 6" /><path d="M19.364 18.364a9 9 0 0 0 0-12.728" /></svg>
-                </button>
-                <button className="text-zinc-400 hover:text-white transition-colors duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" /></svg>
-                </button>
+            {/* Volume Controls */}
+            <div className="flex items-center gap-2 w-full max-w-md">
+                <svg viewBox="0 0 24 24" className="h-6 w-6 text-gray-600" fill="currentColor">
+                    <path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
+                </svg>
+                <div
+                    className="flex-1 h-1 bg-zinc-800/50 backdrop-blur-sm rounded-full relative cursor-pointer"
+                    onClick={(e) => {
+                        const newVolume = handleVolumeChange(e)
+                        setVolume(newVolume)
+                    }} // Pass the function here
+                >
+                    <div
+                        className="h-full bg-white transition-all duration-300 ease-out hover:bg-green-500 rounded-full"
+                        style={{ width: `${volume * 100}%` }} // Visual indicator of volume
+                    />
+                </div>
             </div>
+
         </div>
     )
 }
