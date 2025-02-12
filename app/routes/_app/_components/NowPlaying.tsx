@@ -5,6 +5,8 @@ import { useTrackStore } from '~/store/useTrackStore';
 import TrackInfo from './TrackInfo';
 import TrackControllers from './TrackControllers';
 import { useLikeTrack } from '~/hooks/track';
+import ProfileDropDownMenu from './ProfileDropDownMenu';
+import TrackMenu from '~/components/TrackMenuDialog';
 
 interface NowPlayingProps {
   isOpen: boolean;
@@ -20,6 +22,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, setIsOpen, progress, cu
   const [isPlaying, setIsPlaying] = useState(false);
   const { trackDetails, setTrackDetails } = useTrackStore()
   const { mutateAsync: likeTrack, isPending } = useLikeTrack()
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   useEffect(() => {
     if (isOpen) {
@@ -54,8 +57,10 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, setIsOpen, progress, cu
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6" /></svg>
           </button>
-          <button className="text-zinc-400 hover:text-white transition-colors duration-300">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-list-music"><path d="M21 15V6" /><path d="M18.5 18a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" /><path d="M12 12H3" /><path d="M16 6H3" /><path d="M12 18H3" /></svg>
+
+          {/* more icon */}
+          <button className="text-zinc-400 hover:text-white transition-colors duration-300" onClick={() => setIsDropdownOpen(true)}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-ellipsis-vertical"><circle cx="12" cy="12" r="1" /><circle cx="12" cy="5" r="1" /><circle cx="12" cy="19" r="1" /></svg>
           </button>
         </div>
 
@@ -121,8 +126,9 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, setIsOpen, progress, cu
         </div>
 
         {/* Controls */}
-        <TrackControllers handleSkip={handleSkip}/>
+        <TrackControllers handleSkip={handleSkip} />
       </div>
+      <TrackMenu isOpen={isDropdownOpen} onClose={() => setIsDropdownOpen(false)} />
     </div>
   );
 };

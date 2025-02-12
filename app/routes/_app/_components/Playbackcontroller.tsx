@@ -75,8 +75,6 @@ const Playbackcontroller = () => {
         }
     }, [trackDetails?.audoRef?.current])
 
-
-
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio || !trackDetails.audioFileUrl) return;
