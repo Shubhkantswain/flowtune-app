@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLikeTrack } from '~/hooks/track'
 import { useTrackStore } from '~/store/useTrackStore'
 import BottomControls from './BottomControls'
@@ -6,11 +6,13 @@ import BottomControls from './BottomControls'
 function TrackControllers({ handleSkip }: { handleSkip: (direction: 'forward' | 'backward') => void }) {
     const { trackDetails, togglePlay, setTrackDetails, handleVolumeChange } = useTrackStore()
     const isPlaying = trackDetails.isPlaying
-    const { mutateAsync: likeTrack, isPending } = useLikeTrack()
+    const [volume, setVolume] = useState(0.5);
 
-    const [volume, setVolume] = useState(0.5)
-
-    console.log("volume", volume);
+    useEffect(() => {
+        const storedVolume = Number(localStorage.getItem('volume')) || 0.5;
+        // handleVolumeChange(storedVolume)
+        setVolume(storedVolume);
+    }, []);
 
     return (
         <div className="px-8 py-12 lg:-mt-8">

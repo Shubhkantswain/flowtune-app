@@ -47,7 +47,7 @@ function TrackLists({ tracks }: { tracks: Track[] }) {
                 className="absolute inset-0 flex items-center justify-center"
                 >
                 <button
-                  className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center opacity-0 transform translate-y-4 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 bg-black/10 backdrop-blur-lg"
+                  className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center opacity-0 transform translate-y-4 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 bg-black/10 backdrop-blur-sm"
                   aria-label={`Play ${track.title}`}
                   onClick={() => handleClick(isPlayingCurrentSong, track)}
                 >

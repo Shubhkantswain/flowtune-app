@@ -18,7 +18,7 @@ interface TrackStore {
     };
     setTrackDetails: (trackDetails: Partial<TrackStore['trackDetails']>) => void;
     togglePlay: () => void;
-    handleVolumeChange: (event: React.MouseEvent<HTMLDivElement>) => number
+    handleVolumeChange: (eventOrVolume: React.MouseEvent<HTMLDivElement> | number) => number;
 }
 
 export const useTrackStore = create<TrackStore>((set) => ({
@@ -49,20 +49,36 @@ export const useTrackStore = create<TrackStore>((set) => ({
             },
         })),
 
-    handleVolumeChange: (event) => {
-        const slider = event.currentTarget;
-        const rect = slider.getBoundingClientRect();
-        const clickPosition = event.clientX - rect.left;
-        const newVolume = clickPosition / rect.width;
+        handleVolumeChange: (eventOrVolume) => {
+            console.log("initial handleVolumeChange");
+            
+            let roundedVolume: number;
+    
+            if (typeof eventOrVolume === 'number') {
+                // Directly using the number as volume
+                roundedVolume = Math.max(0, Math.min(1, parseFloat(eventOrVolume.toFixed(2))));
+            } else {
+                // Handling MouseEvent case
+                const slider = eventOrVolume.currentTarget;
+                const rect = slider.getBoundingClientRect();
+                const clickPosition = eventOrVolume.clientX - rect.left;
+                const newVolume = clickPosition / rect.width;
+                roundedVolume = Math.max(0, Math.min(1, parseFloat(newVolume.toFixed(2))));
+            }
+    
+            const audioElement = useTrackStore.getState().trackDetails.audoRef?.current;
 
-        // Ensure volume stays within the bounds of 0 to 1
-        const boundedVolume = Math.max(0, Math.min(1, newVolume));
+            if (audioElement) {
+                audioElement.volume = roundedVolume;
+            }
+    
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('volume', `${roundedVolume}`);
+            }
+    
+            console.log('boundedVolume', roundedVolume);
+    
+            return roundedVolume;
+        },
 
-        const audioElement = useTrackStore.getState().trackDetails.audoRef?.current;
-        if (audioElement) {
-            audioElement.volume = boundedVolume;
-        }
-
-        return boundedVolume
-    },
 }));

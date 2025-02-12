@@ -11,7 +11,7 @@ const Playbackcontroller = () => {
     const [progress, setProgress] = useState(0);
     const [duration, setDuration] = useState("0:00");
     const [currentTime, setCurrentTime] = useState("0:00")
-    const { trackDetails, setTrackDetails, togglePlay } = useTrackStore();
+    const { trackDetails, setTrackDetails, togglePlay, handleVolumeChange } = useTrackStore();
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
     console.log("trackdetail", trackDetails);
@@ -53,30 +53,29 @@ const Playbackcontroller = () => {
         audio.currentTime = newTime;
     };
 
-    const handleVolumeChange = (value: number) => {
-        // Convert the value (0, 25, 50, 75, 100) to a range between 0 and 1
-        const newVolume = value / 100;
-
-        // Ensure volume stays within the bounds of 0 to 1
-        const boundedVolume = Math.max(0, Math.min(1, newVolume));
-
-        // Update the audio volume
-        if (audioRef.current) {
-            audioRef.current.volume = boundedVolume;
-        }
-    };
-
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio || !trackDetails.audioFileUrl) return;
 
         if ((trackDetails.isPlaying && audio.paused)) {
+            console.log("yes........................................");
+            
             setTrackDetails({ audoRef: audioRef })
             audio.play();
         } else if (!trackDetails.isPlaying && !audio.paused) {
             audio.pause();
         }
     }, [trackDetails, trackDetails.isPlaying]);
+
+
+    useEffect(() => {
+        if(trackDetails?.audoRef?.current){
+            const storedVolume = Number(localStorage.getItem('volume')) || 0.5;
+            handleVolumeChange(storedVolume)
+        }
+    }, [trackDetails?.audoRef?.current])
+
+
 
     useEffect(() => {
         const audio = audioRef.current;
@@ -150,6 +149,7 @@ const Playbackcontroller = () => {
                     )
                 }
             </div>
+
             <NowPlaying isOpen={isOpen} setIsOpen={setIsOpen} progress={progress} currentTime={currentTime} duration={duration} handleSeek={handleSeek} handleSkip={handleSkip} />
         </>
     )
