@@ -1,32 +1,19 @@
-import React from "react";
-import { useTrackStore } from "~/store/useTrackStore";
-
-// Function to get a random gradient
-const getRandomGradient = () => {
-    const gradients = [
-        "bg-gradient-to-b from-[#0a0f1e]/95 via-black/90 to-black", // Dark Blue
-        "bg-gradient-to-b from-[#1a0b2e]/95 via-black/90 to-black", // Deep Purple
-        "bg-gradient-to-b from-[#0a2a2e]/95 via-black/90 to-black", // Teal
-        "bg-gradient-to-b from-[#2e0a0a]/95 via-black/90 to-black", // Dark Red
-        "bg-gradient-to-b from-[#332008]/95 via-black/90 to-black", // Orange Sunset
-    ];
-    return gradients[Math.floor(Math.random() * gradients.length)];
-};
+import React from 'react';
+import { useTrackStore } from '~/store/useTrackStore';
 
 const TrackMenu = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
     const { trackDetails } = useTrackStore();
-    const randomGradient = getRandomGradient(); // Get a random gradient
 
     return (
         <div className="fixed inset-0 z-50">
             {/* Gradient Background */}
-            <div className={`absolute inset-0 ${randomGradient}`} />
-
+            {/* <div className="absolute inset-0 bg-gradient-to-b from-[#121212]/95 via-black/90 to-black" /> */}
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-2xl" />
             {/* Content Container */}
             <div className="relative z-10 h-full text-white">
                 {/* Track Info Section */}
-                <div className="p-4 mt-6">
+                <div className="p-4 mt-6"> {/* Added top margin for spacing */}
                     <div className="flex items-center space-x-4">
                         <div className="w-16 h-16 bg-gray-700 rounded-md overflow-hidden flex-shrink-0">
                             <img
