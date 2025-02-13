@@ -26,8 +26,9 @@ const TrackMenu = ({ isOpen, onClose }: TrackMenuProps) => {
     return (
         <div
             className="fixed inset-0 bg-black/95 backdrop-blur-sm z-50 overflow-y-auto"
-            onClick={onClose}
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
+
             <div
                 className="min-h-screen pb-20 relative mt-8"  // Added mt-8 here
                 onClick={(e) => e.stopPropagation()}
