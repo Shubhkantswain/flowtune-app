@@ -24,12 +24,15 @@ const TrackMenu = ({ isOpen, onClose }: TrackMenuProps) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black/95 backdrop-blur-sm z-50">
-            <div className="h-screen flex flex-col">
-                {/* Content container with fixed height and no scroll */}
-                <div className="flex-1 p-4 text-white">
+        <div className="fixed inset-0 bg-black/95 backdrop-blur-sm z-50 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+
+            <div
+                className="min-h-screen pb-20 relative mt-8"  // Added mt-8 here
+                onClick={(e) => e.stopPropagation()}
+            >
+                <div className="p-4 text-white">
                     {/* Track header section */}
-                    <div className="flex items-center gap-4 mb-6 mt-5">
+                    <div className="flex items-center gap-4 mb-8 mt-4">
                         <img
                             src={trackDetails.coverImageUrl || ""}
                             alt="Track artwork"
@@ -41,28 +44,28 @@ const TrackMenu = ({ isOpen, onClose }: TrackMenuProps) => {
                         </div>
                     </div>
 
-                    {/* Track options with reduced padding and spacing */}
-                    <div className="space-y-3">
-                        <div className="p-2 cursor-pointer rounded-lg flex items-center gap-3 group">
+                    {/* Track options */}
+                    <div className="space-y-2">
+                        <div className="p-3 cursor-pointer rounded-lg flex items-center gap-3 group">
                             <svg className="w-5 h-5 text-green-400 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <polygon points="5 3 19 12 5 21 5 3" />
                             </svg>
                             <span className="group-hover:scale-105 transition-transform">Play Now</span>
                         </div>
-                        <div className="p-2 cursor-pointer rounded-lg flex items-center gap-3 group">
+                        <div className="p-3 cursor-pointer rounded-lg flex items-center gap-3 group">
                             <svg className="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <line x1="12" y1="5" x2="12" y2="19" />
                                 <line x1="5" y1="12" x2="19" y2="12" />
                             </svg>
                             <span className="group-hover:scale-105 transition-transform">Add to Queue</span>
                         </div>
-                        <div className="p-2 cursor-pointer rounded-lg flex items-center gap-3 group">
+                        <div className="p-3 cursor-pointer rounded-lg flex items-center gap-3 group">
                             <svg className="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                             </svg>
                             <span className="group-hover:scale-105 transition-transform">Like</span>
                         </div>
-                        <div className="p-2 cursor-pointer rounded-lg flex items-center gap-3 group">
+                        <div className="p-3 cursor-pointer rounded-lg flex items-center gap-3 group">
                             <svg className="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <circle cx="18" cy="5" r="3" />
                                 <circle cx="6" cy="12" r="3" />
@@ -72,7 +75,7 @@ const TrackMenu = ({ isOpen, onClose }: TrackMenuProps) => {
                             </svg>
                             <span className="group-hover:scale-105 transition-transform">Share</span>
                         </div>
-                        <div className="p-2 cursor-pointer rounded-lg flex items-center gap-3 group">
+                        <div className="p-3 cursor-pointer rounded-lg flex items-center gap-3 group">
                             <svg className="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M21 15V6" />
                                 <path d="M18.5 18a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />
@@ -82,14 +85,14 @@ const TrackMenu = ({ isOpen, onClose }: TrackMenuProps) => {
                             </svg>
                             <span className="group-hover:scale-105 transition-transform">Add to Playlist</span>
                         </div>
-                        <div className="p-2 cursor-pointer rounded-lg flex items-center gap-3 group">
+                        <div className="p-3 cursor-pointer rounded-lg flex items-center gap-3 group">
                             <svg className="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <circle cx="12" cy="12" r="10" />
                                 <circle cx="12" cy="12" r="3" />
                             </svg>
                             <span className="group-hover:scale-105 transition-transform">View Album</span>
                         </div>
-                        <div className="p-2 cursor-pointer rounded-lg flex items-center gap-3 group">
+                        <div className="p-3 cursor-pointer rounded-lg flex items-center gap-3 group">
                             <svg className="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                                 <circle cx="12" cy="7" r="4" />
@@ -99,11 +102,11 @@ const TrackMenu = ({ isOpen, onClose }: TrackMenuProps) => {
                     </div>
                 </div>
 
-                {/* Close button in a fixed container at bottom */}
-                <div className="p-4 text-white">
+                {/* Close button fixed at bottom */}
+                <div className="fixed bottom-8 left-1/2 -translate-x-1/2 text-white">
                     <button
                         onClick={onClose}
-                        className="w-full text-center py-2 group flex flex-col items-center"
+                        className="text-center group flex flex-col items-center gap-2"
                     >
                         <span className="group-hover:scale-110 transition-transform">Close</span>
                     </button>

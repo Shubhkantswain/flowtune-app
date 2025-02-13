@@ -35,10 +35,8 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, setIsOpen, progress, cu
   return (
     <>
       <div
-        className={`fixed inset-0 bg-black overflow-y-auto will-change-transform transform-gpu transition-transform duration-200 ease-in-out z-50 ${isOpen ? 'translate-y-0' : 'translate-y-full'
+        className={`[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] fixed inset-0 bg-black overflow-y-auto will-change-transform transform-gpu transition-transform duration-200 ease-in-out z-50 ${isOpen ? 'translate-y-0' : 'translate-y-full'
           }`}
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-
       >
         {/* Background Image */}
         <div
