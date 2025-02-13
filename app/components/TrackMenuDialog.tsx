@@ -8,7 +8,7 @@ const TrackMenu = ({ isOpen, onClose }) => {
     return (
         <div className="fixed inset-0 z-50">
             {/* Gradient Background */}
-            <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1a]/95 via-black/90 to-black" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#121212]/95 via-black/90 to-black" />
             {/* Content Container */}
             <div className="relative z-10 h-full text-white">
                 {/* Track Info Section */}
