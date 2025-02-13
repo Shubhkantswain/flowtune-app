@@ -17,7 +17,7 @@ function TrackControllers({ handleSkip }: { handleSkip: (direction: 'forward' | 
     return (
         <div className="px-8 py-12 lg:-mt-8">
             {/* Playback Controls */}
-            <div className="flex items-center justify-center space-x-5 mb-12">
+            <div className="flex items-center justify-center space-x-3 sm:space-x-4 md:space-x-5 lg:space-x-6 xl:space-x-8 mb-6 sm:mb-8 md:mb-10 lg:mb-12">
                 <button className="p-2 text-white hover:text-white transition-colors" onClick={() => handleSkip('backward')}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <defs>
