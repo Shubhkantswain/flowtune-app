@@ -14,8 +14,6 @@ const Playbackcontroller = () => {
     const { trackDetails, setTrackDetails, togglePlay, handleVolumeChange } = useTrackStore();
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
-    console.log("trackdetail", trackDetails);
-
     const handleSeek = (event: React.MouseEvent<HTMLDivElement>) => {
         const audio = audioRef.current;
         if (!audio) return;
@@ -58,7 +56,6 @@ const Playbackcontroller = () => {
         if (!audio || !trackDetails.audioFileUrl) return;
 
         if ((trackDetails.isPlaying && audio.paused)) {
-            console.log("yes........................................");
             
             setTrackDetails({ audoRef: audioRef })
             audio.play();
@@ -140,7 +137,6 @@ const Playbackcontroller = () => {
                     {/* Right: Play Button and Heart Icon for Small Screens */}
                     <RightControllers />
                 </div>
-
                 {
                     trackDetails.id && (
                         <audio ref={audioRef} src={trackDetails.audioFileUrl} />
