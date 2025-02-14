@@ -7,6 +7,7 @@ import Header from './Header';
 import TrackActionsMenu from './TrackActionsMenu';
 import TrackArtAndInfo from './TrackArtAndInfo';
 import ProgressBar from './ProgressBar';
+import ShowQueueTracks from './ShowQueueTracks';
 
 interface NowPlayingProps {
   isOpen: boolean;
@@ -19,6 +20,7 @@ interface NowPlayingProps {
 const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, currentTime, duration }) => {
   const { trackDetails } = useTrackStore()
   const [menuVisible, setMenuVisible] = useState(false)
+  const [isQueueTrackVisible, setIsQueueTrackVisible] = useState(false)
 
   // to hide the scroll bar of home page, explore etc
   useEffect(() => {
@@ -32,12 +34,12 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
   return (
     <>
       <div
-        className={`[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] fixed inset-0 bg-black overflow-y-auto will-change-transform transform-gpu transition-transform duration-200 ease-in-out z-50 ${isOpen ? 'translate-y-0' : 'translate-y-full'
+        className={`[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] fixed inset-0 bg-black overflow-y-auto transition-transform duration-300 ease-in-out z-50 ${isOpen ? 'translate-y-0' : 'translate-y-full'
           }`}
       >
         {/* Background Image */}
         <div
-          className="fixed inset-0 z-0 opacity-40"
+          className="fixed inset-0 z-0 opacity-30"
           style={{
             backgroundImage: `url(${trackDetails.coverImageUrl})`,
             backgroundSize: 'cover',
@@ -48,7 +50,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
 
         <div className="relative z-10 max-w-3xl mx-auto min-h-full">
           {/* Header */}
-          <Header onClose={onClose} />
+          <Header onClose={onClose} onShowQueueTrack={() => setIsQueueTrackVisible(true)}/>
 
           {/* Track Art and Info */}
           <TrackArtAndInfo onShow={() => setMenuVisible(true)} />
@@ -62,7 +64,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
       </div>
 
       <TrackActionsMenu isVisible={menuVisible} onDismiss={() => setMenuVisible(false)} />
-
+        <ShowQueueTracks isQueueTrackVisible={isQueueTrackVisible}  onHideQueueTrack={() => setIsQueueTrackVisible(false)}/>
     </>
   );
 };

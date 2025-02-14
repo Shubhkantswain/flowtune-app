@@ -20,14 +20,16 @@ function TrackArtAndInfo({ onShow }: { onShow: () => void }) {
             </div>
 
             <div className="flex justify-between items-center">
-                <div className="space-y-1 text-left">
-                    <h2 className="text-2xl md:text-3xl font-semibold transition-all duration-300">
+                <div className="space-y-1 text-left flex-1 min-w-0">
+                    <h2 className="text-2xl md:text-3xl font-semibold transition-all duration-300 truncate overflow-hidden max-w-full">
                         {trackDetails.title}
                     </h2>
                     <p className="text-zinc-400 transition-all duration-300">
                         {trackDetails.artist}
                     </p>
                 </div>
+
+
                 <div className="flex gap-3 items-center">
                     <button
                         className={`p-2.5 rounded-full transition-all duration-300 group
