@@ -10,8 +10,8 @@ const Playbackcontroller = () => {
     const [isOpen, setIsOpen] = useState(false)
     const [progress, setProgress] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
-	const [duration, setDuration] = useState(0);
-    const { trackDetails, setTrackDetails, togglePlay, handleVolumeChange } = useTrackStore();
+    const [duration, setDuration] = useState(0);
+    const { trackDetails, setTrackDetails, togglePlay, handleVolumeChange, handlePlaybackSpeed } = useTrackStore();
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
     useEffect(() => {
@@ -19,7 +19,7 @@ const Playbackcontroller = () => {
         if (!audio || !trackDetails.audioFileUrl) return;
 
         if ((trackDetails.isPlaying && audio.paused)) {
-            
+
             setTrackDetails({ audoRef: audioRef })
             audio.play();
         } else if (!trackDetails.isPlaying && !audio.paused) {
@@ -29,11 +29,14 @@ const Playbackcontroller = () => {
 
 
     useEffect(() => {
-        if(trackDetails?.audoRef?.current){
+        if (trackDetails?.audoRef?.current) {
             const storedVolume = Number(localStorage.getItem('volume')) || 0.5;
             handleVolumeChange(storedVolume)
+
+            const storedSpeed = Number(localStorage.getItem('speed')) || 1;
+            handlePlaybackSpeed([storedSpeed])
         }
-    }, [trackDetails?.audoRef?.current])
+    }, [trackDetails])
 
     useEffect(() => {
         const audio = audioRef.current;
@@ -52,7 +55,7 @@ const Playbackcontroller = () => {
             }
         };
 
-       
+
 
         const handleTimeUpdate = () => {
             setProgress((audio.currentTime / audio.duration) * 100);

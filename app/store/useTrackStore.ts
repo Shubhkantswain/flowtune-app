@@ -22,6 +22,7 @@ interface TrackStore {
     handleVolumeChange: (eventOrVolume: React.MouseEvent<HTMLDivElement> | number) => number;
     handleSeek: (value: number[]) => void;
     handleSkip: (direction: 'forward' | 'backward') => void;
+    handlePlaybackSpeed: (value: number[]) => number[]
 }
 
 export const useTrackStore = create<TrackStore>((set) => ({
@@ -91,7 +92,7 @@ export const useTrackStore = create<TrackStore>((set) => ({
         }
     },
 
-    handleSkip: (direction: 'forward' | 'backward') => {
+    handleSkip: (direction) => {
         const audioElement = useTrackStore.getState().trackDetails.audoRef?.current;
         if (!audioElement) return;
 
@@ -107,5 +108,16 @@ export const useTrackStore = create<TrackStore>((set) => ({
         audioElement.currentTime = newTime;
     },
 
+    handlePlaybackSpeed: (value: number[]) => {
+        const audioElement = useTrackStore.getState().trackDetails.audoRef?.current;
+        if (audioElement && value.length > 0) {
+            audioElement.playbackRate = value[0];
+        }
 
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('speed', `${value[0]}`);
+        }
+
+        return value
+    },
 }));

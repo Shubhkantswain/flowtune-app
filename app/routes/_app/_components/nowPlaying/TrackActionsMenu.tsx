@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Label } from '~/components/ui/label';
 import { Slider } from '~/components/ui/slider';
 import { Switch } from '~/components/ui/switch';
@@ -11,10 +11,15 @@ interface TrackActionsMenuProps {
 
 const TrackActionsMenu = ({ isVisible, onDismiss }: TrackActionsMenuProps) => {
     if (!isVisible) return null;
-    const { trackDetails } = useTrackStore();
+    const { trackDetails, handlePlaybackSpeed } = useTrackStore();
     const [showPlaybackOptions, setShowPlaybackOptions] = useState(false);
     const [isLooping, setIsLooping] = useState(false);
     const [playbackSpeed, setPlaybackSpeed] = useState([1]);
+
+    useEffect(() => {
+        const storedSpeed = Number(localStorage.getItem('speed')) || 1;
+        setPlaybackSpeed([storedSpeed]);
+    }, []);
 
     return (
         <div className="fixed inset-0 z-50 flex flex-col">
@@ -73,7 +78,7 @@ const TrackActionsMenu = ({ isVisible, onDismiss }: TrackActionsMenuProps) => {
                             </svg>
                             View album
                         </button>
-                        
+
                         <button className="flex items-center w-full p-4 rounded-lg transition-transform duration-200 hover:scale-105" onClick={() => setShowPlaybackOptions(!showPlaybackOptions)}>
                             <svg className="w-6 h-6 mr-3" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M4 3h16v18H4zM16 9H8v2h8zm0 4H8v2h8z" />
@@ -103,11 +108,14 @@ const TrackActionsMenu = ({ isVisible, onDismiss }: TrackActionsMenuProps) => {
                                     </div>
                                     <Slider
                                         value={playbackSpeed}
-                                        onValueChange={setPlaybackSpeed}
+                                        onValueChange={(value: number[]) => {
+                                            const newValue = handlePlaybackSpeed(value)
+                                            setPlaybackSpeed(newValue)
+                                        }}
                                         max={2}
                                         min={0.5}
                                         step={0.25}
-                                        className="w-full cursor-grab"
+                                        className="w-full hover:cursor-grab active:cursor-grabbing"
                                         nowPlaying={true}
                                     />
                                     <div className="flex justify-between text-xs text-gray-400">
