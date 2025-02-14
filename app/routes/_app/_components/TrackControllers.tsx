@@ -10,7 +10,6 @@ function TrackControllers({ handleSkip }: { handleSkip: (direction: 'forward' | 
 
     useEffect(() => {
         const storedVolume = Number(localStorage.getItem('volume')) || 0.5;
-        // handleVolumeChange(storedVolume)
         setVolume(storedVolume);
     }, []);
 
@@ -63,23 +62,26 @@ function TrackControllers({ handleSkip }: { handleSkip: (direction: 'forward' | 
             </div>
 
             {/* Volume Controls */}
-            <div className="flex items-center gap-2 w-full max-w-md">
-                <svg viewBox="0 0 24 24" className="h-6 w-6 text-gray-600" fill="currentColor">
-                    <path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
-                </svg>
-                <div
-                    className="flex-1 h-1 bg-zinc-800/50 backdrop-blur-sm rounded-full relative cursor-pointer"
-                    onClick={(e) => {
-                        const newVolume = handleVolumeChange(e)
-                        setVolume(newVolume)
-                    }} // Pass the function here
-                >
+            <div className="flex justify-center items-center w-full">
+                <div className="flex items-center gap-2 w-full max-w-md">
+                    <svg viewBox="0 0 24 24" className="h-6 w-6 text-gray-600" fill="currentColor">
+                        <path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
+                    </svg>
                     <div
-                        className="h-full bg-white transition-all duration-300 ease-out hover:bg-green-500 rounded-full"
-                        style={{ width: `${volume * 100}%` }} // Visual indicator of volume
-                    />
+                        className="flex-1 h-1 bg-zinc-800/50 backdrop-blur-sm rounded-full relative cursor-pointer"
+                        onClick={(e) => {
+                            const newVolume = handleVolumeChange(e);
+                            setVolume(newVolume);
+                        }}
+                    >
+                        <div
+                            className="h-full bg-white transition-all duration-300 ease-out hover:bg-green-500 rounded-full"
+                            style={{ width: `${volume * 100}%` }}
+                        />
+                    </div>
                 </div>
             </div>
+
 
         </div>
     )

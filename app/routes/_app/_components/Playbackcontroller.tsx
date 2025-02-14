@@ -9,30 +9,36 @@ import CenterPlaybackControllers from './CenterPlaybackControllers';
 const Playbackcontroller = () => {
     const [isOpen, setIsOpen] = useState(false)
     const [progress, setProgress] = useState(0);
-    const [duration, setDuration] = useState("0:00");
-    const [currentTime, setCurrentTime] = useState("0:00")
+    const [currentTime, setCurrentTime] = useState(0);
+	const [duration, setDuration] = useState(0);
     const { trackDetails, setTrackDetails, togglePlay, handleVolumeChange } = useTrackStore();
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
-    const handleSeek = (event: React.MouseEvent<HTMLDivElement>) => {
-        const audio = audioRef.current;
-        if (!audio) return;
+    // const handleSeek = (event: React.MouseEvent<HTMLDivElement>) => {
+    //     const audio = audioRef.current;
+    //     if (!audio) return;
 
-        const progressBar = event.currentTarget;
-        const rect = progressBar.getBoundingClientRect();
-        const clickPosition = event.clientX - rect.left;
-        const newProgress = (clickPosition / rect.width) * 100;
+    //     const progressBar = event.currentTarget;
+    //     const rect = progressBar.getBoundingClientRect();
+    //     const clickPosition = event.clientX - rect.left;
+    //     const newProgress = (clickPosition / rect.width) * 100;
 
-        // Ensure progress stays within bounds
-        const boundedProgress = Math.max(0, Math.min(100, newProgress));
+    //     // Ensure progress stays within bounds
+    //     const boundedProgress = Math.max(0, Math.min(100, newProgress));
 
-        // Set the new current time
-        const newTime = (boundedProgress / 100) * audio.duration;
-        audio.currentTime = newTime;
+    //     // Set the new current time
+    //     const newTime = (boundedProgress / 100) * audio.duration;
+    //     audio.currentTime = newTime;
 
-        // Update progress state
-        setProgress(boundedProgress);
-    };
+    //     // Update progress state
+    //     setProgress(boundedProgress);
+    // };
+
+    const handleSeek = (value: number[]) => {
+		if (audioRef.current) {
+			audioRef.current.currentTime = value[0];
+		}
+	};
 
     // Handle 10 second skip forward/backward
     const handleSkip = (direction: 'forward' | 'backward') => {
@@ -89,20 +95,15 @@ const Playbackcontroller = () => {
             }
         };
 
-        // Format time helper function
-        const formatTime = (seconds: number) => {
-            const mins = Math.floor(seconds / 60);
-            const secs = Math.floor(seconds % 60);
-            return `${mins}:${secs.toString().padStart(2, '0')}`;
-        };
+       
 
         const handleTimeUpdate = () => {
             setProgress((audio.currentTime / audio.duration) * 100);
-            setCurrentTime(formatTime(audio.currentTime));
+            setCurrentTime(audio.currentTime);
         };
 
         const handleDurationChange = () => {
-            setDuration(formatTime(audio.duration));
+            setDuration(audio.duration);
         };
 
 
@@ -123,7 +124,7 @@ const Playbackcontroller = () => {
 
     return (
         <>
-            <div className="fixed bottom-0 left-0 right-0 z-40 bg-black/70 backdrop-blur-lg border-t border-gray-800">
+            <div className="fixed bottom-0 left-0 right-0 z-40 bg-black/70 backdrop-blur-lg">
                 {/* Progress Bar */}
                 <ProgressBar progress={progress} handleSeek={handleSeek} currentTime={currentTime} duration={duration} />
 

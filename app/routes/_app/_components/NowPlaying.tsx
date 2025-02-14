@@ -7,14 +7,22 @@ import TrackControllers from './TrackControllers';
 import { useLikeTrack } from '~/hooks/track';
 import ProfileDropDownMenu from './ProfileDropDownMenu';
 import TrackMenu from '~/components/TrackMenuDialog';
+import { Slider } from '~/components/ui/slider';
+
+// Format time helper function
+const formatTime = (seconds: number) => {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+};
 
 interface NowPlayingProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   progress: number;
-  currentTime: string;
-  duration: string;
-  handleSeek: (event: React.MouseEvent<HTMLDivElement>) => void;
+  currentTime: number;
+  duration: number;
+  handleSeek: (value: number[]) => void;
   handleSkip: (direction: 'forward' | 'backward') => void;
 }
 
@@ -31,7 +39,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, setIsOpen, progress, cu
       document.body.style.overflow = "auto";
     }
   }, [isOpen, isDropdownOpen]);
-  
+
   return (
     <>
       <div
@@ -117,12 +125,16 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, setIsOpen, progress, cu
 
           {/* Progress Bar */}
           <div className="px-8 mt-8">
-            <div className="h-1 bg-zinc-800/50 backdrop-blur-sm rounded-full overflow-hidden cursor-pointer" onClick={(e) => handleSeek(e)}>
-              <div className="h-full w-1/3 bg-white/90 rounded-full transition-all duration-300 ease-out" style={{ width: `${progress}%` }}></div>
-            </div>
+            <Slider
+              value={[currentTime]}
+              max={duration || 100}
+              step={1}
+              className="w-full hover:cursor-grab active:cursor-grabbing"
+              onValueChange={handleSeek}
+            />
             <div className="flex justify-between mt-2 text-xs text-zinc-400">
-              <span>{currentTime}</span>
-              <span>{duration}</span>
+              <span>{formatTime(currentTime)}</span>
+              <span>{formatTime(duration)}</span>
             </div>
           </div>
 
