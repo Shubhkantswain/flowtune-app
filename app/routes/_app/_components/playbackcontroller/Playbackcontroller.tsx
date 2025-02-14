@@ -5,6 +5,7 @@ import LeftTrackInfo from './LeftTrackInfo';
 import RightControllers from './RightControllers';
 import NowPlaying from '../nowPlaying/NowPlaying';
 import CenterPlaybackControllers from './CenterPlaybackControllers';
+import { useRepeatableTracksStore } from '~/store/useRepeatableTracksStore';
 
 const Playbackcontroller = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -13,6 +14,7 @@ const Playbackcontroller = () => {
     const [duration, setDuration] = useState(0);
     const { trackDetails, setTrackDetails, togglePlay, handleVolumeChange, handlePlaybackSpeed } = useTrackStore();
     const audioRef = useRef<HTMLAudioElement | null>(null);
+    const { isTrackRepeatable } = useRepeatableTracksStore()
 
     useEffect(() => {
         const audio = audioRef.current;
@@ -50,6 +52,8 @@ const Playbackcontroller = () => {
         };
 
         const handlePause = () => {
+            console.log("handlePause");
+            
             if (trackDetails.isPlaying) {
                 setTrackDetails({ isPlaying: false })
             }
@@ -67,11 +71,19 @@ const Playbackcontroller = () => {
         };
 
 
+        const handleAudioEnd = () => {
+            console.log("handleAudioEnd");
+            if(isTrackRepeatable(trackDetails.id)){
+                setTrackDetails({isPlaying: true})
+            }
+        }
+
         // Attach event listeners
         audio.addEventListener('play', handlePlay);
         audio.addEventListener('pause', handlePause);
         audio.addEventListener('timeupdate', handleTimeUpdate);
         audio.addEventListener('durationchange', handleDurationChange);
+        audio.addEventListener('ended', handleAudioEnd);
 
         return () => {
             // Clean up event listeners
@@ -79,6 +91,7 @@ const Playbackcontroller = () => {
             audio.removeEventListener('pause', handlePause);
             audio.removeEventListener('timeupdate', handleTimeUpdate);
             audio.removeEventListener('durationchange', handleDurationChange);
+            audio.removeEventListener('ended', handleAudioEnd);
         };
     }, [trackDetails, trackDetails.isPlaying, trackDetails.audioFileUrl]);
 

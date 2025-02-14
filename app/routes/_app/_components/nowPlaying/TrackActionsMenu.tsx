@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 import { Label } from '~/components/ui/label';
 import { Slider } from '~/components/ui/slider';
 import { Switch } from '~/components/ui/switch';
+import { useRepeatableTracksStore } from '~/store/useRepeatableTracksStore';
 import { useTrackStore } from '~/store/useTrackStore';
 
 interface TrackActionsMenuProps {
@@ -13,13 +15,16 @@ const TrackActionsMenu = ({ isVisible, onDismiss }: TrackActionsMenuProps) => {
     if (!isVisible) return null;
     const { trackDetails, handlePlaybackSpeed } = useTrackStore();
     const [showPlaybackOptions, setShowPlaybackOptions] = useState(false);
-    const [isLooping, setIsLooping] = useState(false);
     const [playbackSpeed, setPlaybackSpeed] = useState([1]);
+    const { markTrackAsRepeatable, unmarkTrackAsRepeatable, isTrackRepeatable, repeatableTrackIds } = useRepeatableTracksStore()
+    const [isRepeatable, setIsRepeatable] = useState(isTrackRepeatable(trackDetails.id));
 
     useEffect(() => {
         const storedSpeed = Number(localStorage.getItem('speed')) || 1;
         setPlaybackSpeed([storedSpeed]);
     }, []);
+
+    console.log("repeatableTrackIds", repeatableTrackIds);
 
     return (
         <div className="fixed inset-0 z-50 flex flex-col">
@@ -89,12 +94,22 @@ const TrackActionsMenu = ({ isVisible, onDismiss }: TrackActionsMenuProps) => {
                             <div className="p-4 bg-zinc-900/90 rounded-xl space-y-6 transition-all duration-300 ease-in-out border border-white/10">
                                 <div className="flex items-center justify-between">
                                     <div className="space-y-1">
-                                        <Label className="text-sm font-medium leading-none text-white">Loop Track</Label>
+                                        <Label className="text-sm font-medium leading-none text-white">Repeatable Track</Label>
                                         <p className="text-xs text-gray-400">Repeat this track automatically</p>
                                     </div>
                                     <Switch
-                                        checked={isLooping}
-                                        onCheckedChange={setIsLooping}
+                                        checked={isRepeatable}
+                                        onCheckedChange={(checked: boolean) => {
+                                            if (checked) {
+                                                markTrackAsRepeatable(trackDetails.id)
+                                                toast.success("Track is now set to repeat");
+                                            } else {
+                                                unmarkTrackAsRepeatable(trackDetails.id)
+                                                toast.success("Track will no longer repeat");
+                                            }
+
+                                            setIsRepeatable(!isRepeatable)
+                                        }}
                                         className="data-[state=checked]:bg-green-500"
                                     />
                                 </div>
