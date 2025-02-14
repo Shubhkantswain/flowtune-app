@@ -108,6 +108,7 @@ const TrackActionsMenu = ({ isVisible, onDismiss }: TrackActionsMenuProps) => {
                                         min={0.5}
                                         step={0.25}
                                         className="w-full cursor-grab"
+                                        nowPlaying={true}
                                     />
                                     <div className="flex justify-between text-xs text-gray-400">
                                         <span>0.5x</span>
