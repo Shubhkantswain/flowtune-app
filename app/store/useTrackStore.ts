@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 
 type AudioRefType = React.RefObject<HTMLAudioElement | null>;
+
 interface TrackStore {
     trackDetails: {
         id: string;
@@ -19,6 +20,8 @@ interface TrackStore {
     setTrackDetails: (trackDetails: Partial<TrackStore['trackDetails']>) => void;
     togglePlay: () => void;
     handleVolumeChange: (eventOrVolume: React.MouseEvent<HTMLDivElement> | number) => number;
+    handleSeek: (value: number[]) => void;
+    handleSkip: (direction: 'forward' | 'backward') => void;
 }
 
 export const useTrackStore = create<TrackStore>((set) => ({
@@ -49,36 +52,60 @@ export const useTrackStore = create<TrackStore>((set) => ({
             },
         })),
 
-        handleVolumeChange: (eventOrVolume) => {
-            console.log("initial handleVolumeChange");
-            
-            let roundedVolume: number;
-    
-            if (typeof eventOrVolume === 'number') {
-                // Directly using the number as volume
-                roundedVolume = Math.max(0, Math.min(1, parseFloat(eventOrVolume.toFixed(2))));
-            } else {
-                // Handling MouseEvent case
-                const slider = eventOrVolume.currentTarget;
-                const rect = slider.getBoundingClientRect();
-                const clickPosition = eventOrVolume.clientX - rect.left;
-                const newVolume = clickPosition / rect.width;
-                roundedVolume = Math.max(0, Math.min(1, parseFloat(newVolume.toFixed(2))));
-            }
-    
-            const audioElement = useTrackStore.getState().trackDetails.audoRef?.current;
+    handleVolumeChange: (eventOrVolume) => {
+        console.log("initial handleVolumeChange");
 
-            if (audioElement) {
-                audioElement.volume = roundedVolume;
-            }
-    
-            if (typeof window !== 'undefined') {
-                localStorage.setItem('volume', `${roundedVolume}`);
-            }
-    
-            console.log('boundedVolume', roundedVolume);
-    
-            return roundedVolume;
-        },
+        let roundedVolume: number;
+
+        if (typeof eventOrVolume === 'number') {
+            // Directly using the number as volume
+            roundedVolume = Math.max(0, Math.min(1, parseFloat(eventOrVolume.toFixed(2))));
+        } else {
+            // Handling MouseEvent case
+            const slider = eventOrVolume.currentTarget;
+            const rect = slider.getBoundingClientRect();
+            const clickPosition = eventOrVolume.clientX - rect.left;
+            const newVolume = clickPosition / rect.width;
+            roundedVolume = Math.max(0, Math.min(1, parseFloat(newVolume.toFixed(2))));
+        }
+
+        const audioElement = useTrackStore.getState().trackDetails.audoRef?.current;
+
+        if (audioElement) {
+            audioElement.volume = roundedVolume;
+        }
+
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('volume', `${roundedVolume}`);
+        }
+
+        console.log('boundedVolume', roundedVolume);
+
+        return roundedVolume;
+    },
+
+    handleSeek: (value) => {
+        const audioElement = useTrackStore.getState().trackDetails.audoRef?.current;
+        if (audioElement) {
+            audioElement.currentTime = value[0];
+        }
+    },
+
+    handleSkip: (direction: 'forward' | 'backward') => {
+        const audioElement = useTrackStore.getState().trackDetails.audoRef?.current;
+        if (!audioElement) return;
+
+        const skipForward = 30; // seconds for forward skip
+        const skipBackward = 15; // seconds for backward skip
+        const currentTime = audioElement.currentTime;
+
+        const newTime = direction === 'forward'
+            ? Math.min(currentTime + skipForward, audioElement.duration)
+            : Math.max(currentTime - skipBackward, 0);
+
+        // Update audio time
+        audioElement.currentTime = newTime;
+    },
+
 
 }));

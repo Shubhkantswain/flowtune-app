@@ -1,8 +1,8 @@
 // File: app/routes/_app.tsx
 import { Link, Outlet } from "@remix-run/react";
 import { useState } from "react";
-import Playbackcontroller from "./_components/Playbackcontroller";
-import Header from "./_components/Header";
+import Playbackcontroller from "./_components/playbackcontroller/Playbackcontroller";
+import Header from "./_components/header/Header";
 
 export default function AppLayout() {
     return (

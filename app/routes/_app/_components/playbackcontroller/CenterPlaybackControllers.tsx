@@ -1,8 +1,8 @@
 import React from 'react'
 import { useTrackStore } from '~/store/useTrackStore'
 
-function CenterPlaybackControllers({ handleSkip }: { handleSkip: (direction: 'forward' | 'backward') => void }) {
-    const { trackDetails, togglePlay } = useTrackStore()
+function CenterPlaybackControllers() {
+    const { trackDetails, togglePlay, handleSkip } = useTrackStore()
     const isPlaying = trackDetails.isPlaying
 
     return (

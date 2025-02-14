@@ -3,7 +3,7 @@ import { useTrackStore } from '~/store/useTrackStore';
 import ProgressBar from './ProgressBar';
 import LeftTrackInfo from './LeftTrackInfo';
 import RightControllers from './RightControllers';
-import NowPlaying from './NowPlaying';
+import NowPlaying from '../nowPlaying/NowPlaying';
 import CenterPlaybackControllers from './CenterPlaybackControllers';
 
 const Playbackcontroller = () => {
@@ -13,49 +13,6 @@ const Playbackcontroller = () => {
 	const [duration, setDuration] = useState(0);
     const { trackDetails, setTrackDetails, togglePlay, handleVolumeChange } = useTrackStore();
     const audioRef = useRef<HTMLAudioElement | null>(null);
-
-    // const handleSeek = (event: React.MouseEvent<HTMLDivElement>) => {
-    //     const audio = audioRef.current;
-    //     if (!audio) return;
-
-    //     const progressBar = event.currentTarget;
-    //     const rect = progressBar.getBoundingClientRect();
-    //     const clickPosition = event.clientX - rect.left;
-    //     const newProgress = (clickPosition / rect.width) * 100;
-
-    //     // Ensure progress stays within bounds
-    //     const boundedProgress = Math.max(0, Math.min(100, newProgress));
-
-    //     // Set the new current time
-    //     const newTime = (boundedProgress / 100) * audio.duration;
-    //     audio.currentTime = newTime;
-
-    //     // Update progress state
-    //     setProgress(boundedProgress);
-    // };
-
-    const handleSeek = (value: number[]) => {
-		if (audioRef.current) {
-			audioRef.current.currentTime = value[0];
-		}
-	};
-
-    // Handle 10 second skip forward/backward
-    const handleSkip = (direction: 'forward' | 'backward') => {
-        const audio = audioRef.current;
-        if (!audio) return;
-
-        const skipForward = 30; // seconds for forward skip
-        const skipBackward = 15; // seconds for backward skip
-        const currentTime = audio.currentTime;
-
-        const newTime = direction === 'forward'
-            ? Math.min(currentTime + skipForward, audio.duration)
-            : Math.max(currentTime - skipBackward, 0);
-
-        // Update audio time
-        audio.currentTime = newTime;
-    };
 
     useEffect(() => {
         const audio = audioRef.current;
@@ -126,14 +83,14 @@ const Playbackcontroller = () => {
         <>
             <div className="fixed bottom-0 left-0 right-0 z-40 bg-black/70 backdrop-blur-lg">
                 {/* Progress Bar */}
-                <ProgressBar progress={progress} handleSeek={handleSeek} currentTime={currentTime} duration={duration} />
+                <ProgressBar progress={progress} currentTime={currentTime} duration={duration} />
 
                 <div className="px-4 py-3 flex items-center justify-between">
                     {/* Left: Track Info */}
                     <LeftTrackInfo setIsOpen={setIsOpen} />
 
                     {/* Center: Playback Controls (Hidden on Small Screens) */}
-                    <CenterPlaybackControllers handleSkip={handleSkip} />
+                    <CenterPlaybackControllers />
 
                     {/* Right: Play Button and Heart Icon for Small Screens */}
                     <RightControllers />
@@ -145,7 +102,7 @@ const Playbackcontroller = () => {
                 }
             </div>
 
-            <NowPlaying isOpen={isOpen} setIsOpen={setIsOpen} progress={progress} currentTime={currentTime} duration={duration} handleSeek={handleSeek} handleSkip={handleSkip} />
+            <NowPlaying isOpen={isOpen} onClose={() => setIsOpen(false)} progress={progress} currentTime={currentTime} duration={duration} />
         </>
     )
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTrackStore } from '~/store/useTrackStore';
-import PlaceholderTrack from './PlaceholderTrack';
+import PlaceholderTrack from '../PlaceholderTrack';
 
 type LeftTrackInfoProps = {
     setIsOpen: (isOpen: boolean) => void;

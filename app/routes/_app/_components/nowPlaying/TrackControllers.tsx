@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useLikeTrack } from '~/hooks/track'
 import { useTrackStore } from '~/store/useTrackStore'
-import BottomControls from './BottomControls'
 
-function TrackControllers({ handleSkip }: { handleSkip: (direction: 'forward' | 'backward') => void }) {
-    const { trackDetails, togglePlay, setTrackDetails, handleVolumeChange } = useTrackStore()
+function TrackControllers() {
+    const { trackDetails, togglePlay, setTrackDetails, handleVolumeChange, handleSkip } = useTrackStore()
     const isPlaying = trackDetails.isPlaying
     const [volume, setVolume] = useState(0.5);
 

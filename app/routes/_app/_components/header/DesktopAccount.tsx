@@ -1,4 +1,3 @@
-import { Link } from '@remix-run/react';
 import React, { useState } from 'react';
 import ProfileDropDownMenu from './ProfileDropDownMenu';
 // import { LogOut, Settings, User, HelpCircle } from 'lucide-react';
