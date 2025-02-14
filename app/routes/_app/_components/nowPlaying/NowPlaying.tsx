@@ -48,10 +48,10 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
 
         <div className="relative z-10 max-w-3xl mx-auto min-h-full">
           {/* Header */}
-          <Header onClose={onClose} onShow={() => setMenuVisible(true)} />
+          <Header onClose={onClose} />
 
           {/* Track Art and Info */}
-          <TrackArtAndInfo />
+          <TrackArtAndInfo onShow={() => setMenuVisible(true)} />
 
           {/* Progress Bar */}
           <ProgressBar currentTime={currentTime} duration={duration} />

@@ -72,7 +72,6 @@ const Playbackcontroller = () => {
 
 
         const handleAudioEnd = () => {
-            console.log("handleAudioEnd");
             if(isTrackRepeatable(trackDetails.id)){
                 setTrackDetails({isPlaying: true})
             }

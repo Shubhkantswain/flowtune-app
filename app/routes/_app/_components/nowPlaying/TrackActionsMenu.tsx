@@ -16,7 +16,7 @@ const TrackActionsMenu = ({ isVisible, onDismiss }: TrackActionsMenuProps) => {
     const { trackDetails, handlePlaybackSpeed } = useTrackStore();
     const [showPlaybackOptions, setShowPlaybackOptions] = useState(false);
     const [playbackSpeed, setPlaybackSpeed] = useState([1]);
-    const { markTrackAsRepeatable, unmarkTrackAsRepeatable, isTrackRepeatable, repeatableTrackIds } = useRepeatableTracksStore()
+    const { markTrackAsRepeatable, unmarkTrackAsRepeatable, isTrackRepeatable } = useRepeatableTracksStore()
     const [isRepeatable, setIsRepeatable] = useState(isTrackRepeatable(trackDetails.id));
 
     useEffect(() => {
@@ -24,8 +24,8 @@ const TrackActionsMenu = ({ isVisible, onDismiss }: TrackActionsMenuProps) => {
         setPlaybackSpeed([storedSpeed]);
     }, []);
 
-    console.log("repeatableTrackIds", repeatableTrackIds);
-
+    console.log("count");
+    
     return (
         <div className="fixed inset-0 z-50 flex flex-col">
             {/* Background Overlay */}
