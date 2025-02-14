@@ -20,7 +20,7 @@ function ProgressBar({
     duration: number;
 }) {
     return (
-        <div className="relative w-full h-1 bg-zinc-800/50 cursor-pointer group">
+        <div className="relative w-full h-0.5 bg-zinc-800/50 cursor-pointer group">
             <div className="absolute top-[-20px] left-0 text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity">
                 {formatTime(currentTime)}
             </div>
@@ -33,6 +33,7 @@ function ProgressBar({
                 step={1}
                 className="w-full hover:cursor-grab active:cursor-grabbing"
                 onValueChange={handleSeek}
+                nowPlaying={false}
             />
         </div>
     );

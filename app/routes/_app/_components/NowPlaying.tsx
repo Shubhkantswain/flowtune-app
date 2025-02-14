@@ -131,6 +131,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, setIsOpen, progress, cu
               step={1}
               className="w-full hover:cursor-grab active:cursor-grabbing"
               onValueChange={handleSeek}
+              nowPlaying={true}
             />
             <div className="flex justify-between mt-2 text-xs text-zinc-400">
               <span>{formatTime(currentTime)}</span>
