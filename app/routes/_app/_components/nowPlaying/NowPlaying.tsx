@@ -56,7 +56,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
           }`}
       >
         {/* Background Image */}
-        {/* <div
+        <div
           className="fixed inset-0 z-0 opacity-30"
           style={{
             backgroundImage: `url(${trackDetails.coverImageUrl})`,
@@ -64,7 +64,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
             backgroundPosition: 'center',
             filter: 'blur(10px)',
           }}
-        /> */}
+        />
 
         <div className="relative z-10 max-w-3xl mx-auto min-h-full">
           {/* Header */}
