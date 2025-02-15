@@ -13,10 +13,10 @@ const Playbackcontroller = () => {
     const [progress, setProgress] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
-    const { trackDetails,setTrackDetails, togglePlay, handleVolumeChange, handlePlaybackSpeed } = useTrackStore();
+    const { trackDetails, setTrackDetails, togglePlay, handleVolumeChange, handlePlaybackSpeed } = useTrackStore();
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const { isTrackRepeatable } = useRepeatableTracksStore()
-    const {dequeueFirstTrack} = useQueueStore()
+    const { dequeueFirstTrack } = useQueueStore()
 
     useEffect(() => {
         const audio = audioRef.current;
@@ -76,10 +76,11 @@ const Playbackcontroller = () => {
         const handleAudioEnd = () => {
             if (isTrackRepeatable(trackDetails.id)) {
                 setTrackDetails({ isPlaying: true })
+                return
             }
 
             const track = dequeueFirstTrack()
-            if(track){
+            if (track) {
                 setTrackDetails({
                     id: track.id,
                     title: track.title,
@@ -91,7 +92,7 @@ const Playbackcontroller = () => {
                     authorName: track.authorName,
                     isPlaying: true,
                     fromClick: false
-                  });
+                });
             }
         }
 
@@ -135,7 +136,12 @@ const Playbackcontroller = () => {
                 }
             </div>
 
-            <NowPlaying isOpen={isOpen} onClose={() => setIsOpen(false)} progress={progress} currentTime={currentTime} duration={duration} />
+            {
+                isOpen && (
+
+                    <NowPlaying isOpen={isOpen} onClose={() => setIsOpen(false)} progress={progress} currentTime={currentTime} duration={duration} />
+                )
+            }
         </>
     )
 }
