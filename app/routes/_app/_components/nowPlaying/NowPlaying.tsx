@@ -8,6 +8,8 @@ import TrackActionsMenu from './TrackActionsMenu';
 import TrackArtAndInfo from './TrackArtAndInfo';
 import ProgressBar from './ProgressBar';
 import ShowQueueTracks from './ShowQueueTracks';
+import { useQueueStore } from '~/store/useQueueStore';
+import { Track } from 'gql/graphql';
 
 interface NowPlayingProps {
   isOpen: boolean;
@@ -21,6 +23,13 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
   const { trackDetails } = useTrackStore()
   const [menuVisible, setMenuVisible] = useState(false)
   const [isQueueTrackVisible, setIsQueueTrackVisible] = useState(false)
+  const { getAllTracks, isTrackInQueue } = useQueueStore()
+  const [inQueue, setInQueue] = useState<boolean>(false)
+  const [queueTracks, setQueueTracks] = useState<Track[]>([])
+
+  useEffect(() => {
+    setQueueTracks(getAllTracks());
+  }, [inQueue]);
 
   // to hide the scroll bar of home page, explore etc
   useEffect(() => {
@@ -30,6 +39,11 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
       document.body.style.overflow = "auto";
     }
   }, [isOpen, menuVisible]);
+
+  useEffect(() => {
+    const inQueue = isTrackInQueue(trackDetails.id)
+    setInQueue(inQueue)
+  }, [isOpen])
 
   return (
     <>
@@ -50,7 +64,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
 
         <div className="relative z-10 max-w-3xl mx-auto min-h-full">
           {/* Header */}
-          <Header onClose={onClose} onShowQueueTrack={() => setIsQueueTrackVisible(true)}/>
+          <Header onClose={onClose} onShowQueueTrack={() => setIsQueueTrackVisible(true)} />
 
           {/* Track Art and Info */}
           <TrackArtAndInfo onShow={() => setMenuVisible(true)} />
@@ -63,8 +77,8 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
         </div>
       </div>
 
-      <TrackActionsMenu isVisible={menuVisible} onDismiss={() => setMenuVisible(false)} />
-        <ShowQueueTracks isQueueTrackVisible={isQueueTrackVisible}  onHideQueueTrack={() => setIsQueueTrackVisible(false)}/>
+      <TrackActionsMenu isVisible={menuVisible} onDismiss={() => setMenuVisible(false)} inQueue={inQueue} setInQueue={setInQueue} />
+      <ShowQueueTracks isQueueTrackVisible={isQueueTrackVisible} onHideQueueTrack={() => setIsQueueTrackVisible(false)} queueTracks={queueTracks} />
     </>
   );
 };

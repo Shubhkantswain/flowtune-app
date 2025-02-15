@@ -14,8 +14,7 @@ interface TrackStore {
         authorName: string;
         isPlaying: boolean;
         audoRef: AudioRefType | null;
-        repeatable: boolean
-        isQueued: boolean
+        fromClick: boolean
     };
     setTrackDetails: (trackDetails: Partial<TrackStore['trackDetails']>) => void;
     togglePlay: () => void;
@@ -37,8 +36,7 @@ export const useTrackStore = create<TrackStore>((set) => ({
         authorName: "",
         isPlaying: false,
         audoRef: null,
-        repeatable: false,
-        isQueued: false
+        fromClick: false
     },
     setTrackDetails: (trackDetails) =>
         set((state) => ({

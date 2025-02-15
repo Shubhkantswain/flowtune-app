@@ -6,15 +6,17 @@ import RightControllers from './RightControllers';
 import NowPlaying from '../nowPlaying/NowPlaying';
 import CenterPlaybackControllers from './CenterPlaybackControllers';
 import { useRepeatableTracksStore } from '~/store/useRepeatableTracksStore';
+import { useQueueStore } from '~/store/useQueueStore';
 
 const Playbackcontroller = () => {
     const [isOpen, setIsOpen] = useState(false)
     const [progress, setProgress] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
-    const { trackDetails, setTrackDetails, togglePlay, handleVolumeChange, handlePlaybackSpeed } = useTrackStore();
+    const { trackDetails,setTrackDetails, togglePlay, handleVolumeChange, handlePlaybackSpeed } = useTrackStore();
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const { isTrackRepeatable } = useRepeatableTracksStore()
+    const {dequeueFirstTrack} = useQueueStore()
 
     useEffect(() => {
         const audio = audioRef.current;
@@ -53,7 +55,7 @@ const Playbackcontroller = () => {
 
         const handlePause = () => {
             console.log("handlePause");
-            
+
             if (trackDetails.isPlaying) {
                 setTrackDetails({ isPlaying: false })
             }
@@ -72,8 +74,24 @@ const Playbackcontroller = () => {
 
 
         const handleAudioEnd = () => {
-            if(isTrackRepeatable(trackDetails.id)){
-                setTrackDetails({isPlaying: true})
+            if (isTrackRepeatable(trackDetails.id)) {
+                setTrackDetails({ isPlaying: true })
+            }
+
+            const track = dequeueFirstTrack()
+            if(track){
+                setTrackDetails({
+                    id: track.id,
+                    title: track.title,
+                    artist: track.artist,
+                    duration: track.duration,
+                    coverImageUrl: track.coverImageUrl || "",
+                    audioFileUrl: track.audioFileUrl,
+                    hasLiked: track.hasLiked,
+                    authorName: track.authorName,
+                    isPlaying: true,
+                    fromClick: false
+                  });
             }
         }
 

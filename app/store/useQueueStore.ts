@@ -22,6 +22,7 @@ class TrackQueue {
     private size = 0;
     private head = new QueueNode({} as Track);
     private tail = new QueueNode({} as Track);
+    private currentNode: QueueNode | null = null
 
     constructor() {
         this.head.next = this.tail;
@@ -60,19 +61,20 @@ class TrackQueue {
     dequeueFirst(): Track | null {
         if (this.size === 0) return null;
 
-        const firstNode = this.head.next!;
-        if (firstNode === this.tail) return null;
+        if (!this.currentNode) {
+            const firstNode = this.head.next!;
 
-        this.head.next = firstNode.next;
-        firstNode.next!.prev = this.head;
+            this.currentNode = firstNode
 
-        firstNode.next = null
-        firstNode.prev = null
+            return this.currentNode.track
+        }
 
+        const firstNode = this.currentNode.next!;
+        this.currentNode = firstNode
+        this.size--
         this.trackMap.delete(firstNode.track.id);
-        this.size--;
 
-        return firstNode.track;
+        return firstNode.track
     }
 
     hasTrack(trackId: string): boolean {
@@ -81,6 +83,18 @@ class TrackQueue {
 
     getQueueSize(): number {
         return this.size;
+    }
+
+    getAllTracks(): Track[] {
+        const tracks: Track[] = [];
+        let current = this.head.next;
+
+        while (current && current !== this.tail) {
+            tracks.push(current.track);
+            current = current.next!;
+        }
+
+        return tracks;
     }
 }
 
@@ -95,4 +109,5 @@ export const useQueueStore = create(() => ({
     dequeueFirstTrack: () => useQueueStore.getState().trackQueue.dequeueFirst(),
     isTrackInQueue: (trackId: string) => useQueueStore.getState().trackQueue.hasTrack(trackId),
     getQueueSize: () => useQueueStore.getState().trackQueue.getQueueSize(),
+    getAllTracks: () => useQueueStore.getState().trackQueue.getAllTracks(),
 }));

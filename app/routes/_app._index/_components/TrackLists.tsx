@@ -25,8 +25,7 @@ function TrackLists({ tracks }: { tracks: Track[] }) {
       hasLiked: track.hasLiked,
       authorName: track.authorName,
       isPlaying: true,
-      repeatable: false,
-      isQueued: false
+      fromClick: true
     });
   };
 
