@@ -105,3 +105,20 @@ body {
 .animate-equalizer {
     animation: equalizer 1s infinite ease-in-out alternate;
 }
+
+.now-playing {
+  transition: transform 0.3s ease-in-out;
+}
+
+.now-playing.open {
+  transform: translateY(0);
+}
+
+.now-playing.closed {
+  transform: translateY(100%);
+}
+
+.background-image {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}

@@ -136,12 +136,8 @@ const Playbackcontroller = () => {
                 }
             </div>
 
-            {
-                isOpen && (
-
-                    <NowPlaying isOpen={isOpen} onClose={() => setIsOpen(false)} progress={progress} currentTime={currentTime} duration={duration} />
-                )
-            }
+         
+            <NowPlaying isOpen={isOpen} onClose={() => setIsOpen(false)} progress={progress} currentTime={currentTime} duration={duration} />
         </>
     )
 }

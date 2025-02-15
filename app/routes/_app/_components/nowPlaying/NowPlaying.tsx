@@ -28,10 +28,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
   const [queueTracks, setQueueTracks] = useState<Track[]>([]);
 
   console.log("queueTracks", queueTracks);
-  console.log("rereder");
 
-
-  
   // Fetch all tracks whenever the queue changes
   useEffect(() => {
     setQueueTracks(getAllTracks());
@@ -41,8 +38,8 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
   useEffect(() => {
     const inQueue = isTrackInQueue(trackDetails.id);
     setInQueue(inQueue);
-  }, [isOpen, trackDetails.id, isTrackInQueue]);
-  
+  }, [trackDetails.id]); // Only run when trackDetails.id changes
+
   // Hide scrollbar when the NowPlaying modal or menu is open
   useEffect(() => {
     if (isOpen || menuVisible) {
@@ -59,7 +56,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
           }`}
       >
         {/* Background Image */}
-        <div
+        {/* <div
           className="fixed inset-0 z-0 opacity-30"
           style={{
             backgroundImage: `url(${trackDetails.coverImageUrl})`,
@@ -67,7 +64,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
             backgroundPosition: 'center',
             filter: 'blur(10px)',
           }}
-        />
+        /> */}
 
         <div className="relative z-10 max-w-3xl mx-auto min-h-full">
           {/* Header */}
