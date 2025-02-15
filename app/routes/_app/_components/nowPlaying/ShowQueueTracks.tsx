@@ -10,6 +10,7 @@ interface ShowQueueTracksProps {
     onHideQueueTrack: () => void;
     queueTracks: Track[];
 }
+
 const AnimatedEqualizer = () => {
     return (
         <div className="flex items-center justify-center w-6 h-10">
@@ -23,6 +24,18 @@ const AnimatedEqualizer = () => {
     );
 };
 
+const AnimatedEqualizerPause = () => {
+    return (
+        <div className="flex items-center justify-center w-6 h-10">
+            <svg viewBox="0 0 24 24" className="w-full h-full">
+                <rect x="1" y="8" width="4" height="8" fill="#22c55e" style={{ animationDelay: '0.1s' }} />
+                <rect x="7" y="5" width="4" height="14" fill="#22c55e" style={{ animationDelay: '0.2s' }} />
+                <rect x="13" y="2" width="4" height="20" fill="#22c55e" style={{ animationDelay: '0.3s' }} />
+                <rect x="19" y="5" width="4" height="14" fill="#22c55e" style={{ animationDelay: '0.4s' }} />
+            </svg>
+        </div>
+    );
+};
 
 const ShowQueueTracks: React.FC<ShowQueueTracksProps> = ({
     isQueueTrackVisible = false,
@@ -30,7 +43,6 @@ const ShowQueueTracks: React.FC<ShowQueueTracksProps> = ({
     queueTracks,
 }) => {
     const { trackDetails } = useTrackStore();
-    const {isTrackInQueue} = useQueueStore()
 
     return (
         <div
@@ -55,6 +67,41 @@ const ShowQueueTracks: React.FC<ShowQueueTracksProps> = ({
             </div>
 
             <div className="[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] flex-1 overflow-auto p-4">
+                {/* Now Playing Section */}
+                {trackDetails && (
+                    <div className="mb-8">
+                        <h3 className="text-xl font-bold text-white mb-4">Now Playing</h3>
+                        <div className="flex items-center gap-4 p-4 border border-white/10 rounded-lg bg-zinc-900/90 transition-colors duration-200">
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-10 w-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex-shrink-0"
+                            >
+                                {trackDetails.isPlaying ? <AnimatedEqualizer /> : <AnimatedEqualizerPause />}
+                            </Button>
+
+                            <div className="h-20 w-20 bg-gray-900 rounded-md overflow-hidden flex-shrink-0">
+                                <img
+                                    src={trackDetails.coverImageUrl || ""}
+                                    alt={trackDetails.title}
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+
+                            <div className="flex flex-col min-w-0">
+                                <span className="text-lg font-semibold text-white truncate">
+                                    {trackDetails.title}
+                                </span>
+                                <span className="text-sm text-gray-400">
+                                    {trackDetails.artist}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Next in Queue Section */}
+                <h3 className="text-xl font-bold text-white mb-4">Next in Queue</h3>
                 <div className="space-y-4">
                     {queueTracks.map((track, idx) => (
                         <div
@@ -66,12 +113,7 @@ const ShowQueueTracks: React.FC<ShowQueueTracksProps> = ({
                                 size="icon"
                                 className="h-10 w-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex-shrink-0"
                             >
-                                {track.id === trackDetails.id && !trackDetails.fromClick? (
-                                    <AnimatedEqualizer />
-                                ) : (
-                                    
-                                    idx + 1
-                                )}
+                                {idx + 1}
                             </Button>
 
                             <div className="h-20 w-20 bg-gray-900 rounded-md overflow-hidden flex-shrink-0">

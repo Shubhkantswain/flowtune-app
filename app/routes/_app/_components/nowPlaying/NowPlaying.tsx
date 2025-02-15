@@ -20,18 +20,30 @@ interface NowPlayingProps {
 }
 
 const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, currentTime, duration }) => {
-  const { trackDetails } = useTrackStore()
-  const [menuVisible, setMenuVisible] = useState(false)
-  const [isQueueTrackVisible, setIsQueueTrackVisible] = useState(false)
-  const { getAllTracks, isTrackInQueue } = useQueueStore()
-  const [inQueue, setInQueue] = useState<boolean>(false)
-  const [queueTracks, setQueueTracks] = useState<Track[]>([])
+  const { trackDetails } = useTrackStore();
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [isQueueTrackVisible, setIsQueueTrackVisible] = useState(false);
+  const { getAllTracks, isTrackInQueue, getQueueSize, dequeueFirstTrack } = useQueueStore();
+  const [inQueue, setInQueue] = useState<boolean>(false);
+  const [queueTracks, setQueueTracks] = useState<Track[]>([]);
 
+  console.log("queueTracks", queueTracks);
+  console.log("rereder");
+
+
+  
+  // Fetch all tracks whenever the queue changes
   useEffect(() => {
     setQueueTracks(getAllTracks());
-  }, [inQueue]);
+  }, [getQueueSize()]); // Re-run when queue size changes
 
-  // to hide the scroll bar of home page, explore etc
+  // Check if the current track is in the queue
+  useEffect(() => {
+    const inQueue = isTrackInQueue(trackDetails.id);
+    setInQueue(inQueue);
+  }, [isOpen, trackDetails.id, isTrackInQueue]);
+  
+  // Hide scrollbar when the NowPlaying modal or menu is open
   useEffect(() => {
     if (isOpen || menuVisible) {
       document.body.style.overflow = "hidden";
@@ -39,11 +51,6 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
       document.body.style.overflow = "auto";
     }
   }, [isOpen, menuVisible]);
-
-  useEffect(() => {
-    const inQueue = isTrackInQueue(trackDetails.id)
-    setInQueue(inQueue)
-  }, [isOpen])
 
   return (
     <>

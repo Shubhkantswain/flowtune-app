@@ -22,7 +22,6 @@ class TrackQueue {
     private size = 0;
     private head = new QueueNode({} as Track);
     private tail = new QueueNode({} as Track);
-    private currentNode: QueueNode | null = null
 
     constructor() {
         this.head.next = this.tail;
@@ -51,8 +50,8 @@ class TrackQueue {
         node.prev!.next = node.next;
         node.next!.prev = node.prev;
 
-        node.next = null
-        node.prev = null
+        node.next = null;
+        node.prev = null;
 
         this.trackMap.delete(trackId);
         this.size--;
@@ -61,20 +60,19 @@ class TrackQueue {
     dequeueFirst(): Track | null {
         if (this.size === 0) return null;
 
-        if (!this.currentNode) {
-            const firstNode = this.head.next!;
+        const firstNode = this.head.next!;
+        if (firstNode === this.tail) return null;
 
-            this.currentNode = firstNode
+        this.head.next = firstNode.next;
+        firstNode.next!.prev = this.head;
 
-            return this.currentNode.track
-        }
+        firstNode.next = null;
+        firstNode.prev = null;
 
-        const firstNode = this.currentNode.next!;
-        this.currentNode = firstNode
-        this.size--
         this.trackMap.delete(firstNode.track.id);
+        this.size--;
 
-        return firstNode.track
+        return firstNode.track;
     }
 
     hasTrack(trackId: string): boolean {
@@ -99,15 +97,46 @@ class TrackQueue {
 }
 
 /**
+ * Define Zustand Store Type
+ */
+interface QueueStoreState {
+    trackQueue: TrackQueue;
+    enqueueTrack: (track: Track) => void;
+    dequeueTrack: (trackId: string) => void;
+    dequeueFirstTrack: () => Track | null;
+    isTrackInQueue: (trackId: string) => boolean;
+    getQueueSize: () => number;
+    getAllTracks: () => Track[];
+}
+
+/**
  * Zustand store for managing track queue state.
  */
-export const useQueueStore = create(() => ({
+export const useQueueStore = create<QueueStoreState>((set, get) => ({
     trackQueue: new TrackQueue(),
 
-    enqueueTrack: (track: Track) => useQueueStore.getState().trackQueue.enqueue(track),
-    dequeueTrack: (trackId: string) => useQueueStore.getState().trackQueue.dequeue(trackId),
-    dequeueFirstTrack: () => useQueueStore.getState().trackQueue.dequeueFirst(),
-    isTrackInQueue: (trackId: string) => useQueueStore.getState().trackQueue.hasTrack(trackId),
-    getQueueSize: () => useQueueStore.getState().trackQueue.getQueueSize(),
-    getAllTracks: () => useQueueStore.getState().trackQueue.getAllTracks(),
+    enqueueTrack: (track: Track) => {
+        set((state) => {
+            state.trackQueue.enqueue(track);
+            return { trackQueue: state.trackQueue };
+        });
+    },
+    dequeueTrack: (trackId: string) => {
+        set((state) => {
+            state.trackQueue.dequeue(trackId);
+            return { trackQueue: state.trackQueue };
+        });
+    },
+    dequeueFirstTrack: () => {
+        let dequeuedTrack: Track | null = null;
+        set((state) => {
+            dequeuedTrack = state.trackQueue.dequeueFirst(); // Store the dequeued track
+            return { trackQueue: state.trackQueue };
+        });
+        return dequeuedTrack; // Return the dequeued track
+    },
+    
+    isTrackInQueue: (trackId: string) => get().trackQueue.hasTrack(trackId),
+    getQueueSize: () => get().trackQueue.getQueueSize(),
+    getAllTracks: () => get().trackQueue.getAllTracks(),
 }));
