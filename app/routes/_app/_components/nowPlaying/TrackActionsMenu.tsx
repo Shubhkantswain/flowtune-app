@@ -27,7 +27,7 @@ const TrackActionsMenu = ({ isVisible, onDismiss, inQueue, setInQueue }: TrackAc
     const [showSleepModeOptions, setShowSleepModeOptions] = useState(false);
 
     const { enqueueTrack, dequeueTrack } = useQueueStore()
-    const { startSleepMode, setSleepTimeLeft, sleepTimeLeft, setEndOfTheTrackEnabled, stopSleepMode, isSleepModeActive } = useSleepModeStore()
+    const { startSleepMode, setSleepTimeLeft, sleepTimeLeft, setEndOfTheTrackEnabled, stopSleepMode, isSleepModeActive, endOfTheTrackEnabled } = useSleepModeStore()
 
     const handleStartSleepMode = (minutes: number) => {
         setSleepTimeLeft(minutes);
@@ -126,7 +126,7 @@ const TrackActionsMenu = ({ isVisible, onDismiss, inQueue, setInQueue }: TrackAc
                                     <h3 className="text-lg font-semibold text-white text-center mb-2">
                                         {`Sleep Mode${sleepTimeLeft > 0 ? ` - ${sleepTimeLeft} Min Left` : ''}`}
                                     </h3>
-                                    
+
                                     {/* Sleep Mode Options (One per Row) */}
                                     {[5, 10, 15, 30, 45, 60].map((minutes) => (
                                         <button
@@ -139,7 +139,7 @@ const TrackActionsMenu = ({ isVisible, onDismiss, inQueue, setInQueue }: TrackAc
                                     ))}
 
                                     {
-                                        isSleepModeActive && (<button
+                                        isSleepModeActive || endOfTheTrackEnabled && (<button
                                             className="w-full px-4 py-2 bg-zinc-800 text-white rounded-lg text-sm font-medium transition-transform duration-200 hover:scale-105"
                                             onClick={handleStopSleepMode}
                                         >

@@ -82,6 +82,7 @@ const Playbackcontroller = () => {
                     title: "Sleep Mode Completed",
                     text: "Your sleep timer has ended. It's time to rest and recharge. Goodnight Dear!",
                     icon: "success",
+                    background: "#1f2937", // Custom dark background
                 });
                 return
             }
