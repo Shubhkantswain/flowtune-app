@@ -27,7 +27,7 @@ const TrackActionsMenu = ({ isVisible, onDismiss, inQueue, setInQueue }: TrackAc
     const [showSleepModeOptions, setShowSleepModeOptions] = useState(false);
 
     const { enqueueTrack, dequeueTrack } = useQueueStore()
-    const { startSleepMode, setSleepTimeLeft, sleepTimeLeft, setEndOfTheTrackEnabled } = useSleepModeStore()
+    const { startSleepMode, setSleepTimeLeft, sleepTimeLeft, setEndOfTheTrackEnabled, stopSleepMode, isSleepModeActive } = useSleepModeStore()
 
     const handleStartSleepMode = (minutes: number) => {
         setSleepTimeLeft(minutes);
@@ -37,7 +37,13 @@ const TrackActionsMenu = ({ isVisible, onDismiss, inQueue, setInQueue }: TrackAc
 
     const handlEndOfTheTrack = (enabled: boolean) => {
         setEndOfTheTrackEnabled(enabled)
+        stopSleepMode()
         toast.success(`Sleep mode enabled: will start after track ends.`);
+    }
+
+    const handleStopSleepMode = () => {
+        stopSleepMode()
+        setEndOfTheTrackEnabled(false)
     }
 
     useEffect(() => {
@@ -127,6 +133,15 @@ const TrackActionsMenu = ({ isVisible, onDismiss, inQueue, setInQueue }: TrackAc
                                             {minutes} min
                                         </button>
                                     ))}
+
+                                    {
+                                        isSleepModeActive && (<button
+                                            className="w-full px-4 py-2 bg-zinc-800 text-white rounded-lg text-sm font-medium transition-transform duration-200 hover:scale-105"
+                                            onClick={handleStopSleepMode}
+                                        >
+                                            Turn off timer
+                                        </button>)
+                                    }
 
                                     <button
                                         className="w-full px-4 py-2 bg-zinc-800 text-white rounded-lg text-sm font-medium transition-transform duration-200 hover:scale-105"
