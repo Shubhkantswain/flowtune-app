@@ -7,6 +7,8 @@ import NowPlaying from '../nowPlaying/NowPlaying';
 import CenterPlaybackControllers from './CenterPlaybackControllers';
 import { useRepeatableTracksStore } from '~/store/useRepeatableTracksStore';
 import { useQueueStore } from '~/store/useQueueStore';
+import Swal from 'sweetalert2'
+import useSleepModeStore from '~/store/useSleepModeStore';
 
 const Playbackcontroller = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -17,6 +19,7 @@ const Playbackcontroller = () => {
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const { isTrackRepeatable } = useRepeatableTracksStore()
     const { dequeueFirstTrack } = useQueueStore()
+    const {isSleepModeComplete} = useSleepModeStore()
 
     useEffect(() => {
         const audio = audioRef.current;
@@ -112,6 +115,17 @@ const Playbackcontroller = () => {
             audio.removeEventListener('ended', handleAudioEnd);
         };
     }, [trackDetails, trackDetails.isPlaying, trackDetails.audioFileUrl]);
+
+
+     useEffect(() => {
+        if(isSleepModeComplete){
+          Swal.fire({
+            title: "Sleep Mode Completed",
+            text: "Your sleep timer has ended. It's time to rest and recharge. Goodnight Dear!",
+            icon: "success",
+          });
+        }
+      }, [isSleepModeComplete])
 
     return (
         <>

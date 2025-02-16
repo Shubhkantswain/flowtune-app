@@ -8,6 +8,7 @@ import { useQueueStore } from '~/store/useQueueStore';
 import { useRepeatableTracksStore } from '~/store/useRepeatableTracksStore';
 import { useTrackStore } from '~/store/useTrackStore';
 import ShowQueueTracks from './ShowQueueTracks';
+import useSleepModeStore from '~/store/useSleepModeStore';
 
 interface TrackActionsMenuProps {
     isVisible: boolean;
@@ -26,6 +27,12 @@ const TrackActionsMenu = ({ isVisible, onDismiss, inQueue, setInQueue }: TrackAc
     const [showSleepModeOptions, setShowSleepModeOptions] = useState(false);
 
     const { enqueueTrack, dequeueTrack } = useQueueStore()
+    const { startSleepMode, setSleepTimeLeft, sleepTimeLeft } = useSleepModeStore()
+
+    const handleStartSleepMode = (minutes: number) => {
+        setSleepTimeLeft(minutes);
+        startSleepMode();
+    };
 
     useEffect(() => {
         const storedSpeed = Number(localStorage.getItem('speed')) || 1;
@@ -102,14 +109,14 @@ const TrackActionsMenu = ({ isVisible, onDismiss, inQueue, setInQueue }: TrackAc
                                 <div className="p-4 bg-zinc-900/90 rounded-xl space-y-4 transition-all duration-300 ease-in-out border border-white/10">
 
                                     {/* Sleep Mode Title */}
-                                    <h3 className="text-lg font-semibold text-white text-center mb-2">Sleep Mode</h3>
+                                    <h3 className="text-lg font-semibold text-white text-center mb-2">Sleep Mode - {sleepTimeLeft} Min Left</h3>
 
                                     {/* Sleep Mode Options (One per Row) */}
                                     {[5, 10, 15, 30, 45, 60].map((minutes) => (
                                         <button
                                             key={minutes}
                                             className="w-full px-4 py-2 bg-zinc-800 text-white rounded-lg text-sm font-medium transition-transform duration-200 hover:scale-105"
-                                        // onClick={() => setSleepTimer(minutes)}
+                                            onClick={() => handleStartSleepMode(minutes)}
                                         >
                                             {minutes} min
                                         </button>
@@ -117,7 +124,7 @@ const TrackActionsMenu = ({ isVisible, onDismiss, inQueue, setInQueue }: TrackAc
 
                                     <button
                                         className="w-full px-4 py-2 bg-zinc-800 text-white rounded-lg text-sm font-medium transition-transform duration-200 hover:scale-105"
-                                    // onClick={() => setSleepTimer(minutes)}
+                                        // onClick={() => handleStartSleepMode(minutes)}
                                     >
                                         End of the Track
                                     </button>
@@ -126,7 +133,7 @@ const TrackActionsMenu = ({ isVisible, onDismiss, inQueue, setInQueue }: TrackAc
 
 
                             <button className="flex items-center w-full gap-3 p-4 rounded-lg transition-transform duration-200 hover:scale-105" onClick={() => setShowPlaybackOptions(!showPlaybackOptions)}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-youtube"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-youtube"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17" /><path d="m10 15 5-3-5-3z" /></svg>
                                 Playback
                             </button>
                             {showPlaybackOptions && (

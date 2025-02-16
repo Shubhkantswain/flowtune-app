@@ -10,6 +10,8 @@ import ProgressBar from './ProgressBar';
 import ShowQueueTracks from './ShowQueueTracks';
 import { useQueueStore } from '~/store/useQueueStore';
 import { Track } from 'gql/graphql';
+import useSleepModeStore from '~/store/useSleepModeStore';
+import Swal from 'sweetalert2'
 
 interface NowPlayingProps {
   isOpen: boolean;
@@ -26,6 +28,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
   const { getAllTracks, isTrackInQueue, getQueueSize, dequeueFirstTrack } = useQueueStore();
   const [inQueue, setInQueue] = useState<boolean>(false);
   const [queueTracks, setQueueTracks] = useState<Track[]>([]);
+  const {isSleepModeComplete} = useSleepModeStore()
 
   console.log("queueTracks", queueTracks);
 
@@ -48,6 +51,16 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
       document.body.style.overflow = "auto";
     }
   }, [isOpen, menuVisible]);
+
+  useEffect(() => {
+    if(isSleepModeComplete){
+      Swal.fire({
+        title: "Sleep Mode Completed",
+        text: "Your sleep timer has ended. It's time to rest and recharge. Goodnight Dear!",
+        icon: "success",
+      });
+    }
+  }, [isSleepModeComplete])
 
   return (
     <>
