@@ -31,7 +31,7 @@ const useSleepModeStore = create<SleepModeState>((set, get) => ({
     set({ isSleepModeActive: true });
 
     // Decrement sleep time every minute
-    const interval = setInterval(() => {
+    const interval = setInterval(() => {  // 1min- 4 2min-3  3min - 2 4min - 1 5min - 0 
       const { sleepTimeLeft, isSleepModeActive } = get();
 
       // If sleep mode is no longer active, clear the interval
@@ -43,6 +43,11 @@ const useSleepModeStore = create<SleepModeState>((set, get) => ({
       // Decrement sleep time
       if (sleepTimeLeft > 0) {
         set({ sleepTimeLeft: sleepTimeLeft - 1 });
+        if(sleepTimeLeft - 1 == 0) {
+            clearInterval(interval);
+            set({ isSleepModeActive: false, isSleepModeComplete: true });
+            console.log("Sleep mode ended!");
+        }
       } else {
         // Stop sleep mode when time runs out
         clearInterval(interval);
