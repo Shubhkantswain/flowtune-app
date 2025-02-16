@@ -32,10 +32,12 @@ const TrackActionsMenu = ({ isVisible, onDismiss, inQueue, setInQueue }: TrackAc
     const handleStartSleepMode = (minutes: number) => {
         setSleepTimeLeft(minutes);
         startSleepMode();
+        toast.success(`Sleep mode enabled: will start after ${minutes} minutes.`);
     };
 
     const handlEndOfTheTrack = (enabled: boolean) => {
         setEndOfTheTrackEnabled(enabled)
+        toast.success(`Sleep mode enabled: will start after track ends.`);
     }
 
     useEffect(() => {
