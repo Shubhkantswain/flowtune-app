@@ -19,7 +19,7 @@ const Playbackcontroller = () => {
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const { isTrackRepeatable } = useRepeatableTracksStore()
     const { dequeueFirstTrack } = useQueueStore()
-    const {isSleepModeComplete} = useSleepModeStore()
+    const { isSleepModeComplete, endOfTheTrackEnabled } = useSleepModeStore()
 
     useEffect(() => {
         const audio = audioRef.current;
@@ -77,6 +77,15 @@ const Playbackcontroller = () => {
 
 
         const handleAudioEnd = () => {
+            if (endOfTheTrackEnabled) {
+                Swal.fire({
+                    title: "Sleep Mode Completed",
+                    text: "Your sleep timer has ended. It's time to rest and recharge. Goodnight Dear!",
+                    icon: "success",
+                });
+                return
+            }
+
             if (isTrackRepeatable(trackDetails.id)) {
                 setTrackDetails({ isPlaying: true })
                 return
@@ -117,15 +126,15 @@ const Playbackcontroller = () => {
     }, [trackDetails, trackDetails.isPlaying, trackDetails.audioFileUrl]);
 
 
-     useEffect(() => {
-        if(isSleepModeComplete){
-          Swal.fire({
-            title: "Sleep Mode Completed",
-            text: "Your sleep timer has ended. It's time to rest and recharge. Goodnight Dear!",
-            icon: "success",
-          });
+    useEffect(() => {
+        if (isSleepModeComplete) {
+            Swal.fire({
+                title: "Sleep Mode Completed",
+                text: "Your sleep timer has ended. It's time to rest and recharge. Goodnight Dear!",
+                icon: "success",
+            });
         }
-      }, [isSleepModeComplete])
+    }, [isSleepModeComplete])
 
     return (
         <>
@@ -150,7 +159,7 @@ const Playbackcontroller = () => {
                 }
             </div>
 
-         
+
             <NowPlaying isOpen={isOpen} onClose={() => setIsOpen(false)} progress={progress} currentTime={currentTime} duration={duration} />
         </>
     )

@@ -4,7 +4,9 @@ interface SleepModeState {
   sleepTimeLeft: number; // Remaining sleep time in minutes
   isSleepModeActive: boolean; // Whether sleep mode is active
   isSleepModeComplete: boolean;
+  endOfTheTrackEnabled: boolean;
   setSleepTimeLeft: (minutes: number) => void; // Set the sleep time
+  setEndOfTheTrackEnabled: (enabled: boolean) => void; // Set the sleep time
   startSleepMode: () => void; // Start sleep mode
   stopSleepMode: () => void; // Stop sleep mode
   resetSleepMode: () => void; // Reset sleep mode
@@ -14,10 +16,15 @@ const useSleepModeStore = create<SleepModeState>((set, get) => ({
   sleepTimeLeft: 0, // Initial sleep time left
   isSleepModeActive: false, // Initially, sleep mode is inactive
   isSleepModeComplete: false,
+  endOfTheTrackEnabled: false,
 
   // Set the sleep time left
   setSleepTimeLeft: (minutes) => {
     set({ sleepTimeLeft: minutes });
+  },
+
+  setEndOfTheTrackEnabled: (enabled) => {
+    set({ endOfTheTrackEnabled: enabled });
   },
 
   // Start sleep mode
