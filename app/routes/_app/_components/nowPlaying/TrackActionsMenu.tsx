@@ -19,10 +19,11 @@ interface TrackActionsMenuProps {
 const TrackActionsMenu = ({ isVisible, onDismiss, inQueue, setInQueue }: TrackActionsMenuProps) => {
     if (!isVisible) return null;
     const { trackDetails, handlePlaybackSpeed } = useTrackStore();
-    const [showPlaybackOptions, setShowPlaybackOptions] = useState(false);
     const [playbackSpeed, setPlaybackSpeed] = useState([1]);
     const { markTrackAsRepeatable, unmarkTrackAsRepeatable, isTrackRepeatable } = useRepeatableTracksStore()
     const [isRepeatable, setIsRepeatable] = useState(isTrackRepeatable(trackDetails.id));
+    const [showPlaybackOptions, setShowPlaybackOptions] = useState(false);
+    const [showSleepModeOptions, setShowSleepModeOptions] = useState(false);
 
     const { enqueueTrack, dequeueTrack } = useQueueStore()
 
@@ -58,19 +59,15 @@ const TrackActionsMenu = ({ isVisible, onDismiss, inQueue, setInQueue }: TrackAc
 
                         {/* Action Buttons */}
                         <div className="space-y-4">
-                            <button className="flex items-center w-full p-4 rounded-lg transition-transform duration-200 hover:scale-105">
-                                <svg className="w-6 h-6 text-green-500 mr-3" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                                </svg>
+                            <button className="flex items-center w-full gap-3 p-4 rounded-lg transition-transform duration-200 hover:scale-105">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" /></svg>
                                 Liked
                             </button>
-                            <button className="flex items-center w-full p-4 rounded-lg transition-transform duration-200 hover:scale-105">
-                                <svg className="w-6 h-6 mr-3" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M18 16v-2h-5V9h5V7l4 4-4 4zM2 19h14v2H2z" />
-                                </svg>
-                                Share
+                            <button className="flex items-center w-full gap-3 p-4 rounded-lg transition-transform duration-200 hover:scale-105">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-plus"><path d="M5 12h14" /><path d="M12 5v14" /></svg>
+                                Add To Playlist
                             </button>
-                            <button className="flex items-center w-full p-4 rounded-lg transition-transform duration-200 hover:scale-105" onClick={() => {
+                            <button className="flex items-center w-full gap-3 p-4 rounded-lg transition-transform duration-200 hover:scale-105" onClick={() => {
                                 if (inQueue) {
                                     dequeueTrack(trackDetails.id);
                                     toast.success(`"${trackDetails.title}" removed from queue`);
@@ -80,29 +77,56 @@ const TrackActionsMenu = ({ isVisible, onDismiss, inQueue, setInQueue }: TrackAc
                                 }
                                 setInQueue(!inQueue)
                             }}>
-                                <svg className="w-6 h-6 mr-3" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 3v10.55a4 4 0 1 0 2 3.45V3h-2z" />
-                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-list-music"><path d="M21 15V6" /><path d="M18.5 18a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" /><path d="M12 12H3" /><path d="M16 6H3" /><path d="M12 18H3" /></svg>
                                 {inQueue ? "Remove from queue" : "Add to queue"}
                             </button>
-                            <button className="flex items-center w-full p-4 rounded-lg transition-transform duration-200 hover:scale-105">
-                                <svg className="w-6 h-6 mr-3" viewBox="0 0 24 24" fill="currentColor">
-                                    <circle cx="12" cy="12" r="10" />
-                                    <path d="M12 14a4 4 0 1 0-4-4" />
-                                </svg>
+                            <button className="flex items-center w-full gap-3 p-4 rounded-lg transition-transform duration-200 hover:scale-105">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-share-2"><circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" /><line x1="8.59" x2="15.42" y1="13.51" y2="17.49" /><line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
+                                Share
+                            </button>
+                            <button className="flex items-center w-full gap-3 p-4 rounded-lg transition-transform duration-200 hover:scale-105">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-notepad-text"><path d="M8 2v4" /><path d="M12 2v4" /><path d="M16 2v4" /><rect width="16" height="18" x="4" y="4" rx="2" /><path d="M8 10h6" /><path d="M8 14h8" /><path d="M8 18h5" /></svg>
                                 View artist
                             </button>
-                            <button className="flex items-center w-full p-4 rounded-lg transition-transform duration-200 hover:scale-105">
-                                <svg className="w-6 h-6 mr-3" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M4 3h16v18H4zM16 9H8v2h8zm0 4H8v2h8z" />
-                                </svg>
-                                View album
+
+
+                            <button
+                                className="flex items-center w-full gap-3 p-4 rounded-lg transition-transform duration-200 hover:scale-105"
+                                onClick={() => setShowSleepModeOptions(!showSleepModeOptions)}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-moon-star"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9" /><path d="M20 3v4" /><path d="M22 5h-4" /></svg>
+                                Sleep Mode
                             </button>
 
-                            <button className="flex items-center w-full p-4 rounded-lg transition-transform duration-200 hover:scale-105" onClick={() => setShowPlaybackOptions(!showPlaybackOptions)}>
-                                <svg className="w-6 h-6 mr-3" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M4 3h16v18H4zM16 9H8v2h8zm0 4H8v2h8z" />
-                                </svg>
+                            {showSleepModeOptions && (
+                                <div className="p-4 bg-zinc-900/90 rounded-xl space-y-4 transition-all duration-300 ease-in-out border border-white/10">
+
+                                    {/* Sleep Mode Title */}
+                                    <h3 className="text-lg font-semibold text-white text-center mb-2">Sleep Mode</h3>
+
+                                    {/* Sleep Mode Options (One per Row) */}
+                                    {[5, 10, 15, 30, 45, 60].map((minutes) => (
+                                        <button
+                                            key={minutes}
+                                            className="w-full px-4 py-2 bg-zinc-800 text-white rounded-lg text-sm font-medium transition-transform duration-200 hover:scale-105"
+                                        // onClick={() => setSleepTimer(minutes)}
+                                        >
+                                            {minutes} min
+                                        </button>
+                                    ))}
+
+                                    <button
+                                        className="w-full px-4 py-2 bg-zinc-800 text-white rounded-lg text-sm font-medium transition-transform duration-200 hover:scale-105"
+                                    // onClick={() => setSleepTimer(minutes)}
+                                    >
+                                        End of the Track
+                                    </button>
+                                </div>
+                            )}
+
+
+                            <button className="flex items-center w-full gap-3 p-4 rounded-lg transition-transform duration-200 hover:scale-105" onClick={() => setShowPlaybackOptions(!showPlaybackOptions)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-youtube"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>
                                 Playback
                             </button>
                             {showPlaybackOptions && (
@@ -170,7 +194,7 @@ const TrackActionsMenu = ({ isVisible, onDismiss, inQueue, setInQueue }: TrackAc
                         </button>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     );
 };
