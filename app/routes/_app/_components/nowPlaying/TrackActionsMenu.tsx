@@ -38,11 +38,13 @@ const TrackActionsMenu = ({ isVisible, onDismiss, inQueue, setInQueue }: TrackAc
     const handlEndOfTheTrack = (enabled: boolean) => {
         setEndOfTheTrackEnabled(enabled)
         stopSleepMode()
+        setSleepTimeLeft(0)
         toast.success(`Sleep mode enabled: will start after track ends.`);
     }
 
     const handleStopSleepMode = () => {
         stopSleepMode()
+        setSleepTimeLeft(0)
         setEndOfTheTrackEnabled(false)
     }
 
@@ -121,7 +123,7 @@ const TrackActionsMenu = ({ isVisible, onDismiss, inQueue, setInQueue }: TrackAc
                                 <div className="p-4 bg-zinc-900/90 rounded-xl space-y-4 transition-all duration-300 ease-in-out border border-white/10">
 
                                     {/* Sleep Mode Title */}
-                                    <h3 className="text-lg font-semibold text-white text-center mb-2">Sleep Mode - {sleepTimeLeft} Min Left</h3>
+                                    <h3 className="text-lg font-semibold text-white text-center mb-2">{`Sleep Mode ${sleepTimeLeft > 0 && `- {sleepTimeLeft} Min Left`}`}</h3>
 
                                     {/* Sleep Mode Options (One per Row) */}
                                     {[5, 10, 15, 30, 45, 60].map((minutes) => (
