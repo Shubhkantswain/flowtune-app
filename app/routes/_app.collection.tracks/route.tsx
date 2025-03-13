@@ -154,8 +154,12 @@ const LikedTracks = () => {
                       if (isPlayingCurrentSong) {
                         setTrackDetails({ isPlaying: false });
                         return;
-                      } else {
-                        if(!getCurrent()){
+                      } else if (track?.id == trackDetails.id && !trackDetails.isPlaying) {
+                        setTrackDetails({ isPlaying: true });
+                        return;
+                      }
+                      else {
+                        if (!getCurrent()) {
                           initialize(tracks)
                         }
 

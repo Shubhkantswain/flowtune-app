@@ -15,20 +15,15 @@ function TrackLists({ tracks }: { tracks: Track[] }) {
 
   const handleClick = (isPlayingCurrentSong: boolean, track: Track) => {
     if (isPlayingCurrentSong) {
-      console.log("if");
       setTrackDetails({ isPlaying: false });
       return;
     }
     else if(track?.id == trackDetails.id && !trackDetails.isPlaying){
-      console.log("else if");
       setTrackDetails({ isPlaying: true });
       return;
     }
     else {
-      console.log("else");
       if (!getCurrent()) {
-        console.log("worked");
-
         initialize(tracksToRender)
       }
 
