@@ -34,14 +34,14 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export default function FtLayout() {
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if(typeof window !== "undefined"){
-            const token = localStorage.getItem("__FlowTune_Token")
-            if(token){
-                navigate("/", {replace: true})
-            }
-        }
-    }, [])
+    // useEffect(() => {
+    //     if(typeof window !== "undefined"){
+    //         const token = localStorage.getItem("__FlowTune_Token")
+    //         if(token){
+    //             navigate("/", {replace: true})
+    //         }
+    //     }
+    // }, [])
 
     return (
         <div className="min-h-screen h-full bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8 -mt-10">
