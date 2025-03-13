@@ -25,6 +25,8 @@ interface PlaylistState {
   hasNext: () => boolean;
   hasPrev: () => boolean;
   setCurrentTrack: (trackId: string) => void; // O(1) lookup
+  getAllTracks: () => Track[]
+  getCurrent: () => Track | null
 }
 
 const usePlaylistStore = create<PlaylistState>((set, get) => ({
@@ -103,6 +105,27 @@ const usePlaylistStore = create<PlaylistState>((set, get) => ({
       set({ current: node });
     }
   },
+
+  getAllTracks: () => {
+    const { head, tail } = usePlaylistStore.getState();
+    const tracks: Track[] = [];
+
+    let current = head.next;
+    while (current && current !== tail) {
+      if (current.track) {
+        tracks.push(current.track);
+      }
+      current = current.next;
+    }
+
+    return tracks;
+  },
+
+  getCurrent: () => {
+    const { current } = get();
+    return current?.track || null
+  }
+
 }));
 
 export default usePlaylistStore;

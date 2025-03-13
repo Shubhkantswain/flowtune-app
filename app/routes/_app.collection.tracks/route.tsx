@@ -36,7 +36,7 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> 
 const LikedTracks = () => {
 
   const tracks = useLoaderData<Track[]>(); // Properly typed loader data
-  const { initialize, setCurrentTrack } = usePlaylistStore()
+  const { initialize, setCurrentTrack, getCurrent } = usePlaylistStore()
   const { setTrackDetails, trackDetails } = useTrackStore()
 
   return (
@@ -149,30 +149,31 @@ const LikedTracks = () => {
                 <div className="divide-y divide-gray-800">
                   {tracks.map((track, index) => (
                     <div key={track.id} className="group hover:bg-white/5" onClick={() => {
-                      
-                      initialize(tracks)
-
                       const isPlayingCurrentSong = track?.id == trackDetails.id && trackDetails.isPlaying;
 
                       if (isPlayingCurrentSong) {
                         setTrackDetails({ isPlaying: false });
                         return;
+                      } else {
+                        if(!getCurrent()){
+                          initialize(tracks)
+                        }
+
+                        setTrackDetails({
+                          id: track.id,
+                          title: track.title,
+                          artist: track.artist,
+                          duration: track.duration,
+                          coverImageUrl: track.coverImageUrl || "",
+                          audioFileUrl: track.audioFileUrl,
+                          hasLiked: track.hasLiked,
+                          authorName: track.authorName,
+                          isPlaying: true,
+                          fromClick: true
+                        });
+
+                        setCurrentTrack(track.id)
                       }
-
-                      setTrackDetails({
-                        id: track.id,
-                        title: track.title,
-                        artist: track.artist,
-                        duration: track.duration,
-                        coverImageUrl: track.coverImageUrl || "",
-                        audioFileUrl: track.audioFileUrl,
-                        hasLiked: track.hasLiked,
-                        authorName: track.authorName,
-                        isPlaying: true,
-                        fromClick: true
-                      });
-
-                      setCurrentTrack(track.id)
                     }}>
                       {/* Mobile View */}
                       <div className="md:hidden flex items-center justify-between px-4 py-3">

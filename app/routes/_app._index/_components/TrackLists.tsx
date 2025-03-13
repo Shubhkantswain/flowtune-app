@@ -11,31 +11,42 @@ function TrackLists({ tracks }: { tracks: Track[] }) {
 
   const { trackDetails, setTrackDetails } = useTrackStore()
 
-  const { initialize, setCurrentTrack } = usePlaylistStore()
+  const { initialize, setCurrentTrack, getCurrent } = usePlaylistStore()
 
   const handleClick = (isPlayingCurrentSong: boolean, track: Track) => {
-
-    initialize(tracksToRender)
-
     if (isPlayingCurrentSong) {
+      console.log("if");
       setTrackDetails({ isPlaying: false });
       return;
     }
+    else if(track?.id == trackDetails.id && !trackDetails.isPlaying){
+      console.log("else if");
+      setTrackDetails({ isPlaying: true });
+      return;
+    }
+    else {
+      console.log("else");
+      if (!getCurrent()) {
+        console.log("worked");
 
-    setTrackDetails({
-      id: track.id,
-      title: track.title,
-      artist: track.artist,
-      duration: track.duration,
-      coverImageUrl: track.coverImageUrl || "",
-      audioFileUrl: track.audioFileUrl,
-      hasLiked: track.hasLiked,
-      authorName: track.authorName,
-      isPlaying: true,
-      fromClick: true
-    });
+        initialize(tracksToRender)
+      }
 
-    setCurrentTrack(track.id)
+      setTrackDetails({
+        id: track.id,
+        title: track.title,
+        artist: track.artist,
+        duration: track.duration,
+        coverImageUrl: track.coverImageUrl || "",
+        audioFileUrl: track.audioFileUrl,
+        hasLiked: track.hasLiked,
+        authorName: track.authorName,
+        isPlaying: true,
+        fromClick: true
+      });
+
+      setCurrentTrack(track.id)
+    }
 
   };
   return (
