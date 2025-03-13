@@ -23,9 +23,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     // Extract the `__FlowTune_Token_server` cookie
     const token = cookies["__FlowTune_Token_server"];
 
-    if (token) {
-        return redirect("/")
-    }
+    // if (token) {
+    //     return redirect("/")
+    // }
 
     return json({ message: "Token found", token });
 };
