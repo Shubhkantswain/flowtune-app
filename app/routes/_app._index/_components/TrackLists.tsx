@@ -1,4 +1,6 @@
 import { Track } from "gql/graphql";
+import { useEffect } from "react";
+import usePlaylistStore from "~/store/usePlaylistStore";
 import { useTrackStore } from "~/store/useTrackStore";
 
 function TrackLists({ tracks }: { tracks: Track[] }) {
@@ -9,7 +11,12 @@ function TrackLists({ tracks }: { tracks: Track[] }) {
 
   const { trackDetails, setTrackDetails } = useTrackStore()
 
+  const { initialize, setCurrentTrack } = usePlaylistStore()
+
   const handleClick = (isPlayingCurrentSong: boolean, track: Track) => {
+
+    initialize(tracksToRender)
+
     if (isPlayingCurrentSong) {
       setTrackDetails({ isPlaying: false });
       return;
@@ -27,8 +34,10 @@ function TrackLists({ tracks }: { tracks: Track[] }) {
       isPlaying: true,
       fromClick: true
     });
-  };
 
+    setCurrentTrack(track.id)
+
+  };
   return (
     <>
       {tracksToRender.map((track, index) => {
@@ -44,7 +53,7 @@ function TrackLists({ tracks }: { tracks: Track[] }) {
               />
               <div
                 className="absolute inset-0 flex items-center justify-center"
-                >
+              >
                 <button
                   className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center opacity-0 transform translate-y-4 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 bg-black/10 backdrop-blur-sm"
                   aria-label={`Play ${track.title}`}

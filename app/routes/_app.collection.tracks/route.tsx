@@ -39,10 +39,6 @@ const LikedTracks = () => {
   const { initialize, setCurrentTrack } = usePlaylistStore()
   const { setTrackDetails, trackDetails } = useTrackStore()
 
-  useEffect(() => {
-    initialize(tracks)
-  }, [])
-
   return (
     <div className="min-h-screen">
       <div className="p-4 sm:p-6 md:p-8">
@@ -153,6 +149,9 @@ const LikedTracks = () => {
                 <div className="divide-y divide-gray-800">
                   {tracks.map((track, index) => (
                     <div key={track.id} className="group hover:bg-white/5" onClick={() => {
+                      
+                      initialize(tracks)
+
                       const isPlayingCurrentSong = track?.id == trackDetails.id && trackDetails.isPlaying;
 
                       if (isPlayingCurrentSong) {

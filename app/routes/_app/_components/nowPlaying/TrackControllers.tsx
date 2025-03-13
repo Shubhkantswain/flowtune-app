@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useLikeTrack } from '~/hooks/track'
+import usePlaylistStore from '~/store/usePlaylistStore'
 import { useTrackStore } from '~/store/useTrackStore'
 import { useVolumeStore } from '~/store/useVloumeStore'
 
@@ -7,6 +8,8 @@ function TrackControllers() {
     const { trackDetails, togglePlay, setTrackDetails, handleVolumeChange, handleSkip } = useTrackStore()
     const isPlaying = trackDetails.isPlaying
     const [volume, setVolume] = useState(0.5);
+
+    const { hasNext, hasPrev, next, prev } = usePlaylistStore()
 
     const { mute } = useVolumeStore()
 
@@ -46,10 +49,18 @@ function TrackControllers() {
                     </svg>
                 </button>
 
-                <button className="p-2 text-white hover:text-white transition-colors">
+                <button className={`p-2 ${hasPrev() && trackDetails.id ? "text-white hover:text-white" : "text-[#353535]"} transition-colors`} onClick={() => {
+                    if (hasPrev() && trackDetails.id) {
+                        const prevTrack = prev()
+                        if (prevTrack) {
+                            setTrackDetails(prevTrack)
+                        }
+                    }
+                }}>
                     {/* <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-skip-back"><polygon points="19 20 9 12 19 4 19 20" /><line x1="5" x2="5" y1="19" y2="5" /></svg> */}
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><defs><path id="ic_playback_previous-a" d="M18.462,4.113 C18.131,3.943 17.733,3.967 17.427,4.181 L9,10.079 L9,4 C9,3.45 8.55,3 8,3 L6,3 C5.45,3 5,3.45 5,4 L5,20 C5,20.55 5.45,21 6,21 L8,21 C8.55,21 9,20.55 9,20 L9,13.921 L17.427,19.82 C17.598,19.939 17.799,20 18,20 C18.158,20 18.316,19.963 18.462,19.887 C18.793,19.715 19,19.373 19,19 L19,5 C19,4.627 18.793,4.285 18.462,4.113 Z"></path></defs><g fill-rule="evenodd" fill="transparent"><rect width="24" height="24"></rect><use href="#ic_playback_previous-a" fill="currentColor"></use></g></svg>
                 </button>
+
                 <button className="w-16 h-16 hover:bg-[#727171] bg-[#313232] rounded-full flex items-center justify-center hover:scale-105 transition-transform" onClick={() => trackDetails.id && togglePlay()}>
                     {
                         isPlaying ? (
@@ -59,7 +70,15 @@ function TrackControllers() {
                         )
                     }
                 </button>
-                <button className="p-2 text-white hover:text-white transition-colors">
+
+                <button className={`p-2 ${hasNext() && trackDetails.id ? "text-white hover:text-white" : "text-[#353535]"} transition-colors`} onClick={() => {
+                    if (hasNext() && trackDetails.id) {
+                        const nextTrack = next()
+                        if (nextTrack) {
+                            setTrackDetails(nextTrack)
+                        }
+                    }
+                }}>
                     {/* <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-skip-forward"><polygon points="5 4 15 12 5 20 5 4" /><line x1="19" x2="19" y1="5" y2="19" /></svg> */}
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><defs><path id="ic_playback_next-a" d="M18,3 L16,3 C15.45,3 15,3.45 15,4 L15,10.067 L6.57,4.182 C6.26,3.97 5.87,3.939 5.54,4.111 C5.21,4.293 5,4.636 5,5.009 L5,18.99 C5,19.363 5.21,19.707 5.54,19.878 C5.68,19.96 5.84,20 6,20 C6.2,20 6.4,19.939 6.57,19.818 L15,13.923 L15,20 C15,20.55 15.45,21 16,21 L18,21 C18.55,21 19,20.55 19,20 L19,4 C19,3.45 18.55,3 18,3 Z"></path></defs><g fill-rule="evenodd" fill="transparent"><rect width="24" height="24"></rect><use href="#ic_playback_next-a" fill="currentColor"></use></g></svg>
                 </button>
