@@ -9,6 +9,7 @@ import { useRepeatableTracksStore } from '~/store/useRepeatableTracksStore';
 import { useQueueStore } from '~/store/useQueueStore';
 import Swal from 'sweetalert2'
 import useSleepModeStore from '~/store/useSleepModeStore';
+import usePlaylistStore from '~/store/usePlaylistStore';
 
 const Playbackcontroller = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -20,6 +21,9 @@ const Playbackcontroller = () => {
     const { isTrackRepeatable } = useRepeatableTracksStore()
     const { dequeueFirstTrack } = useQueueStore()
     const { isSleepModeComplete, endOfTheTrackEnabled } = useSleepModeStore()
+
+    const { hasNext, hasPrev, next } = usePlaylistStore()
+
 
     useEffect(() => {
         const audio = audioRef.current;
@@ -37,13 +41,21 @@ const Playbackcontroller = () => {
 
     useEffect(() => {
         if (trackDetails?.audoRef?.current) {
-            const storedVolume = Number(localStorage.getItem('volume')) || 0.5;
-            handleVolumeChange(storedVolume)
+            let storedVolume = localStorage.getItem('volume');
 
+            if (storedVolume === null) {
+                storedVolume = '0.5'; // Default volume if null
+            }
+
+            handleVolumeChange(Number(storedVolume));
+
+            console.log("store volume", storedVolume);
+            
             const storedSpeed = Number(localStorage.getItem('speed')) || 1;
-            handlePlaybackSpeed([storedSpeed])
+            handlePlaybackSpeed([storedSpeed]);
         }
-    }, [trackDetails])
+    }, [trackDetails]);
+
 
     useEffect(() => {
         const audio = audioRef.current;
@@ -106,7 +118,28 @@ const Playbackcontroller = () => {
                     isPlaying: true,
                     fromClick: false
                 });
+
+                return
             }
+
+            if (hasNext()) {
+                const nextTrack = next()
+                if (nextTrack) {
+                    setTrackDetails({
+                        id: nextTrack.id,
+                        title: nextTrack.title,
+                        artist: nextTrack.artist,
+                        duration: nextTrack.duration,
+                        coverImageUrl: nextTrack.coverImageUrl || "",
+                        audioFileUrl: nextTrack.audioFileUrl,
+                        hasLiked: nextTrack.hasLiked,
+                        authorName: nextTrack.authorName,
+                        isPlaying: true,
+                        fromClick: true
+                    })
+                }
+            }
+
         }
 
         // Attach event listeners
@@ -134,6 +167,8 @@ const Playbackcontroller = () => {
                 text: "Your sleep timer has ended. It's time to rest and recharge. Goodnight Dear!",
                 icon: "success",
             });
+
+            setTrackDetails({ isPlaying: false })
         }
     }, [isSleepModeComplete])
 
@@ -160,8 +195,9 @@ const Playbackcontroller = () => {
                 }
             </div>
 
-
-            <NowPlaying isOpen={isOpen} onClose={() => setIsOpen(false)} progress={progress} currentTime={currentTime} duration={duration} />
+            {isOpen && (
+                <NowPlaying isOpen={isOpen} onClose={() => setIsOpen(false)} progress={progress} currentTime={currentTime} duration={duration} />
+            )}
         </>
     )
 }

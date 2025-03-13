@@ -1,16 +1,34 @@
 import React, { useEffect, useState } from 'react'
 import { useLikeTrack } from '~/hooks/track'
 import { useTrackStore } from '~/store/useTrackStore'
+import { useVolumeStore } from '~/store/useVloumeStore'
 
 function TrackControllers() {
     const { trackDetails, togglePlay, setTrackDetails, handleVolumeChange, handleSkip } = useTrackStore()
     const isPlaying = trackDetails.isPlaying
     const [volume, setVolume] = useState(0.5);
 
+    const { mute } = useVolumeStore()
+
     useEffect(() => {
-        const storedVolume = Number(localStorage.getItem('volume')) || 0.5;
-        setVolume(storedVolume);
+        let storedVolume = localStorage.getItem('volume');
+
+        if (storedVolume === null) {
+            storedVolume = '0.5'; // Default to 0.5 if null
+        }
+
+        setVolume(Number(storedVolume));
     }, []);
+
+    useEffect(() => {
+        if (mute) {
+            setVolume(0)
+        }
+        let storedVolume = localStorage.getItem('volume');
+        if (!mute && Number(storedVolume) == 1) {
+            setVolume(1)
+        }
+    }, [mute])
 
     return (
         <div className="px-8 py-12 lg:-mt-8">
@@ -74,7 +92,7 @@ function TrackControllers() {
                         }}
                     >
                         <div
-                            className="h-full bg-white transition-all duration-300 ease-out hover:bg-green-500 rounded-full"
+                            className="h-full bg-white rounded-full"
                             style={{ width: `${volume * 100}%` }}
                         />
                     </div>

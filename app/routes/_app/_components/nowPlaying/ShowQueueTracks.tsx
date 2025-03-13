@@ -47,7 +47,7 @@ const ShowQueueTracks: React.FC<ShowQueueTracksProps> = ({
     return (
         <div
             className={cn(
-                "fixed inset-0 bg-black/50 backdrop-blur-2xl z-50 flex flex-col transition-transform duration-300 ease-in-out",
+                "fixed inset-0 bg-black/50 backdrop-blur-2xl z-50 flex flex-col",
                 isQueueTrackVisible ? "translate-y-0" : "translate-y-full"
             )}
         >
@@ -66,10 +66,10 @@ const ShowQueueTracks: React.FC<ShowQueueTracksProps> = ({
                 </Button>
             </div>
 
-            <div className="[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] flex-1 overflow-auto p-4">
+            <div className="[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] flex-1 overflow-auto p-4 flex flex-col items-center">
                 {/* Now Playing Section */}
                 {trackDetails && (
-                    <div className="mb-8">
+                    <div className="mb-8 w-full max-w-2xl">
                         <h3 className="text-xl font-bold text-white mb-4">Now Playing</h3>
                         <div className="flex items-center gap-4 p-4 border border-white/10 rounded-lg bg-zinc-900/90 transition-colors duration-200">
                             <Button
@@ -101,39 +101,41 @@ const ShowQueueTracks: React.FC<ShowQueueTracksProps> = ({
                 )}
 
                 {/* Next in Queue Section */}
-                <h3 className="text-xl font-bold text-white mb-4">Next in Queue</h3>
-                <div className="space-y-4">
-                    {queueTracks.map((track, idx) => (
-                        <div
-                            key={track.id}
-                            className="flex items-center gap-4 p-4 border border-white/10 rounded-lg bg-zinc-900/90 transition-colors duration-200"
-                        >
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className="h-10 w-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex-shrink-0"
+                <div className="w-full max-w-2xl">
+                    <h3 className="text-xl font-bold text-white mb-4">Next in Queue</h3>
+                    <div className="space-y-4">
+                        {queueTracks.map((track, idx) => (
+                            <div
+                                key={track.id}
+                                className="flex items-center gap-4 p-4 border border-white/10 rounded-lg bg-zinc-900/90 transition-colors duration-200"
                             >
-                                {idx + 1}
-                            </Button>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-10 w-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex-shrink-0"
+                                >
+                                    {idx + 1}
+                                </Button>
 
-                            <div className="h-20 w-20 bg-gray-900 rounded-md overflow-hidden flex-shrink-0">
-                                <img
-                                    src={track.coverImageUrl || ""}
-                                    alt={track.title}
-                                    className="w-full h-full object-cover"
-                                />
-                            </div>
+                                <div className="h-20 w-20 bg-gray-900 rounded-md overflow-hidden flex-shrink-0">
+                                    <img
+                                        src={track.coverImageUrl || ""}
+                                        alt={track.title}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
 
-                            <div className="flex flex-col min-w-0">
-                                <span className="text-lg font-semibold text-white truncate">
-                                    {track.title}
-                                </span>
-                                <span className="text-sm text-gray-400">
-                                    {track.artist}
-                                </span>
+                                <div className="flex flex-col min-w-0">
+                                    <span className="text-lg font-semibold text-white truncate">
+                                        {track.title}
+                                    </span>
+                                    <span className="text-sm text-gray-400">
+                                        {track.artist}
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>

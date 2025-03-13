@@ -49,12 +49,24 @@ export const useLikeTrack = () => {
     return useMutation({
         mutationFn: async (trackId: string) => {
             try {
-                const graphqlClient = createGraphqlClient();
+                let token = ""
+                if (typeof window !== "undefined") {
+                    token = localStorage.getItem("__FlowTune_Token") || ""
+                }
+                const graphqlClient = createGraphqlClient(token);
                 const { likeTrack } = await graphqlClient.request(likeTrackMutation, { trackId });
                 return likeTrack;
             } catch (error: any) {
                 throw new Error(error?.response?.errors?.[0]?.message || "Something went wrong");
             }
+        },
+        onSuccess: (data) => {
+            if(data){
+                toast.success('Liked track successfully!')
+            } else {
+                toast.success('Unliked track successfully!')
+            }
+
         },
         onError: (error: any) => {
             const errorMessage = error.message.split(':').pop()?.trim() || "Something went wrong";

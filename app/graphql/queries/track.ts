@@ -15,3 +15,19 @@ export const getFeedTracksQuery = graphql(`
         }
     }
 `)
+
+export const getLikedTracksQuery = graphql(`
+  #graphql
+  query GetLikedTracks {
+    getLikedTracks {
+      id
+      title
+      artist
+      duration
+      coverImageUrl
+      audioFileUrl
+      hasLiked
+      authorName
+    }
+  }
+`)

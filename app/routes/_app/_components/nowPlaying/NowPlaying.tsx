@@ -4,7 +4,7 @@ import TrackControllers from './TrackControllers';
 import { useLikeTrack } from '~/hooks/track';
 import { Slider } from '~/components/ui/slider';
 import Header from './Header';
-import TrackActionsMenu from './TrackActionsMenu';
+import TrackActionsMenu from './trackActionsMenu/TrackActionsMenu';
 import TrackArtAndInfo from './TrackArtAndInfo';
 import ProgressBar from './ProgressBar';
 import ShowQueueTracks from './ShowQueueTracks';
@@ -26,22 +26,13 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
   const [menuVisible, setMenuVisible] = useState(false);
   const [isQueueTrackVisible, setIsQueueTrackVisible] = useState(false);
   const { getAllTracks, isTrackInQueue, getQueueSize, dequeueFirstTrack } = useQueueStore();
-  const [inQueue, setInQueue] = useState<boolean>(false);
   const [queueTracks, setQueueTracks] = useState<Track[]>([]);
   const {isSleepModeComplete} = useSleepModeStore()
-
-  console.log("queueTracks", queueTracks);
 
   // Fetch all tracks whenever the queue changes
   useEffect(() => {
     setQueueTracks(getAllTracks());
   }, [getQueueSize()]); // Re-run when queue size changes
-
-  // Check if the current track is in the queue
-  useEffect(() => {
-    const inQueue = isTrackInQueue(trackDetails.id);
-    setInQueue(inQueue);
-  }, [trackDetails.id]); // Only run when trackDetails.id changes
 
   // Hide scrollbar when the NowPlaying modal or menu is open
   useEffect(() => {
@@ -65,7 +56,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
   return (
     <>
       <div
-        className={`[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] fixed inset-0 bg-black overflow-y-auto transition-transform duration-300 ease-in-out z-50 ${isOpen ? 'translate-y-0' : 'translate-y-full'
+        className={`[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] fixed inset-0 bg-black overflow-y-auto z-50 ${isOpen ? 'translate-y-0' : 'translate-y-full'
           }`}
       >
         {/* Background Image */}
@@ -94,7 +85,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
         </div>
       </div>
 
-      <TrackActionsMenu isVisible={menuVisible} onDismiss={() => setMenuVisible(false)} inQueue={inQueue} setInQueue={setInQueue} />
+      <TrackActionsMenu isVisible={menuVisible} onDismiss={() => setMenuVisible(false)} />
       <ShowQueueTracks isQueueTrackVisible={isQueueTrackVisible} onHideQueueTrack={() => setIsQueueTrackVisible(false)} queueTracks={queueTracks} />
     </>
   );

@@ -30,10 +30,16 @@ function ProfileDropDownMenu({ isDropdownOpen }: { isDropdownOpen: boolean }) {
                     </button>
                     <div className="border-b border-[#2E3030]"></div>
 
+                    <Link to="/collection/tracks" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">
+                        Liked Tracks
+                    </Link>
+                    <div className="border-b border-[#2E3030]"></div>
+
                     <Link to="/settings" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">
                         Music Preferences
                     </Link>
                     <div className="border-b border-[#2E3030]"></div>
+                    
                     <Link to="/settings" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">
                         Change Display Language
                     </Link>
