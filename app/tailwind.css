@@ -133,3 +133,24 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+
+/* Add this to your CSS file */
+
+@keyframes borderPulseDown {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(200%); }
+}
+
+@keyframes borderPulseUp {
+  0% { transform: translateY(100%); }
+  100% { transform: translateY(-200%); }
+}
+
+.animate-border-pulse-down {
+  animation: borderPulseDown 1.5s ease-in-out infinite;
+}
+
+.animate-border-pulse-up {
+  animation: borderPulseUp 1.5s ease-in-out infinite;
+}

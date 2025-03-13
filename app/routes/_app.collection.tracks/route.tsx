@@ -39,6 +39,8 @@ const LikedTracks = () => {
   const { initialize, setCurrentTrack, getCurrent } = usePlaylistStore()
   const { setTrackDetails, trackDetails } = useTrackStore()
 
+  console.log("tracks", tracks);
+  
   return (
     <div className="min-h-screen">
       <div className="p-4 sm:p-6 md:p-8">

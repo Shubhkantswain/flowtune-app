@@ -48,7 +48,7 @@ function TrackSection({tracks}: {tracks: Track[]}) {
     return (
         <div className="text-white p-4 sm:p-6 md:p-8">
             {/* Haeder:- which include the title, left and right arrows and see all button //*/}
-            <Header scroll={scroll} />
+            <Header scroll={scroll} tracks={tracks}/>
                 
             <div className="relative">
                 <div
