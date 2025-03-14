@@ -35,13 +35,13 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
   }, [getQueueSize()]); // Re-run when queue size changes
 
   // Hide scrollbar when the NowPlaying modal or menu is open
-  useEffect(() => {
-    if (isOpen || menuVisible) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-  }, [isOpen, menuVisible]);
+  // useEffect(() => {
+  //   if (isOpen || menuVisible) {
+  //     document.body.style.overflow = "hidden";
+  //   } else {
+  //     document.body.style.overflow = "auto";
+  //   }
+  // }, [isOpen, menuVisible]);
 
   useEffect(() => {
     if(isSleepModeComplete){
