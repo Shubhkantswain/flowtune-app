@@ -1,5 +1,5 @@
 import { Track } from "gql/graphql";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import usePlaylistStore from "~/store/usePlaylistStore";
 import { useTrackStore } from "~/store/useTrackStore";
 
@@ -13,17 +13,20 @@ function TrackLists({ tracks }: { tracks: Track[] }) {
 
   const { initialize, setCurrentTrack, getCurrent } = usePlaylistStore()
 
+  const [initialized, setInitialized] = useState(false)
+
+
   const handleClick = (isPlayingCurrentSong: boolean, track: Track) => {
     if (isPlayingCurrentSong) {
       setTrackDetails({ isPlaying: false });
       return;
     }
-    else if(track?.id == trackDetails.id && !trackDetails.isPlaying){
+    else if (track?.id == trackDetails.id && !trackDetails.isPlaying) {
       setTrackDetails({ isPlaying: true });
       return;
     }
     else {
-      if (!getCurrent()) {
+      if (!initialized) {
         initialize(tracksToRender)
       }
 
@@ -41,6 +44,7 @@ function TrackLists({ tracks }: { tracks: Track[] }) {
       });
 
       setCurrentTrack(track.id)
+      setInitialized(true)
     }
 
   };

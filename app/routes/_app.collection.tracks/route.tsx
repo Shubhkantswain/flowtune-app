@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Heart, Shuffle, MoreHorizontal, Share2, Play } from 'lucide-react';
 import { LoaderFunctionArgs } from '@remix-run/cloudflare';
 import { Track } from 'gql/graphql';
@@ -38,9 +38,8 @@ const LikedTracks = () => {
   const tracks = useLoaderData<Track[]>(); // Properly typed loader data
   const { initialize, setCurrentTrack, getCurrent } = usePlaylistStore()
   const { setTrackDetails, trackDetails } = useTrackStore()
-
-  console.log("tracks", tracks);
-
+  const [initialized, setInitialized] = useState(false)
+  
   return (
     <div className="min-h-screen">
       <div className="p-4 sm:p-6 md:p-8">
@@ -150,39 +149,40 @@ const LikedTracks = () => {
                 {/* Table Body */}
                 <div className="divide-y divide-gray-800">
                   {tracks.map((track, index) => (
-                    <div key={track.id} className="group hover:bg-white/5">
+                    <div key={track.id} className="group hover:bg-white/5" onClick={() => {
+                      const isPlayingCurrentSong = track?.id == trackDetails.id && trackDetails.isPlaying;
+
+                      if (isPlayingCurrentSong) {
+                        setTrackDetails({ isPlaying: false });
+                        return;
+                      } else if (track?.id == trackDetails.id && !trackDetails.isPlaying) {
+                        setTrackDetails({ isPlaying: true });
+                        return;
+                      }
+                      else {
+                        if(!initialized){
+                          initialize(tracks)
+                        }
+
+                        setTrackDetails({
+                          id: track.id,
+                          title: track.title,
+                          artist: track.artist,
+                          duration: track.duration,
+                          coverImageUrl: track.coverImageUrl || "",
+                          audioFileUrl: track.audioFileUrl,
+                          hasLiked: track.hasLiked,
+                          authorName: track.authorName,
+                          isPlaying: true,
+                          fromClick: true
+                        });
+
+                        setCurrentTrack(track.id)
+                        setInitialized(true)
+                      }
+                    }}>
                       {/* Mobile View */}
-                      <div className="md:hidden flex items-center justify-between px-4 py-3" onClick={() => {
-                        const isPlayingCurrentSong = track?.id == trackDetails.id && trackDetails.isPlaying;
-
-                        if (isPlayingCurrentSong) {
-                          setTrackDetails({ isPlaying: false });
-                          return;
-                        } else if (track?.id == trackDetails.id && !trackDetails.isPlaying) {
-                          setTrackDetails({ isPlaying: true });
-                          return;
-                        }
-                        else {
-                          if (!getCurrent()) {
-                            initialize(tracks)
-                          }
-
-                          setTrackDetails({
-                            id: track.id,
-                            title: track.title,
-                            artist: track.artist,
-                            duration: track.duration,
-                            coverImageUrl: track.coverImageUrl || "",
-                            audioFileUrl: track.audioFileUrl,
-                            hasLiked: track.hasLiked,
-                            authorName: track.authorName,
-                            isPlaying: true,
-                            fromClick: true
-                          });
-
-                          setCurrentTrack(track.id)
-                        }
-                      }}>
+                      <div className="md:hidden flex items-center justify-between px-4 py-3">
                         <div className="flex items-center gap-3 min-w-0">
                           <div className="text-gray-400 w-5 flex-shrink-0">{index + 1}</div>
                           <div className="relative">
@@ -223,37 +223,7 @@ const LikedTracks = () => {
                       </div>
 
                       {/* Desktop View */}
-                      <div className="hidden md:grid md:grid-cols-[auto_1fr_1fr_1fr_80px] gap-4 px-4 py-3 items-center" onClick={() => {
-                        const isPlayingCurrentSong = track?.id == trackDetails.id && trackDetails.isPlaying;
-
-                        if (isPlayingCurrentSong) {
-                          setTrackDetails({ isPlaying: false });
-                          return;
-                        } else if (track?.id == trackDetails.id && !trackDetails.isPlaying) {
-                          setTrackDetails({ isPlaying: true });
-                          return;
-                        }
-                        else {
-                          if (!getCurrent()) {
-                            initialize(tracks)
-                          }
-
-                          setTrackDetails({
-                            id: track.id,
-                            title: track.title,
-                            artist: track.artist,
-                            duration: track.duration,
-                            coverImageUrl: track.coverImageUrl || "",
-                            audioFileUrl: track.audioFileUrl,
-                            hasLiked: track.hasLiked,
-                            authorName: track.authorName,
-                            isPlaying: true,
-                            fromClick: true
-                          });
-
-                          setCurrentTrack(track.id)
-                        }
-                      }}>
+                      <div className="hidden md:grid md:grid-cols-[auto_1fr_1fr_1fr_80px] gap-4 px-4 py-3 items-center">
                         <div className="text-gray-400 w-8">
                           {index + 1}
                         </div>
