@@ -22,7 +22,7 @@ const Playbackcontroller = () => {
     const { dequeueFirstTrack } = useQueueStore()
     const { isSleepModeComplete, endOfTheTrackEnabled } = useSleepModeStore()
 
-    const { hasNext, hasPrev, next } = usePlaylistStore()
+    const { hasNext, hasPrev, next, setCurrentTrack } = usePlaylistStore()
 
 
     useEffect(() => {
@@ -118,7 +118,7 @@ const Playbackcontroller = () => {
                     isPlaying: true,
                     fromClick: false
                 });
-
+                setCurrentTrack(track.id)
                 return
             }
 
