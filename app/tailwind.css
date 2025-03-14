@@ -154,3 +154,7 @@ body {
 .animate-border-pulse-up {
   animation: borderPulseUp 1.5s ease-in-out infinite;
 }
+
+.no-scroll {
+  overflow: hidden;
+}

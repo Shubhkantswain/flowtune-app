@@ -34,15 +34,6 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
     setQueueTracks(getAllTracks());
   }, [getQueueSize()]); // Re-run when queue size changes
 
-  // Hide scrollbar when the NowPlaying modal or menu is open
-  // useEffect(() => {
-  //   if (isOpen || menuVisible) {
-  //     document.body.style.overflow = "hidden";
-  //   } else {
-  //     document.body.style.overflow = "auto";
-  //   }
-  // }, [isOpen, menuVisible]);
-
   useEffect(() => {
     if(isSleepModeComplete){
       Swal.fire({
@@ -52,6 +43,19 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
       });
     }
   }, [isSleepModeComplete])
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+
+    // Cleanup function to remove the class when the component unmounts
+    return () => {
+      document.body.classList.remove('no-scroll');
+    };
+  }, [isOpen]);
 
   return (
     <>
