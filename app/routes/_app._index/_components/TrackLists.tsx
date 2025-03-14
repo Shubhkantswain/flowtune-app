@@ -17,11 +17,11 @@ function TrackLists({ tracks }: { tracks: Track[] }) {
 
 
   const handleClick = (isPlayingCurrentSong: boolean, track: Track) => {
-    if (isPlayingCurrentSong) {
+    if (isPlayingCurrentSong && initialized) {
       setTrackDetails({ isPlaying: false });
       return;
     }
-    else if (track?.id == trackDetails.id && !trackDetails.isPlaying) {
+    else if (track?.id == trackDetails.id && !trackDetails.isPlaying && initialized) {
       setTrackDetails({ isPlaying: true });
       return;
     }

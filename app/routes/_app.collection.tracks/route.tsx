@@ -152,10 +152,10 @@ const LikedTracks = () => {
                     <div key={track.id} className="group hover:bg-white/5" onClick={() => {
                       const isPlayingCurrentSong = track?.id == trackDetails.id && trackDetails.isPlaying;
 
-                      if (isPlayingCurrentSong) {
+                      if (isPlayingCurrentSong && initialized) {
                         setTrackDetails({ isPlaying: false });
                         return;
-                      } else if (track?.id == trackDetails.id && !trackDetails.isPlaying) {
+                      } else if (track?.id == trackDetails.id && !trackDetails.isPlaying && initialized) {
                         setTrackDetails({ isPlaying: true });
                         return;
                       }
