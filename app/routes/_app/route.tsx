@@ -3,6 +3,8 @@ import { Link, Outlet } from "@remix-run/react";
 import { useState } from "react";
 import Playbackcontroller from "./_components/playbackcontroller/Playbackcontroller";
 import Header from "./_components/header/Header";
+import MusicPreferencesModal from "./_components/header/MusicPreference";
+import useMusicPreferenceStore from "~/store/useMusicPreferenceStore";
 
 export default function AppLayout() {
     return (

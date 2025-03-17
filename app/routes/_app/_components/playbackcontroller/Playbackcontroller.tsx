@@ -10,6 +10,8 @@ import { useQueueStore } from '~/store/useQueueStore';
 import Swal from 'sweetalert2'
 import useSleepModeStore from '~/store/useSleepModeStore';
 import usePlaylistStore from '~/store/usePlaylistStore';
+import MusicPreferencesModal from '../header/MusicPreference';
+import useMusicPreferenceStore from '~/store/useMusicPreferenceStore';
 
 const Playbackcontroller = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -24,6 +26,8 @@ const Playbackcontroller = () => {
 
     const { hasNext, hasPrev, next, setCurrentTrack } = usePlaylistStore()
 
+
+    const { musicPreferencesOpen, setMusicPreferencesOpen } = useMusicPreferenceStore()
 
     useEffect(() => {
         const audio = audioRef.current;
@@ -50,7 +54,7 @@ const Playbackcontroller = () => {
             handleVolumeChange(Number(storedVolume));
 
             console.log("store volume", storedVolume);
-            
+
             const storedSpeed = Number(localStorage.getItem('speed')) || 1;
             handlePlaybackSpeed([storedSpeed]);
         }
@@ -198,6 +202,9 @@ const Playbackcontroller = () => {
             {isOpen && (
                 <NowPlaying isOpen={isOpen} onClose={() => setIsOpen(false)} progress={progress} currentTime={currentTime} duration={duration} />
             )}
+
+            <MusicPreferencesModal isOpen={musicPreferencesOpen} onClose={() => { setMusicPreferencesOpen(false) }} />
+
         </>
     )
 }
