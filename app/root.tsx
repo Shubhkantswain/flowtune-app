@@ -9,7 +9,6 @@ import {
 
 import "./tailwind.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SnackbarProvider } from "notistack";
 import { Toaster } from "sonner";
 
 export const links: LinksFunction = () => [

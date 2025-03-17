@@ -9,9 +9,8 @@ function TrackArtAndInfo({ onShow }: { onShow: () => void }) {
     return (
         <div className="px-8 pt-8 -mt-10">
             <div
-                className={`aspect-square w-full max-w-sm lg:max-w-[300px] lg:ml-0 mx-auto bg-zinc-800 rounded-lg mb-8 will-change-transform transition-transform duration-500 ease-out transform ${
-                    trackDetails.isPlaying ? 'scale-100' : 'scale-95'
-                }`}
+                className={`aspect-square w-full max-w-sm lg:max-w-[300px] lg:ml-0 mx-auto bg-zinc-800 rounded-lg mb-8 will-change-transform transition-transform duration-500 ease-out transform ${trackDetails.isPlaying ? 'scale-100' : 'scale-95'
+                    }`}
             >
                 <img
                     src={trackDetails.coverImageUrl || ""}
@@ -21,10 +20,14 @@ function TrackArtAndInfo({ onShow }: { onShow: () => void }) {
             </div>
 
             <div className="flex justify-between items-center">
-                <div className="space-y-1 text-left flex-1 min-w-0">
+                <div className="space-y-1 text-left flex-1 min-w-0 relative group"> {/* Added `relative` and `group` */}
                     <h2 className="text-2xl md:text-3xl font-semibold transition-all duration-300 truncate overflow-hidden max-w-full">
                         {trackDetails.title}
                     </h2>
+                    {/* Tooltip */}
+                    <div className="absolute bottom-full left-0 mb-2 p-2 bg-zinc-800 text-white text-sm rounded-md opacity-0 transition-opacity duration-300 group-hover:opacity-100 whitespace-nowrap">
+                        {trackDetails.title}
+                    </div>
                     <p className="text-zinc-400 transition-all duration-300">
                         {trackDetails.artist}
                     </p>
@@ -32,11 +35,10 @@ function TrackArtAndInfo({ onShow }: { onShow: () => void }) {
 
                 <div className="flex gap-3 items-center">
                     <button
-                        className={`p-2.5 rounded-full transition-all duration-300 group ${
-                            trackDetails.hasLiked
+                        className={`p-2.5 rounded-full transition-all duration-300 group ${trackDetails.hasLiked
                                 ? "bg-pink-500/10 text-pink-500 hover:bg-pink-500/20"
                                 : "bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-white"
-                        }`}
+                            }`}
                         onClick={async () => {
                             await likeTrack(trackDetails.id);
                             setTrackDetails({ hasLiked: !trackDetails.hasLiked });
@@ -65,7 +67,7 @@ function TrackArtAndInfo({ onShow }: { onShow: () => void }) {
 
                     <button
                         className="p-2.5 rounded-full bg-zinc-800 text-zinc-400 transition-all duration-300 group
-                            hover:bg-zinc-700 hover:text-white"
+                hover:bg-zinc-700 hover:text-white"
                         onClick={onShow}
                     >
                         <svg

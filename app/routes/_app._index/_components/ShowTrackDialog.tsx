@@ -16,7 +16,7 @@ function ShowTrackDialog({ isOpen, onClose, tracks }: ShowTrackDialogProps) {
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="max-w-md max-h-[80vh] overflow-y-auto bg-[#111111] text-white [&::-webkit-scrollbar]:hidden"> {/* Black gradient background */}
+            <DialogContent className="max-w-md max-h-[80vh] overflow-y-auto bg-[#111111] border-zinc-700 text-white [&::-webkit-scrollbar]:hidden"> {/* Black gradient background */}
                 <DialogHeader>
                     <DialogTitle className="text-white">Tracks</DialogTitle> {/* White text for title */}
                     <DialogDescription className="text-gray-400">Here are all the tracks:</DialogDescription> {/* Light gray text for description */}

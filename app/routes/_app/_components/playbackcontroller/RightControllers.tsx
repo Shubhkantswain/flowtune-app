@@ -34,7 +34,7 @@ function RightControllers() {
             {/* Play Button for Small Screens (Visible Only on Small Screens) */}
             <div className="relative group md:hidden">
                 {trackDetails.id && (
-                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs text-black bg-white rounded-md shadow-lg 
+                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
                     opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
                         {isPlaying ? "Pause" : "Play"}
                     </div>
@@ -56,7 +56,7 @@ function RightControllers() {
             {/* Heart Icon for Small Screens (Visible Only on Small Screens) */}
             <div className="relative group md:hidden">
                 {
-                    trackDetails.id && (<div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs text-black bg-white rounded-md shadow-lg 
+                    trackDetails.id && (<div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
                     opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
                         {trackDetails.hasLiked ? "Unlike" : "Like"}
                     </div>)
@@ -71,7 +71,7 @@ function RightControllers() {
                 <div className="relative group">
                     {/** Tooltip **/}
                     {
-                        trackDetails.id && (<div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs text-black bg-white rounded-md shadow-lg 
+                        trackDetails.id && (<div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
                         opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
                             {mute ? "Unmute" : "Mute"}
                         </div>)

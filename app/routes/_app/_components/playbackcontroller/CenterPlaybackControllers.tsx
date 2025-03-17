@@ -12,7 +12,7 @@ function CenterPlaybackControllers() {
             {/* Skip Backward 10s Button (Visible on Larger Screens, Hidden on Medium Screens) */}
             <div className="relative group hidden lg:block md:hidden">
                 {
-                    trackDetails.id && (<div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-sm text-black bg-white rounded-md shadow-lg 
+                    trackDetails.id && (<div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-sm bg-zinc-800 text-white rounded-md shadow-lg 
                     opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
                         Skip Backward 15s
                     </div>)
@@ -32,7 +32,7 @@ function CenterPlaybackControllers() {
 
             <div className="relative group">
                 {
-                    (hasPrev() && trackDetails.id) && (<div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-sm text-black bg-white rounded-md shadow-lg 
+                    (hasPrev() && trackDetails.id) && (<div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-sm bg-zinc-800 text-white rounded-md shadow-lg 
                         opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
                         Previous
                     </div>)
@@ -52,7 +52,7 @@ function CenterPlaybackControllers() {
 
             <div className="relative group">
                 {
-                    trackDetails.id && (<div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-sm text-black bg-white rounded-md shadow-lg 
+                    trackDetails.id && (<div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-sm bg-zinc-800 text-white rounded-md shadow-lg 
                     opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
                         {isPlaying ? "Pause" : "Play"}
                     </div>)
@@ -74,7 +74,7 @@ function CenterPlaybackControllers() {
 
             <div className="relative group">
                 {
-                    (hasNext() && trackDetails.id) && (<div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-sm text-black bg-white rounded-md shadow-lg 
+                    (hasNext() && trackDetails.id) && (<div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-sm bg-zinc-800 text-white rounded-md shadow-lg 
                     opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
                         Next
                     </div>)
@@ -94,7 +94,7 @@ function CenterPlaybackControllers() {
             {/* Skip Forward 10s Button (Visible on Larger Screens, Hidden on Medium Screens) */}
             <div className="relative group hidden lg:block md:hidden">
                 {
-                    trackDetails.id && (<div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-sm text-black bg-white rounded-md shadow-lg 
+                    trackDetails.id && (<div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-sm bg-zinc-800 text-white rounded-md shadow-lg 
                     opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
                         Skip Forward 30s
                     </div>)

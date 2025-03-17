@@ -11,3 +11,6 @@ export const createGraphqlClient = (token?: string) => {
     });
 
 }
+
+// https://remix-project-server.onrender.com/graphql
+// http://localhost:4000/graphql

@@ -16,12 +16,17 @@ interface NewSong {
     title: string;
     artist: string;
     duration: string;
+    language: string;
+    genre: string;
 }
 
 interface CreateTrackDialogProps {
     songDialogOpen: boolean;
     setSongDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+const LANGUAGES = ["Hindi", "English", "Punjabi", "Tamil", "Telugu", "Kannada", "Bengali", "Marathi", "Gujarati", "Malayalam"];
+const GENRES = ['Love', 'Workout', 'Birthday', 'Party Vibe', 'Chill', 'Travel', 'Happy', 'Sleep', 'Sad', 'Bath', "Bollywood", "Hollywood", "Indian Pop", "Punjabi Pop", "Dance and Electronic", "Rock", "Children Music"];
 
 const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDialogProps) => {
     const { handleFileChange: handleImgChange, fileURL: imgUrl } = usePreviewFile("image");
@@ -37,6 +42,8 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
             title: "",
             artist: "",
             duration: "0",
+            language: LANGUAGES[0],
+            genre: GENRES[0],
         },
     });
 
@@ -47,7 +54,7 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
 
     return (
         <Dialog open={songDialogOpen} onOpenChange={setSongDialogOpen}>
-            <DialogContent className="bg-gradient-to-b from-black to-zinc-900 border-zinc-700 max-h-[80vh] overflow-auto">
+            <DialogContent className="hide-scrollbar bg-gradient-to-b from-black to-zinc-900 border-zinc-700 max-h-[80vh] overflow-auto">
                 <DialogHeader>
                     <DialogTitle className="text-white">Add New Track</DialogTitle>
                     <DialogDescription className="text-white">Add a new song to your music library</DialogDescription>
@@ -92,7 +99,7 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
                                         alt="Selected artwork"
                                         className="max-h-40 object-contain rounded-md"
                                     />
-                                    <div className="text-sm text-emerald-500">Image selected</div>
+                                    <div className="text-sm text-[#fa586a]">Image selected</div>
                                 </div>
                             ) : (
                                 <>
@@ -101,7 +108,7 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
                                     </div>
                                     <div className="text-sm text-zinc-400 mb-2">Upload artwork</div>
                                     <button
-                                        className="px-3 py-2 text-xs text-emerald-500 border border-zinc-600 rounded-md hover:bg-zinc-800 transition"
+                                        className="px-3 py-2 text-xs text-[#fa586a] border border-zinc-600 rounded-md hover:bg-zinc-800 transition"
                                         type="button"
                                     >
                                         Choose File
@@ -116,7 +123,7 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
                         <label className="text-sm font-medium text-white">Audio File</label>
                         <button
                             type="button"
-                            className="w-full px-4 py-2 text-sm text-emerald-500 border border-zinc-600 rounded-md hover:bg-zinc-800 transition"
+                            className="w-full px-4 py-2 text-sm text-[#fa586a] border border-zinc-600 rounded-md hover:bg-zinc-800 transition"
                             onClick={() => audioInputRef.current?.click()}
                         >
                             Choose Audio File
@@ -144,6 +151,53 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
                         />
                     </div>
 
+                    {/* Language Preference */}
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium text-white">Music Language</label>
+                        <div className="relative">
+                            <select
+                                {...register("language")}
+                                className="w-full p-2 pr-8 bg-zinc-800 border border-zinc-700 text-white rounded-md appearance-none"
+                            >
+                                {LANGUAGES.map((lang) => (
+                                    <option key={lang} value={lang}>
+                                        {lang}
+                                    </option>
+                                ))}
+                            </select>
+                            {/* Custom Dropdown Arrow */}
+                            <div className="absolute inset-y-0 right-2 flex items-center pointer-events-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <polyline points="6 9 12 15 18 9" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Genre Selection */}
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium text-white">Genre</label>
+                        <div className="relative">
+                            <select
+                                {...register("genre")}
+                                className="w-full p-2 pr-8 bg-zinc-800 border border-zinc-700 text-white rounded-md appearance-none"
+                            >
+                                {GENRES.map((genre) => (
+                                    <option key={genre} value={genre}>
+                                        {genre}
+                                    </option>
+                                ))}
+                            </select>
+                            {/* Custom Dropdown Arrow */}
+                            <div className="absolute inset-y-0 right-2 flex items-center pointer-events-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <polyline points="6 9 12 15 18 9" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div className="space-y-2">
                         <label className="text-sm font-medium text-white">Duration (seconds)</label>
                         <Input
@@ -165,7 +219,7 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 text-sm text-white bg-emerald-500 rounded-md hover:bg-emerald-600 transition"
+                            className="px-4 py-2 text-sm text-white bg-[#fa586a] rounded-md hover:bg-[#fa586a]/70 transition"
                         >
                             {
                                 isPending ? "Adding Track..." : "Add Track"
