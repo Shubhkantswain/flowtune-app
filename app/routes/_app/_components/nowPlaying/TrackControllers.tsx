@@ -11,7 +11,7 @@ function TrackControllers() {
 
     const { hasNext, hasPrev, next, prev } = usePlaylistStore()
 
-    const { mute } = useVolumeStore()
+    const { mute, setMute } = useVolumeStore()
 
     useEffect(() => {
         let storedVolume = localStorage.getItem('volume');
@@ -39,7 +39,6 @@ function TrackControllers() {
             <div className="flex items-center justify-center space-x-3 sm:space-x-4 md:space-x-5 lg:space-x-6 xl:space-x-8 mb-6 sm:mb-8 md:mb-10 lg:mb-12">
 
                 <div className='relative group'>
-
                     {
 
                         <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
@@ -149,20 +148,35 @@ function TrackControllers() {
                         </svg>
                     </button>
                 </div>
-                
+
             </div>
 
             {/* Volume Controls */}
             <div className="flex justify-center items-center w-full">
                 <div className="flex items-center gap-2 w-full max-w-md">
-                    <svg viewBox="0 0 24 24" className="h-6 w-6 text-gray-600" fill="currentColor">
-                        <path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
-                    </svg>
+                    {
+                        volume > 0.5 ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-volume-2"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z" /><path d="M16 9a5 5 0 0 1 0 6" /><path d="M19.364 18.364a9 9 0 0 0 0-12.728" /></svg>
+                        ) : (
+                            volume <= 0.5 && volume > 0 ? (
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-volume-1"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z" /><path d="M16 9a5 5 0 0 1 0 6" /></svg>
+                            ) : (
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-volume-x"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z" /><line x1="22" x2="16" y1="9" y2="15" /><line x1="16" x2="22" y1="9" y2="15" /></svg>
+                            )
+                        )
+                    }
                     <div
                         className="flex-1 h-1 bg-zinc-800/50 backdrop-blur-sm rounded-full relative cursor-pointer"
                         onClick={(e) => {
                             const newVolume = handleVolumeChange(e);
+                            if (newVolume == 0) {
+                                setMute(true)
+                                return
+                            } else {
+                                setMute(false)
+                            }
                             setVolume(newVolume);
+
                         }}
                     >
                         <div

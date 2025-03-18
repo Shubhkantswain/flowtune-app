@@ -3,7 +3,13 @@ import { useEffect, useState } from "react";
 import usePlaylistStore from "~/store/usePlaylistStore";
 import { useTrackStore } from "~/store/useTrackStore";
 
-function TrackLists({ tracks }: { tracks: Track[] }) {
+interface TrackListsProps {
+  tracks: Track[]
+  initialized: boolean;
+  setInitialized: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitialized }) => {
   const tracksToRender = [
     ...tracks,
     ...Array(Math.max(0, 8 - tracks.length)).fill(null)
@@ -12,8 +18,6 @@ function TrackLists({ tracks }: { tracks: Track[] }) {
   const { trackDetails, setTrackDetails } = useTrackStore()
 
   const { initialize, setCurrentTrack, getCurrent } = usePlaylistStore()
-
-  const [initialized, setInitialized] = useState(false)
 
 
   const handleClick = (isPlayingCurrentSong: boolean, track: Track) => {

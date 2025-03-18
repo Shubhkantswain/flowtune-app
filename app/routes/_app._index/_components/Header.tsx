@@ -6,9 +6,11 @@ import { Track } from 'gql/graphql'
 interface HeaderProps {
     scroll: (direction: ScrollDirection) => void
     tracks: Track[]
+    initialized: boolean;
+    setInitialized: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Header: React.FC<HeaderProps> = ({ scroll, tracks }) => {
+const Header: React.FC<HeaderProps> = ({ scroll, tracks, initialized, setInitialized }) => {
     const [isOpen, setIsOpen] = useState(false)
 
     return (
@@ -49,7 +51,7 @@ const Header: React.FC<HeaderProps> = ({ scroll, tracks }) => {
             </header>
 
             {
-                isOpen && <ShowTrackDialog isOpen={isOpen} onClose={() => setIsOpen(false)} tracks={tracks} />
+                isOpen && <ShowTrackDialog isOpen={isOpen} onClose={() => setIsOpen(false)} tracks={tracks} initialized={initialized} setInitialized={setInitialized} />
             }
         </>
     )

@@ -1,6 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
 import { CreateTrackPayload } from "gql/graphql";
-import { enqueueSnackbar } from "notistack";
 import { toast } from "sonner";
 import { createGraphqlClient } from "~/clients/api";
 import { createTrackMutation, likeTrackMutation } from "~/graphql/mutations/track";
@@ -62,9 +61,9 @@ export const useLikeTrack = () => {
         },
         onSuccess: (data) => {
             if(data){
-                toast.success('Liked track successfully!')
+                toast.success('Track Added To Your Favourite')
             } else {
-                toast.success('Unliked track successfully!')
+                toast.success('Track Remove From Your Favourite')
             }
 
         },

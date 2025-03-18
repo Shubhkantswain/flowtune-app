@@ -8,13 +8,13 @@ function Header({ onClose, onShowQueueTrack }: {
     return (
         <div className="p-4 flex items-center justify-between backdrop-blur-sm">
             <div className="relative group">
-            <div
-    className="absolute top-7 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
+                <div
+                    className="absolute top-7 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
                opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white
                whitespace-nowrap left-0"
->
-    Minimise Screen
-</div>
+                >
+                    Minimise Screen
+                </div>
 
 
                 <button

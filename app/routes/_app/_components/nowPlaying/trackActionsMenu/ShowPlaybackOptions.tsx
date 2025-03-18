@@ -1,3 +1,4 @@
+import { ListEnd } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 import { toast } from 'sonner';
 import { Label } from '~/components/ui/label';
@@ -38,7 +39,7 @@ function ShowPlaybackOptions() {
 
                         setIsRepeatable(!isRepeatable)
                     }}
-                    className="data-[state=checked]:bg-green-500"
+                    className="data-[state=checked]:bg-[#fa586a]"
                 />
             </div>
 
