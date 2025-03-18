@@ -19,6 +19,8 @@ function ProfileDropDownMenu({
 
     const { setMusicPreferencesOpen } = useMusicPreferenceStore()
 
+    const [authenticated, setAuthenticated] = useState(true)
+
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
             // Don't close if clicking on the trigger button
@@ -43,6 +45,14 @@ function ProfileDropDownMenu({
         }
     }, [isDropdownOpen, setIsDropdownOpen, triggerRef])
 
+    useEffect(() => {
+        const auth =
+            typeof window !== "undefined" && localStorage.getItem("__FlowTune_Token")
+                ? true
+                : false;
+        setAuthenticated(auth);
+    }, []);
+
     return (
         <>
             <div
@@ -51,55 +61,78 @@ function ProfileDropDownMenu({
             >
                 <div className="bg-gradient-to-b from-neutral-950 to-neutral-900 rounded-md shadow-xl border border-[#2E3030]">
                     <div className="py-1">
-                        <Link to="/profile" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">
-                            My Profile
-                        </Link>
-                        <div className="border-b border-[#2E3030]"></div>
+                        {
+                            authenticated ? (
+                                <>
+                                    <Link to="/profile" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">
+                                        My Profile
+                                    </Link>
+                                    <div className="border-b border-[#2E3030]"></div>
 
-                        <button
-                            className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
-                            onClick={() => setSongDialogOpen(true)}
-                        >
-                            Create Track
-                        </button>
-                        <div className="border-b border-[#2E3030]"></div>
+                                    <button
+                                        className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+                                        onClick={() => setSongDialogOpen(true)}
+                                    >
+                                        Create Track
+                                    </button>
+                                    <div className="border-b border-[#2E3030]"></div>
 
-                        <button
-                            className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
-                            onClick={() => {/* Add logout logic */ }}
-                        >
-                            Create Playlist
-                        </button>
-                        <div className="border-b border-[#2E3030]"></div>
+                                    <button
+                                        className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+                                        onClick={() => {/* Add logout logic */ }}
+                                    >
+                                        Create Playlist
+                                    </button>
+                                    <div className="border-b border-[#2E3030]"></div>
 
-                        <Link to="/collection/tracks" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">
-                            Liked Tracks
-                        </Link>
-                        <div className="border-b border-[#2E3030]"></div>
+                                    <Link to="/collection/tracks" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">
+                                        Liked Tracks
+                                    </Link>
+                                    <div className="border-b border-[#2E3030]"></div>
 
-                        <button
-                            className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
-                            onClick={() => setMusicPreferencesOpen(true)}
-                        >
-                            Music Preferences
-                        </button>
+                                    <button
+                                        className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+                                        onClick={() => setMusicPreferencesOpen(true)}
+                                    >
+                                        Music Preferences
+                                    </button>
 
-                        <div className="border-b border-[#2E3030]"></div>
+                                    <div className="border-b border-[#2E3030]"></div>
 
-                        <Link to="/settings" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">
-                            Change Display Language
-                        </Link>
-                        <div className="border-b border-[#2E3030]"></div>
-                        <Link to="/settings" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">
-                            Settings
-                        </Link>
-                        <div className="border-b border-[#2E3030]"></div>
-                        <button
-                            className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#2E3030] hover:text-white"
-                            onClick={() => {/* Add logout logic */ }}
-                        >
-                            Sign out
-                        </button>
+                                    <Link to="/settings" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">
+                                        Change Display Language
+                                    </Link>
+                                    <div className="border-b border-[#2E3030]"></div>
+                                    <Link to="/settings" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">
+                                        Settings
+                                    </Link>
+                                    <div className="border-b border-[#2E3030]"></div>
+                                    <button
+                                        className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#2E3030] hover:text-white"
+                                        onClick={() => {/* Add logout logic */ }}
+                                    >
+                                        Sign out
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    <Link
+                                        to="/ft/signin"
+                                        className="block px-6 py-3 text-sm text-white bg-[#fa586a] rounded-full hover:bg-[#fa586a]/60 transition mx-4 mt-4 text-center"
+                                    >
+                                        Sign in
+                                    </Link>
+
+
+                                    <button
+                                        className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+                                        onClick={() => setMusicPreferencesOpen(true)}
+                                    >
+                                        Music Preferences
+                                    </button>
+                                </>
+                            )
+                        }
                     </div>
                 </div>
 

@@ -49,9 +49,15 @@ export const action = async ({ request }: ActionFunctionArgs) => {
                 fullName: loginUser?.fullName || "",
                 bio: loginUser?.bio || "",
                 profileImageURL: loginUser?.profileImageURL || ""
+            },
+        },
+            {
+                status: 200,
+                headers: {
+                    "Set-Cookie": `__FlowTune_Token_server=${loginUser?.authToken}; Max-Age=86400; HttpOnly; Secure; Path=/; SameSite=None`,
+                },
             }
-
-        });
+        );
 
     } catch (error: any) {
         return json<SigninActionData>(
