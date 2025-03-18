@@ -59,13 +59,34 @@ const LeftTrackInfo: React.FC<LeftTrackInfoProps> = ({ setIsOpen }) => {
             </button>
 
             <div className="min-w-0">
-                <h2 className="font-medium text-white truncate">
-                    {trackDetails.title || "No Track Selected"}
-                </h2>
-                <p className="text-sm text-gray-400 truncate">
-                    {trackDetails.artist || "Artist Name"}
-                </p>
+                <div className="relative group">
+                    {trackDetails.id && (
+                        <div className="absolute -top-10 left-0 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
+                opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                            {trackDetails.title}
+                        </div>
+                    )}
+
+                    <h2 className="font-medium text-white truncate cursor-pointer">
+                        {trackDetails.title || "No Track Selected"}
+                    </h2>
+                </div>
+
+                <div className="relative group">
+                    {trackDetails.id && (
+                        <div className="absolute -top-10 left-0 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
+                opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                            {trackDetails.artist}
+                        </div>
+                    )}
+
+                    <p className="text-sm text-gray-400 truncate cursor-pointer">
+                        {trackDetails.artist || "Artist Name"}
+                    </p>
+                </div>
             </div>
+
+
         </article>
     );
 };

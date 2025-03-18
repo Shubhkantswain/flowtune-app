@@ -20,24 +20,36 @@ function TrackArtAndInfo({ onShow }: { onShow: () => void }) {
             </div>
 
             <div className="flex justify-between items-center">
-                <div className="space-y-1 text-left flex-1 min-w-0 relative group"> {/* Added `relative` and `group` */}
-                    <h2 className="text-2xl md:text-3xl font-semibold transition-all duration-300 truncate overflow-hidden max-w-full">
-                        {trackDetails.title}
-                    </h2>
-                    {/* Tooltip */}
-                    <div className="absolute bottom-full left-0 mb-2 p-2 bg-zinc-800 text-white text-sm rounded-md opacity-0 transition-opacity duration-300 group-hover:opacity-100 whitespace-nowrap">
-                        {trackDetails.title}
+                <div className="space-y-1 text-left flex-1 min-w-0">
+                    {/* Title Wrapper */}
+                    <div className="relative group">
+                        <h2 className="text-2xl md:text-3xl font-semibold transition-all duration-300 truncate overflow-hidden max-w-full">
+                            {trackDetails.title}
+                        </h2>
+                        {/* Title Tooltip */}
+                        <div className="absolute bottom-full left-0 mb-2 p-2 bg-[#1f1f1f] text-white text-xs rounded-md opacity-0 transition-opacity duration-300 group-hover:opacity-100 whitespace-nowrap border border-white">
+                            {trackDetails.title}
+                        </div>
                     </div>
-                    <p className="text-zinc-400 transition-all duration-300">
-                        {trackDetails.artist}
-                    </p>
+
+                    {/* Artist Wrapper */}
+                    <div className="relative group">
+                        <p className="text-zinc-400 transition-all duration-300 truncate overflow-hidden max-w-full">
+                            {trackDetails.artist}
+                        </p>
+                        {/* Artist Tooltip */}
+                        <div className="absolute bottom-full left-0 mb-2 p-2 bg-[#1f1f1f] text-white text-xs rounded-md opacity-0 transition-opacity duration-300 group-hover:opacity-100 whitespace-nowrap border border-white">
+                            {trackDetails.artist}
+                        </div>
+                    </div>
                 </div>
+
 
                 <div className="flex gap-3 items-center">
                     <button
                         className={`p-2.5 rounded-full transition-all duration-300 group ${trackDetails.hasLiked
-                                ? "bg-pink-500/10 text-pink-500 hover:bg-pink-500/20"
-                                : "bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-white"
+                            ? "bg-pink-500/10 text-pink-500 hover:bg-pink-500/20"
+                            : "bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-white"
                             }`}
                         onClick={async () => {
                             await likeTrack(trackDetails.id);

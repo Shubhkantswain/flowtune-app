@@ -35,10 +35,11 @@ function RightControllers() {
             <div className="relative group md:hidden">
                 {trackDetails.id && (
                     <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
-                    opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+    opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
                         {isPlaying ? "Pause" : "Play"}
                     </div>
                 )}
+
                 <button
                     className="w-10 h-10 rounded-full flex items-center justify-center hover:scale-105 transition-transform"
                     onClick={() => trackDetails.id && togglePlay()}
@@ -56,11 +57,14 @@ function RightControllers() {
             {/* Heart Icon for Small Screens (Visible Only on Small Screens) */}
             <div className="relative group md:hidden">
                 {
-                    trackDetails.id && (<div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
-                    opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
-                        {trackDetails.hasLiked ? "Unlike" : "Like"}
-                    </div>)
+                    trackDetails.id && (
+                        <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
+        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                            {trackDetails.hasLiked ? "Unlike" : "Like"}
+                        </div>
+                    )
                 }
+
                 <button className={`w-10 h-10 ${trackDetails.hasLiked ? "text-[#c22d32]" : "text-white"} rounded-full flex items-center justify-center hover:scale-105 transition-transform`} onClick={handleLike} disabled={isPending}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill={`${trackDetails.hasLiked ? "#c22d32" : "none"}`} stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" /></svg>
                 </button>
@@ -71,11 +75,14 @@ function RightControllers() {
                 <div className="relative group">
                     {/** Tooltip **/}
                     {
-                        trackDetails.id && (<div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
-                        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
-                            {mute ? "Unmute" : "Mute"}
-                        </div>)
+                        trackDetails.id && (
+                            <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
+        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                                {mute ? "Unmute" : "Mute"}
+                            </div>
+                        )
                     }
+
                     <button className="p-2 hover:text-white transition-colors" onClick={() => {
                         if (mute) {
                             handleVolumeChange(100)

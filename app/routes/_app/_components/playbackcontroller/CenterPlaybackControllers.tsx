@@ -6,17 +6,20 @@ function CenterPlaybackControllers() {
     const isPlaying = trackDetails.isPlaying
 
     const { initialize, getCurrentTrack, hasNext, hasPrev, next, prev } = usePlaylistStore()
-    
+
     return (
         <div className="hidden md:flex items-center justify-center flex-1 md:w-1/3 space-x-2 md:space-x-4">
             {/* Skip Backward 10s Button (Visible on Larger Screens, Hidden on Medium Screens) */}
             <div className="relative group hidden lg:block md:hidden">
                 {
-                    trackDetails.id && (<div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-sm bg-zinc-800 text-white rounded-md shadow-lg 
-                    opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
-                        Skip Backward 15s
-                    </div>)
+                    trackDetails.id && (
+                        <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-sm bg-zinc-800 text-white rounded-md shadow-lg 
+        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                            Skip Backward 15s
+                        </div>
+                    )
                 }
+
                 <button className={`p-2 ${trackDetails.id ? "text-white hover:text-white" : "text-[#353535]"}  transition-colors`} onClick={() => handleSkip('backward')}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <defs>
@@ -32,11 +35,14 @@ function CenterPlaybackControllers() {
 
             <div className="relative group">
                 {
-                    (hasPrev() && trackDetails.id) && (<div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-sm bg-zinc-800 text-white rounded-md shadow-lg 
-                        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-                        Previous
-                    </div>)
+                    (hasPrev() && trackDetails.id) && (
+                        <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-sm bg-zinc-800 text-white rounded-md shadow-lg 
+        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
+                            Previous
+                        </div>
+                    )
                 }
+
                 <button className={`p-2 ${hasPrev() && trackDetails.id ? "text-white hover:text-white" : "text-[#353535]"} transition-colors`} onClick={() => {
                     if (hasPrev() && trackDetails.id) {
                         const prevTrack = prev()
@@ -52,10 +58,12 @@ function CenterPlaybackControllers() {
 
             <div className="relative group">
                 {
-                    trackDetails.id && (<div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-sm bg-zinc-800 text-white rounded-md shadow-lg 
-                    opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-                        {isPlaying ? "Pause" : "Play"}
-                    </div>)
+                    trackDetails.id && (
+                        <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-sm bg-zinc-800 text-white rounded-md shadow-lg 
+        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
+                            {isPlaying ? "Pause" : "Play"}
+                        </div>
+                    )
                 }
 
                 <button
@@ -74,11 +82,14 @@ function CenterPlaybackControllers() {
 
             <div className="relative group">
                 {
-                    (hasNext() && trackDetails.id) && (<div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-sm bg-zinc-800 text-white rounded-md shadow-lg 
-                    opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-                        Next
-                    </div>)
+                    (hasNext() && trackDetails.id) && (
+                        <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-sm bg-zinc-800 text-white rounded-md shadow-lg 
+        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
+                            Next
+                        </div>
+                    )
                 }
+
                 <button className={`p-2 ${hasNext() && trackDetails.id ? "text-white hover:text-white" : "text-[#353535]"} transition-colors`} onClick={() => {
                     if (hasNext() && trackDetails.id) {
                         const nextTrack = next()
@@ -94,11 +105,14 @@ function CenterPlaybackControllers() {
             {/* Skip Forward 10s Button (Visible on Larger Screens, Hidden on Medium Screens) */}
             <div className="relative group hidden lg:block md:hidden">
                 {
-                    trackDetails.id && (<div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-sm bg-zinc-800 text-white rounded-md shadow-lg 
-                    opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
-                        Skip Forward 30s
-                    </div>)
+                    trackDetails.id && (
+                        <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-sm bg-zinc-800 text-white rounded-md shadow-lg 
+        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                            Skip Forward 30s
+                        </div>
+                    )
                 }
+
 
                 <button className={`p-2 ${trackDetails.id ? "text-white hover:text-white" : "text-[#353535]"} transition-colors`} onClick={() => handleSkip('forward')}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
