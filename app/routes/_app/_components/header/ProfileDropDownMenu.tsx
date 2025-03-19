@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import CreateTrackDialog from './CreateTrackDialog'
 import MusicPreferencesModal from './MusicPreference';
 import useMusicPreferenceStore from '~/store/useMusicPreferenceStore';
+import { useCurrentUser } from '~/hooks/auth';
 
 function ProfileDropDownMenu({
     isDropdownOpen,
@@ -20,6 +21,7 @@ function ProfileDropDownMenu({
     const { setMusicPreferencesOpen } = useMusicPreferenceStore()
 
     const [authenticated, setAuthenticated] = useState(true)
+    const { data, isLoading } = useCurrentUser()
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -64,9 +66,19 @@ function ProfileDropDownMenu({
                         {
                             authenticated ? (
                                 <>
-                                    <Link to="/profile" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">
-                                        My Profile
-                                    </Link>
+                                    {isLoading ? (
+                                        <button
+                                            className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+                                        >
+                                            Fetching Your Profile...
+                                        </button>
+                                    ) : (
+                                        // Actual content
+                                        <Link to={`/${data?.username}`} className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">
+                                            My Profile
+                                        </Link>
+                                    )}
+
                                     <div className="border-b border-[#2E3030]"></div>
 
                                     <button

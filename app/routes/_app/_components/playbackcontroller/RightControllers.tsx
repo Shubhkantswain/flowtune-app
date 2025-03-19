@@ -65,8 +65,14 @@ function RightControllers() {
                     )
                 }
 
-                <button className={`w-10 h-10 ${trackDetails.hasLiked ? "text-[#c22d32]" : "text-white"} rounded-full flex items-center justify-center hover:scale-105 transition-transform`} onClick={handleLike} disabled={isPending}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill={`${trackDetails.hasLiked ? "#c22d32" : "none"}`} stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" /></svg>
+                <button className={`w-10 h-10 rounded-full flex items-center justify-center hover:scale-105 transition-transform`} onClick={handleLike} disabled={isPending}>
+                    {
+                        trackDetails.hasLiked ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#fa586a" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-circle-check"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></svg>
+                        ) : (
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-circle-plus"><circle cx="12" cy="12" r="10" /><path d="M8 12h8" /><path d="M12 8v8" /></svg>
+                        )
+                    }
                 </button>
             </div>
 

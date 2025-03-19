@@ -70,7 +70,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
             backgroundImage: `url(${trackDetails.coverImageUrl})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            filter: 'blur(10px)',
+            filter: 'blur(40px)',
           }}
         />
 

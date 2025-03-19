@@ -5,6 +5,14 @@ import { Track } from "gql/graphql";
 import { createGraphqlClient } from "~/clients/api";
 import { getFeedTracksQuery } from "~/graphql/queries/track";
 import { LoaderFunctionArgs } from "@remix-run/cloudflare";
+import { MetaFunction } from "@remix-run/cloudflare";
+
+export const meta: MetaFunction = () => {
+    return [
+        { title: "FlowTune" },
+        { name: "description", content: "Welcome to Remix!" },
+    ];
+};
 
 export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> {
   try {
