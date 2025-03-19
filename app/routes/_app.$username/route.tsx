@@ -1,9 +1,10 @@
 import { json, LoaderFunctionArgs } from '@remix-run/cloudflare';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData, useParams } from '@remix-run/react';
 import { GetUserProfileResponse, Track } from 'gql/graphql';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createGraphqlClient } from '~/clients/api';
 import { getUserProfileQuery, getUserTracksQuery } from '~/graphql/queries/user';
+import { useGetUserTracks } from '~/hooks/user';
 import usePlaylistStore from '~/store/usePlaylistStore';
 import { useTrackStore } from '~/store/useTrackStore';
 
@@ -78,11 +79,32 @@ const UserPage = () => {
 
   const user = useLoaderData<UserData>(); // Properly typed loader data
   const { setTrackDetails, trackDetails } = useTrackStore()
+  const { username } = useParams(); // Get the dynamic username
 
   const [initialized, setInitialized] = useState(false)
   const { initialize, setCurrentTrack } = usePlaylistStore()
 
-  console.log("user", user);
+  const [tracks, setTracks] = useState<Track[]>([])
+  const [page, setPage] = useState(1)
+
+  const { data } = useGetUserTracks(username || "", page)
+
+  const handleLoadMore = () => {
+    setPage(page + 1)
+  }
+
+  useEffect(() => {
+    if (page == 1) {
+      setTracks(user.tracks)
+    }
+  }, [user])
+
+  useEffect(() => {
+    if (data) {
+      setTracks(prevTracks => [...prevTracks, ...(Array.isArray(data) ? data : [data])]);
+    }
+  }, [data]);
+
 
   return (
     <div className="text-white relative min-h-screen">
@@ -165,7 +187,7 @@ const UserPage = () => {
           <div className="mt-6 md:mt-8">
             <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6">Episodes</h2>
             <div className="space-y-5 md:space-y-6">
-              {user?.tracks?.map((track, index) => (
+              {(tracks.length > 0 ? tracks : user.tracks)?.map((track, index) => (
                 <div
                   key={index}
                   className="group bg-white/5 hover:bg-white/10 transition-colors rounded-lg p-3 md:p-4 cursor-pointer"
@@ -305,6 +327,15 @@ const UserPage = () => {
             </div>
           </div>
         </div>
+        <div className="flex justify-center mt-6">
+          <button
+            onClick={handleLoadMore}
+            className="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium shadow-md transition-all"
+          >
+            Load More
+          </button>
+        </div>
+
       </div>
     </div>
   );
