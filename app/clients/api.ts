@@ -3,7 +3,7 @@ import { GraphQLClient } from "graphql-request";
 export const createGraphqlClient = (token?: string) => {
     const Token = token || ""
 
-    return new GraphQLClient('https://remix-project-server.onrender.com/graphql', {
+    return new GraphQLClient('https://flowtune-app-server.onrender.com/graphql', {
         // credentials: "include",
         headers: {
             Authorization: `Bearer ${Token}`
@@ -12,5 +12,5 @@ export const createGraphqlClient = (token?: string) => {
 
 }
 
-// https://remix-project-server.onrender.com/graphql
+// https://flowtune-app-server.onrender.com/graphql
 // http://localhost:4000/graphql
