@@ -17,7 +17,6 @@ interface NewSong {
     singer: string;
     starCast: string;
     duration: string;
-    videoUrl: string
     language: string;
     genre: string;
 }
@@ -33,11 +32,13 @@ const GENRES = ['Love', 'Workout', 'Birthday', 'Party Vibe', 'Chill', 'Travel', 
 const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDialogProps) => {
     const { handleFileChange: handleImgChange, fileURL: imgUrl } = usePreviewFile("image");
     const { handleFileChange: handleAudioChange, fileURL: audioUrl } = usePreviewFile("audio");
+    const { handleFileChange: handleVideoChange, fileURL: videoUrl } = usePreviewFile("video")
 
     const { mutate: createTrack, isPending } = useCreateTrack()
 
-    const audioInputRef = useRef<HTMLInputElement>(null);
     const imageInputRef = useRef<HTMLInputElement>(null);
+    const videoInputRef = useRef<HTMLInputElement>(null);
+    const audioInputRef = useRef<HTMLInputElement>(null);
 
     const { register, handleSubmit, setValue } = useForm<NewSong>({
         defaultValues: {
@@ -45,7 +46,6 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
             singer: "",
             starCast: "",
             duration: "0",
-            videoUrl: "",
             language: LANGUAGES[0],
             genre: GENRES[0],
         },
@@ -53,7 +53,7 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
 
     const onSubmit = async (data: NewSong) => {
         // Submit logic
-        createTrack({ title: data.title, singer: data.singer, starCast: data.starCast, duration: data.duration, coverImageUrl: imgUrl, videoUrl: data.videoUrl, audioFileUrl: audioUrl || "",language: data.language, genre: data.genre })
+        createTrack({ title: data.title, singer: data.singer, starCast: data.starCast, duration: data.duration, coverImageUrl: imgUrl, videoUrl: videoUrl, audioFileUrl: audioUrl || "", language: data.language, genre: data.genre })
     };
 
     return (
@@ -66,6 +66,14 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4">
                     {/* File upload logic for image */}
+                    <input
+                        type="file"
+                        ref={imageInputRef}
+                        className="hidden"
+                        accept="image/*"
+                        onChange={handleImgChange}
+                    />
+
                     <input
                         type="file"
                         accept="audio/*"
@@ -82,13 +90,15 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
                             }
                         }}
                     />
+
                     <input
                         type="file"
-                        ref={imageInputRef}
-                        className="hidden"
-                        accept="image/*"
-                        onChange={handleImgChange}
+                        accept="video/*"
+                        ref={videoInputRef}
+                        hidden
+                        onChange={handleVideoChange}
                     />
+
 
                     {/* Image Preview */}
                     <div
@@ -120,6 +130,32 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
                                 </>
                             )}
                         </div>
+                    </div>
+
+                    {/* Video Preview */}
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium text-white">Video File</label>
+                        <button
+                            type="button"
+                            className="w-full px-4 py-2 text-sm text-[#fa586a] border border-zinc-600 rounded-md hover:bg-zinc-800 transition"
+                            onClick={() => videoInputRef.current?.click()}
+                        >
+                            Choose Video File
+                        </button>
+
+                        {videoUrl && (
+                            <div className="flex justify-center">
+                                <video
+                                    controls
+                                    src={videoUrl}
+                                    className="mt-2 w-48 h-36"
+                                >
+                                    Your browser does not support the audio element.
+                                </video>
+                            </div>
+                        )}
+
+
                     </div>
 
                     {/* Audio Preview */}
@@ -170,14 +206,6 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
                             type="number"
                             min="0"
                             readOnly
-                            className="bg-zinc-800 border-zinc-700 text-white"
-                        />
-                    </div>
-
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium text-white">Video Url</label>
-                        <Input
-                            {...register("videoUrl")}
                             className="bg-zinc-800 border-zinc-700 text-white"
                         />
                     </div>

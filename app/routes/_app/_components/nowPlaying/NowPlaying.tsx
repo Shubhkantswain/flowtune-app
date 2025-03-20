@@ -31,6 +31,8 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
 
   const [hide, setHide] = useState(false)
 
+  const [videoEnabled, setVideoEnabled] = useState(true)
+
   // Fetch all tracks whenever the queue changes
   useEffect(() => {
     setQueueTracks(getAllTracks());
@@ -59,6 +61,15 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
     };
   }, [isOpen]);
 
+  useEffect(() => {
+    const enabled = localStorage.getItem("videoEnabled")
+    if (enabled == null) {
+      setVideoEnabled(true)
+    } else {
+      setVideoEnabled(Boolean(enabled))
+    }
+  }, [])
+
   return (
     <>
       <div
@@ -77,7 +88,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
         />
 
         {/* Video Background (Only visible on small screens) */}
-        {trackDetails.videoUrl ? (
+        {videoEnabled && trackDetails.videoUrl ? (
           <video
             className={`${hide ? "opacity-70" : "opacity-30"} fixed inset-0 z-0 block md:hidden`}
             style={{
@@ -112,7 +123,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
             !hide && (
               <>
                 {/* Track Art and Info */}
-                < TrackArtAndInfo onShow={() => setMenuVisible(true)} />
+                < TrackArtAndInfo onShow={() => setMenuVisible(true)} videoEnabled={videoEnabled} setVideoEnabled={setVideoEnabled}/>
 
                 {/* Progress Bar */}
                 <ProgressBar currentTime={currentTime} duration={duration} />
