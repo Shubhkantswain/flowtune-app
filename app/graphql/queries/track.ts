@@ -11,6 +11,7 @@ export const getFeedTracksQuery = graphql(`
             coverImageUrl
             audioFileUrl
             hasLiked
+            videoUrl
             authorName
         }
     }
@@ -27,6 +28,7 @@ export const getLikedTracksQuery = graphql(`
       coverImageUrl
       audioFileUrl
       hasLiked
+      videoUrl
       authorName
     }
   }

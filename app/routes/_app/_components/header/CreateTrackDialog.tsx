@@ -18,6 +18,7 @@ interface NewSong {
     duration: string;
     language: string;
     genre: string;
+    video: string
 }
 
 interface CreateTrackDialogProps {
@@ -44,12 +45,13 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
             duration: "0",
             language: LANGUAGES[0],
             genre: GENRES[0],
+            video: ""
         },
     });
 
     const onSubmit = async (data: NewSong) => {
         // Submit logic
-        createTrack({ title: data.title, audioFileUrl: audioUrl || "", coverImageUrl: imgUrl, artist: data.artist, duration: data.duration })
+        createTrack({ title: data.title, audioFileUrl: audioUrl || "", videoUrl: data.video, coverImageUrl: imgUrl, artist: data.artist, duration: data.duration })
     };
 
     return (
@@ -147,6 +149,14 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
                         <label className="text-sm font-medium text-white">Artist</label>
                         <Input
                             {...register("artist")}
+                            className="bg-zinc-800 border-zinc-700 text-white"
+                        />
+                    </div>
+
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium text-white">Video Url</label>
+                        <Input
+                            {...register("video")}
                             className="bg-zinc-800 border-zinc-700 text-white"
                         />
                     </div>

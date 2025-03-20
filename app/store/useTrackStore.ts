@@ -9,6 +9,7 @@ interface TrackStore {
         artist: string;
         duration: string;
         coverImageUrl: string | null;
+        videoUrl: string | null;
         audioFileUrl: string;
         hasLiked: boolean;
         authorName: string;
@@ -31,6 +32,7 @@ export const useTrackStore = create<TrackStore>((set) => ({
         artist: '',
         duration: '',
         coverImageUrl: null,
+        videoUrl: null,
         audioFileUrl: '',
         hasLiked: false,
         authorName: "",

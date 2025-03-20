@@ -12,10 +12,10 @@ function TrackArtAndInfo({ onShow }: { onShow: () => void }) {
         <div className="px-8 pt-8 -mt-7">
 
             <div
-                className={`aspect-square w-full max-w-sm lg:max-w-[300px] lg:ml-0 mx-auto bg-zinc-800 rounded-lg mb-8 will-change-transform transition-transform duration-500 ease-out transform wave-container ${trackDetails.isPlaying ? 'scale-100 playing' : 'scale-95'}`}
+                className={`aspect-square w-full max-w-sm lg:max-w-[300px] lg:ml-0 mx-auto rounded-lg mb-8 will-change-transform transition-transform duration-500 ease-out transform wave-container ${trackDetails.isPlaying ? 'scale-100 playing' : 'scale-95'}`}
             >
                 {/* Left side wave lines */}
-                <div className="wave-lines-left">
+                <div className="wave-lines-left hidden md:block">
                     <div className="wave-line"></div>
                     <div className="wave-line"></div>
                     <div className="wave-line"></div>
@@ -42,11 +42,11 @@ function TrackArtAndInfo({ onShow }: { onShow: () => void }) {
                 <img
                     src={trackDetails.coverImageUrl || ""}
                     alt="Album art"
-                    className="w-full h-full object-cover rounded-lg"
+                    className="w-full h-full object-cover rounded-lg hidden md:block"
                 />
 
                 {/* Right side wave lines */}
-                <div className="wave-lines-right">
+                <div className="wave-lines-right hidden md:block">
                     <div className="wave-line"></div>
                     <div className="wave-line"></div>
                     <div className="wave-line"></div>
@@ -68,6 +68,67 @@ function TrackArtAndInfo({ onShow }: { onShow: () => void }) {
                     <div className="wave-line"></div>
                     <div className="wave-line"></div>
                 </div>
+
+                {
+                    !trackDetails.videoUrl && (
+                        <>
+                            {/* Left side wave lines */}
+                            <div className="wave-lines-left block md:hidden">
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                            </div>
+
+                            {/* Image */}
+                            <img
+                                src={trackDetails.coverImageUrl || ""}
+                                alt="Album art"
+                                className="w-full h-full object-cover rounded-lg block md:hidden"
+                            />
+
+                            {/* Right side wave lines */}
+                            <div className="wave-lines-right block md:hidden">
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                                <div className="wave-line"></div>
+                            </div>
+                        </>
+                    )
+                }
             </div>
 
             <div className="flex justify-between items-center">

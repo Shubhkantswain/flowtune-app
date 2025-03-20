@@ -27,7 +27,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
   const [isQueueTrackVisible, setIsQueueTrackVisible] = useState(false);
   const { getAllTracks, isTrackInQueue, getQueueSize, dequeueFirstTrack } = useQueueStore();
   const [queueTracks, setQueueTracks] = useState<Track[]>([]);
-  const {isSleepModeComplete} = useSleepModeStore()
+  const { isSleepModeComplete } = useSleepModeStore()
 
   // Fetch all tracks whenever the queue changes
   useEffect(() => {
@@ -35,7 +35,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
   }, [getQueueSize()]); // Re-run when queue size changes
 
   useEffect(() => {
-    if(isSleepModeComplete){
+    if (isSleepModeComplete) {
       Swal.fire({
         title: "Sleep Mode Completed",
         text: "Your sleep timer has ended. It's time to rest and recharge. Goodnight Dear!",
@@ -57,22 +57,53 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
     };
   }, [isOpen]);
 
+  console.log("trackDetails.videoUrl", trackDetails.videoUrl);
+  
   return (
     <>
       <div
         className={`[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] fixed inset-0 bg-black overflow-y-auto z-50 ${isOpen ? 'translate-y-0' : 'translate-y-full'
           }`}
       >
-        {/* Background Image */}
+        {/* Background Image (Visible on md and larger) */}
         <div
-          className="fixed inset-0 z-0 opacity-30"
+          className="fixed inset-0 z-0 opacity-30 hidden md:block"
           style={{
             backgroundImage: `url(${trackDetails.coverImageUrl})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            filter: 'blur(40px)',
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            filter: "blur(40px)",
           }}
         />
+
+        {/* Video Background (Only visible on small screens) */}
+        {trackDetails.videoUrl ? (
+          <video
+            className="fixed inset-0 z-0 opacity-30 block md:hidden"
+            style={{
+              objectFit: "cover",
+              width: "100%",
+              height: "100%",
+              filter: "blur(0px)",
+            }}
+            src={trackDetails.videoUrl || ""}
+            autoPlay
+            loop
+            muted
+          />
+        ) : (
+          <div
+            className="fixed inset-0 z-0 opacity-30 block md:hidden"
+            style={{
+              backgroundImage: `url(${trackDetails.coverImageUrl})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              filter: "blur(40px)",
+            }}
+          />
+        )}
+
+
 
         <div className="relative z-10 max-w-3xl mx-auto min-h-full">
           {/* Header */}

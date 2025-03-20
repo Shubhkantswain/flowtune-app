@@ -47,6 +47,7 @@ const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitial
         duration: track.duration,
         coverImageUrl: track.coverImageUrl || "",
         audioFileUrl: track.audioFileUrl,
+        videoUrl: track.videoUrl,
         hasLiked: track.hasLiked,
         authorName: track.authorName,
         isPlaying: true,
