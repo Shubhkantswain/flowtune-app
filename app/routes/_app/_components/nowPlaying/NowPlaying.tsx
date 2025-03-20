@@ -29,6 +29,8 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
   const [queueTracks, setQueueTracks] = useState<Track[]>([]);
   const { isSleepModeComplete } = useSleepModeStore()
 
+  const [hide, setHide] = useState(false)
+
   // Fetch all tracks whenever the queue changes
   useEffect(() => {
     setQueueTracks(getAllTracks());
@@ -57,8 +59,6 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
     };
   }, [isOpen]);
 
-  console.log("trackDetails.videoUrl", trackDetails.videoUrl);
-  
   return (
     <>
       <div
@@ -79,7 +79,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
         {/* Video Background (Only visible on small screens) */}
         {trackDetails.videoUrl ? (
           <video
-            className="fixed inset-0 z-0 opacity-30 block md:hidden"
+            className={`${hide ? "opacity-70" : "opacity-30"} fixed inset-0 z-0 block md:hidden`}
             style={{
               objectFit: "cover",
               width: "100%",
@@ -104,22 +104,28 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
         )}
 
 
-
         <div className="relative z-10 max-w-3xl mx-auto min-h-full">
           {/* Header */}
-          <Header onClose={onClose} onShowQueueTrack={() => setIsQueueTrackVisible(true)} />
+          <Header onClose={onClose} onShowQueueTrack={() => setIsQueueTrackVisible(true)} hide={hide} setHide={setHide} />
 
-          {/* Track Art and Info */}
-          <TrackArtAndInfo onShow={() => setMenuVisible(true)} />
+          {
+            !hide && (
+              <>
+                {/* Track Art and Info */}
+                < TrackArtAndInfo onShow={() => setMenuVisible(true)} />
 
-          {/* Progress Bar */}
-          <ProgressBar currentTime={currentTime} duration={duration} />
+                {/* Progress Bar */}
+                <ProgressBar currentTime={currentTime} duration={duration} />
 
-          {/* Controls */}
-          <TrackControllers />
+                {/* Controls */}
+                <TrackControllers />
+              </>
+            )
+          }
         </div>
-      </div>
 
+
+      </div>
       <TrackActionsMenu isVisible={menuVisible} onDismiss={() => setMenuVisible(false)} />
       <ShowQueueTracks isQueueTrackVisible={isQueueTrackVisible} onHideQueueTrack={() => setIsQueueTrackVisible(false)} queueTracks={queueTracks} />
     </>

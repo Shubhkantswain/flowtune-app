@@ -76,12 +76,12 @@ const LeftTrackInfo: React.FC<LeftTrackInfoProps> = ({ setIsOpen }) => {
                     {trackDetails.id && (
                         <div className="absolute -top-10 left-0 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
                 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                            {trackDetails.artist}
+                            {trackDetails.singer}
                         </div>
                     )}
 
                     <p className="text-sm text-gray-400 truncate cursor-pointer">
-                        {trackDetails.artist || "Artist Name"}
+                        {trackDetails.singer || "Artist Name"}
                     </p>
                 </div>
             </div>

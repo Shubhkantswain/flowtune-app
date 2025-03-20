@@ -108,20 +108,32 @@ const Playbackcontroller = () => {
                 return
             }
 
+            // id   
+            // title            
+            // singer          
+            // starCast
+            // duration             
+            // coverImageUrl    
+            // videoUrl
+            // audioFileUrl 
+            // hasLiked
+            // authorId
+
+
             const track = dequeueFirstTrack()
             if (track) {
                 setTrackDetails({
                     id: track.id,
                     title: track.title,
-                    artist: track.artist,
+                    singer: track.singer,
+                    starCast: track.starCast,
                     duration: track.duration,
                     coverImageUrl: track.coverImageUrl || "",
-                    audioFileUrl: track.audioFileUrl,
                     videoUrl: track.videoUrl,
+                    audioFileUrl: track.audioFileUrl,
                     hasLiked: track.hasLiked,
-                    authorName: track.authorName,
+                    authorId: track.authorId,
                     isPlaying: true,
-                    fromClick: false
                 });
                 setCurrentTrack(track.id)
                 return
@@ -133,15 +145,15 @@ const Playbackcontroller = () => {
                     setTrackDetails({
                         id: nextTrack.id,
                         title: nextTrack.title,
-                        artist: nextTrack.artist,
+                        singer: nextTrack.singer,
+                        starCast: nextTrack.starCast,
                         duration: nextTrack.duration,
                         coverImageUrl: nextTrack.coverImageUrl || "",
-                        audioFileUrl: nextTrack.audioFileUrl,
                         videoUrl: nextTrack.videoUrl,
+                        audioFileUrl: nextTrack.audioFileUrl,
                         hasLiked: nextTrack.hasLiked,
-                        authorName: nextTrack.authorName,
+                        authorId: nextTrack.authorId,
                         isPlaying: true,
-                        fromClick: true
                     })
                 }
             }

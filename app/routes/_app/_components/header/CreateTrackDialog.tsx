@@ -14,11 +14,12 @@ import { useCreateTrack } from "~/hooks/track";
 
 interface NewSong {
     title: string;
-    artist: string;
+    singer: string;
+    starCast: string;
     duration: string;
+    videoUrl: string
     language: string;
     genre: string;
-    video: string
 }
 
 interface CreateTrackDialogProps {
@@ -41,17 +42,18 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
     const { register, handleSubmit, setValue } = useForm<NewSong>({
         defaultValues: {
             title: "",
-            artist: "",
+            singer: "",
+            starCast: "",
             duration: "0",
+            videoUrl: "",
             language: LANGUAGES[0],
             genre: GENRES[0],
-            video: ""
         },
     });
 
     const onSubmit = async (data: NewSong) => {
         // Submit logic
-        createTrack({ title: data.title, audioFileUrl: audioUrl || "", videoUrl: data.video, coverImageUrl: imgUrl, artist: data.artist, duration: data.duration })
+        createTrack({ title: data.title, singer: data.singer, starCast: data.starCast, duration: data.duration, coverImageUrl: imgUrl, videoUrl: data.videoUrl, audioFileUrl: audioUrl || "",language: data.language, genre: data.genre })
     };
 
     return (
@@ -146,9 +148,28 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-sm font-medium text-white">Artist</label>
+                        <label className="text-sm font-medium text-white">Singer</label>
                         <Input
-                            {...register("artist")}
+                            {...register("singer")}
+                            className="bg-zinc-800 border-zinc-700 text-white"
+                        />
+                    </div>
+
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium text-white">StarCast</label>
+                        <Input
+                            {...register("starCast")}
+                            className="bg-zinc-800 border-zinc-700 text-white"
+                        />
+                    </div>
+
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium text-white">Duration (seconds)</label>
+                        <Input
+                            {...register("duration")}
+                            type="number"
+                            min="0"
+                            readOnly
                             className="bg-zinc-800 border-zinc-700 text-white"
                         />
                     </div>
@@ -156,7 +177,7 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
                     <div className="space-y-2">
                         <label className="text-sm font-medium text-white">Video Url</label>
                         <Input
-                            {...register("video")}
+                            {...register("videoUrl")}
                             className="bg-zinc-800 border-zinc-700 text-white"
                         />
                     </div>
@@ -205,18 +226,6 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
                                 </svg>
                             </div>
                         </div>
-                    </div>
-
-
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium text-white">Duration (seconds)</label>
-                        <Input
-                            {...register("duration")}
-                            type="number"
-                            min="0"
-                            readOnly
-                            className="bg-zinc-800 border-zinc-700 text-white"
-                        />
                     </div>
 
                     <DialogFooter>

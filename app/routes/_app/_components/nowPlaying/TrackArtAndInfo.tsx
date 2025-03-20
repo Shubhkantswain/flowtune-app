@@ -144,10 +144,10 @@ function TrackArtAndInfo({ onShow }: { onShow: () => void }) {
 
                     <div className="relative group">
                         <p className="text-zinc-400 transition-all duration-300 truncate overflow-hidden max-w-full">
-                            {trackDetails.artist}
+                            {trackDetails.singer}
                         </p>
                         <span className="absolute left-0 bottom-full mb-1 w-max px-2 py-1 bg-zinc-800  border border-white text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                            {trackDetails.artist}
+                            {trackDetails.singer}
                         </span>
                     </div>
                 </div>

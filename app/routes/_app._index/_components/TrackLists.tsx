@@ -43,15 +43,15 @@ const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitial
       setTrackDetails({
         id: track.id,
         title: track.title,
-        artist: track.artist,
+        singer: track.singer,
+        starCast: track.starCast,
         duration: track.duration,
         coverImageUrl: track.coverImageUrl || "",
-        audioFileUrl: track.audioFileUrl,
         videoUrl: track.videoUrl,
+        audioFileUrl: track.audioFileUrl,
         hasLiked: track.hasLiked,
-        authorName: track.authorName,
+        authorId: track.authorId,
         isPlaying: true,
-        fromClick: true
       });
 
       setCurrentTrack(track.id)

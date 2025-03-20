@@ -14,7 +14,7 @@ function TrackInfoSection() {
             </div>
             <div className="space-y-3">
                 <h2 className="text-xl font-bold">{trackDetails.title}</h2>
-                <p className="text-gray-400">{trackDetails.artist}</p>
+                <p className="text-gray-400">{trackDetails.singer}</p>
             </div>
         </div>
 

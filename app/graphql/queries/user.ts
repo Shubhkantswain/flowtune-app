@@ -14,18 +14,19 @@ export const getUserProfileQuery = graphql(`#graphql
     }
         `)
     
-    export const getUserTracksQuery = graphql(`#graphql
-      query GetUserTracks($payload: GetUserTracksPayload!) {
+export const getUserTracksQuery = graphql(`#graphql
+    query GetUserTracks($payload: GetUserTracksPayload!) {
       getUserTracks(payload: $payload) {
-        
-    id                  
-    title           
-    artist 
-    duration           
-    coverImageUrl     
-    audioFileUrl            
-    hasLiked 
-    authorName
+        id   
+        title            
+        singer          
+        starCast
+        duration             
+        coverImageUrl    
+        videoUrl
+        audioFileUrl 
+        hasLiked
+        authorId
       }
     }
-            `)
+`)

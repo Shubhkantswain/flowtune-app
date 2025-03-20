@@ -6,16 +6,16 @@ interface TrackStore {
     trackDetails: {
         id: string;
         title: string;
-        artist: string;
+        singer: string | null;
+        starCast: string | null;
         duration: string;
         coverImageUrl: string | null;
         videoUrl: string | null;
         audioFileUrl: string;
         hasLiked: boolean;
-        authorName: string;
+        authorId: string;
         isPlaying: boolean;
         audoRef: AudioRefType | null;
-        fromClick: boolean
     };
     setTrackDetails: (trackDetails: Partial<TrackStore['trackDetails']>) => void;
     togglePlay: () => void;
@@ -29,16 +29,16 @@ export const useTrackStore = create<TrackStore>((set) => ({
     trackDetails: {
         id: '',
         title: '',
-        artist: '',
+        singer: '',
+        starCast: '',
         duration: '',
         coverImageUrl: null,
         videoUrl: null,
         audioFileUrl: '',
         hasLiked: false,
-        authorName: "",
+        authorId: "",
         isPlaying: false,
         audoRef: null,
-        fromClick: false
     },
     setTrackDetails: (trackDetails) =>
         set((state) => ({
