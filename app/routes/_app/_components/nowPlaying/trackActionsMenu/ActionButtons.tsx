@@ -4,6 +4,7 @@ import { useQueueStore } from '~/store/useQueueStore';
 import { useTrackStore } from '~/store/useTrackStore';
 import ShowPlaybackOptions from './ShowPlaybackOptions';
 import ShowSleepModeOptions from './ShowSleepModeOptions';
+import { Switch } from '~/components/ui/switch';
 
 const ActionButtons = () => {
     const { trackDetails } = useTrackStore();
@@ -14,6 +15,17 @@ const ActionButtons = () => {
     const { enqueueTrack, dequeueTrack, isTrackInQueue } = useQueueStore()
 
     const [inQueue, setInQueue] = useState(false);
+
+    const [videoEnabled, setVideoEnabled] = useState(true)
+
+    useEffect(() => {
+        const enabled = localStorage.getItem("videoEnabled")
+        if (enabled == null) {
+            setVideoEnabled(true)
+        } else {
+            setVideoEnabled(Boolean(enabled))
+        }
+    }, [])
 
     // Check if the current track is in the queue
     useEffect(() => {
@@ -61,8 +73,34 @@ const ActionButtons = () => {
                 Sleep Mode
             </button>
 
+            <button
+                className="flex items-center w-full gap-3 p-4 rounded-lg text-gray-400 hover:text-white"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-moon-star"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9" /><path d="M20 3v4" /><path d="M22 5h-4" /></svg>
+                    videoEnabled
+                <Switch
+                    checked={videoEnabled}
+                    onCheckedChange={(checked: boolean) => {
+                        if (checked) {
+                            if (typeof window !== "undefined") {
+                                localStorage.setItem("videoEnabled", "true")
+                            }
+                            toast.success("Background video is enabled, Enjoy");
+                        } else {
+                            if (typeof window !== "undefined") {
+                                localStorage.setItem("videoEnabled", "false")
+                            }
+                            toast.success("Background video is disable");
+                        }
+
+                        setVideoEnabled(!videoEnabled)
+                    }}
+                    className="data-[state=checked]:bg-[#fa586a]"
+                />
+            </button>
+
             {showSleepModeOptions && (
-                <ShowSleepModeOptions/>
+                <ShowSleepModeOptions />
             )}
 
             <button className="flex items-center w-full gap-3 p-4 rounded-lg text-gray-400 hover:text-white" onClick={() => setShowPlaybackOptions(!showPlaybackOptions)}>
@@ -70,7 +108,7 @@ const ActionButtons = () => {
                 Playback
             </button>
             {showPlaybackOptions && (
-                <ShowPlaybackOptions/>
+                <ShowPlaybackOptions />
             )}
         </div>
     )

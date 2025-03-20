@@ -66,7 +66,13 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
     if (enabled == null) {
       setVideoEnabled(true)
     } else {
-      setVideoEnabled(Boolean(enabled))
+      if (enabled == "true") {
+        setVideoEnabled(true)
+      } else if (enabled == "false") {
+        setVideoEnabled(false)
+      } else {
+        setVideoEnabled(false)
+      }
     }
   }, [])
 
@@ -123,7 +129,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
             !hide && (
               <>
                 {/* Track Art and Info */}
-                < TrackArtAndInfo onShow={() => setMenuVisible(true)} videoEnabled={videoEnabled} setVideoEnabled={setVideoEnabled}/>
+                < TrackArtAndInfo onShow={() => setMenuVisible(true)} videoEnabled={videoEnabled} setVideoEnabled={setVideoEnabled} />
 
                 {/* Progress Bar */}
                 <ProgressBar currentTime={currentTime} duration={duration} />
