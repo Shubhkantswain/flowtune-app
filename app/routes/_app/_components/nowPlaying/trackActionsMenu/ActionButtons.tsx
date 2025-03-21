@@ -5,6 +5,8 @@ import { useTrackStore } from '~/store/useTrackStore';
 import ShowPlaybackOptions from './ShowPlaybackOptions';
 import ShowSleepModeOptions from './ShowSleepModeOptions';
 import { Switch } from '~/components/ui/switch';
+import { useLikeTrack } from '~/hooks/track';
+import { Label } from '~/components/ui/label';
 
 interface ActionButtonsProps {
     videoEnabled: boolean;
@@ -12,7 +14,7 @@ interface ActionButtonsProps {
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEnabled }) => {
-    const { trackDetails } = useTrackStore();
+    const { trackDetails, setTrackDetails } = useTrackStore();
     const [showPlaybackOptions, setShowPlaybackOptions] = useState(false);
     const [showSleepModeOptions, setShowSleepModeOptions] = useState(false);
     const [showTrackInfo, setShowTrackInfo] = useState(false);
@@ -20,6 +22,8 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEna
     const { enqueueTrack, dequeueTrack, isTrackInQueue } = useQueueStore()
 
     const [inQueue, setInQueue] = useState(false);
+
+    const { mutateAsync: likeTrack, isPending } = useLikeTrack()
 
     // Check if the current track is in the queue
     useEffect(() => {
@@ -29,15 +33,24 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEna
 
     return (
         <div className="space-y-4">
-            <button className="flex items-center w-full gap-3 p-4 rounded-lg text-gray-400 hover:text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" /></svg>
-                Liked
+            <button className="flex items-center w-full gap-3 p-4 rounded-lg text-white" onClick={async () => {
+                await likeTrack(trackDetails.id)
+                setTrackDetails({ hasLiked: !trackDetails.hasLiked })
+            }}>
+                {trackDetails.hasLiked ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#fa586a" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-circle-check"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></svg>
+                ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-circle-plus"><circle cx="12" cy="12" r="10" /><path d="M8 12h8" /><path d="M12 8v8" /></svg>
+                )}
+                {
+                    trackDetails.hasLiked ? "Remove From Your Favourite" : "Add To Your Favourite"
+                }
             </button>
-            <button className="flex items-center w-full gap-3 p-4 rounded-lg text-gray-400 hover:text-white">
+            <button className="flex items-center w-full gap-3 p-4 rounded-lg text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-plus"><path d="M5 12h14" /><path d="M12 5v14" /></svg>
                 Add To Playlist
             </button>
-            <button className="flex items-center w-full gap-3 p-4 rounded-lg text-gray-400 hover:text-white" onClick={() => {
+            <button className="flex items-center w-full gap-3 p-4 rounded-lg text-white" onClick={() => {
                 if (inQueue) {
                     dequeueTrack(trackDetails.id);
                     toast.success(`"${trackDetails.title}" removed from queue`);
@@ -50,20 +63,12 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEna
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-list-music"><path d="M21 15V6" /><path d="M18.5 18a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" /><path d="M12 12H3" /><path d="M16 6H3" /><path d="M12 18H3" /></svg>
                 {inQueue ? "Remove from queue" : "Add to queue"}
             </button>
-            <button className="flex items-center w-full gap-3 p-4 rounded-lg text-gray-400 hover:text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-share-2"><circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" /><line x1="8.59" x2="15.42" y1="13.51" y2="17.49" /><line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
-                Share
-            </button>
-            <button className="flex items-center w-full gap-3 p-4 rounded-lg text-gray-400 hover:text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-notepad-text"><path d="M8 2v4" /><path d="M12 2v4" /><path d="M16 2v4" /><rect width="16" height="18" x="4" y="4" rx="2" /><path d="M8 10h6" /><path d="M8 14h8" /><path d="M8 18h5" /></svg>
-                Track Info
-            </button>
 
             <button
-                className="flex items-center w-full gap-3 p-4 rounded-lg text-gray-400 hover:text-white"
+                className="flex items-center w-full gap-3 p-4 rounded-lg text-white"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-aperture"><circle cx="12" cy="12" r="10" /><path d="m14.31 8 5.74 9.94" /><path d="M9.69 8h11.48" /><path d="m7.38 12 5.74-9.94" /><path d="M9.69 16 3.95 6.06" /><path d="M14.31 16H2.83" /><path d="m16.62 12-5.74 9.94" /></svg>
-                videoEnabled
+                Background Video Enabled
                 <Switch
                     checked={videoEnabled}
                     onCheckedChange={(checked: boolean) => {
@@ -86,7 +91,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEna
             </button>
 
             <button
-                className="flex items-center w-full gap-3 p-4 rounded-lg text-gray-400 hover:text-white"
+                className="flex items-center w-full gap-3 p-4 rounded-lg text-white"
                 onClick={() => setShowSleepModeOptions(!showSleepModeOptions)}
             >
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-moon-star"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9" /><path d="M20 3v4" /><path d="M22 5h-4" /></svg>
@@ -97,13 +102,38 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEna
                 <ShowSleepModeOptions />
             )}
 
-            <button className="flex items-center w-full gap-3 p-4 rounded-lg text-gray-400 hover:text-white" onClick={() => setShowPlaybackOptions(!showPlaybackOptions)}>
+            <button className="flex items-center w-full gap-3 p-4 rounded-lg text-white" onClick={() => setShowPlaybackOptions(!showPlaybackOptions)}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-youtube"><path d="M2.5 17a24.12 24.12 0 0 1 0-10a2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17" /><path d="m10 15 5-3-5-3z" /></svg>
                 Playback
             </button>
             {showPlaybackOptions && (
                 <ShowPlaybackOptions />
             )}
+
+
+            <button className="flex items-center w-full gap-3 p-4 rounded-lg text-white" onClick={() => setShowTrackInfo(!showTrackInfo)}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-notepad-text"><path d="M8 2v4" /><path d="M12 2v4" /><path d="M16 2v4" /><rect width="16" height="18" x="4" y="4" rx="2" /><path d="M8 10h6" /><path d="M8 14h8" /><path d="M8 18h5" /></svg>
+                Track Info
+            </button>
+
+            {
+                showTrackInfo && (
+                    <div className="p-5 bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-2xl space-y-4 transition-all duration-300 ease-in-out border border-white/10 max-w-xs mx-auto sm:mx-0 shadow-xl shadow-black/30">
+                        {/* Track Info */}
+                        <div className="space-y-3 text-white">
+                            <p className="text-sm text-gray-300">
+                                <strong className="text-white">Album:</strong> {trackDetails.title}
+                            </p>
+                            <p className="text-sm text-gray-300">
+                                <strong className="text-white">Singer:</strong> {trackDetails.singer}
+                            </p>
+                            <p className="text-sm text-gray-300">
+                                <strong className="text-white">Star Cast:</strong> {trackDetails.starCast}
+                            </p>
+                        </div>
+                    </div>
+                )
+            }
         </div>
     )
 }

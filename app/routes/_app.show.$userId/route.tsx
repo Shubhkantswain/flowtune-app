@@ -84,7 +84,7 @@ const UserPage = () => {
     const [initialized, setInitialized] = useState(false)
     const { initialize, setCurrentTrack, setActiveSectionIndex } = usePlaylistStore()
 
-    const [tracks, setTracks] = useState<Track[]>([])
+    const [tracks, setTracks] = useState<Track[]>(user.tracks)
     const [page, setPage] = useState(1)
 
     const { data } = useGetUserTracks(userId || "", page)
@@ -94,17 +94,15 @@ const UserPage = () => {
     }
 
     useEffect(() => {
-        if (page == 1) {
-            setTracks(user.tracks)
-        }
-    }, [user])
-
-    useEffect(() => {
         if (data) {
-            setTracks(prevTracks => [...prevTracks, ...(Array.isArray(data) ? data : [data])]);
+            const newArray = [...tracks, ...(Array.isArray(data) ? data : [data])]
+            setTracks(newArray);
+            initialize(newArray)
+            setCurrentTrack(trackDetails.id)
         }
     }, [data]);
 
+    // to prevent the main page
     useEffect(() => {
         setActiveSectionIndex(-1)
     }, [])
