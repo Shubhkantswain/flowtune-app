@@ -82,7 +82,7 @@ const UserPage = () => {
     const { userId } = useParams(); // Get the dynamic userId
 
     const [initialized, setInitialized] = useState(false)
-    const { initialize, setCurrentTrack } = usePlaylistStore()
+    const { initialize, setCurrentTrack, setActiveSectionIndex } = usePlaylistStore()
 
     const [tracks, setTracks] = useState<Track[]>([])
     const [page, setPage] = useState(1)
@@ -105,6 +105,9 @@ const UserPage = () => {
         }
     }, [data]);
 
+    useEffect(() => {
+        setActiveSectionIndex(-1)
+    }, [])
 
     return (
         <div className="text-white relative min-h-screen">

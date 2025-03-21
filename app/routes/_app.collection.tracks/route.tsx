@@ -36,10 +36,14 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> 
 const LikedTracks = () => {
 
   const tracks = useLoaderData<Track[]>(); // Properly typed loader data
-  const { initialize, setCurrentTrack, getCurrent } = usePlaylistStore()
+  const { initialize, setCurrentTrack, getCurrent, setActiveSectionIndex } = usePlaylistStore()
   const { setTrackDetails, trackDetails } = useTrackStore()
   const [initialized, setInitialized] = useState(false)
 
+  useEffect(() => {
+    setActiveSectionIndex(-1)
+  }, [])
+  
   return (
     <div className="min-h-screen">
       <div className="p-4 sm:p-6 md:p-8">
@@ -161,7 +165,9 @@ const LikedTracks = () => {
                         return;
                       }
                       else {
-                        initialize(tracks)
+                        if (!initialized) {
+                          initialize(tracks)
+                        }
 
                         setTrackDetails({
                           id: track.id,
