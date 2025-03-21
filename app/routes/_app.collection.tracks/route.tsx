@@ -39,7 +39,7 @@ const LikedTracks = () => {
   const { initialize, setCurrentTrack, getCurrent } = usePlaylistStore()
   const { setTrackDetails, trackDetails } = useTrackStore()
   const [initialized, setInitialized] = useState(false)
-  
+
   return (
     <div className="min-h-screen">
       <div className="p-4 sm:p-6 md:p-8">
@@ -87,14 +87,15 @@ const LikedTracks = () => {
                 setTrackDetails({
                   id: tracks[0].id,
                   title: tracks[0].title,
-                  artist: tracks[0].artist,
+                  singer: tracks[0].singer,
+                  starCast: tracks[0].starCast,
                   duration: tracks[0].duration,
                   coverImageUrl: tracks[0].coverImageUrl || "",
+                  videoUrl: tracks[0].videoUrl,
                   audioFileUrl: tracks[0].audioFileUrl,
                   hasLiked: tracks[0].hasLiked,
-                  authorName: tracks[0].authorName,
+                  authorId: tracks[0].authorId,
                   isPlaying: true,
-                  fromClick: true
                 });
               }}>
                 <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -160,21 +161,20 @@ const LikedTracks = () => {
                         return;
                       }
                       else {
-                        if(!initialized){
-                          initialize(tracks)
-                        }
+                        initialize(tracks)
 
                         setTrackDetails({
                           id: track.id,
                           title: track.title,
-                          artist: track.artist,
+                          singer: track.singer,
+                          starCast: track.starCast,
                           duration: track.duration,
                           coverImageUrl: track.coverImageUrl || "",
+                          videoUrl: track.videoUrl,
                           audioFileUrl: track.audioFileUrl,
                           hasLiked: track.hasLiked,
-                          authorName: track.authorName,
+                          authorId: track.authorId,
                           isPlaying: true,
-                          fromClick: true
                         });
 
                         setCurrentTrack(track.id)
@@ -214,10 +214,10 @@ const LikedTracks = () => {
                           </div>
                           <div className="flex flex-col min-w-0">
                             <span className="text-white font-medium truncate">{track.title}</span>
-                            <span className="text-gray-400 text-sm truncate">{track.artist}</span>
+                            <span className="text-gray-400 text-sm truncate">{track.singer}</span>
                           </div>
                         </div>
-              
+
                       </div>
 
                       {/* Desktop View */}
@@ -256,8 +256,7 @@ const LikedTracks = () => {
                           <span className="text-white font-medium truncate">{track.title}</span>
                         </div>
 
-                        <div className="text-gray-400 truncate">{track.artist}</div>
-                        <div className="text-gray-400 truncate">{track.artist}</div>
+                        <div className="text-gray-400 truncate">{track.singer}</div>
                         <div className="flex justify-center">
                           <button className="text-gray-400 hover:text-white p-2">
                             <MoreHorizontal className="w-5 h-5" />
