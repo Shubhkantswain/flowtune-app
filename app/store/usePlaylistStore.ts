@@ -18,6 +18,8 @@ interface PlaylistState {
   tail: Node; // Dummy tail node (always exists)
   current: Node | null; // Current track node (can be null if no track is selected)
   nodesMap: Record<string, Node>; // Hash map for O(1) lookup
+  activeSectionIndex: number;
+  setActiveSectionIndex: (index: number) => void;
   initialize: (tracks: Track[]) => void;
   next: () => Track | null;
   prev: () => Track | null;
@@ -33,6 +35,7 @@ const usePlaylistStore = create<PlaylistState>((set, get) => ({
   head: new Node(), // Dummy head node
   tail: new Node(), // Dummy tail node
   current: null,
+  activeSectionIndex: -1,
   nodesMap: {}, // Initialize the hash map
 
   initialize: (tracks: Track[]) => {
@@ -97,12 +100,22 @@ const usePlaylistStore = create<PlaylistState>((set, get) => ({
     return current !== null && current.prev !== head;
   },
 
+  setActiveSectionIndex: (index) => {
+    set({activeSectionIndex: index})
+  },
+
   // O(1) lookup using the hash map
-  setCurrentTrack: (trackId: string) => {
+  setCurrentTrack: (trackId) => {
     const { nodesMap } = get();
+    console.log("nodeMap", nodesMap);
+
     const node = nodesMap[trackId]; // Directly access the node
+    console.log("node", node);
+
     if (node) {
       set({ current: node });
+    } else {
+      set({ current: null })
     }
   },
 

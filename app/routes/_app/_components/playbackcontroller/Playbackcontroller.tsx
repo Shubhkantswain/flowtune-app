@@ -108,18 +108,6 @@ const Playbackcontroller = () => {
                 return
             }
 
-            // id   
-            // title            
-            // singer          
-            // starCast
-            // duration             
-            // coverImageUrl    
-            // videoUrl
-            // audioFileUrl 
-            // hasLiked
-            // authorId
-
-
             const track = dequeueFirstTrack()
             if (track) {
                 setTrackDetails({

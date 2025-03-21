@@ -4,9 +4,8 @@ import { Track } from 'gql/graphql';
 import TrackLists from './TrackLists';
 import Header from './Header';
 
-function TrackSection({ tracks, active, setActive, index }: {
-    tracks: Track[], active: number;
-    setActive: React.Dispatch<React.SetStateAction<number>>;
+function TrackSection({ tracks, index }: {
+    tracks: Track[],
     index: number
 }) {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -53,7 +52,7 @@ function TrackSection({ tracks, active, setActive, index }: {
     return (
         <div className="text-white p-4 sm:p-6 md:p-8">
             {/* Haeder:- which include the title, left and right arrows and see all button //*/}
-            <Header scroll={scroll} tracks={tracks} initialized={initialized} setInitialized={setInitialized} />
+            <Header scroll={scroll} tracks={tracks} initialized={initialized} setInitialized={setInitialized} index={index} />
 
             <div className="relative">
                 <div
@@ -61,7 +60,7 @@ function TrackSection({ tracks, active, setActive, index }: {
                     className="flex gap-4 sm:gap-5 md:gap-8 overflow-x-auto scrollbar-hide [-webkit-overflow-scrolling:touch] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden font-serif"
                     style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                 >
-                    <TrackLists tracks={tracks} initialized={initialized} setInitialized={setInitialized} active={active} setActive={setActive} index={index}/>
+                    <TrackLists tracks={tracks} initialized={initialized} setInitialized={setInitialized} index={index} />
                 </div>
             </div>
         </div>

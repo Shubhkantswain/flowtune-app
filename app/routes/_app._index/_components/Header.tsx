@@ -8,9 +8,10 @@ interface HeaderProps {
     tracks: Track[]
     initialized: boolean;
     setInitialized: React.Dispatch<React.SetStateAction<boolean>>;
+    index: number
 }
 
-const Header: React.FC<HeaderProps> = ({ scroll, tracks, initialized, setInitialized }) => {
+const Header: React.FC<HeaderProps> = ({ scroll, tracks, initialized, setInitialized, index }) => {
     const [isOpen, setIsOpen] = useState(false)
 
     return (
@@ -51,7 +52,7 @@ const Header: React.FC<HeaderProps> = ({ scroll, tracks, initialized, setInitial
             </header>
 
             {
-                isOpen && <ShowTrackDialog isOpen={isOpen} onClose={() => setIsOpen(false)} tracks={tracks} initialized={initialized} setInitialized={setInitialized} />
+                isOpen && <ShowTrackDialog isOpen={isOpen} onClose={() => setIsOpen(false)} tracks={tracks} initialized={initialized} setInitialized={setInitialized} index={index} />
             }
         </>
     )

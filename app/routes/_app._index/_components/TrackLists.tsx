@@ -7,12 +7,10 @@ interface TrackListsProps {
   tracks: Track[]
   initialized: boolean;
   setInitialized: React.Dispatch<React.SetStateAction<boolean>>;
-  active: number;
-  setActive: React.Dispatch<React.SetStateAction<number>>;
   index: number
 }
 
-const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitialized, active, setActive, index }) => {
+const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitialized, index }) => {
   const tracksToRender = [
     ...tracks,
     ...Array(Math.max(0, 8 - tracks.length)).fill(null)
@@ -21,7 +19,7 @@ const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitial
 
   const { trackDetails, setTrackDetails } = useTrackStore()
 
-  const { initialize, setCurrentTrack, getCurrent } = usePlaylistStore()
+  const { initialize, setCurrentTrack, getCurrent, activeSectionIndex, setActiveSectionIndex } = usePlaylistStore()
 
   const handleClick = (isPlayingCurrentSong: boolean, track: Track) => {
     if (isPlayingCurrentSong && initialized) {
@@ -33,7 +31,7 @@ const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitial
       return;
     }
     else {
-      if (index != active) {
+      if (index != activeSectionIndex) {
         console.log("else ooooooooooooo");
         initialize(tracksToRender.filter(track => track !== null && track !== undefined));
       }
@@ -41,7 +39,7 @@ const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitial
       setTrackDetails({
         id: track.id,
         title: track.title,
-        singer: track.singer,
+        singer: track.singer,  
         starCast: track.starCast,
         duration: track.duration,
         coverImageUrl: track.coverImageUrl || "",
@@ -54,10 +52,10 @@ const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitial
 
       setCurrentTrack(track.id)
       setInitialized(true)
-      setActive(index)
+      setActiveSectionIndex(index)
     }
-
   };
+  
   return (
     <>
       {tracksToRender.map((track, index) => {

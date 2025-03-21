@@ -52,12 +52,10 @@ const AppleMusicHomepage: React.FC = () => {
     tracks.slice(sectionSize * 2, sectionSize * 3),
   ];
 
-  const [active, setActive] = useState(-1)
-
   return (
     <>
       {trackSections.map((section, index) => (
-        <TrackSection key={index} tracks={section} active={active} setActive={setActive} index={index} />
+        <TrackSection key={index} tracks={section} index={index} />
       ))}
       {/* Load More Button */}
       <div className="flex justify-center mt-6">

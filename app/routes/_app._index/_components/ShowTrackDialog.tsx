@@ -10,11 +10,12 @@ interface ShowTrackDialogProps {
     tracks: Track[]; // Pass the tracks as a prop
     initialized: boolean;
     setInitialized: React.Dispatch<React.SetStateAction<boolean>>;
+    index: number
 }
 
-function ShowTrackDialog({ isOpen, onClose, tracks, initialized, setInitialized }: ShowTrackDialogProps) {
+function ShowTrackDialog({ isOpen, onClose, tracks, initialized, setInitialized, index }: ShowTrackDialogProps) {
     const { trackDetails, setTrackDetails } = useTrackStore()
-    const { getCurrent, initialize, setCurrentTrack } = usePlaylistStore()
+    const { getCurrent, initialize, setCurrentTrack, setActiveSectionIndex, activeSectionIndex } = usePlaylistStore()
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
@@ -40,7 +41,10 @@ function ShowTrackDialog({ isOpen, onClose, tracks, initialized, setInitialized 
                                     return;
                                 }
                                 else {
-                                    initialize(tracks)
+                                    if(index != activeSectionIndex){
+                                        console.log("done------------");
+                                        initialize(tracks)
+                                    }
 
                                     setTrackDetails({
                                         id: track.id,
@@ -58,6 +62,7 @@ function ShowTrackDialog({ isOpen, onClose, tracks, initialized, setInitialized 
 
                                     setCurrentTrack(track.id)
                                     setInitialized(true)
+                                    setActiveSectionIndex(index)
                                 }
                             }}
                         >
