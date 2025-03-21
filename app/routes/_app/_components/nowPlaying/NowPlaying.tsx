@@ -129,7 +129,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
             !hide && (
               <>
                 {/* Track Art and Info */}
-                < TrackArtAndInfo onShow={() => setMenuVisible(true)} videoEnabled={videoEnabled} setVideoEnabled={setVideoEnabled} />
+                <TrackArtAndInfo onShow={() => setMenuVisible(true)} videoEnabled={videoEnabled} />
 
                 {/* Progress Bar */}
                 <ProgressBar currentTime={currentTime} duration={duration} />
@@ -143,7 +143,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
 
 
       </div>
-      <TrackActionsMenu isVisible={menuVisible} onDismiss={() => setMenuVisible(false)} />
+      <TrackActionsMenu isVisible={menuVisible} onDismiss={() => setMenuVisible(false)} videoEnabled={videoEnabled} setVideoEnabled={setVideoEnabled}/>
       <ShowQueueTracks isQueueTrackVisible={isQueueTrackVisible} onHideQueueTrack={() => setIsQueueTrackVisible(false)} queueTracks={queueTracks} />
     </>
   );

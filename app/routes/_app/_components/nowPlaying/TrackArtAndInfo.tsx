@@ -7,7 +7,6 @@ import { useTrackStore } from '~/store/useTrackStore'
 function TrackArtAndInfo({ onShow, videoEnabled }: {
     onShow: () => void,
     videoEnabled: boolean;
-    setVideoEnabled: React.Dispatch<React.SetStateAction<boolean>>
 }) {
     const { trackDetails, setTrackDetails } = useTrackStore()
     const { mutateAsync: likeTrack, isPending } = useLikeTrack()
