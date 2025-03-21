@@ -6,6 +6,7 @@ import { createGraphqlClient } from "~/clients/api";
 import { getFeedTracksQuery } from "~/graphql/queries/track";
 import { LoaderFunctionArgs } from "@remix-run/cloudflare";
 import { MetaFunction } from "@remix-run/cloudflare";
+import { useState } from "react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -51,31 +52,33 @@ const AppleMusicHomepage: React.FC = () => {
     tracks.slice(sectionSize * 2, sectionSize * 3),
   ];
 
+  const [active, setActive] = useState(-1)
+
   return (
     <>
       {trackSections.map((section, index) => (
-        <TrackSection key={index} tracks={section} />
+        <TrackSection key={index} tracks={section} active={active} setActive={setActive} index={index} />
       ))}
-       {/* Load More Button */}
-       <div className="flex justify-center mt-6">
-                <button
-                    // onClick={handleLoadMore}
-                    className="bg-gradient-to-r from-gray-800 to-black hover:from-black hover:to-gray-800 text-white font-semibold px-6 py-3 rounded-full shadow-md transition-all duration-300 flex items-center gap-2"
-                    // disabled={loading}
-                >
-                    {false ? (
-                        <>
-                            <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                            </svg>
-                            Loading...
-                        </>
-                    ) : (
-                        "Load More"
-                    )}
-                </button>
-            </div>
+      {/* Load More Button */}
+      <div className="flex justify-center mt-6">
+        <button
+          // onClick={handleLoadMore}
+          className="bg-gradient-to-r from-gray-800 to-black hover:from-black hover:to-gray-800 text-white font-semibold px-6 py-3 rounded-full shadow-md transition-all duration-300 flex items-center gap-2"
+        // disabled={loading}
+        >
+          {false ? (
+            <>
+              <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+              </svg>
+              Loading...
+            </>
+          ) : (
+            "Load More"
+          )}
+        </button>
+      </div>
     </>
   );
 };

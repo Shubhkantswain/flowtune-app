@@ -7,13 +7,17 @@ interface TrackListsProps {
   tracks: Track[]
   initialized: boolean;
   setInitialized: React.Dispatch<React.SetStateAction<boolean>>;
+  active: number;
+  setActive: React.Dispatch<React.SetStateAction<number>>;
+  index: number
 }
 
-const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitialized }) => {
+const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitialized, active, setActive, index }) => {
   const tracksToRender = [
     ...tracks,
     ...Array(Math.max(0, 8 - tracks.length)).fill(null)
   ];
+
 
   const { trackDetails, setTrackDetails } = useTrackStore()
 
@@ -29,7 +33,10 @@ const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitial
       return;
     }
     else {
-      initialize(tracksToRender.filter(track => track !== null && track !== undefined));
+      if (index != active) {
+        console.log("else ooooooooooooo");
+        initialize(tracksToRender.filter(track => track !== null && track !== undefined));
+      }
 
       setTrackDetails({
         id: track.id,
@@ -47,6 +54,7 @@ const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitial
 
       setCurrentTrack(track.id)
       setInitialized(true)
+      setActive(index)
     }
 
   };
