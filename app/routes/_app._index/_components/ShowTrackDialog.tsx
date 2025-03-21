@@ -40,9 +40,7 @@ function ShowTrackDialog({ isOpen, onClose, tracks, initialized, setInitialized 
                                     return;
                                 }
                                 else {
-                                    if (!initialized) {
-                                        initialize(tracks)
-                                    }
+                                    initialize(tracks)
 
                                     setTrackDetails({
                                         id: track.id,
