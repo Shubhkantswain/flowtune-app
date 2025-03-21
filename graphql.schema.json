@@ -145,22 +145,6 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "authorId",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "page",
             "description": null,
             "type": {
@@ -169,6 +153,22 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "userId",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               }
             },
@@ -611,7 +611,7 @@
             "description": null,
             "args": [
               {
-                "name": "username",
+                "name": "userId",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",

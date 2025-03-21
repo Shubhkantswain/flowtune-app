@@ -8,10 +8,10 @@ import { LoaderFunctionArgs } from "@remix-run/cloudflare";
 import { MetaFunction } from "@remix-run/cloudflare";
 
 export const meta: MetaFunction = () => {
-    return [
-        { title: "FlowTune" },
-        { name: "description", content: "Welcome to Remix!" },
-    ];
+  return [
+    { title: "FlowTune" },
+    { name: "description", content: "Welcome to Remix!" },
+  ];
 };
 
 export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> {
@@ -20,10 +20,10 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> 
 
     // Parse the cookie manually
     const cookies = Object.fromEntries(
-        (cookieHeader || "")
-            .split("; ")
-            .map((c) => c.split("="))
-            .map(([key, ...value]) => [key, value.join("=")])
+      (cookieHeader || "")
+        .split("; ")
+        .map((c) => c.split("="))
+        .map(([key, ...value]) => [key, value.join("=")])
     );
 
     // Extract the `__FlowTune_Token_server` cookie
@@ -43,20 +43,22 @@ const AppleMusicHomepage: React.FC = () => {
   const { data } = useCurrentUser();
   const tracks = useLoaderData<Track[]>(); // Properly typed loader data
 
-  console.log(tracks, "tracks");
+  // Ensure tracks are divided into 3 sections with 8 tracks each
+  const sectionSize = 8;
+  const trackSections = [
+    tracks.slice(0, sectionSize),
+    tracks.slice(sectionSize, sectionSize * 2),
+    tracks.slice(sectionSize * 2, sectionSize * 3),
+  ];
 
   return (
     <>
-      <TrackSection tracks={tracks} />
-      <TrackSection tracks={tracks}/>
-      <TrackSection tracks={tracks}/>
-      <TrackSection tracks={tracks}/>
-      <TrackSection tracks={tracks}/>
-      <TrackSection tracks={tracks}/>
-      <TrackSection tracks={tracks}/>
-      <TrackSection tracks={tracks}/>
+      {trackSections.map((section, index) => (
+        <TrackSection key={index} tracks={section} />
+      ))}
     </>
   );
 };
+
 
 export default AppleMusicHomepage;

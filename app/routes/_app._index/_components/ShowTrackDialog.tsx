@@ -47,14 +47,15 @@ function ShowTrackDialog({ isOpen, onClose, tracks, initialized, setInitialized 
                                     setTrackDetails({
                                         id: track.id,
                                         title: track.title,
-                                        artist: track.artist,
+                                        singer: track.singer,
+                                        starCast: track.starCast,
                                         duration: track.duration,
                                         coverImageUrl: track.coverImageUrl || "",
+                                        videoUrl: track.videoUrl,
                                         audioFileUrl: track.audioFileUrl,
                                         hasLiked: track.hasLiked,
-                                        authorName: track.authorName,
+                                        authorId: track.authorId,
                                         isPlaying: true,
-                                        fromClick: true
                                     });
 
                                     setCurrentTrack(track.id)
@@ -72,7 +73,7 @@ function ShowTrackDialog({ isOpen, onClose, tracks, initialized, setInitialized 
                             {/* Track Details */}
                             <div className="flex-1">
                                 <h3 className="font-semibold text-sm text-white">{track.title}</h3> {/* White text for title */}
-                                <p className="text-xs text-gray-400">{track.artist}</p> {/* Light gray text for artist */}
+                                <p className="text-xs text-gray-400">{track.singer}</p> {/* Light gray text for artist */}
                             </div>
 
                             {/* Play Button */}

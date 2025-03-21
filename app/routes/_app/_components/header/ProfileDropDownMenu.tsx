@@ -74,7 +74,7 @@ function ProfileDropDownMenu({
                                         </button>
                                     ) : (
                                         // Actual content
-                                        <Link to={`/${data?.username}`} className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">
+                                        <Link to={`/show/${data?.id}`} className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">
                                             My Profile
                                         </Link>
                                     )}

@@ -1,8 +1,8 @@
 import { graphql } from "gql"
 
 export const getUserProfileQuery = graphql(`#graphql
-    query GetUserProfile($username: String!) {
-      getUserProfile(username: $username) {
+    query GetUserProfile($userId: String!) {
+      getUserProfile(userId: $userId) {
             id
             username
             fullName
