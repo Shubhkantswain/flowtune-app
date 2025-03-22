@@ -7,6 +7,12 @@ import ShowSleepModeOptions from './ShowSleepModeOptions';
 import { Switch } from '~/components/ui/switch';
 import { useLikeTrack } from '~/hooks/track';
 import { Label } from '~/components/ui/label';
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '~/components/ui/dialog';
+import { Input } from '~/components/ui/input';
+import { Button } from '~/components/ui/button';
+import { Plus } from 'lucide-react';
+import { useAddSongToPlaylist, useGetCurrentUserPlaylists } from '~/hooks/playlist';
+import CreatePlaylistDialog from '~/components/CreatePlaylistDialog';
 
 interface ActionButtonsProps {
     videoEnabled: boolean;
@@ -24,6 +30,14 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEna
     const [inQueue, setInQueue] = useState(false);
 
     const { mutateAsync: likeTrack, isPending } = useLikeTrack()
+    const { mutateAsync: addSongToPlaylist } = useAddSongToPlaylist()
+
+    const [search, setSearch] = useState("");
+    const [isOpen, setIsOpen] = useState(false);
+
+    const [show, setShow] = useState(false)
+
+    const { data: playlists } = useGetCurrentUserPlaylists()
 
     // Check if the current track is in the queue
     useEffect(() => {
@@ -46,10 +60,53 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEna
                     trackDetails.hasLiked ? "Remove From Your Favourite" : "Add To Your Favourite"
                 }
             </button>
-            <button className="flex items-center w-full gap-3 p-4 rounded-lg text-white">
+            <button className="flex items-center w-full gap-3 p-4 rounded-lg text-white" onClick={() => setIsOpen(true)}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-plus"><path d="M5 12h14" /><path d="M12 5v14" /></svg>
                 Add To Playlist
             </button>
+
+            <Dialog open={isOpen} onOpenChange={() => setIsOpen(true)}>
+                <DialogContent className="max-w-sm max-h-[75vh] overflow-y-auto bg-[#111111] border-zinc-700 text-white [&::-webkit-scrollbar]:hidden p-4 space-y-3">
+
+                    <DialogHeader>
+                        <DialogTitle className="text-white text-base">Tracks</DialogTitle>
+                        <DialogDescription className="text-gray-400 text-xs">Here are all the tracks:</DialogDescription>
+                    </DialogHeader>
+
+                    {/* Search Bar */}
+                    <Input
+                        placeholder="Search tracks..."
+                        className="bg-[#1a1a1a] text-white border border-zinc-700 rounded-lg px-3 py-2 text-sm w-full"
+                    />
+
+                    {/* Playlist Tracks */}
+                    <div className="space-y-2">
+                        {/* "+ New Playlist" Button */}
+                        <div
+                            className="p-2 rounded-md flex items-center justify-center gap-2 bg-[#1a1a1a] cursor-pointer transition-colors hover:bg-[#1c1c1c] border border-transparent hover:border-[#fa586a] hover:shadow-md hover:shadow-[#fa586a]/30 duration-200 ease-in-out"
+                            onClick={() => { setShow(true) }}
+                        >
+                            <Plus className="text-[#fa586a] text-sm" />
+                            <span className="text-white text-sm">New Playlist</span>
+                        </div>
+                        {/* Other Playlists */}
+                        {playlists?.playlists?.map((playlist) => (
+                            <div
+                                key={playlist.id}
+                                className="p-2 rounded-md hover:bg-[#1c1c1c] bg-[#1a1a1a] cursor-pointer transition-colors flex items-center gap-2 border border-transparent hover:border-[#fa586a] hover:shadow-md hover:shadow-[#fa586a]/30 duration-200 ease-in-out"
+                                onClick={() => { addSongToPlaylist({ existingPlaylistId: playlist.id, trackIds: [trackDetails.id], isNewPlaylist: false }) }}
+                            >
+                                <h3 className="font-medium text-xs text-white">{playlist.name}</h3>
+                            </div>
+                        ))}
+                    </div>
+                </DialogContent>
+            </Dialog>
+
+            {
+                show && <CreatePlaylistDialog songDialogOpen={show} setSongDialogOpen={setShow} trackId={trackDetails.id} />
+            }
+
             <button className="flex items-center w-full gap-3 p-4 rounded-lg text-white" onClick={() => {
                 if (inQueue) {
                     dequeueTrack(trackDetails.id);

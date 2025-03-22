@@ -16,6 +16,15 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type AddSongToPlaylistInput = {
+  coverImageUrl?: InputMaybe<Scalars['String']['input']>;
+  existingPlaylistId?: InputMaybe<Scalars['String']['input']>;
+  isNewPlaylist: Scalars['Boolean']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  trackIds: Array<Scalars['String']['input']>;
+  visibility?: InputMaybe<Visibility>;
+};
+
 export type AuthResponse = {
   __typename?: 'AuthResponse';
   authToken: Scalars['String']['output'];
@@ -25,6 +34,13 @@ export type AuthResponse = {
   id: Scalars['String']['output'];
   profileImageURL?: Maybe<Scalars['String']['output']>;
   username: Scalars['String']['output'];
+};
+
+export type CreatePlaylistInput = {
+  coverImageUrl: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  trackIds: Array<Scalars['String']['input']>;
+  visibility: Visibility;
 };
 
 export type GetUserTracksPayload = {
@@ -39,15 +55,28 @@ export type LoginUserInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addSongToPlaylist: Scalars['Boolean']['output'];
+  createPlaylist: Scalars['Boolean']['output'];
   createTrack: Scalars['Boolean']['output'];
   deleteTrack: Scalars['Boolean']['output'];
   forgotPassword: Scalars['Boolean']['output'];
   likeTrack: Scalars['Boolean']['output'];
   loginUser?: Maybe<AuthResponse>;
+  removeSongFromPlaylist: Scalars['Boolean']['output'];
   resetPassword: Scalars['Boolean']['output'];
   sendReq: Scalars['String']['output'];
   signupUser: Scalars['Boolean']['output'];
   verifyEmail?: Maybe<AuthResponse>;
+};
+
+
+export type MutationAddSongToPlaylistArgs = {
+  payload: AddSongToPlaylistInput;
+};
+
+
+export type MutationCreatePlaylistArgs = {
+  payload: CreatePlaylistInput;
 };
 
 
@@ -76,6 +105,11 @@ export type MutationLoginUserArgs = {
 };
 
 
+export type MutationRemoveSongFromPlaylistArgs = {
+  payload: RemoveSongFromPlaylistInput;
+};
+
+
 export type MutationResetPasswordArgs = {
   input: ResetPasswordInput;
 };
@@ -95,13 +129,37 @@ export type MutationVerifyEmailArgs = {
   input: VerifyEmailInput;
 };
 
+export type Playlist = {
+  __typename?: 'Playlist';
+  author: User;
+  coverImageUrl: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  tracks: Array<Track>;
+  visibility: Visibility;
+};
+
 export type Query = {
   __typename?: 'Query';
   getCurrentUser?: Maybe<User>;
+  getCurrentUserPlaylists: UserPlaylistsResponse;
+  getExploreTracks?: Maybe<Array<Track>>;
+  getFeedPlaylists: UserPlaylistsResponse;
   getFeedTracks?: Maybe<Array<Track>>;
   getLikedTracks?: Maybe<Array<Track>>;
+  getPlaylistTracks: GetPlaylistTracksResponse;
   getUserProfile?: Maybe<GetUserProfileResponse>;
   getUserTracks: Array<Track>;
+};
+
+
+export type QueryGetExploreTracksArgs = {
+  page: Scalars['Int']['input'];
+};
+
+
+export type QueryGetPlaylistTracksArgs = {
+  playlistId: Scalars['String']['input'];
 };
 
 
@@ -112,6 +170,11 @@ export type QueryGetUserProfileArgs = {
 
 export type QueryGetUserTracksArgs = {
   payload: GetUserTracksPayload;
+};
+
+export type RemoveSongFromPlaylistInput = {
+  playlistId: Scalars['String']['input'];
+  trackId: Scalars['String']['input'];
 };
 
 export type ResetPasswordInput = {
@@ -149,6 +212,20 @@ export type User = {
   username: Scalars['String']['output'];
 };
 
+export type UserPlaylistsResponse = {
+  __typename?: 'UserPlaylistsResponse';
+  playlists?: Maybe<Array<UserPlaylistsResponseItem>>;
+};
+
+export type UserPlaylistsResponseItem = {
+  __typename?: 'UserPlaylistsResponseItem';
+  author: Scalars['String']['output'];
+  coverImageUrl: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  totalTracks: Scalars['Int']['output'];
+};
+
 export type VerifyEmailInput = {
   email: Scalars['String']['input'];
   fullName: Scalars['String']['input'];
@@ -156,6 +233,11 @@ export type VerifyEmailInput = {
   token: Scalars['String']['input'];
   username: Scalars['String']['input'];
 };
+
+export enum Visibility {
+  Private = 'PRIVATE',
+  Public = 'PUBLIC'
+}
 
 export type CreateTrackPayload = {
   audioFileUrl: Scalars['String']['input'];
@@ -167,6 +249,14 @@ export type CreateTrackPayload = {
   starCast?: InputMaybe<Scalars['String']['input']>;
   title: Scalars['String']['input'];
   videoUrl?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type GetPlaylistTracksResponse = {
+  __typename?: 'getPlaylistTracksResponse';
+  coverImageUrl: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+  tracks?: Maybe<Array<Maybe<Track>>>;
 };
 
 export type GetUserProfileResponse = {
@@ -208,6 +298,20 @@ export type SendReqMutationVariables = Exact<{
 
 export type SendReqMutation = { __typename?: 'Mutation', sendReq: string };
 
+export type AddSongToPlaylistMutationVariables = Exact<{
+  payload: AddSongToPlaylistInput;
+}>;
+
+
+export type AddSongToPlaylistMutation = { __typename?: 'Mutation', addSongToPlaylist: boolean };
+
+export type RemoveSongFromPlaylistMutationVariables = Exact<{
+  payload: RemoveSongFromPlaylistInput;
+}>;
+
+
+export type RemoveSongFromPlaylistMutation = { __typename?: 'Mutation', removeSongFromPlaylist: boolean };
+
 export type CreateTrackMutationVariables = Exact<{
   payload: CreateTrackPayload;
 }>;
@@ -226,6 +330,18 @@ export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser?: { __typename?: 'User', id: string, email: string, username: string, fullName: string, bio?: string | null, profileImageURL?: string | null } | null };
+
+export type GetCurrentUserPlaylistsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCurrentUserPlaylistsQuery = { __typename?: 'Query', getCurrentUserPlaylists: { __typename?: 'UserPlaylistsResponse', playlists?: Array<{ __typename?: 'UserPlaylistsResponseItem', id: string, name: string, coverImageUrl: string, totalTracks: number, author: string }> | null } };
+
+export type GetPlaylistTracksQueryVariables = Exact<{
+  playlistId: Scalars['String']['input'];
+}>;
+
+
+export type GetPlaylistTracksQuery = { __typename?: 'Query', getPlaylistTracks: { __typename?: 'getPlaylistTracksResponse', id: string, title: string, coverImageUrl: string, tracks?: Array<{ __typename?: 'Track', id: string, title: string, singer?: string | null, starCast?: string | null, duration: string, coverImageUrl?: string | null, videoUrl?: string | null, audioFileUrl: string, hasLiked: boolean, authorId: string } | null> | null } };
 
 export type GetFeedTracksQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -256,9 +372,13 @@ export const SignupUserDocument = {"kind":"Document","definitions":[{"kind":"Ope
 export const VerifyEmailDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"VerifyEmail"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"VerifyEmailInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"verifyEmail"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"profileImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"authToken"}}]}}]}}]} as unknown as DocumentNode<VerifyEmailMutation, VerifyEmailMutationVariables>;
 export const LoginUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LoginUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LoginUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loginUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"profileImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"authToken"}}]}}]}}]} as unknown as DocumentNode<LoginUserMutation, LoginUserMutationVariables>;
 export const SendReqDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SendReq"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"text"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sendReq"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"text"},"value":{"kind":"Variable","name":{"kind":"Name","value":"text"}}}]}]}}]} as unknown as DocumentNode<SendReqMutation, SendReqMutationVariables>;
+export const AddSongToPlaylistDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddSongToPlaylist"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"payload"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AddSongToPlaylistInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addSongToPlaylist"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"payload"},"value":{"kind":"Variable","name":{"kind":"Name","value":"payload"}}}]}]}}]} as unknown as DocumentNode<AddSongToPlaylistMutation, AddSongToPlaylistMutationVariables>;
+export const RemoveSongFromPlaylistDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RemoveSongFromPlaylist"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"payload"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"RemoveSongFromPlaylistInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"removeSongFromPlaylist"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"payload"},"value":{"kind":"Variable","name":{"kind":"Name","value":"payload"}}}]}]}}]} as unknown as DocumentNode<RemoveSongFromPlaylistMutation, RemoveSongFromPlaylistMutationVariables>;
 export const CreateTrackDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateTrack"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"payload"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"createTrackPayload"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createTrack"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"payload"},"value":{"kind":"Variable","name":{"kind":"Name","value":"payload"}}}]}]}}]} as unknown as DocumentNode<CreateTrackMutation, CreateTrackMutationVariables>;
 export const LikeTrackDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LikeTrack"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"trackId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"likeTrack"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"trackId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"trackId"}}}]}]}}]} as unknown as DocumentNode<LikeTrackMutation, LikeTrackMutationVariables>;
 export const GetCurrentUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetCurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getCurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"profileImageURL"}}]}}]}}]} as unknown as DocumentNode<GetCurrentUserQuery, GetCurrentUserQueryVariables>;
+export const GetCurrentUserPlaylistsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetCurrentUserPlaylists"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getCurrentUserPlaylists"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"playlists"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"coverImageUrl"}},{"kind":"Field","name":{"kind":"Name","value":"totalTracks"}},{"kind":"Field","name":{"kind":"Name","value":"author"}}]}}]}}]}}]} as unknown as DocumentNode<GetCurrentUserPlaylistsQuery, GetCurrentUserPlaylistsQueryVariables>;
+export const GetPlaylistTracksDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPlaylistTracks"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"playlistId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getPlaylistTracks"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"playlistId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"playlistId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"coverImageUrl"}},{"kind":"Field","name":{"kind":"Name","value":"tracks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"singer"}},{"kind":"Field","name":{"kind":"Name","value":"starCast"}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"coverImageUrl"}},{"kind":"Field","name":{"kind":"Name","value":"videoUrl"}},{"kind":"Field","name":{"kind":"Name","value":"audioFileUrl"}},{"kind":"Field","name":{"kind":"Name","value":"hasLiked"}},{"kind":"Field","name":{"kind":"Name","value":"authorId"}}]}}]}}]}}]} as unknown as DocumentNode<GetPlaylistTracksQuery, GetPlaylistTracksQueryVariables>;
 export const GetFeedTracksDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetFeedTracks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getFeedTracks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"singer"}},{"kind":"Field","name":{"kind":"Name","value":"starCast"}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"coverImageUrl"}},{"kind":"Field","name":{"kind":"Name","value":"videoUrl"}},{"kind":"Field","name":{"kind":"Name","value":"audioFileUrl"}},{"kind":"Field","name":{"kind":"Name","value":"hasLiked"}},{"kind":"Field","name":{"kind":"Name","value":"authorId"}}]}}]}}]} as unknown as DocumentNode<GetFeedTracksQuery, GetFeedTracksQueryVariables>;
 export const GetLikedTracksDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetLikedTracks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getLikedTracks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"singer"}},{"kind":"Field","name":{"kind":"Name","value":"starCast"}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"coverImageUrl"}},{"kind":"Field","name":{"kind":"Name","value":"videoUrl"}},{"kind":"Field","name":{"kind":"Name","value":"audioFileUrl"}},{"kind":"Field","name":{"kind":"Name","value":"hasLiked"}},{"kind":"Field","name":{"kind":"Name","value":"authorId"}}]}}]}}]} as unknown as DocumentNode<GetLikedTracksQuery, GetLikedTracksQueryVariables>;
 export const GetUserProfileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetUserProfile"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getUserProfile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"userId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"profileImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"totalTracks"}},{"kind":"Field","name":{"kind":"Name","value":"followedByMe"}}]}}]}}]} as unknown as DocumentNode<GetUserProfileQuery, GetUserProfileQueryVariables>;
