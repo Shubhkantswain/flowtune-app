@@ -256,7 +256,7 @@ export type GetPlaylistTracksResponse = {
   coverImageUrl: Scalars['String']['output'];
   id: Scalars['String']['output'];
   title: Scalars['String']['output'];
-  tracks?: Maybe<Array<Maybe<Track>>>;
+  tracks?: Maybe<Array<Track>>;
 };
 
 export type GetUserProfileResponse = {
@@ -341,7 +341,7 @@ export type GetPlaylistTracksQueryVariables = Exact<{
 }>;
 
 
-export type GetPlaylistTracksQuery = { __typename?: 'Query', getPlaylistTracks: { __typename?: 'getPlaylistTracksResponse', id: string, title: string, coverImageUrl: string, tracks?: Array<{ __typename?: 'Track', id: string, title: string, singer?: string | null, starCast?: string | null, duration: string, coverImageUrl?: string | null, videoUrl?: string | null, audioFileUrl: string, hasLiked: boolean, authorId: string } | null> | null } };
+export type GetPlaylistTracksQuery = { __typename?: 'Query', getPlaylistTracks: { __typename?: 'getPlaylistTracksResponse', id: string, title: string, coverImageUrl: string, tracks?: Array<{ __typename?: 'Track', id: string, title: string, singer?: string | null, starCast?: string | null, duration: string, coverImageUrl?: string | null, videoUrl?: string | null, audioFileUrl: string, hasLiked: boolean, authorId: string }> | null } };
 
 export type GetFeedTracksQueryVariables = Exact<{ [key: string]: never; }>;
 
