@@ -25,7 +25,7 @@ const ScrollControls: React.FC<ScrollControlsProps> = ({ canScroll, scroll }) =>
                             <>
                                 <button
                                     onClick={() => scroll('left')}
-                                    className={`bg-neutral-800 hover:bg-neutral-700 text-white p-2 rounded-full transition-colors duration-200 flex items-center justify-center ${!canScroll.left && 'opacity-50 cursor-not-allowed'}`}
+                                    className={`bg-neutral-800 ${canScroll.left ? "hover:bg-neutral-700": ""} text-white p-2 rounded-full transition-colors duration-200 flex items-center justify-center ${!canScroll.left && 'opacity-50 cursor-not-allowed'}`}
                                     aria-label="Scroll left"
                                     disabled={!canScroll.left}
                                 >
@@ -33,7 +33,7 @@ const ScrollControls: React.FC<ScrollControlsProps> = ({ canScroll, scroll }) =>
                                 </button>
                                 <button
                                     onClick={() => scroll('right')}
-                                    className={`bg-neutral-800 hover:bg-neutral-700 text-white p-2 rounded-full transition-colors duration-200 flex items-center justify-center ${!canScroll.right && 'opacity-50 cursor-not-allowed'}`}
+                                    className={`bg-neutral-800 ${canScroll.right ? "hover:bg-neutral-700": ""} text-white p-2 rounded-full transition-colors duration-200 flex items-center justify-center ${!canScroll.right && 'opacity-50 cursor-not-allowed'}`}
                                     aria-label="Scroll right"
                                     disabled={!canScroll.right}
                                 >
