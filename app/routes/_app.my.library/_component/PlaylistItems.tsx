@@ -23,7 +23,7 @@ const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists, handleScroll, 
             <div className="grid grid-flow-col auto-cols-max gap-4">
                 {
                     (activeTab == "Likes" || activeTab == "All") && (
-                        <div className="group w-32 sm:w-40 md:w-48">
+                        <div className="group w-32 sm:w-40 md:w-48 sm:mr-2 md:mr-3 lg:mr-5">
                             <div className="relative aspect-square overflow-hidden rounded-lg mb-2 bg-neutral-800">
                                 <div
                                     className="absolute inset-0 flex items-center justify-center cursor-pointer hover:opacity-70"
@@ -46,10 +46,10 @@ const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists, handleScroll, 
                 {
                     (activeTab == "Playlists" || activeTab == "All") && (
                         playlists?.map(playlist => (
-                            <div key={playlist.id} className="group w-32 sm:w-40 md:w-48">
+                            <div key={playlist.id} className="group w-32 sm:w-40 md:w-48 sm:mr-2 md:mr-3 lg:mr-5">
                                 <div className="relative aspect-square overflow-hidden rounded-lg mb-2 bg-neutral-800">
 
-                                    <div className="absolute inset-0 cursor-pointer hover:opacity-70" onClick={() => { navigate(`/playlist/${playlist.id}`) }}>
+                                    <div className="absolute inset-0 cursor-pointer hover:opacity-70" onClick={() => { navigate(`/playlist/${ playlist.id }`) }}>
                                         <img
                                             src={playlist.coverImageUrl}
                                             alt="Cover"
@@ -64,6 +64,7 @@ const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists, handleScroll, 
                         ))
                     )
                 }
+
 
                 {
                     activeTab == "Podcast" && (

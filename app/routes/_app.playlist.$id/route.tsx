@@ -14,12 +14,12 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
         // Parse the cookie manually
         const cookies = Object.fromEntries(
-          (cookieHeader || "")
-            .split("; ")
-            .map((c) => c.split("="))
-            .map(([key, ...value]) => [key, value.join("=")])
+            (cookieHeader || "")
+                .split("; ")
+                .map((c) => c.split("="))
+                .map(([key, ...value]) => [key, value.join("=")])
         );
-    
+
         // Extract the `__FlowTune_Token_server` cookie
         const token = cookies["__FlowTune_Token_server"];
 
@@ -133,7 +133,7 @@ function ExplorePlaylistsPage() {
                         <img
                             src={res.coverImageUrl}
                             alt={res.title}
-                            className="w-56 h-56 md:w-64 md:h-64 rounded-lg shadow-xl"
+                            className="w-56 h-56 md:w-64 md:h-64 rounded-lg shadow-xl object-cover"
                         />
                         <div className="flex flex-col items-center md:items-start gap-4 text-center md:text-left">
                             <h1 className="text-4xl md:text-5xl font-bold">{res.title}</h1>
@@ -144,7 +144,7 @@ function ExplorePlaylistsPage() {
                             <div className="flex items-center gap-4 mt-4">
                                 <button
                                     onClick={() => {
-                                        if(res.tracks){
+                                        if (res.tracks) {
                                             handleControll(res.tracks[0])
                                         }
                                     }}
@@ -158,21 +158,30 @@ function ExplorePlaylistsPage() {
 
                     <div className="pb-8">
                         <table className="w-full">
-                            <thead>
-                                <tr className="text-gray-400 border-b border-[#2a2b2c]">
-                                    <th className="text-left py-4 w-12 pl-4">#</th>
-                                    <th className="text-left">Title</th>
-                                    <th className="text-left hidden lg:table-cell">Album</th>
-                                    <th className="text-left hidden lg:table-cell">Date Added</th>
-                                    <th className="text-right hidden md:table-cell w-24">
-                                        {/* <Clock3 size={16} className="ml-auto mr-8" /> */}
-                                        <div className="ml-auto mr-8">clock</div>
-                                    </th>
-                                    <th className="text-right w-16">More</th>
-                                </tr>
-                            </thead>
+                            {
+                                Array.isArray(res.tracks) && res.tracks.length > 0 ? (
+                                    <thead>
+                                        <tr className="text-gray-400 border-b border-[#2a2b2c]">
+                                            <th className="text-left py-4 w-12 pl-4">#</th>
+                                            <th className="text-left">Title</th>
+                                            <th className="text-left hidden lg:table-cell">Album</th>
+                                            <th className="text-left hidden lg:table-cell">Date Added</th>
+                                            <th className="text-right hidden md:table-cell w-24">
+                                                {/* <Clock3 size={16} className="ml-auto mr-8" /> */}
+                                                <div className="ml-auto mr-8">clock</div>
+                                            </th>
+                                            <th className="text-right w-16">More</th>
+                                        </tr>
+                                    </thead>
+                                ) : (
+                                    <div className="text-center text-gray-400 py-4">
+                                        No tracks available.
+                                    </div>
+                                )
+                            }
+
                             <tbody>
-                                {res?.tracks?.map((track, index) => (
+                                {res.tracks?.map((track, index) => (
                                     <tr
                                         key={index}
                                         className="hover:bg-[#2a2b2c] group rounded-lg border-b border-[#2a2b2c] mt-4"

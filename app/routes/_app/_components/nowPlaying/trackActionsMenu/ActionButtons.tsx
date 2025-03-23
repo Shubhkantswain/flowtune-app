@@ -65,7 +65,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEna
                 Add To Playlist
             </button>
 
-            <Dialog open={isOpen} onOpenChange={() => setIsOpen(true)}>
+            <Dialog open={isOpen} onOpenChange={() => setIsOpen(false)}>
                 <DialogContent className="max-w-sm max-h-[75vh] overflow-y-auto bg-[#111111] border-zinc-700 text-white [&::-webkit-scrollbar]:hidden p-4 space-y-3">
 
                     <DialogHeader>
