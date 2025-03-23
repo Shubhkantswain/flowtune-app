@@ -135,7 +135,7 @@ function ExplorePlaylistsPage() {
                                             handleControll(res.tracks[0])
                                         }
                                     }}
-                                    className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-black font-semibold px-8 py-3 rounded-full"
+                                    className="flex items-center gap-2 bg-[#fa586a] hover:bg-[#fa586a]/70 text-black font-semibold px-8 py-3 rounded-full"
                                 >
                                     Play
                                 </button>
