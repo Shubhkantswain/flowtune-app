@@ -8,9 +8,22 @@ import usePlaylistStore from '~/store/usePlaylistStore';
 import { useTrackStore } from '~/store/useTrackStore';
 // import SpotifyMenu from '~/components/SpotifyMenu';
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export async function loader({ params, request }: LoaderFunctionArgs) {
     try {
-        const graphqlClient = createGraphqlClient();
+        const cookieHeader = request.headers.get("Cookie");
+
+        // Parse the cookie manually
+        const cookies = Object.fromEntries(
+          (cookieHeader || "")
+            .split("; ")
+            .map((c) => c.split("="))
+            .map(([key, ...value]) => [key, value.join("=")])
+        );
+    
+        // Extract the `__FlowTune_Token_server` cookie
+        const token = cookies["__FlowTune_Token_server"];
+
+        const graphqlClient = createGraphqlClient(token);
         const { getPlaylistTracks } = await graphqlClient.request(getPlaylistTracksQuery, { playlistId: params.id || "" });
 
         return getPlaylistTracks; // Expecting an array of `Track`

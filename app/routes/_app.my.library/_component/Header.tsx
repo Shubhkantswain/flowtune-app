@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 
-function Header() {
-    const [activeTab, setActiveTab] = useState('Playlists');
-    const tabs = ['Playlists', 'Podcasts', 'Songs', 'Albums'];
+interface HeaderProps {
+    activeTab: string;
+    setActiveTab: React.Dispatch<React.SetStateAction<string>>;
+    tabs: string[]
+};
 
+const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, tabs }) => {
     return (
         <>
             <h1 className="text-2xl md:text-3xl font-bold mb-6">Library</h1>

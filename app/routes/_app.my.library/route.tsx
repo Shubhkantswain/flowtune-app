@@ -37,6 +37,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
 const MusicApp = () => {
   const playlists = useLoaderData<UserPlaylistsResponse>(); // Properly typed loader data
 
+  const [activeTab, setActiveTab] = useState('All');
+  const tabs = ['All', 'Playlists', 'Likes', 'Podcast'];
+
+
   const scrollContainerRef = useRef(null);
   const [canScroll, setCanScroll] = useState({ left: false, right: false });
 
@@ -83,14 +87,14 @@ const MusicApp = () => {
     <div className="text-white min-h-screen p-4 sm:p-6 md:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <Header />
+        <Header activeTab={activeTab} setActiveTab={setActiveTab} tabs={tabs}/>
 
         <div className="mb-6">
           {/* Scroll Controls */}
           <ScrollControls canScroll={canScroll} scroll={scroll} />
 
           {/* Scrollable Container for playlists - combined for both mobile and desktop */}
-          <PlaylistItems playlists={playlists.playlists || []} handleScroll={handleScroll} scrollContainerRef={scrollContainerRef} />
+          <PlaylistItems playlists={playlists.playlists || []} handleScroll={handleScroll} scrollContainerRef={scrollContainerRef} activeTab={activeTab}/>
         </div>
       </div>
 
