@@ -143,7 +143,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
 
 
       </div>
-      <TrackActionsMenu isVisible={menuVisible} onDismiss={() => setMenuVisible(false)} videoEnabled={videoEnabled} setVideoEnabled={setVideoEnabled}/>
+      <TrackActionsMenu isVisible={menuVisible} onDismiss={() => setMenuVisible(false)} videoEnabled={videoEnabled} setVideoEnabled={setVideoEnabled} />
       <ShowQueueTracks isQueueTrackVisible={isQueueTrackVisible} onHideQueueTrack={() => setIsQueueTrackVisible(false)} queueTracks={queueTracks} />
     </>
   );

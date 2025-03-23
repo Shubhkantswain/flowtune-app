@@ -130,11 +130,14 @@ function ExplorePlaylistsPage() {
                             </div>
                             <div className="flex items-center gap-4 mt-4">
                                 <button
-                                    onClick={() => setIsPlaying(!isPlaying)}
+                                    onClick={() => {
+                                        if(res.tracks){
+                                            handleControll(res.tracks[0])
+                                        }
+                                    }}
                                     className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-black font-semibold px-8 py-3 rounded-full"
                                 >
-                                    {/* {isPlaying ? <Pause size={20} /> : <Play size={20} />} */}
-                                    {isPlaying ? 'Pause' : 'Play'}
+                                    Play
                                 </button>
                             </div>
                         </div>
