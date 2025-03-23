@@ -159,7 +159,7 @@ function ExplorePlaylistsPage() {
                                 {res?.tracks?.map((track, index) => (
                                     <tr
                                         key={index}
-                                        className="hover:bg-[#2a2b2c] group rounded-lg border-b border-[#2a2b2c] mt-4 cursor-pointer"
+                                        className="hover:bg-[#2a2b2c] group rounded-lg border-b border-[#2a2b2c] mt-4"
                                         onClick={() => handleControll(track)}
                                     >
                                         <td className="py-7 pl-4">
@@ -175,7 +175,7 @@ function ExplorePlaylistsPage() {
                                                     />
                                                     <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-200 rounded flex items-center justify-center">
                                                         <button className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                                            {track?.id == trackDetails.id && trackDetails.isPlaying && initialized ? (
+                                                            {(track?.id == trackDetails.id && trackDetails.isPlaying && initialized) ? (
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                                                     <defs>
                                                                         <path id="ic_playback_pause-a" d="M9,22 L6,22 C5.45,22 5,21.55 5,21 L5,3 C5,2.45 5.45,2 6,2 L9,2 C9.55,2 10,2.45 10,3 L10,21 C10,21.55 9.55,22 9,22 Z M19,21 L19,3 C19,2.45 18.55,2 18,2 L15,2 C14.45,2 14,2.45 14,3 L14,21 C14,21.55 14.45,22 15,22 L18,22 C18.55,22 19,21.55 19,21 Z"></path>
@@ -195,10 +195,10 @@ function ExplorePlaylistsPage() {
                                                 </div>
                                                 <div>
                                                     <div>
-                                                        <div className={`font-medium ${index == currentIdx ? "text-[#fa586a]" : ""} truncate max-w-[180px] sm:max-w-[250px] md:max-w-full`}>
+                                                        <div className={`font-medium ${track?.id == trackDetails.id && trackDetails.isPlaying && initialized ? "text-[#fa586a]" : ""} truncate max-w-[180px] sm:max-w-[250px] md:max-w-full`}>
                                                             {track?.title}
                                                         </div>
-                                                        <div className="text-sm text-gray-400 hover:text-[#fa586a] cursor-pointer truncate max-w-[180px] sm:max-w-[250px] md:max-w-full">
+                                                        <div className="text-sm text-gray-400 truncate max-w-[180px] sm:max-w-[250px] md:max-w-full">
                                                             {track?.singer}
                                                         </div>
                                                     </div>
