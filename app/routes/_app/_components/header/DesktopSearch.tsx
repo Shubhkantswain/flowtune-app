@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from '@remix-run/react';
+import useSearchStore from '~/store/useSearchStore';
 
 function DesktopSearch() {
     const location = useLocation();
     const navigate = useNavigate();
     const isSearchPage = location.pathname === "/search";
-    const [searchValue, setSearchValue] = useState("");
     const [isHovered, setIsHovered] = useState(false);
 
     const handleInputClick = () => {
@@ -14,9 +14,7 @@ function DesktopSearch() {
         }
     };
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchValue(e.target.value);
-    };
+    const { searchQuery, setSearchQuery } = useSearchStore();
 
     return (
         <div
@@ -73,20 +71,20 @@ function DesktopSearch() {
                     ${isSearchPage ? 'scale-105 text-white' : 'scale-100 text-black'}
                     ${isHovered ? 'translate-x-2' : 'translate-x-0'}
                 `}
-                value={searchValue}
-                onChange={handleInputChange}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
             />
             <div className={`
                 absolute right-4
                 transition-all duration-300 ease-in-out
                 transform
-                ${searchValue ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}
+                ${searchQuery ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}
             `}>
-                {searchValue && (
+                {searchQuery && (
                     <button
                         onClick={(e) => {
                             e.stopPropagation();
-                            setSearchValue('');
+                            setSearchQuery('');
                         }}
                         className="text-gray-400 hover:text-gray-600 transition-colors duration-300"
                     >

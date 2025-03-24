@@ -1,14 +1,17 @@
 import React from 'react'
+import useSearchStore from '~/store/useSearchStore';
 
 function SearchBar() {
+  const { searchQuery, setSearchQuery } = useSearchStore();
+
     return (
         <div className="block md:hidden mt-2 mb-10">
             <div className="relative">
                 <input
                     type="text"
                     placeholder="Search..."
-                    // value={searchQuery}
-                    // onChange={(e) => setSearchQuery(e.target.value)}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full p-2 pl-10 text-black rounded-lg bg-[#FFFFFF] placeholder-[#757575] focus:outline-none focus:ring-2 focus:ring-[#fa586a]"
                 />
                 <svg
