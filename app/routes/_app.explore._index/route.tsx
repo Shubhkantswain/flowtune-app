@@ -2,16 +2,18 @@ import { useLoaderData } from "@remix-run/react";
 import { useCurrentUser } from "~/hooks/auth";
 import { Track } from "gql/graphql";
 import { createGraphqlClient } from "~/clients/api";
-import { getFeedTracksQuery } from "~/graphql/queries/track";
+import { getExploreTracksQuery, getFeedTracksQuery } from "~/graphql/queries/track";
 import { LoaderFunctionArgs } from "@remix-run/cloudflare";
 import { MetaFunction } from "@remix-run/cloudflare";
 import TrackSection from "../_app._index/_components/TrackSection";
+import { useEffect } from "react";
+import usePlaylistStore from "~/store/usePlaylistStore";
 
 export const meta: MetaFunction = () => {
-    return [
-        { title: "FlowTune" },
-        { name: "description", content: "Welcome to Remix!" },
-    ];
+  return [
+    { title: "FlowTune" },
+    { name: "description", content: "Welcome to Remix!" },
+  ];
 };
 
 export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> {
@@ -20,19 +22,19 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> 
 
     // Parse the cookie manually
     const cookies = Object.fromEntries(
-        (cookieHeader || "")
-            .split("; ")
-            .map((c) => c.split("="))
-            .map(([key, ...value]) => [key, value.join("=")])
+      (cookieHeader || "")
+        .split("; ")
+        .map((c) => c.split("="))
+        .map(([key, ...value]) => [key, value.join("=")])
     );
 
     // Extract the `__FlowTune_Token_server` cookie
     const token = cookies["__FlowTune_Token_server"];
 
     const graphqlClient = createGraphqlClient(token);
-    const { getFeedTracks } = await graphqlClient.request(getFeedTracksQuery);
+    const { getExploreTracks } = await graphqlClient.request(getExploreTracksQuery, { page: 1 });
 
-    return getFeedTracks || []; // Expecting an array of `Track`
+    return getExploreTracks || []; // Expecting an array of `Track`
   } catch (error) {
     console.error("Error fetching tracks:", error);
     return []; // Return an empty array to match the expected type
@@ -40,16 +42,26 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> 
 }
 
 const AppleMusicHomepage: React.FC = () => {
-  const { data } = useCurrentUser();
   const tracks = useLoaderData<Track[]>(); // Properly typed loader data
+  const { setActiveSectionIndex } = usePlaylistStore()
 
-  console.log(tracks, "tracks");
+  // Ensure tracks are divided into 3 sections with 8 tracks each
+  const sectionSize = 8;
+  const trackSections = [
+    tracks.slice(0, sectionSize),
+    tracks.slice(sectionSize, sectionSize * 2),
+    tracks.slice(sectionSize * 2, sectionSize * 3),
+  ];
+
+  useEffect(() => {
+    setActiveSectionIndex(-1)
+  }, [])
 
   return (
     <>
-      <TrackSection tracks={tracks} />
-      <TrackSection tracks={tracks}/>
-      <TrackSection tracks={tracks}/>  
+      {trackSections.map((section, index) => (
+        <TrackSection key={index} tracks={section} index={index} />
+      ))}
     </>
   );
 };

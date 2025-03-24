@@ -2,6 +2,7 @@ import { useNavigate } from '@remix-run/react';
 import { UserPlaylistsResponseItem } from 'gql/graphql';
 import { Heart, Link } from 'lucide-react';
 import React from 'react'
+import { useTrackStore } from '~/store/useTrackStore';
 
 interface PlaylistItemsProps {
     handleScroll: () => void
@@ -12,6 +13,8 @@ interface PlaylistItemsProps {
 
 const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists, handleScroll, scrollContainerRef, activeTab }) => {
     const navigate = useNavigate();
+
+    const { setTrackDetails } = useTrackStore()
 
     return (
         <div
@@ -26,7 +29,7 @@ const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists, handleScroll, 
                         <div className="group w-32 sm:w-40 md:w-48 sm:mr-2 md:mr-3 lg:mr-5">
                             <div className="relative aspect-square overflow-hidden rounded-lg mb-2 bg-neutral-800">
                                 <div
-                                    className="absolute inset-0 flex items-center justify-center cursor-pointer hover:opacity-70"
+                                    className="absolute inset-0 flex items-center justify-center cursor-pointer hover:brightness-50"
                                     onClick={() => { navigate(`/collection/tracks`) }}
                                 >
                                     <div className="relative">
@@ -48,15 +51,16 @@ const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists, handleScroll, 
                         playlists?.map(playlist => (
                             <div key={playlist.id} className="group w-32 sm:w-40 md:w-48 sm:mr-2 md:mr-3 lg:mr-5">
                                 <div className="relative aspect-square overflow-hidden rounded-lg mb-2 bg-neutral-800">
-
-                                    <div className="absolute inset-0 cursor-pointer hover:opacity-70" onClick={() => { navigate(`/playlist/${ playlist.id }`) }}>
+                                    <div
+                                        className="absolute inset-0 cursor-pointer"
+                                        onClick={() => { navigate(`/playlist/${playlist.id}`) }}
+                                    >
                                         <img
                                             src={playlist.coverImageUrl}
                                             alt="Cover"
-                                            className="w-full h-full object-cover"
+                                            className="w-full h-full object-cover group-hover:brightness-50 transition-all"
                                         />
                                     </div>
-
                                 </div>
                                 <div className="text-sm truncate">{playlist.name}</div>
                                 <div className="text-sm truncate text-gray-400">Total Tracks : {playlist.totalTracks}</div>

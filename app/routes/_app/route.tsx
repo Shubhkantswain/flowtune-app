@@ -5,6 +5,14 @@ import Playbackcontroller from "./_components/playbackcontroller/Playbackcontrol
 import Header from "./_components/header/Header";
 import MusicPreferencesModal from "./_components/header/MusicPreference";
 import useMusicPreferenceStore from "~/store/useMusicPreferenceStore";
+import { MetaFunction } from "@remix-run/cloudflare";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "FlowTune" },
+    { name: "description", content: "Welcome to Remix!" },
+  ];
+};
 
 export default function AppLayout() {
     return (

@@ -67,7 +67,7 @@ function CenterPlaybackControllers() {
                 }
 
                 <button
-                    className="w-12 h-12 hover:bg-[#727171] bg-[#313232] rounded-full flex items-center justify-center hover:scale-105 transition-transform"
+                    className="w-12 h-12 hover:bg-white/40 bg-white/20 rounded-full flex items-center justify-center hover:scale-105 transition-transform"
                     onClick={() => trackDetails.id && togglePlay()}
                 >
                     {

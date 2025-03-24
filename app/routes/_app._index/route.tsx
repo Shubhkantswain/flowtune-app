@@ -4,16 +4,10 @@ import TrackSection from "./_components/TrackSection";
 import { Track } from "gql/graphql";
 import { createGraphqlClient } from "~/clients/api";
 import { getFeedTracksQuery } from "~/graphql/queries/track";
-import { LoaderFunctionArgs } from "@remix-run/cloudflare";
+import { LoaderFunctionArgs, redirect } from "@remix-run/cloudflare";
 import { MetaFunction } from "@remix-run/cloudflare";
-import { useState } from "react";
-
-export const meta: MetaFunction = () => {
-  return [
-    { title: "FlowTune" },
-    { name: "description", content: "Welcome to Remix!" },
-  ];
-};
+import { useEffect } from "react";
+import usePlaylistStore from "~/store/usePlaylistStore";
 
 export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> {
   try {
@@ -30,6 +24,10 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> 
     // Extract the `__FlowTune_Token_server` cookie
     const token = cookies["__FlowTune_Token_server"];
 
+    if (!token) {
+      redirect("/explore")
+    }
+
     const graphqlClient = createGraphqlClient(token);
     const { getFeedTracks } = await graphqlClient.request(getFeedTracksQuery);
 
@@ -41,8 +39,8 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> 
 }
 
 const AppleMusicHomepage: React.FC = () => {
-  const { data } = useCurrentUser();
   const tracks = useLoaderData<Track[]>(); // Properly typed loader data
+  const { setActiveSectionIndex } = usePlaylistStore()
 
   // Ensure tracks are divided into 3 sections with 8 tracks each
   const sectionSize = 8;
@@ -51,6 +49,10 @@ const AppleMusicHomepage: React.FC = () => {
     tracks.slice(sectionSize, sectionSize * 2),
     tracks.slice(sectionSize * 2, sectionSize * 3),
   ];
+
+  useEffect(() => {
+    setActiveSectionIndex(-1)
+  }, [])
 
   return (
     <>

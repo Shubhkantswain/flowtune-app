@@ -11,3 +11,10 @@ mutation RemoveSongFromPlaylist($payload: RemoveSongFromPlaylistInput!) {
   removeSongFromPlaylist(payload: $payload)
 }
 `)
+
+export const DeletePlaylistMutation = graphql(`#graphql
+  mutation DeletePlaylist($playlistId: String!) {
+  deletePlaylist(playlistId: $playlistId)
+}
+`)
+  
