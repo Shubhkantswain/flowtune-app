@@ -1,6 +1,6 @@
 import { useNavigate } from '@remix-run/react';
 import { UserPlaylistsResponseItem } from 'gql/graphql';
-import { Heart, Link } from 'lucide-react';
+import { Heart, Link, PlusCircle } from 'lucide-react';
 import React from 'react'
 import { useTrackStore } from '~/store/useTrackStore';
 
@@ -10,6 +10,7 @@ interface PlaylistItemsProps {
     playlists: UserPlaylistsResponseItem[]
     activeTab: string
 }
+
 
 const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists, handleScroll, scrollContainerRef, activeTab }) => {
     const navigate = useNavigate();
@@ -68,7 +69,6 @@ const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists, handleScroll, 
                         ))
                     )
                 }
-
 
                 {
                     activeTab == "Podcast" && (
