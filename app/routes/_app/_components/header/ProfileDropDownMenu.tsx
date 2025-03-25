@@ -1,12 +1,11 @@
 // ProfileDropDownMenu.tsx
-import { Link, useFetcher } from '@remix-run/react'
+import { Link } from '@remix-run/react'
 import React, { useState, useEffect, useRef } from 'react'
 import CreateTrackDialog from './CreateTrackDialog'
-import MusicPreferencesModal from './MusicPreference';
 import useMusicPreferenceStore from '~/store/useMusicPreferenceStore';
 import { useCurrentUser } from '~/hooks/auth';
-import { SignOutActionResponse } from '~/types';
 import { useQueryClient } from '@tanstack/react-query';
+import { useAuthStore } from '~/store/useAuthStore';
 
 function ProfileDropDownMenu({
     isDropdownOpen,
@@ -22,7 +21,7 @@ function ProfileDropDownMenu({
 
     const { setMusicPreferencesOpen } = useMusicPreferenceStore()
 
-    const [authenticated, setAuthenticated] = useState(true)
+    const {authenticated, setAuthenticated} = useAuthStore()
     const { data, isLoading } = useCurrentUser()
 
     const queryClient = useQueryClient()
@@ -50,16 +49,6 @@ function ProfileDropDownMenu({
             document.removeEventListener('mousedown', handleClickOutside)
         }
     }, [isDropdownOpen, setIsDropdownOpen, triggerRef])
-
-    const fetcher = useFetcher<SignOutActionResponse>();
-
-    useEffect(() => {
-        if (fetcher.data?.success) {
-            localStorage.setItem("__FlowTune_Token", "")
-            setAuthenticated(false)
-            queryClient.setQueryData(["currentUser"], null)
-        }
-      }, [fetcher.data]);
 
     useEffect(() => {
         const auth =
@@ -135,15 +124,9 @@ function ProfileDropDownMenu({
                                     </Link>
                                     <div className="border-b border-[#2E3030]"></div>
 
-                                    <fetcher.Form method="post" action="/actions/sign-out">
-                                        <button
-                                            type='submit'
-                                            className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#2E3030] hover:text-white"
-                                            // onClick={() => {/* Add logout logic */ }}
-                                        >
-                                            Sign out
-                                        </button>
-                                    </fetcher.Form>
+                                    <Link to="/actions/sign-out" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">
+                                        Sign out
+                                    </Link>
                                 </>
                             ) : (
                                 <>
