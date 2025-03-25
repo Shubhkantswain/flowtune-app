@@ -78,7 +78,7 @@ const AppleMusicHomepage: React.FC = () => {
         <TrackSection key={index} tracks={section} index={index} title={getTitle(index)} />
       ))}
 
-<footer className="text-white py-6 px-4 text- mt-5">
+<footer className="text-white py-6 px-4 text- mt-10">
       <div className="container mx-auto grid grid-cols-4 gap-4">
         {/* Company Column */}
         <div>
