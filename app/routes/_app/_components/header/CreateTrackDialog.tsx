@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
     Dialog,
@@ -53,9 +53,29 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
 
     const onSubmit = async (data: NewSong) => {
         // Submit logic
-        createTrack({ title: data.title, singer: data.singer, starCast: data.starCast, duration: data.duration, coverImageUrl: imgUrl, videoUrl: videoUrl, audioFileUrl: audioUrl || "", language: data.language, genre: data.genre })
+        createTrack({ title: data.title, singer: data.singer, starCast: data.starCast, duration: data.duration, coverImageUrl: imgUrl, videoUrl: videoUrl, audioFileUrl: audioUrl || "", language: data.language, genre: selectedGenres })
     };
 
+    const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+
+
+    console.log("selecet", selectedGenres);
+
+    const handleGenreChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedValue = event.target.value;
+
+        const includes = selectedGenres.includes(selectedValue)
+        if(!includes){
+            setSelectedGenres([...selectedGenres, selectedValue])
+        }
+        
+    };
+
+    const removeGenre = (Genre: string) => {
+        const newGeneres = selectedGenres.filter((genre) => genre != Genre)
+        setSelectedGenres(newGeneres)
+    }
+    
     return (
         <Dialog open={songDialogOpen} onOpenChange={setSongDialogOpen}>
             <DialogContent className="hide-scrollbar bg-gradient-to-b from-black to-zinc-900 border-zinc-700 max-h-[80vh] overflow-auto">
@@ -240,6 +260,7 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
                             <select
                                 {...register("genre")}
                                 className="w-full p-2 pr-8 bg-zinc-800 border border-zinc-700 text-white rounded-md appearance-none"
+                                onChange={handleGenreChange}
                             >
                                 {GENRES.map((genre) => (
                                     <option key={genre} value={genre}>
@@ -255,6 +276,31 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
                             </div>
                         </div>
                     </div>
+
+                    {/* Selected Genre Tags */}
+                    {selectedGenres.length > 0 ? (
+                        <div className="flex flex-wrap gap-2 mt-2">
+                            {selectedGenres.map((genre) => (
+                                <div
+                                    key={genre}
+                                    className="flex items-center bg-zinc-800 rounded-2xl text-white px-3 py-1 "
+                                >
+                                    {genre}
+                                    <button
+                                        onClick={() => removeGenre(genre)}
+                                        className="ml-2 text-white"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-x"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    ): (
+                        <div className="text-white">Pls Select Genre</div>
+                    )
+                
+                }
+
 
                     <DialogFooter>
                         <button

@@ -67,7 +67,7 @@ const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitial
               <img
                 src={track.coverImageUrl || ""}
                 alt={`Album cover for ${track.title}`}
-                className="w-full aspect-square rounded-lg transition-opacity duration-300 group-hover:opacity-40 object-cover"
+                className="w-full aspect-square rounded-lg transition-opacity duration-300 group-hover:brightness-50 object-cover"
               />
               <div
                 className="absolute inset-0 flex items-center justify-center"

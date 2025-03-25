@@ -57,7 +57,7 @@ const AppleMusicHomepage: React.FC = () => {
   return (
     <>
       {trackSections.map((section, index) => (
-        <TrackSection key={index} tracks={section} index={index} />
+        <TrackSection key={index} tracks={section} index={index} title=''/>
       ))}
 
       <footer className="text-gray-400 py-8 px-6 mt-5">

@@ -9,23 +9,11 @@ interface HeaderProps {
     initialized: boolean;
     setInitialized: React.Dispatch<React.SetStateAction<boolean>>;
     index: number
+    title: string
 }
 
-const Header: React.FC<HeaderProps> = ({ scroll, tracks, initialized, setInitialized, index }) => {
+const Header: React.FC<HeaderProps> = ({ scroll, tracks, initialized, setInitialized, index, title }) => {
     const [isOpen, setIsOpen] = useState(false)
-
-    const getGreeting = (): string => {
-        const now = new Date();
-        const istOffset = 5.5 * 60 * 60 * 1000; // Convert IST offset to milliseconds
-        const istTime = new Date(now.getTime() + istOffset);
-        const hours = istTime.getUTCHours();
-
-        if (hours >= 5 && hours < 12) return "Good Morning"; // 5 AM - 11:59 AM
-        if (hours >= 12 && hours < 17) return "Good Afternoon"; // 12 PM - 4:59 PM
-        if (hours >= 17 && hours < 20) return "Good Evening"; // 5 PM - 7:59 PM
-        return "Good Night"; // 8 PM - 4:59 AM
-    };
-
 
     return (
         <>
@@ -33,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({ scroll, tracks, initialized, setInitial
                 <div className="flex flex-row justify-between items-center gap-4 mb-4">
                     <div>
                         <h1 className="text-lg sm:text-xl md:text-2xl font-bold mb-1">
-                            {index === 0 ? "Welcome Back" : index === 1 ? getGreeting() : "Discover More"}
+                            {title}
                         </h1>
                     </div>
                     <div className="flex items-center gap-2 sm:gap-4">

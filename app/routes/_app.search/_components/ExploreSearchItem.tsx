@@ -1,4 +1,6 @@
+import { useNavigate } from '@remix-run/react';
 import React from 'react';
+import { genreIds } from '~/searchData';
 import { ExploreItem } from '~/types';
 
 interface ExploreSearchItemProps {
@@ -6,7 +8,11 @@ interface ExploreSearchItemProps {
   index: string;
 }
 
+// First define valid genre types
+type GenreKey = keyof typeof genreIds;
+
 const ExploreSearchItem: React.FC<ExploreSearchItemProps> = ({ item }) => {
+  const navigate = useNavigate()
   return (
     <div
       className={`
@@ -15,6 +21,7 @@ const ExploreSearchItem: React.FC<ExploreSearchItemProps> = ({ item }) => {
         relative overflow-hidden cursor-pointer 
         transition-transform hover:scale-105 shadow-lg
       `}
+      onClick={() => navigate(`/genres/${genreIds[item.title as GenreKey]}`)}
     >
       <div className="flex flex-col justify-between h-full">
         <h2 className="text-base font-semibold">{item.title}</h2>

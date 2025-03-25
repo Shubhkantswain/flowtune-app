@@ -4,9 +4,10 @@ import { Track } from 'gql/graphql';
 import TrackLists from './TrackLists';
 import Header from './Header';
 
-function TrackSection({ tracks, index }: {
+function TrackSection({ tracks, index, title }: {
     tracks: Track[],
     index: number
+    title: string
 }) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [isAnimating, setIsAnimating] = useState<boolean>(false);
@@ -52,7 +53,7 @@ function TrackSection({ tracks, index }: {
     return (
         <div className="text-white p-4 sm:p-6 md:p-8">
             {/* Haeder:- which include the title, left and right arrows and see all button //*/}
-            <Header scroll={scroll} tracks={tracks} initialized={initialized} setInitialized={setInitialized} index={index} />
+            <Header scroll={scroll} tracks={tracks} initialized={initialized} setInitialized={setInitialized} index={index} title={title}/>
 
             <div className="relative">
                 <div
