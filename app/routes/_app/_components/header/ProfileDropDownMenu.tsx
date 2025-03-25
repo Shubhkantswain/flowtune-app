@@ -124,7 +124,7 @@ function ProfileDropDownMenu({
                                     </Link>
                                     <div className="border-b border-[#2E3030]"></div>
 
-                                    <Link to="/dummy" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">
+                                    <Link to="/actions/sign-out" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">
                                         Sign out
                                     </Link>
                                 </>
