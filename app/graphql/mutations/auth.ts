@@ -1,14 +1,12 @@
 import { graphql } from "gql"
 
-export const signupUserMutation = graphql(`
-    #graphql
+export const SignupUserMutation = graphql(`#graphql
     mutation SignupUser($input: SignupUserInput!) {
         signupUser(input: $input)
     }
 `)
 
-export const verifyEmailMutation = graphql(`
-    #graphql
+export const VerifyEmailMutation = graphql(`#graphql
     mutation VerifyEmail($input: VerifyEmailInput!) {
         verifyEmail(input: $input) {
             id
@@ -22,8 +20,7 @@ export const verifyEmailMutation = graphql(`
     }
 `)
 
-export const loginUserMutation = graphql(`
-    #graphql
+export const LoginUserMutation = graphql(`#graphql
     mutation LoginUser($input: LoginUserInput!) {
         loginUser(input: $input) {
             id
@@ -37,8 +34,14 @@ export const loginUserMutation = graphql(`
     }
 `)
 
-export const sendReqMutation = graphql(`#graphql
-    mutation SendReq($text: String!) {
-  sendReq(text: $text)
-}
+export const ForgotPasswordMutation = graphql(`#graphql
+    mutation ForgotPassword($usernameOrEmail: String!) {
+        forgotPassword(usernameOrEmail: $usernameOrEmail)
+    }
+`)
+
+export const ResetPasswordMutation = graphql(`#graphql
+    mutation ResetPassword($input: ResetPasswordInput!) {
+        resetPassword(input: $input)
+    }
 `)

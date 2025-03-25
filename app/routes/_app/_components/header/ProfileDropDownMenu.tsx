@@ -1,10 +1,12 @@
 // ProfileDropDownMenu.tsx
-import { Link } from '@remix-run/react'
+import { Link, useFetcher } from '@remix-run/react'
 import React, { useState, useEffect, useRef } from 'react'
 import CreateTrackDialog from './CreateTrackDialog'
 import MusicPreferencesModal from './MusicPreference';
 import useMusicPreferenceStore from '~/store/useMusicPreferenceStore';
 import { useCurrentUser } from '~/hooks/auth';
+import { SignOutActionResponse } from '~/types';
+import { useQueryClient } from '@tanstack/react-query';
 
 function ProfileDropDownMenu({
     isDropdownOpen,
@@ -22,6 +24,8 @@ function ProfileDropDownMenu({
 
     const [authenticated, setAuthenticated] = useState(true)
     const { data, isLoading } = useCurrentUser()
+
+    const queryClient = useQueryClient()
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -47,6 +51,16 @@ function ProfileDropDownMenu({
         }
     }, [isDropdownOpen, setIsDropdownOpen, triggerRef])
 
+    const fetcher = useFetcher<SignOutActionResponse>();
+
+    useEffect(() => {
+        if (fetcher.data?.success) {
+            localStorage.setItem("__FlowTune_Token", "")
+            setAuthenticated(false)
+            queryClient.setQueryData(["currentUser"], null)
+        }
+      }, [fetcher.data]);
+
     useEffect(() => {
         const auth =
             typeof window !== "undefined" && localStorage.getItem("__FlowTune_Token")
@@ -54,6 +68,7 @@ function ProfileDropDownMenu({
                 : false;
         setAuthenticated(auth);
     }, []);
+
 
     return (
         <>
@@ -119,12 +134,16 @@ function ProfileDropDownMenu({
                                         Settings
                                     </Link>
                                     <div className="border-b border-[#2E3030]"></div>
-                                    <button
-                                        className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#2E3030] hover:text-white"
-                                        onClick={() => {/* Add logout logic */ }}
-                                    >
-                                        Sign out
-                                    </button>
+
+                                    <fetcher.Form method="post" action="/actions/sign-out">
+                                        <button
+                                            type='submit'
+                                            className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#2E3030] hover:text-white"
+                                            // onClick={() => {/* Add logout logic */ }}
+                                        >
+                                            Sign out
+                                        </button>
+                                    </fetcher.Form>
                                 </>
                             ) : (
                                 <>

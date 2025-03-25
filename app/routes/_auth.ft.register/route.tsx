@@ -1,7 +1,6 @@
 import { Form, useActionData, useNavigate, useNavigation } from "@remix-run/react";
 import { useEffect } from "react";
 import { createGraphqlClient } from "~/clients/api";
-import { signupUserMutation, verifyEmailMutation } from "~/graphql/mutations/auth";
 import SubmitButton from "../_auth/Components/SubmitButton";
 
 import VerifyEmailTokenForm from "./_components/VerifyEmailTokenForm";
@@ -12,6 +11,7 @@ import { json, MetaFunction } from "@remix-run/cloudflare";
 import { ActionFunctionArgs } from "@remix-run/cloudflare";
 import { useQueryClient } from "@tanstack/react-query";
 import { RegisterActionData } from "~/types";
+import { SignupUserMutation, VerifyEmailMutation } from "~/graphql/mutations/auth";
 
 export const meta: MetaFunction = () => {
     return [
@@ -51,7 +51,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
         }
 
         try {
-            const { signupUser } = await graphqlClient.request(signupUserMutation, {
+            const { signupUser } = await graphqlClient.request(SignupUserMutation, {
                 input: {
                     username,
                     email,
@@ -96,7 +96,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
         }
 
         try {
-            const { verifyEmail } = await graphqlClient.request(verifyEmailMutation, {
+            const { verifyEmail } = await graphqlClient.request(VerifyEmailMutation, {
                 input: {
                     username,
                     fullName,

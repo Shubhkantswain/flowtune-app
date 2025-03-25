@@ -30,15 +30,15 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     return json({ message: "Token found", token });
 };
 
- 
+
 export default function FtLayout() {
     const navigate = useNavigate();
 
     // useEffect(() => {
-    //     if(typeof window !== "undefined"){
+    //     if (typeof window !== "undefined") {
     //         const token = localStorage.getItem("__FlowTune_Token")
-    //         if(token){
-    //             navigate("/", {replace: true})
+    //         if (token) {
+    //             navigate("/", { replace: true })
     //         }
     //     }
     // }, [])

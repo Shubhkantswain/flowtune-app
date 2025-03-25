@@ -14,10 +14,11 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
-    "\n    #graphql\n    mutation SignupUser($input: SignupUserInput!) {\n        signupUser(input: $input)\n    }\n": typeof types.SignupUserDocument,
-    "\n    #graphql\n    mutation VerifyEmail($input: VerifyEmailInput!) {\n        verifyEmail(input: $input) {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            authToken\n        }\n    }\n": typeof types.VerifyEmailDocument,
-    "\n    #graphql\n    mutation LoginUser($input: LoginUserInput!) {\n        loginUser(input: $input) {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            authToken\n        }\n    }\n": typeof types.LoginUserDocument,
-    "#graphql\n    mutation SendReq($text: String!) {\n  sendReq(text: $text)\n}\n": typeof types.SendReqDocument,
+    "#graphql\n    mutation SignupUser($input: SignupUserInput!) {\n        signupUser(input: $input)\n    }\n": typeof types.SignupUserDocument,
+    "#graphql\n    mutation VerifyEmail($input: VerifyEmailInput!) {\n        verifyEmail(input: $input) {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            authToken\n        }\n    }\n": typeof types.VerifyEmailDocument,
+    "#graphql\n    mutation LoginUser($input: LoginUserInput!) {\n        loginUser(input: $input) {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            authToken\n        }\n    }\n": typeof types.LoginUserDocument,
+    "#graphql\n    mutation ForgotPassword($usernameOrEmail: String!) {\n        forgotPassword(usernameOrEmail: $usernameOrEmail)\n    }\n": typeof types.ForgotPasswordDocument,
+    "#graphql\n    mutation ResetPassword($input: ResetPasswordInput!) {\n        resetPassword(input: $input)\n    }\n": typeof types.ResetPasswordDocument,
     "#graphql\nmutation AddSongToPlaylist($payload: AddSongToPlaylistInput!) {\n  addSongToPlaylist(payload: $payload)\n}\n": typeof types.AddSongToPlaylistDocument,
     "#graphql\nmutation RemoveSongFromPlaylist($payload: RemoveSongFromPlaylistInput!) {\n  removeSongFromPlaylist(payload: $payload)\n}\n": typeof types.RemoveSongFromPlaylistDocument,
     "#graphql\n  mutation DeletePlaylist($playlistId: String!) {\n  deletePlaylist(playlistId: $playlistId)\n}\n": typeof types.DeletePlaylistDocument,
@@ -33,10 +34,11 @@ type Documents = {
     "#graphql\n    query GetUserTracks($payload: GetUserTracksPayload!) {\n      getUserTracks(payload: $payload) {\n        id   \n        title            \n        singer          \n        starCast\n        duration             \n        coverImageUrl    \n        videoUrl\n        audioFileUrl \n        hasLiked\n        authorId\n      }\n    }\n": typeof types.GetUserTracksDocument,
 };
 const documents: Documents = {
-    "\n    #graphql\n    mutation SignupUser($input: SignupUserInput!) {\n        signupUser(input: $input)\n    }\n": types.SignupUserDocument,
-    "\n    #graphql\n    mutation VerifyEmail($input: VerifyEmailInput!) {\n        verifyEmail(input: $input) {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            authToken\n        }\n    }\n": types.VerifyEmailDocument,
-    "\n    #graphql\n    mutation LoginUser($input: LoginUserInput!) {\n        loginUser(input: $input) {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            authToken\n        }\n    }\n": types.LoginUserDocument,
-    "#graphql\n    mutation SendReq($text: String!) {\n  sendReq(text: $text)\n}\n": types.SendReqDocument,
+    "#graphql\n    mutation SignupUser($input: SignupUserInput!) {\n        signupUser(input: $input)\n    }\n": types.SignupUserDocument,
+    "#graphql\n    mutation VerifyEmail($input: VerifyEmailInput!) {\n        verifyEmail(input: $input) {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            authToken\n        }\n    }\n": types.VerifyEmailDocument,
+    "#graphql\n    mutation LoginUser($input: LoginUserInput!) {\n        loginUser(input: $input) {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            authToken\n        }\n    }\n": types.LoginUserDocument,
+    "#graphql\n    mutation ForgotPassword($usernameOrEmail: String!) {\n        forgotPassword(usernameOrEmail: $usernameOrEmail)\n    }\n": types.ForgotPasswordDocument,
+    "#graphql\n    mutation ResetPassword($input: ResetPasswordInput!) {\n        resetPassword(input: $input)\n    }\n": types.ResetPasswordDocument,
     "#graphql\nmutation AddSongToPlaylist($payload: AddSongToPlaylistInput!) {\n  addSongToPlaylist(payload: $payload)\n}\n": types.AddSongToPlaylistDocument,
     "#graphql\nmutation RemoveSongFromPlaylist($payload: RemoveSongFromPlaylistInput!) {\n  removeSongFromPlaylist(payload: $payload)\n}\n": types.RemoveSongFromPlaylistDocument,
     "#graphql\n  mutation DeletePlaylist($playlistId: String!) {\n  deletePlaylist(playlistId: $playlistId)\n}\n": types.DeletePlaylistDocument,
@@ -69,19 +71,23 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    #graphql\n    mutation SignupUser($input: SignupUserInput!) {\n        signupUser(input: $input)\n    }\n"): (typeof documents)["\n    #graphql\n    mutation SignupUser($input: SignupUserInput!) {\n        signupUser(input: $input)\n    }\n"];
+export function graphql(source: "#graphql\n    mutation SignupUser($input: SignupUserInput!) {\n        signupUser(input: $input)\n    }\n"): (typeof documents)["#graphql\n    mutation SignupUser($input: SignupUserInput!) {\n        signupUser(input: $input)\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    #graphql\n    mutation VerifyEmail($input: VerifyEmailInput!) {\n        verifyEmail(input: $input) {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            authToken\n        }\n    }\n"): (typeof documents)["\n    #graphql\n    mutation VerifyEmail($input: VerifyEmailInput!) {\n        verifyEmail(input: $input) {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            authToken\n        }\n    }\n"];
+export function graphql(source: "#graphql\n    mutation VerifyEmail($input: VerifyEmailInput!) {\n        verifyEmail(input: $input) {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            authToken\n        }\n    }\n"): (typeof documents)["#graphql\n    mutation VerifyEmail($input: VerifyEmailInput!) {\n        verifyEmail(input: $input) {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            authToken\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    #graphql\n    mutation LoginUser($input: LoginUserInput!) {\n        loginUser(input: $input) {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            authToken\n        }\n    }\n"): (typeof documents)["\n    #graphql\n    mutation LoginUser($input: LoginUserInput!) {\n        loginUser(input: $input) {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            authToken\n        }\n    }\n"];
+export function graphql(source: "#graphql\n    mutation LoginUser($input: LoginUserInput!) {\n        loginUser(input: $input) {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            authToken\n        }\n    }\n"): (typeof documents)["#graphql\n    mutation LoginUser($input: LoginUserInput!) {\n        loginUser(input: $input) {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            authToken\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "#graphql\n    mutation SendReq($text: String!) {\n  sendReq(text: $text)\n}\n"): (typeof documents)["#graphql\n    mutation SendReq($text: String!) {\n  sendReq(text: $text)\n}\n"];
+export function graphql(source: "#graphql\n    mutation ForgotPassword($usernameOrEmail: String!) {\n        forgotPassword(usernameOrEmail: $usernameOrEmail)\n    }\n"): (typeof documents)["#graphql\n    mutation ForgotPassword($usernameOrEmail: String!) {\n        forgotPassword(usernameOrEmail: $usernameOrEmail)\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "#graphql\n    mutation ResetPassword($input: ResetPasswordInput!) {\n        resetPassword(input: $input)\n    }\n"): (typeof documents)["#graphql\n    mutation ResetPassword($input: ResetPasswordInput!) {\n        resetPassword(input: $input)\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

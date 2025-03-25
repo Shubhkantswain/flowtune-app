@@ -54,9 +54,30 @@ export interface SigninActionData {
     };
 }
 
+export interface ForgotpasswordData {
+    isForgotPasswordSuccess: boolean;
+    errors?: {
+        usernameOrEmail?: string;
+        general?: string;
+    };
+}
+
+export interface ResetpasswordData {
+    isResetPasswordSuccess: boolean;
+    errors?: {
+        newPassword?: string;
+        confirmPassword?: string;
+        general?: string;
+    };
+}
+
 export type ExploreItem = {
     title: string;
     svg: ReactNode;
     color: string;
     image: string;
+};
+
+export type SignOutActionResponse = {
+    success: boolean;
 };

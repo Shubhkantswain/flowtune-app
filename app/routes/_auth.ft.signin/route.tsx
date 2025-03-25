@@ -6,7 +6,7 @@ import GeneralError from "../_auth/Components/GeneralError";
 import SubmitButton from "../_auth/Components/SubmitButton";
 import { ActionFunctionArgs, json } from "@remix-run/cloudflare";
 import { createGraphqlClient } from "~/clients/api";
-import { loginUserMutation } from "~/graphql/mutations/auth";
+import { LoginUserMutation } from "~/graphql/mutations/auth";
 import { useQueryClient } from "@tanstack/react-query";
 import { SigninActionData } from "~/types";
 
@@ -27,17 +27,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
     try {
         const graphqlClient = createGraphqlClient();
-        const { loginUser } = await graphqlClient.request(loginUserMutation, {
+        const { loginUser } = await graphqlClient.request(LoginUserMutation, {
             input: { usernameOrEmail, password }
         });
-
-        // const cookie = serialize("__FlowTune_Token_server", loginUser?.authToken || "", {
-        //     maxAge: 60 * 60 * 24, // 1 day
-        //     httpOnly: true,
-        //     secure: true,
-        //     path: "/",
-        //     sameSite: "none",
-        // });
 
         return json<SigninActionData>({
             isLoginSuccess: true,
@@ -110,7 +102,6 @@ export default function SignIn() {
             handleSetCookie();
         }
     }, [isLoginSuccessful]);
-
 
     return (
         <Form method="post" className="space-y-6 w-full max-w-sm">
