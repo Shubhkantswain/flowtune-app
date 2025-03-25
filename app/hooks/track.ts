@@ -40,6 +40,8 @@ export const useCreateTrack = () => {
         onError: (error) => {
             const errorMessage = error.message.split(":").pop()?.trim() || "Something went wrong";
             toast.success(errorMessage)
+            console.log(error);
+            
         },
     });
 };
