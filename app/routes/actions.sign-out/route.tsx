@@ -1,7 +1,7 @@
 // app/routes/actions.sign-out.ts
-import { json } from "@remix-run/cloudflare";
+import { json, replace } from "@remix-run/cloudflare";
 import type { ActionFunctionArgs } from "@remix-run/cloudflare";
-import { Form, useActionData } from "@remix-run/react";
+import { Form, useActionData, useNavigate } from "@remix-run/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useAuthStore } from "~/store/useAuthStore";
@@ -25,11 +25,14 @@ function route() {
 
     const { authenticated, setAuthenticated } = useAuthStore()
 
+    const navigate = useNavigate()
+
     useEffect(() => {
         if (actionData?.success) {
             queryClient.setQueryData(['currentUser'], null)
             setAuthenticated(false)
             localStorage.setItem("__FlowTune_Token", "")
+            navigate("/", { replace: true })
         }
     }, [actionData?.success])
 
