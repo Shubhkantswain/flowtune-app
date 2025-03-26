@@ -52,7 +52,7 @@ const BrowsePage = () => {
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-10">
               {searchResults.map((song, index) => (
                 <div key={index} className="flex items-center mb-4 gap-3 cursor-pointer p-2 hover:bg-[#222222]"
-                onClick={() => navigate(`/search-query/${song.title}`)}
+                onClick={() => navigate(`/search-results/${song.title}`)}
                 >
                   <img
                     src={song.coverImageUrl}
