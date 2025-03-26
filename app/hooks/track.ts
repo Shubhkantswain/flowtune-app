@@ -1,8 +1,9 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { CreateTrackPayload } from "gql/graphql";
 import { toast } from "sonner";
 import { createGraphqlClient } from "~/clients/api";
 import { createTrackMutation, likeTrackMutation } from "~/graphql/mutations/track";
+import { getExploreTracksQuery } from "~/graphql/queries/track";
 
 export const useCreateTrack = () => {
     return useMutation({
@@ -41,10 +42,27 @@ export const useCreateTrack = () => {
             const errorMessage = error.message.split(":").pop()?.trim() || "Something went wrong";
             toast.success(errorMessage)
             console.log(error);
-            
+
         },
     });
 };
+
+export const useGetExploreTracks = (page: number) => {
+    return useQuery({
+        queryKey: ['exploreTracks', page],
+        queryFn: async () => {
+            if(page == 1) return []
+            
+            let token = ""
+            if (typeof window !== "undefined") {
+                token = localStorage.getItem("__FlowTune_Token") || ""
+            }
+            const graphqlClient = createGraphqlClient(token);
+            const { getExploreTracks } = await graphqlClient.request(getExploreTracksQuery, { page });
+            return getExploreTracks
+        }
+    })
+}
 
 export const useLikeTrack = () => {
     return useMutation({
@@ -62,7 +80,7 @@ export const useLikeTrack = () => {
             }
         },
         onSuccess: (data) => {
-            if(data){
+            if (data) {
                 toast.success('Track Added To Your Favourite')
             } else {
                 toast.success('Track Remove From Your Favourite')

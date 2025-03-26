@@ -12,5 +12,6 @@ export const createGraphqlClient = (token?: string) => {
 
 }
 
+
 // https://flowtune-app-server.onrender.com/graphql
 // http://localhost:4000/graphql

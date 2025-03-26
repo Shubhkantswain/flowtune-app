@@ -33,7 +33,7 @@ const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitial
     else {
       if (index != activeSectionIndex) {
         console.log("else ooooooooooooo");
-        initialize(tracksToRender.filter(track => track !== null && track !== undefined));
+        initialize(tracks);
       }
 
       setTrackDetails({
