@@ -96,7 +96,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
         {/* Video Background (Only visible on small screens) */}
         {videoEnabled && trackDetails.videoUrl ? (
           <video
-            className={`${hide ? "opacity-70" : "opacity-30"} fixed inset-0 z-0 block md:hidden`}
+            className={`${hide ? "opacity-100" : "opacity-30"} fixed inset-0 z-0 block md:hidden`}
             style={{
               objectFit: "cover",
               width: "100%",
