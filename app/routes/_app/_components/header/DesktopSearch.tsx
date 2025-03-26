@@ -62,18 +62,24 @@ function DesktopSearch() {
                 type="text"
                 placeholder="Search"
                 className={`
-                    bg-transparent outline-none ml-2
-                    transition-all duration-300 ease-in-out
-                    placeholder-gray-400
-                    ${isHovered ? 'w-64' : 'w-56'}
-                    focus:ring-0 focus:outline-none
-                    transform
-                    ${isSearchPage ? 'scale-105 text-white' : 'scale-100 text-black'}
-                    ${isHovered ? 'translate-x-2' : 'translate-x-0'}
-                `}
+        bg-transparent outline-none ml-2
+        transition-all duration-300 ease-in-out
+        placeholder-gray-400
+        ${isHovered ? 'w-64' : 'w-56'}
+        focus:ring-0 focus:outline-none
+        transform
+        ${isSearchPage ? 'scale-105 text-white' : 'scale-100 text-black'}
+        ${isHovered ? 'translate-x-2' : 'translate-x-0'}
+    `}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                    if (e.key === "Enter" && searchQuery.trim()) {
+                        navigate(`/search-results/${searchQuery}`);
+                    }
+                }}
             />
+
             <div className={`
                 absolute right-4
                 transition-all duration-300 ease-in-out

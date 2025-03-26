@@ -1,32 +1,116 @@
 export const searchData = {
-    a: [],
-    b: ['Bewajah - Sanam Teri Kasam', 'Be Intehaan - Race 2', 'Badtameez Dil - Yeh Jawaani Hai Dewaani'],
-    c: [],
-    d: [],
+    a: [
+        { title: "Ae Dil Hai Mushkil", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742925514/ixmve6bnlzxextrquvcv.jpg" }
+    ],
+    b: [
+        { title: "Badtameez Dil", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742958627/govqq7mj7iaqcgsyi5q1.jpg" },
+        { title: "Be Intehaan", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742921465/wsndiuutzk8mxf2k502i.jpg" },
+        { title: "Bekhayali", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742973240/buondfrd1qmxccpyloqp.jpg" },
+        { title: "Bewajah", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742964272/tqio9ukwzxrspssdkspu.jpg" },
+        { title: "Balam Pichkari", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742972768/gxuns4nogruxjzt6sazt.jpg" }
+    ],
+    c: [
+        { title: "Chaand Baaliyan", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742916244/bjzfjdog5eackjwvmumb.jpg" },
+        { title: "Chaleya", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742974064/e74r5gdhpmyfewlzu8zo.jpg" }
+    ],
+    d: [
+        { title: "Dooriyan", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742925952/md6yjbrvl5qlkgftfpd2.jpg" }
+    ],
     e: [],
     f: [],
     g: [],
-    h: [],
-    i: [],
-    j: [],
-    k: [],
-    l: [],
-    m: [],
+    h: [
+        { title: "Hal-E-Dil", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742924210/kpgzqrywadtex8zdtljb.jpg" }
+    ],
+    i: [
+        { title: "Ilahi", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742961111/pytjf0lcuotlbun6chl8.jpg" },
+    ],
+    j: [
+        { title: "Jo Tum Mere Ho", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742915881/rgndtngwkgvmlnewxh5p.jpg"},
+        { title: "Jaan Ban Gaye", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742973779/vkyft1hgc1tajt8mpjeb.jpg" }
+    ],
+    k: [
+        { title: "Kya Khoya", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742923459/ozbajecchjmvuuptzpb8.jpg" },
+        { title: "Kheech Meri Photo", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742920550/rpffgb4lxolyoomykdm8.jpg" },
+        { title: "Khamoshiyan", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742922102/fcomkkytpaiyyjt4unh0.jpg" },
+        { title: "Khude Jaane", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742922954/xc9fsdgbshaysyzoccxt.jpg" },
+        { title: "Kabira", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742957348/mrnqcfs0axmb3zawj6ls.jpg" },
+        { title: "Kuch Iss Tarah", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742963538/t7mhvjxrq4aw8vs61vf5.jpg" },
+        { title: "Kesariya", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742975872/afhsbs9svumynvkx3bco.jpg" }
+    ],
+    l: [
+        { title: "Lat Lag Gayee", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742959913/pds3tdoisugzzdgaugxk.jpg" }
+    ],
+    m: [
+        { title: "Mann Mera", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742921039/oyp1ef305o1xlvzbdq9b.jpg"},
+        { title: "Matargashti", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742963960/mws7i1sf1zmhhdbwk3vs.jpg" }
+    ],
     n: [],
-    o: [],
-    p: [],
+    o: [
+        { title: "O Meri Laila", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742915533/jz0ocxxtjji3oro6w6vn.jpg" }
+    ],
+    p: [
+        { title: "Phir Se Ud Chala", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742916804/vkxmv099h2gxjdvhpvpr.jpg" }
+    ],
     q: [],
     r: [],
-    s: [],
-    t: [],
+    s: [
+        { title: "Sanam Teri Kasam", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742961792/hdyg34bstlqeatrf2ns5.png" },
+        { title: "Sadda Haq", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742974479/wxoa5gwgwbjnlhijlu45.jpg" },
+        { title: "Senorita", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742975045/sgsndr0zm3pmwuyqrwwv.jpg" }
+    ],
+    t: [
+        { title: "Tere Liye", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742922742/ixlkx75vosuin2mskwfj.jpg" },
+        { title: "Tera Ban Jaunga", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742957691/g3pohetwdmefed0xymsh.jpg" },
+        { title: "Tu Hai Kahan", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742958019/dvg40twoomxhdmdgzjy2.jpg" },
+        { title: "Tum Ho", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742959451/andvhqwkzrdng7jofilc.jpg" },
+        { title: "Tera Chehara", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742974849/jttuljkalgairfselsqy.jpg" },
+        { title: "Tum Hi Ho", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742975371/mmaftgfsgqssvhuorx5h.jpg" }
+    ],
     u: [],
     v: [],
     w: [],
     x: [],
     y: [],
-    z: []
+    z: [] 
 };
 
+const dummyData = [
+    "O Meri Laila",
+    "Jo Tum Mere Ho",
+    "Chaand Baaliyan",
+    "Phir Se Ud Chala",
+    "Kheech Meri Photo",
+    "Mann Mera",
+    "Be Intehaan",
+    "Khamoshiyan",
+    "Tere Liye",
+    "Khude Jaane",
+    "Iya Khoya",
+    "Hal-E-Dil",
+    "Ae Dil Hai Mushkil",
+    "Dooriyan",
+    "Kabira",
+    "Tera Ban Jaunga",
+    "Tu Hai Kahan",
+    "Badtameez Dil",
+    "Tum Ho",
+    "Lat Lag Gayee",
+    "Ilahi",
+    "Sanam Teri Kasam",
+    "Kuch Iss Tarah",
+    "Matargashti",
+    "Bewajah",
+    "Balam Pichkari",
+    "Bekhayali",
+    "Jaan Ban Gaye",
+    "Chaleya",
+    "Sadda Haq",
+    "Tera Chehara",
+    "Senorita",
+    "Tum Hi Ho",
+    "Kesariya"
+]
 
 export const genreIds = {
     // MoodsAndActivities

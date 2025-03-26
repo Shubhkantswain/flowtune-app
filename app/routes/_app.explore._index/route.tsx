@@ -88,6 +88,8 @@ const AppleMusicHomepage: React.FC = () => {
           data.slice(sectionSize, sectionSize * 2),
         ];
 
+        // console.log(" data.slice(sectionSize, sectionSize * 2)",  data.slice(sectionSize, sectionSize * 2));
+        
         // If page is 2, include both the initial trackSections and new data
         if (page === 2) {
           const initialSections = [
@@ -95,7 +97,9 @@ const AppleMusicHomepage: React.FC = () => {
             tracks.slice(sectionSize, sectionSize * 2),
             tracks.slice(sectionSize * 2, sectionSize * 3),
           ];
+          console.log('[...initialSections, ...newSections]', [...initialSections, ...newSections]);
           return [...initialSections, ...newSections];
+          
         }
 
         // For other pages, just append new sections

@@ -1,8 +1,10 @@
-import React from 'react'
+import { useNavigate } from '@remix-run/react';
+import React from 'react';
 import useSearchStore from '~/store/useSearchStore';
 
 function SearchBar() {
-  const { searchQuery, setSearchQuery } = useSearchStore();
+    const { searchQuery, setSearchQuery } = useSearchStore();
+    const navigate = useNavigate()
 
     return (
         <div className="block md:hidden mt-2 mb-10">
@@ -12,23 +14,32 @@ function SearchBar() {
                     placeholder="Search..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full p-2 pl-10 text-black rounded-lg bg-[#FFFFFF] placeholder-[#757575] focus:outline-none focus:ring-2 focus:ring-[#fa586a]"
+                    className="w-full p-2 pr-10 text-black rounded-lg bg-[#FFFFFF] placeholder-[#757575] focus:outline-none focus:ring-2 focus:ring-[#fa586a]"
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter" && searchQuery.trim()) {
+                            navigate(`/search-results/${searchQuery}`);
+                        }
+                    }}
                 />
-                <svg
-                    className="absolute left-3 top-2.5 h-5 w-5 text-black"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                <button
+                    onClick={() => navigate(`/search-results/${searchQuery}`)}
                 >
-                    <circle cx="11" cy="11" r="8" />
-                    <path d="m21 21-4.3-4.3" />
-                </svg>
+                    <svg
+                        className="absolute right-3 top-2.5 h-5 w-5 text-black"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    >
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="m21 21-4.3-4.3" />
+                    </svg>
+                </button>
             </div>
         </div>
-    )
+    );
 }
 
-export default SearchBar
+export default SearchBar;

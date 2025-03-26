@@ -51,6 +51,22 @@ export const getTracksByGenreIdQuery = graphql(`#graphql
   }
 `)
 
+export const getSearchTracksQuery = graphql(`#graphql
+  query GetSearchTracks($searchQuery: String!) {
+    getSearchTracks(searchQuery: $searchQuery) {
+      id   
+      title            
+      singer          
+      starCast
+      duration             
+      coverImageUrl    
+      videoUrl
+      audioFileUrl 
+      hasLiked
+      authorId  
+    }
+  }
+`)
 
 export const getLikedTracksQuery = graphql(`#graphql
   query GetLikedTracks {
