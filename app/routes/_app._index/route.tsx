@@ -49,10 +49,10 @@ const getGreeting = (): string => {
   return "Good Night";
 };
 
-// Function to determine section titles
+// Function to determine section titles with repeating pattern
 const getTitle = (index: number): string => {
   const titles = ["Welcome back", getGreeting(), "Discover more"];
-  return titles[index] || "More Tracks";
+  return titles[index % 3] || "More Tracks"; // This will cycle through 0,1,2,0,1,2...
 };
 
 const AppleMusicHomepage: React.FC = () => {

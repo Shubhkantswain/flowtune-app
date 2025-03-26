@@ -42,6 +42,23 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> 
   }
 }
 
+// Function to get the greeting message dynamically
+const getGreeting = (): string => {
+  const hours = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }).split(", ")[1].split(":")[0];
+  const hourNum = parseInt(hours, 10);
+
+  if (hourNum >= 5 && hourNum < 12) return "Good Morning";
+  if (hourNum >= 12 && hourNum < 17) return "Good Afternoon";
+  if (hourNum >= 17 && hourNum < 20) return "Good Evening";
+  return "Good Night";
+};
+
+// Function to determine section titles with repeating pattern
+const getTitle = (index: number): string => {
+  const titles = ["Welcome back", getGreeting(), "Discover more"];
+  return titles[index % 3] || "More Tracks"; // This will cycle through 0,1,2,0,1,2...
+};
+
 const AppleMusicHomepage: React.FC = () => {
   const tracks = useLoaderData<Track[]>(); // Properly typed loader data
   const { setActiveSectionIndex } = usePlaylistStore()
@@ -61,7 +78,7 @@ const AppleMusicHomepage: React.FC = () => {
   const { data, isLoading } = useGetExploreTracks(page)
 
   console.log(data);
-  
+
   useEffect(() => {
     if (data?.length) {
       setExploreTracks(prev => {
@@ -95,10 +112,10 @@ const AppleMusicHomepage: React.FC = () => {
     <>
       {exploreTracks.length > 0
         ? exploreTracks.map((section, index) => (
-          <TrackSection key={index} tracks={section} index={index} title="" />
+          <TrackSection key={index} tracks={section} index={index} title={getTitle(index)} />
         ))
         : trackSections.map((section, index) => (
-          <TrackSection key={index} tracks={section} index={index} title="" />
+          <TrackSection key={index} tracks={section} index={index} title={getTitle(index)} />
         ))}
 
       <button
