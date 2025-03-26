@@ -1,7 +1,7 @@
 import { LoaderFunctionArgs } from '@remix-run/cloudflare';
 import { useLoaderData } from '@remix-run/react';
 import { Track } from 'gql/graphql';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createGraphqlClient } from '~/clients/api';
 import { getSearchTracksQuery } from '~/graphql/queries/track';
 import usePlaylistStore from '~/store/usePlaylistStore';
@@ -40,6 +40,8 @@ function route() {
 
   const [initialized, setInitialized] = useState(false)
 
+  const { initialize } = usePlaylistStore()
+
   const handleClick = (isPlayingCurrentSong: boolean, track: Track) => {
     if (isPlayingCurrentSong && initialized) {
       setTrackDetails({ isPlaying: false });
@@ -60,6 +62,10 @@ function route() {
       setInitialized(true)
     }
   };
+
+  useEffect(() => {
+    initialize([])
+  }, [])
 
   return (
     <div className="p-2">
