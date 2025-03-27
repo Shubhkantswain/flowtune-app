@@ -24,7 +24,8 @@ type Documents = {
     "#graphql\n  mutation DeletePlaylist($playlistId: String!) {\n  deletePlaylist(playlistId: $playlistId)\n}\n": typeof types.DeletePlaylistDocument,
     "#graphql\n    mutation CreateTrack($payload: createTrackPayload!) {\n        createTrack(payload: $payload) \n    }\n": typeof types.CreateTrackDocument,
     "#graphql\n    mutation LikeTrack($trackId: String!) {\n        likeTrack(trackId: $trackId)\n    }\n": typeof types.LikeTrackDocument,
-    "\n    #graphql\n    query GetCurrentUser {\n        getCurrentUser {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n        }\n    }\n": typeof types.GetCurrentUserDocument,
+    "#graphql\nmutation ChangeMusicPreference($language: String!) {\n  changeMusicPreference(language: $language)\n}\n": typeof types.ChangeMusicPreferenceDocument,
+    "\n    #graphql\n    query GetCurrentUser {\n        getCurrentUser {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            language\n        }\n    }\n": typeof types.GetCurrentUserDocument,
     "#graphql\n  query GetCurrentUserPlaylists {\n    getCurrentUserPlaylists {\n  playlists {\n    id\n    name\n    coverImageUrl\n    totalTracks\n    author\n  }\n      \n    }\n  }\n    ": typeof types.GetCurrentUserPlaylistsDocument,
     "\n      #graphql\n     query GetPlaylistTracks($playlistId: String!) {\n  getPlaylistTracks(playlistId: $playlistId) {\n    id\n    title\n    coverImageUrl\n    tracks {\n        id    \n\n        title            \n        singer         \n        starCast\n        duration             \n\n        coverImageUrl      \n        videoUrl\n        audioFileUrl  \n            \n        hasLiked\n        authorId \n    }\n  }\n}\n    ": typeof types.GetPlaylistTracksDocument,
     "#graphql\n  query GetFeedTracks {\n    getFeedTracks {\n      id   \n      title            \n      singer          \n      starCast\n      duration             \n      coverImageUrl    \n      videoUrl\n      audioFileUrl \n      hasLiked\n      authorId\n    }\n  }\n": typeof types.GetFeedTracksDocument,
@@ -46,7 +47,8 @@ const documents: Documents = {
     "#graphql\n  mutation DeletePlaylist($playlistId: String!) {\n  deletePlaylist(playlistId: $playlistId)\n}\n": types.DeletePlaylistDocument,
     "#graphql\n    mutation CreateTrack($payload: createTrackPayload!) {\n        createTrack(payload: $payload) \n    }\n": types.CreateTrackDocument,
     "#graphql\n    mutation LikeTrack($trackId: String!) {\n        likeTrack(trackId: $trackId)\n    }\n": types.LikeTrackDocument,
-    "\n    #graphql\n    query GetCurrentUser {\n        getCurrentUser {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n        }\n    }\n": types.GetCurrentUserDocument,
+    "#graphql\nmutation ChangeMusicPreference($language: String!) {\n  changeMusicPreference(language: $language)\n}\n": types.ChangeMusicPreferenceDocument,
+    "\n    #graphql\n    query GetCurrentUser {\n        getCurrentUser {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            language\n        }\n    }\n": types.GetCurrentUserDocument,
     "#graphql\n  query GetCurrentUserPlaylists {\n    getCurrentUserPlaylists {\n  playlists {\n    id\n    name\n    coverImageUrl\n    totalTracks\n    author\n  }\n      \n    }\n  }\n    ": types.GetCurrentUserPlaylistsDocument,
     "\n      #graphql\n     query GetPlaylistTracks($playlistId: String!) {\n  getPlaylistTracks(playlistId: $playlistId) {\n    id\n    title\n    coverImageUrl\n    tracks {\n        id    \n\n        title            \n        singer         \n        starCast\n        duration             \n\n        coverImageUrl      \n        videoUrl\n        audioFileUrl  \n            \n        hasLiked\n        authorId \n    }\n  }\n}\n    ": types.GetPlaylistTracksDocument,
     "#graphql\n  query GetFeedTracks {\n    getFeedTracks {\n      id   \n      title            \n      singer          \n      starCast\n      duration             \n      coverImageUrl    \n      videoUrl\n      audioFileUrl \n      hasLiked\n      authorId\n    }\n  }\n": types.GetFeedTracksDocument,
@@ -115,7 +117,11 @@ export function graphql(source: "#graphql\n    mutation LikeTrack($trackId: Stri
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    #graphql\n    query GetCurrentUser {\n        getCurrentUser {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n        }\n    }\n"): (typeof documents)["\n    #graphql\n    query GetCurrentUser {\n        getCurrentUser {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n        }\n    }\n"];
+export function graphql(source: "#graphql\nmutation ChangeMusicPreference($language: String!) {\n  changeMusicPreference(language: $language)\n}\n"): (typeof documents)["#graphql\nmutation ChangeMusicPreference($language: String!) {\n  changeMusicPreference(language: $language)\n}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    #graphql\n    query GetCurrentUser {\n        getCurrentUser {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            language\n        }\n    }\n"): (typeof documents)["\n    #graphql\n    query GetCurrentUser {\n        getCurrentUser {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            language\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

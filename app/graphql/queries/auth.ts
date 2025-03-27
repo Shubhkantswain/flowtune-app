@@ -10,6 +10,7 @@ export const getCurrentUserQuery = graphql(`
             fullName
             bio
             profileImageURL
+            language
         }
     }
 `)

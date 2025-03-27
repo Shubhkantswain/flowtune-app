@@ -2,7 +2,6 @@
 import { Link } from '@remix-run/react'
 import React, { useState, useEffect, useRef } from 'react'
 import CreateTrackDialog from './CreateTrackDialog'
-import useMusicPreferenceStore from '~/store/useMusicPreferenceStore';
 import { useCurrentUser } from '~/hooks/auth';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAuthStore } from '~/store/useAuthStore';
@@ -19,9 +18,7 @@ function ProfileDropDownMenu({
     const [songDialogOpen, setSongDialogOpen] = useState(false)
     const dropdownRef = useRef<HTMLDivElement>(null)
 
-    const { setMusicPreferencesOpen } = useMusicPreferenceStore()
-
-    const {authenticated, setAuthenticated} = useAuthStore()
+    const { authenticated, setAuthenticated } = useAuthStore()
     const { data, isLoading } = useCurrentUser()
 
     const queryClient = useQueryClient()
@@ -106,12 +103,12 @@ function ProfileDropDownMenu({
                                     </Link>
                                     <div className="border-b border-[#2E3030]"></div>
 
-                                    <button
+                                    <Link
+                                        to={"/music-preference"}
                                         className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
-                                        onClick={() => setMusicPreferencesOpen(true)}
                                     >
                                         Music Preferences
-                                    </button>
+                                    </Link>
 
                                     <div className="border-b border-[#2E3030]"></div>
 
@@ -140,7 +137,6 @@ function ProfileDropDownMenu({
 
                                     <button
                                         className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
-                                        onClick={() => setMusicPreferencesOpen(true)}
                                     >
                                         Music Preferences
                                     </button>
