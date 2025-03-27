@@ -1,5 +1,5 @@
 // ProfileDropDownMenu.tsx
-import { Link } from '@remix-run/react'
+import { Link, useNavigate } from '@remix-run/react'
 import React, { useState, useEffect, useRef } from 'react'
 import CreateTrackDialog from './CreateTrackDialog'
 import { useCurrentUser } from '~/hooks/auth';
@@ -23,6 +23,7 @@ function ProfileDropDownMenu({
 
     const queryClient = useQueryClient()
 
+    const navigate = useNavigate()
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
             // Don't close if clicking on the trigger button
@@ -83,19 +84,77 @@ function ProfileDropDownMenu({
                                     <div className="border-b border-[#2E3030]"></div>
 
                                     <button
-                                        className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
-                                        onClick={() => setSongDialogOpen(true)}
+                                        className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+                                        onClick={() => {
+                                            if(isLoading){
+                                                return
+                                            }
+
+                                            if(!data?.isPro){
+                                                navigate("/pro-plan")
+                                                return
+                                            }
+
+                                            setSongDialogOpen(true)
+                                        }}
                                     >
                                         Create Track
+                                        {
+                                            !data?.isPro && (
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    width="16"
+                                                    height="16"
+                                                    fill="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                    className="ml-2 text-gray-400"
+                                                >
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M12 2C9.79 2 8 3.79 8 6V9H6C4.9 9 4 9.9 4 11V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V11C20 9.9 19.1 9 18 9H16V6C16 3.79 14.21 2 12 2ZM10 6C10 4.9 10.9 4 12 4C13.1 4 14 4.9 14 6V9H10V6ZM12 17C13.1 17 14 16.1 14 15C14 13.9 13.1 13 12 13C10.9 13 10 13.9 10 15C10 16.1 10.9 17 12 17Z"
+                                                    />
+                                                </svg>
+                                            )
+                                        }
                                     </button>
+
                                     <div className="border-b border-[#2E3030]"></div>
 
                                     <button
-                                        className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
-                                        onClick={() => {/* Add logout logic */ }}
+                                        className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+                                        onClick={() => {
+                                            if(isLoading){
+                                                return
+                                            }
+
+                                            if(!data?.isPro){
+                                                navigate("/pro-plan")
+                                                return
+                                            }
+
+                                            setSongDialogOpen(true)
+                                        }}
                                     >
                                         Create Playlist
+                                        {
+                                            !data?.isPro && (
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    width="16"
+                                                    height="16"
+                                                    fill="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                    className="ml-2 text-gray-400"
+                                                >
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M12 2C9.79 2 8 3.79 8 6V9H6C4.9 9 4 9.9 4 11V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V11C20 9.9 19.1 9 18 9H16V6C16 3.79 14.21 2 12 2ZM10 6C10 4.9 10.9 4 12 4C13.1 4 14 4.9 14 6V9H10V6ZM12 17C13.1 17 14 16.1 14 15C14 13.9 13.1 13 12 13C10.9 13 10 13.9 10 15C10 16.1 10.9 17 12 17Z"
+                                                    />
+                                                </svg>
+                                            )
+                                        }
                                     </button>
+
                                     <div className="border-b border-[#2E3030]"></div>
 
                                     <Link to="/collection/tracks" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">

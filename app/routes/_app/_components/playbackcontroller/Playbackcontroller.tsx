@@ -52,9 +52,25 @@ const Playbackcontroller = () => {
 
             const storedSpeed = Number(localStorage.getItem('speed')) || 1;
             handlePlaybackSpeed([storedSpeed]);
+
+            // Store last 3 track IDs in localStorage
+            if (trackDetails?.id) {
+                const storedTracks: (string)[] = JSON.parse(localStorage.getItem("recentTracks") || "[]");
+
+                // Ensure it's an array and keep only last 3 unique track IDs
+                const updatedTracks = [
+                    trackDetails.id,
+                    ...storedTracks.filter((id: string) => id !== trackDetails.id)
+                ].slice(0, 3);
+
+                localStorage.setItem("recentTracks", JSON.stringify(updatedTracks));
+            }
         }
     }, [trackDetails]);
 
+    if(typeof window != "undefined")
+    console.log("localstorage", localStorage.getItem("recentTracks"));
+    
 
     useEffect(() => {
         const audio = audioRef.current;

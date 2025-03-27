@@ -3,7 +3,7 @@ import { CreateTrackPayload } from "gql/graphql";
 import { toast } from "sonner";
 import { createGraphqlClient } from "~/clients/api";
 import { createTrackMutation, likeTrackMutation } from "~/graphql/mutations/track";
-import { getExploreTracksQuery } from "~/graphql/queries/track";
+import { getExploreTracksQuery, getRecentTracksQuery } from "~/graphql/queries/track";
 
 export const useCreateTrack = () => {
     return useMutation({
@@ -60,6 +60,21 @@ export const useGetExploreTracks = (page: number) => {
             const graphqlClient = createGraphqlClient(token);
             const { getExploreTracks } = await graphqlClient.request(getExploreTracksQuery, { page });
             return getExploreTracks
+        }
+    })
+}
+
+export const useGetRecentTracks = (recentTracks: string[]) => {
+    return useQuery({
+        queryKey: ['recentTracks'],
+        queryFn: async () => { 
+            let token = ""
+            if (typeof window !== "undefined") {
+                token = localStorage.getItem("__FlowTune_Token") || ""
+            }
+            const graphqlClient = createGraphqlClient(token);
+            const { getRecentTracks } = await graphqlClient.request(getRecentTracksQuery, { recentTracks });
+            return getRecentTracks || []
         }
     })
 }

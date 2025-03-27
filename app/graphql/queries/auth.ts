@@ -11,6 +11,7 @@ export const getCurrentUserQuery = graphql(`
             bio
             profileImageURL
             language
+            isPro
         }
     }
 `)

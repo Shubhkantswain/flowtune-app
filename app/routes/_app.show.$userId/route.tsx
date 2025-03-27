@@ -1,10 +1,10 @@
 import { json, LoaderFunctionArgs } from '@remix-run/cloudflare';
-import { useLoaderData, useParams } from '@remix-run/react';
+import { useLoaderData, useNavigate, useParams } from '@remix-run/react';
 import { GetUserProfileResponse, Track } from 'gql/graphql';
 import { useEffect, useState } from 'react';
 import { createGraphqlClient } from '~/clients/api';
 import { getUserProfileQuery, getUserTracksQuery } from '~/graphql/queries/user';
-import { useGetUserTracks } from '~/hooks/user';
+import { useFollowUser, useGetUserTracks } from '~/hooks/user';
 import usePlaylistStore from '~/store/usePlaylistStore';
 import { useTrackStore } from '~/store/useTrackStore';
 
@@ -49,33 +49,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
 }
 
 const UserPage = () => {
-    const playlist = {
-        title: "Today's Top Hits",
-        coverImage: 'https://m.media-amazon.com/images/S/dmp-catalog-images-prod/images/4731f943-5683-4832-b200-145fe1dc6172/4731f943-5683-4832-b200-145fe1dc6172--1619766509._SX576_SY576_BL0_QL100__UX250_FMwebp_QL85_.jpg',
-        description: "The most popular tracks right now",
-        totalSongs: 50,
-        duration: "2 hr 45 min",
-        tracks: [
-            {
-                title: "Song One",
-                artist: "Artist Name",
-                duration: "3:24",
-                image: "https://m.media-amazon.com/images/I/41Z7Z9uYlEL._SX354_SY354_BL0_QL100__UX358_FMwebp_QL85_.jpg",
-                plays: "1.2M",
-                date: "10-01-2025",
-                description: "This memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats andThis memorable melody.beats and memorable melody.beats and memorable melody.beats and memorable melody.beats and memorable melody.beats and memorable melody.beats and memorable melody.beats and memorable melody.beats and memorable melody."
-            },
-            {
-                title: "Song Two",
-                artist: "Artist Name",
-                duration: "4:12",
-                image: "https://m.media-amazon.com/images/I/51Ls+9riaXL._SX354_SY354_BL0_QL100__UX358_FMwebp_QL85_.jpg",
-                plays: "856K",
-                date: "09-01-2025",
-                description: "An emotional journey through sound and rhythm, this track showcases the artist's vocal range."
-            },
-        ]
-    };
+    const navigate = useNavigate()
 
     const user = useLoaderData<UserData>(); // Properly typed loader data
     const { setTrackDetails, trackDetails } = useTrackStore()
@@ -88,6 +62,9 @@ const UserPage = () => {
     const [page, setPage] = useState(1)
 
     const { data } = useGetUserTracks(userId || "", page)
+    const [follow, setFollow] = useState<boolean>(user.data?.followedByMe || false)
+
+    const { mutateAsync: followUser } = useFollowUser()
 
     const handleLoadMore = () => {
         setPage(page + 1)
@@ -106,6 +83,23 @@ const UserPage = () => {
     useEffect(() => {
         setActiveSectionIndex(-1)
     }, [])
+
+    if (!user.userExist) {
+        return (
+            <div className="flex flex-col items-center justify-center h-screen text-center">
+                <h1 className="text-2xl font-semibold text-gray-400 mb-4">
+                    Sorry, User Not Found ☹️
+                </h1>
+                <button
+                    onClick={() => navigate(-1)}
+                    className="px-4 py-2 text-white bg-gray-700 rounded-lg hover:bg-gray-600 transition"
+                >
+                    Go Back
+                </button>
+            </div>
+        )
+    }
+
 
     return (
         <div className="text-white relative min-h-screen">
@@ -157,7 +151,12 @@ const UserPage = () => {
 
                             {/* Buttons Section */}
                             <div className="flex items-center gap-4 mt-4">
-                                <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-2 rounded-full">
+                                <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-2 rounded-full"
+                                    onClick={async () => {
+                                        await followUser(user.data?.id || "")
+                                        setFollow(!follow)
+                                    }}
+                                >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="17"
@@ -169,7 +168,9 @@ const UserPage = () => {
                                             d="M16,3 C14.499,3 13.092,3.552 12,4.544 C10.908,3.552 9.501,3 8,3 C4.691,3 2,5.691 2,9 C2,14.535 8.379,18.788 11.445,20.832 C11.613,20.944 11.807,21 12,21 C12.193,21 12.387,20.944 12.555,20.832 C15.62,18.788 22,14.535 22,9 C22,5.691 19.309,3 16,3 Z"
                                         />
                                     </svg>
-                                    Follow
+                                    {
+                                        follow ? "Unfollow" : "Follow"
+                                    }
                                 </button>
 
                                 <button className="p-2 hover:bg-white/10 rounded-full transition-colors">

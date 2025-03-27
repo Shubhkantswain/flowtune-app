@@ -1,13 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Plus, Play } from 'lucide-react';
 import { Link, useLoaderData } from '@remix-run/react';
-import { UserPlaylistsResponse, UserPlaylistsResponseItem } from 'gql/graphql';
+import { Track, UserPlaylistsResponse, UserPlaylistsResponseItem } from 'gql/graphql';
 import { createGraphqlClient } from '~/clients/api';
 import { LoaderFunctionArgs } from '@remix-run/cloudflare';
 import { getCurrentUserPlaylistsQuery } from '~/graphql/queries/playlist';
 import Header from './_component/Header';
 import PlaylistItems from './_component/PlaylistItems';
 import ScrollControls from './_component/ScrollControls';
+import { useGetRecentTracks } from '~/hooks/track';
+import usePlaylistStore from '~/store/usePlaylistStore';
+import { useTrackStore } from '~/store/useTrackStore';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   try {
@@ -77,26 +80,11 @@ const MusicApp = () => {
     checkScrollability();
   };
 
-  const tracks = [
-    {
-      id: 1,
-      title: 'Uyi Amma',
-      artist: 'Amit Trivedi',
-      coverImage: '/path/to/uyi-amma-cover.jpg'
-    },
-    {
-      id: 2,
-      title: 'Aajkal Tere Mere Pyar Ke Charche',
-      artist: 'Suman Kalyanpur',
-      coverImage: '/path/to/aajkal-cover.jpg'
-    },
-    {
-      id: 3,
-      title: 'Tauba Tauba',
-      artist: 'Karan Aujla',
-      coverImage: '/path/to/tauba-tauba-cover.jpg'
-    }
-  ];
+  let recenetTracks: string[] = []
+  if (typeof window != "undefined") {
+    recenetTracks = JSON.parse(localStorage.getItem("recentTracks") || "[]");
+  }
+  const { data: tracks } = useGetRecentTracks(recenetTracks)
 
   useEffect(() => {
     checkScrollability();
@@ -104,6 +92,35 @@ const MusicApp = () => {
     return () => window.removeEventListener('resize', checkScrollability);
   }, [activeTab]);
 
+  const [initialized, setInitialized] = useState(false)
+
+  const { initialize } = usePlaylistStore()
+  const { trackDetails, setTrackDetails } = useTrackStore()
+
+  const handleClick = (isPlayingCurrentSong: boolean, track: Track) => {
+    if (isPlayingCurrentSong && initialized) {
+      setTrackDetails({ isPlaying: false });
+    } else {
+      if(!initialized){
+        initialize([])
+      }
+      setTrackDetails({
+        id: track.id,
+        title: track.title,
+        singer: track.singer,
+        starCast: track.starCast,
+        duration: track.duration,
+        coverImageUrl: track.coverImageUrl || "",
+        videoUrl: track.videoUrl,
+        audioFileUrl: track.audioFileUrl,
+        hasLiked: track.hasLiked,
+        authorId: track.authorId,
+        isPlaying: true,
+      });
+      setInitialized(true)
+    }
+  };
+  
   return (
     <div className="text-white min-h-screen p-4 sm:p-6 md:p-8">
       <div className="max-w-7xl mx-auto">
@@ -120,26 +137,26 @@ const MusicApp = () => {
       </div>
 
       <div className="w-full md:w-1/2 md:mr-auto md:ml-0 mx-auto">
-        <h2 className="text-xl font-bold mb-4">Recently Liked</h2>
+        <h2 className="text-xl font-bold mb-4">Recently Play</h2>
         <div className="space-y-4">
-          {tracks.map((track) => (
+          {tracks?.map((track) => (
             <div
               key={track.id}
-              className="flex items-center justify-between rounded-lg"
+              className="flex items-center p-2 hover:bg-white/15 hover:backdrop-filter hover:backdrop-blur-sm justify-between rounded-lg cursor-pointer"
+              onClick={() => handleClick(trackDetails.isPlaying && trackDetails.id == track.id, track)}
             >
               <div className="flex items-center space-x-4">
                 <img
-                  src={'https://m.media-amazon.com/images/I/71IfBU88RbL._SX472_SY472_BL0_QL100__UX56_FMwebp_QL85_.jpg'}
+                  src={track.coverImageUrl || ""}
                   alt={track.title}
                   className="w-16 h-16 rounded-md object-cover"
                 />
                 <div>
                   <p className="font-semibold">{track.title}</p>
-                  <p className="text-neutral-400 text-sm">{track.artist}</p>
+                  <p className="text-neutral-400 text-sm">{track.singer}</p>
                 </div>
               </div>
               <div className="flex items-center space-x-2">
-               
                 <button>
                   <Plus size={24} className="text-neutral-400" />
                 </button>

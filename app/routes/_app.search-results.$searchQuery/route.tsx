@@ -46,6 +46,9 @@ function route() {
     if (isPlayingCurrentSong && initialized) {
       setTrackDetails({ isPlaying: false });
     } else {
+      if(!initialized){
+        initialize([])
+      }
       setTrackDetails({
         id: track.id,
         title: track.title,
@@ -62,10 +65,6 @@ function route() {
       setInitialized(true)
     }
   };
-
-  useEffect(() => {
-    initialize([])
-  }, [])
 
   return (
     <div className="p-2">
