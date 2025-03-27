@@ -128,7 +128,7 @@ const MusicPreferencesModal = () => {
               {musicLanguages.map((language) => (
                 <div
                   key={language.name}
-                  className="flex items-center justify-between py-4 border-b cursor-pointer p-3 border-gray-700 hover:bg-white/30 hover:backdrop-filter hover:backdrop-blur-sm"
+                  className="flex items-center justify-between py-4 border-b cursor-pointer p-3 border-[#706a65] hover:bg-white/15 hover:backdrop-filter hover:backdrop-blur-sm"
                   onClick={() => toggleLanguage(language.name)}
                 >
                   <div className="flex flex-col">
@@ -153,7 +153,7 @@ const MusicPreferencesModal = () => {
                       disabled={false}
                       className="w-full py-3 bg-[#fa586a] hover:bg-[#e04a5a] text-white font-medium rounded-lg transition-colors disabled:opacity-50"
                     >
-                        {isSubmitting ? "Applying..." : "Apply Changes"}
+                      {isSubmitting ? "Applying..." : "Apply Changes"}
                     </button>
                   </div>
                 )}

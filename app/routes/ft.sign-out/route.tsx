@@ -32,7 +32,7 @@ function route() {
             queryClient.setQueryData(['currentUser'], null)
             setAuthenticated(false)
             localStorage.setItem("__FlowTune_Token", "")
-            navigate("/", { replace: true })
+            navigate(-1)
         }
     }, [actionData?.success])
 
