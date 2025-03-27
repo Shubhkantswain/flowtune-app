@@ -114,7 +114,7 @@ const dummyData = [
 
 export const genreIds = {
     // MoodsAndActivities
-    "Love": "Xpw1ALAB",
+    "Love & Romantic": "Xpw1ALAB",
     "Workout": "K9zYb2CD",
     "Birthday Party": "Mnp3QWE4",
     "Chill": "Rst5UIO7",
@@ -135,7 +135,7 @@ export const genreIds = {
 };
 
 export const genreIdsSwap = {
-    "Xpw1ALAB": ["Love", "bg-gradient-to-b from-pink-900 to-black via-black"],
+    "Xpw1ALAB": ["Love & Romantic", "bg-gradient-to-b from-pink-900 to-black via-black"],
     "K9zYb2CD": ["Workout", "bg-gradient-to-b from-emerald-900 to-black via-black"],
     "Mnp3QWE4": ["Birthday Party", "bg-gradient-to-b from-purple-900 to-black via-black"],
     "Rst5UIO7": ["Chill", "bg-gradient-to-b from-gray-900 to-black via-black"],
