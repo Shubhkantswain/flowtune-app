@@ -24,7 +24,13 @@ export const links: LinksFunction = () => [
   },
 ];
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 30 * 60 * 1000, // 30 minutes in milliseconds
+    },
+  },
+});
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (

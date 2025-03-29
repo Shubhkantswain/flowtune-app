@@ -64,10 +64,11 @@ export const useGetExploreTracks = (page: number) => {
     })
 }
 
-export const useGetRecentTracks = (recentTracks: string[]) => {
+export const useGetRecentTracks = (recentTracks: string[]) => {  
     return useQuery({
-        queryKey: ['recentTracks'],
+        queryKey: ['recentTracks', JSON.stringify(recentTracks)],
         queryFn: async () => { 
+            if(!recentTracks.length) return []
             let token = ""
             if (typeof window !== "undefined") {
                 token = localStorage.getItem("__FlowTune_Token") || ""

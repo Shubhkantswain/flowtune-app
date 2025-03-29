@@ -39,6 +39,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 const MusicApp = () => {
   const playlists = useLoaderData<UserPlaylistsResponse>(); // Properly typed loader data
+  const { trackDetails, setTrackDetails } = useTrackStore()
+  const [initialized, setInitialized] = useState(false)
 
   const [activeTab, setActiveTab] = useState('All');
   const tabs = ['All', 'Playlists', 'Likes', 'Podcast'];
@@ -80,11 +82,39 @@ const MusicApp = () => {
     checkScrollability();
   };
 
-  let recenetTracks: string[] = []
-  if (typeof window != "undefined") {
-    recenetTracks = JSON.parse(localStorage.getItem("recentTracks") || "[]");
-  }
-  const { data: tracks } = useGetRecentTracks(recenetTracks)
+  const [recentTracks, setRecentTracks] = useState<string[]>([]);
+  
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const tracks = JSON.parse(localStorage.getItem("recentTracks") || "[]");
+      setRecentTracks(tracks);
+    }
+  }, []);
+  
+  const { data } = useGetRecentTracks(recentTracks); 
+
+  // Ensure fetched tracks are sorted in the order they appear in `recentTracks`
+  const [sortedTracks, setSortedTracks] = useState<Track[]>([])
+
+  const tracks = data
+    ? [...data].sort((a, b) => recentTracks.indexOf(a.id) - recentTracks.indexOf(b.id))
+    : []
+
+  useEffect(() => {
+    if (trackDetails?.id) {
+      const storedTracks: (string)[] = JSON.parse(localStorage.getItem("recentTracks") || "[]");
+
+      // Ensure it's an array and keep only last 3 unique track IDs
+      const updatedTracks = [
+        trackDetails.id,
+        ...storedTracks.filter((id: string) => id !== trackDetails.id)
+      ].slice(0, 3);
+
+      setSortedTracks(data
+        ? [...data].sort((a, b) => updatedTracks.indexOf(a.id) - updatedTracks.indexOf(b.id))
+        : [])
+    }
+  }, [trackDetails])
 
   useEffect(() => {
     checkScrollability();
@@ -92,16 +122,14 @@ const MusicApp = () => {
     return () => window.removeEventListener('resize', checkScrollability);
   }, [activeTab]);
 
-  const [initialized, setInitialized] = useState(false)
 
   const { initialize } = usePlaylistStore()
-  const { trackDetails, setTrackDetails } = useTrackStore()
 
   const handleClick = (isPlayingCurrentSong: boolean, track: Track) => {
     if (isPlayingCurrentSong && initialized) {
       setTrackDetails({ isPlaying: false });
     } else {
-      if(!initialized){
+      if (!initialized) {
         initialize([])
       }
       setTrackDetails({
@@ -120,7 +148,7 @@ const MusicApp = () => {
       setInitialized(true)
     }
   };
-  
+
   return (
     <div className="text-white min-h-screen p-4 sm:p-6 md:p-8">
       <div className="max-w-7xl mx-auto">
@@ -139,7 +167,7 @@ const MusicApp = () => {
       <div className="w-full md:w-1/2 md:mr-auto md:ml-0 mx-auto">
         <h2 className="text-xl font-bold mb-4">Recently Play</h2>
         <div className="space-y-4">
-          {tracks?.map((track) => (
+          {(sortedTracks.length ? sortedTracks : tracks).map((track) => (
             <div
               key={track.id}
               className="flex items-center p-2 hover:bg-white/15 hover:backdrop-filter hover:backdrop-blur-sm justify-between rounded-lg cursor-pointer"

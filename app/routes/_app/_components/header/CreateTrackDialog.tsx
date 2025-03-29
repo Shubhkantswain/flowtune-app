@@ -313,6 +313,7 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
                         <button
                             type="submit"
                             className="px-4 py-2 text-sm text-white bg-[#fa586a] rounded-md hover:bg-[#fa586a]/70 transition"
+                            disabled={isPending}
                         >
                             {
                                 isPending ? "Adding Track..." : "Add Track"
