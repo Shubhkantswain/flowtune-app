@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { createGraphqlClient } from "~/clients/api";
 import { ChangeMusicPreferenceMutation } from "~/graphql/mutations/user";
 import { useCurrentUser } from "~/hooks/auth";
+import GeneralError from "../_auth/Components/GeneralError";
 
 const musicLanguages = [
   { name: "Hindi", native: "हिन्दी" },
@@ -41,6 +42,17 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   // Extract the `__FlowTune_Token_server` cookie
   const token = cookies["__FlowTune_Token_server"];
 
+  if (!token) {
+    return json<MusicPreferenceData>(
+      {
+        isSuccess: false,
+        errors: {
+          general: "Please Login/Sign Up First"
+        }
+      },
+      { status: 500 }
+    );
+  }
   const formData = await request.formData();
 
   const language = formData.get("language")?.toString().trim() ?? "";
@@ -124,6 +136,10 @@ const MusicPreferencesModal = () => {
                 <h2 className="text-2xl font-bold text-white">Music Preferences</h2>
                 <p className="text-gray-300 mt-2">Set your preferences to discover music you love.</p>
               </div>
+
+              {musicPreferenceData?.errors?.general && (
+                <GeneralError error={musicPreferenceData.errors.general} />
+              )}
 
               {musicLanguages.map((language) => (
                 <div

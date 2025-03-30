@@ -194,11 +194,12 @@ function ProfileDropDownMenu({
                                     </Link>
 
 
-                                    <button
+                                    <Link
+                                    to={"/music-preference"}
                                         className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
                                     >
                                         Music Preferences
-                                    </button>
+                                    </Link>
                                 </>
                             )
                         }
