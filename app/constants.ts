@@ -14,3 +14,6 @@ export const FORM_TYPES = {
 // Constants
 export const MINIMUM_TRACKS = 8;
 export const PLACEHOLDER_COUNT = Math.max(0, MINIMUM_TRACKS);
+
+// Constants
+export const SECTION_SIZE = 8

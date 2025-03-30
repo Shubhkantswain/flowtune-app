@@ -8,6 +8,7 @@ import { LoaderFunctionArgs, redirect } from "@remix-run/cloudflare";
 import { MetaFunction } from "@remix-run/cloudflare";
 import { useEffect } from "react";
 import usePlaylistStore from "~/store/usePlaylistStore";
+import { getTitle } from "~/utils";
 
 export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> {
   try {
@@ -38,27 +39,9 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> 
   }
 }
 
-// Function to get the greeting message dynamically
-const getGreeting = (): string => {
-  const hours = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }).split(", ")[1].split(":")[0];
-  const hourNum = parseInt(hours, 10);
-
-  if (hourNum >= 5 && hourNum < 12) return "Good Morning";
-  if (hourNum >= 12 && hourNum < 17) return "Good Afternoon";
-  if (hourNum >= 17 && hourNum < 20) return "Good Evening";
-  return "Good Night";
-};
-
-// Function to determine section titles with repeating pattern
-const getTitle = (index: number): string => {
-  const titles = ["Welcome back", getGreeting(), "Discover more"];
-  return titles[index % 3] || "More Tracks"; // This will cycle through 0,1,2,0,1,2...
-};
-
 const AppleMusicHomepage: React.FC = () => {
   const tracks = useLoaderData<Track[]>(); // Ensure type safety
   const { setActiveSectionIndex } = usePlaylistStore();
-
 
   const sectionSize = 8;
   const trackSections = [

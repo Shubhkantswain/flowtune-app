@@ -1,5 +1,6 @@
 import { Track } from "gql/graphql";
 import { useEffect, useState } from "react";
+import { SECTION_SIZE } from "~/constants";
 import usePlaylistStore from "~/store/usePlaylistStore";
 import { useTrackStore } from "~/store/useTrackStore";
 
@@ -13,7 +14,7 @@ interface TrackListsProps {
 const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitialized, index }) => {
   const tracksToRender = [
     ...tracks,
-    ...Array(Math.max(0, 8 - tracks.length)).fill(null)
+    ...Array(Math.max(0, SECTION_SIZE - tracks.length)).fill(null)
   ];
 
 

@@ -3,8 +3,6 @@ import { Link, Outlet, useLocation, useParams } from "@remix-run/react";
 import { useState } from "react";
 import Playbackcontroller from "./_components/playbackcontroller/Playbackcontroller";
 import Header from "./_components/header/Header";
-import MusicPreferencesModal from "./_components/header/MusicPreference";
-import useMusicPreferenceStore from "~/store/useMusicPreferenceStore";
 import { MetaFunction } from "@remix-run/cloudflare";
 import { genreIdsSwap } from "~/searchData";
 

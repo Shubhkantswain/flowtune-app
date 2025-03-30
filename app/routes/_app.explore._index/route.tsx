@@ -9,6 +9,8 @@ import TrackSection from "../_app._index/_components/TrackSection";
 import { useEffect, useState } from "react";
 import usePlaylistStore from "~/store/usePlaylistStore";
 import { useGetExploreTracks } from "~/hooks/track";
+import { getTitle } from "~/utils";
+import { SECTION_SIZE } from "~/constants";
 
 export const meta: MetaFunction = () => {
   return [
@@ -42,64 +44,42 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> 
   }
 }
 
-// Function to get the greeting message dynamically
-const getGreeting = (): string => {
-  const hours = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }).split(", ")[1].split(":")[0];
-  const hourNum = parseInt(hours, 10);
-
-  if (hourNum >= 5 && hourNum < 12) return "Good Morning";
-  if (hourNum >= 12 && hourNum < 17) return "Good Afternoon";
-  if (hourNum >= 17 && hourNum < 20) return "Good Evening";
-  return "Good Night";
-};
-
-// Function to determine section titles with repeating pattern
-const getTitle = (index: number): string => {
-  const titles = ["Welcome back", getGreeting(), "Discover more"];
-  return titles[index % 3] || "More Tracks"; // This will cycle through 0,1,2,0,1,2...
-};
-
 const AppleMusicHomepage: React.FC = () => {
-  const tracks = useLoaderData<Track[]>(); // Properly typed loader data
-  const { setActiveSectionIndex } = usePlaylistStore()
+  // Fetching data
+  const tracks = useLoaderData<Track[]>();
 
-  const [page, setPage] = useState(1)
+  // State management
+  const [page, setPage] = useState(1);
+  const [exploreTracks, setExploreTracks] = useState<Track[][]>([]);
 
-  const [exploreTracks, setExploreTracks] = useState<Track[][]>([])
+  // Internal Hooks
+  const { setActiveSectionIndex } = usePlaylistStore();
+  const { data, isLoading } = useGetExploreTracks(page);
 
-  // Ensure tracks are divided into 3 sections with 8 tracks each
-  const sectionSize = 8;
+  // Derived data
   const trackSections = [
-    tracks.slice(0, sectionSize),
-    tracks.slice(sectionSize, sectionSize * 2),
-    tracks.slice(sectionSize * 2, sectionSize * 3),
+    tracks.slice(0, SECTION_SIZE),
+    tracks.slice(SECTION_SIZE, SECTION_SIZE * 2),
+    tracks.slice(SECTION_SIZE * 2, SECTION_SIZE * 3),
   ];
-
-  const { data, isLoading } = useGetExploreTracks(page)
-
-  console.log(data);
 
   useEffect(() => {
     if (data?.length) {
       setExploreTracks(prev => {
-        const sectionSize = 8;
         const newSections = [
-          data.slice(0, sectionSize),
-          data.slice(sectionSize, sectionSize * 2),
+          data.slice(0, SECTION_SIZE),
+          data.slice(SECTION_SIZE, SECTION_SIZE * 2),
         ];
 
-        // console.log(" data.slice(sectionSize, sectionSize * 2)",  data.slice(sectionSize, sectionSize * 2));
-        
         // If page is 2, include both the initial trackSections and new data
         if (page === 2) {
           const initialSections = [
-            tracks.slice(0, sectionSize),
-            tracks.slice(sectionSize, sectionSize * 2),
-            tracks.slice(sectionSize * 2, sectionSize * 3),
+            tracks.slice(0, SECTION_SIZE),
+            tracks.slice(SECTION_SIZE, SECTION_SIZE * 2),
+            tracks.slice(SECTION_SIZE * 2, SECTION_SIZE * 3),
           ];
-          console.log('[...initialSections, ...newSections]', [...initialSections, ...newSections]);
           return [...initialSections, ...newSections];
-          
+
         }
 
         // For other pages, just append new sections
@@ -114,13 +94,16 @@ const AppleMusicHomepage: React.FC = () => {
 
   return (
     <>
-      {exploreTracks.length > 0
-        ? exploreTracks.map((section, index) => (
-          <TrackSection key={index} tracks={section} index={index} title={getTitle(index)} />
-        ))
-        : trackSections.map((section, index) => (
-          <TrackSection key={index} tracks={section} index={index} title={getTitle(index)} />
-        ))}
+      <div className="-mt-5 md:-mt-10 lg:-mt-10">
+
+        {exploreTracks.length > 0
+          ? exploreTracks.map((section, index) => (
+            <TrackSection key={index} tracks={section} index={index} title={getTitle(index)} />
+          ))
+          : trackSections.map((section, index) => (
+            <TrackSection key={index} tracks={section} index={index} title={getTitle(index)} />
+          ))}
+      </div>
 
       <button
         onClick={() => setPage(page + 1)}

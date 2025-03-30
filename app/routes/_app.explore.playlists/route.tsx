@@ -1,5 +1,13 @@
+import { MetaFunction } from '@remix-run/cloudflare';
 import React, { useRef, useState } from 'react'
 // import SpotifyMenu from '~/components/SpotifyMenu';
+
+export const meta: MetaFunction = () => {
+   return [
+      { title : "FlowTune - Explore | Playlists"},
+      { name: "description", content: "Welcome to Remix!" },
+   ];
+};
 
 function ExplorePlaylistsPage() {
     const [isPlaying, setIsPlaying] = React.useState(false);
@@ -48,9 +56,9 @@ function ExplorePlaylistsPage() {
         duration: "2 hr 45 min",
         tracks: [
             {
-                title: "Song One",
-                artist: "Artist Name",
-                album: "Album Name",
+                title: "Song One Artist NameArtist NameArtist Name",
+                artist: "Artist Name Artist Name Artist Name",
+                album: "Album Name Artist NameArtist NameArtist Name",
                 duration: "3:24",
                 image: "https://m.media-amazon.com/images/I/41Z7Z9uYlEL._SX354_SY354_BL0_QL100__UX358_FMwebp_QL85_.jpg",
                 dateAdded: "2 days ago"
