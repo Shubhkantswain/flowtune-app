@@ -162,7 +162,7 @@ const MusicPreferencesModal = () => {
               <Form method="post">
                 <input type="hidden" name="language" value={selectedLanguage} />
 
-                {(data && data?.language !== selectedLanguage) && (
+                {(data?.language || "Hindi" !== selectedLanguage && !isLoading) && (
                   <div className="p-4 mt-5">
                     <button
                       type="submit"
