@@ -15,6 +15,8 @@ export const VerifyEmailMutation = graphql(`#graphql
             fullName
             bio
             profileImageURL
+            language
+            isPro
             authToken
         }
     }
@@ -29,6 +31,8 @@ export const LoginUserMutation = graphql(`#graphql
             fullName
             bio
             profileImageURL
+            language
+            isPro
             authToken
         }
     }

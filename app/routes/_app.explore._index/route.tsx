@@ -19,7 +19,12 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> {
+interface exploreTracksData {
+  tracks: Track[],
+  isAuthenticated: boolean
+}
+
+export async function loader({ request }: LoaderFunctionArgs): Promise<exploreTracksData> {
   try {
     const cookieHeader = request.headers.get("Cookie");
 
@@ -37,16 +42,22 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> 
     const graphqlClient = createGraphqlClient(token);
     const { getExploreTracks } = await graphqlClient.request(getExploreTracksQuery, { page: 1 });
 
-    return getExploreTracks || []; // Expecting an array of `Track`
+    return {
+      tracks: getExploreTracks || [],
+      isAuthenticated: token ? true : false,
+    }
   } catch (error) {
     console.error("Error fetching tracks:", error);
-    return []; // Return an empty array to match the expected type
+    return {
+      tracks: [],
+      isAuthenticated: true,
+    }
   }
 }
 
 const AppleMusicHomepage: React.FC = () => {
   // Fetching data
-  const tracks = useLoaderData<Track[]>();
+  const exploreTracksData = useLoaderData<exploreTracksData>();
 
   // State management
   const [page, setPage] = useState(1);
@@ -58,9 +69,9 @@ const AppleMusicHomepage: React.FC = () => {
 
   // Derived data
   const trackSections = [
-    tracks.slice(0, SECTION_SIZE),
-    tracks.slice(SECTION_SIZE, SECTION_SIZE * 2),
-    tracks.slice(SECTION_SIZE * 2, SECTION_SIZE * 3),
+    exploreTracksData.tracks.slice(0, SECTION_SIZE),
+    exploreTracksData.tracks.slice(SECTION_SIZE, SECTION_SIZE * 2),
+    exploreTracksData.tracks.slice(SECTION_SIZE * 2, SECTION_SIZE * 3),
   ];
 
   useEffect(() => {
@@ -74,9 +85,9 @@ const AppleMusicHomepage: React.FC = () => {
         // If page is 2, include both the initial trackSections and new data
         if (page === 2) {
           const initialSections = [
-            tracks.slice(0, SECTION_SIZE),
-            tracks.slice(SECTION_SIZE, SECTION_SIZE * 2),
-            tracks.slice(SECTION_SIZE * 2, SECTION_SIZE * 3),
+            exploreTracksData.tracks.slice(0, SECTION_SIZE),
+            exploreTracksData.tracks.slice(SECTION_SIZE, SECTION_SIZE * 2),
+            exploreTracksData.tracks.slice(SECTION_SIZE * 2, SECTION_SIZE * 3),
           ];
           return [...initialSections, ...newSections];
 
@@ -91,6 +102,12 @@ const AppleMusicHomepage: React.FC = () => {
   useEffect(() => {
     setActiveSectionIndex(-1)
   }, [])
+
+  useEffect(() => {
+    if(!exploreTracksData.isAuthenticated){
+      localStorage.setItem("__FlowTune_Token", "")
+    }
+  }, [exploreTracksData.isAuthenticated])
 
   return (
     <>

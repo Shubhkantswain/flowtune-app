@@ -9,6 +9,14 @@ import { createGraphqlClient } from "~/clients/api";
 import { LoginUserMutation } from "~/graphql/mutations/auth";
 import { useQueryClient } from "@tanstack/react-query";
 import { SigninActionData } from "~/types";
+import { MetaFunction } from "@remix-run/cloudflare";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "FlowTune sign in" },
+    { name: "description", content: "Welcome to Remix!" },
+  ];
+};
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const formData = await request.formData();
@@ -40,7 +48,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
                 username: loginUser?.username || "",
                 fullName: loginUser?.fullName || "",
                 bio: loginUser?.bio || "",
-                profileImageURL: loginUser?.profileImageURL || ""
+                profileImageURL: loginUser?.profileImageURL || "",
+                language: loginUser?.language || "",
+                isPro: loginUser?.isPro || false
             },
         },
             {
@@ -85,7 +95,9 @@ export default function SignIn() {
                             username: actionData.user?.username || "",
                             fullName: actionData.user?.fullName || "",
                             bio: actionData.user?.bio || "",
-                            profileImageURL: actionData.user?.profileImageURL || ""
+                            profileImageURL: actionData.user?.profileImageURL || "",
+                            language: actionData.user?.language || "",
+                            isPro: actionData.user?.isPro || "",
                         }
                     })
 

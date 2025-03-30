@@ -43,10 +43,10 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
         if (!gender) errors.gender = "Please select a gender.";
 
         if (Object.keys(errors).length > 0) {
-            return json<RegisterActionData>({ 
-                isSignupSuccess: false, 
-                isVerifyEmailSuccess: false, 
-                errors 
+            return json<RegisterActionData>({
+                isSignupSuccess: false,
+                isVerifyEmailSuccess: false,
+                errors
             }, { status: 400 });
         }
 
@@ -66,14 +66,14 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
 
         } catch (error: any) {
             console.error('Signup error:', error); // Add logging
-            
+
             return json<RegisterActionData>(
                 {
                     isSignupSuccess: false,
                     isVerifyEmailSuccess: false,
                     errors: {
-                        general: error?.response?.errors?.[0]?.message || 
-                                "Failed to create account. Please try again."
+                        general: error?.response?.errors?.[0]?.message ||
+                            "Failed to create account. Please try again."
                     }
                 },
                 { status: 500 }
@@ -121,7 +121,9 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
                         username: verifyEmail?.username || "",
                         fullName: verifyEmail?.fullName || "",
                         bio: verifyEmail?.bio || "",
-                        profileImageURL: verifyEmail?.profileImageURL || ""
+                        profileImageURL: verifyEmail?.profileImageURL || "",
+                        language: verifyEmail?.language || "",
+                        isPro: verifyEmail?.isPro || false
                     }
                 },
                 {
@@ -133,14 +135,14 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
             );
         } catch (error: any) {
             console.error('Verification error:', error); // Add logging
-            
+
             return json<RegisterActionData>(
                 {
                     isSignupSuccess: true,
                     isVerifyEmailSuccess: false,
                     errors: {
-                        general: error?.response?.errors?.[0]?.message || 
-                                "Email verification failed. Please try again."
+                        general: error?.response?.errors?.[0]?.message ||
+                            "Email verification failed. Please try again."
                     }
                 },
                 { status: 500 }
@@ -171,15 +173,17 @@ export default function Register() {
                             username: actionData.user?.username || "",
                             fullName: actionData.user?.fullName || "",
                             bio: actionData.user?.bio || "",
-                            profileImageURL: actionData.user?.profileImageURL || ""
+                            profileImageURL: actionData.user?.profileImageURL || "",
+                            language: actionData.user?.language || "",
+                            isPro: actionData.user?.isPro || "",
                         }
                     })
 
-                    if (typeof window !== "undefined") { 
+                    if (typeof window !== "undefined") {
                         // This code runs only on the client-side
                         localStorage.setItem("__FlowTune_Token", actionData.authToken || "")
                     }
-                    
+
                     navigate("/", { replace: true });
                 } catch (error) {
                     console.error("Failed to set cookie", error);

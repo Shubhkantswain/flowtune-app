@@ -24,6 +24,8 @@ export interface RegisterActionData {
         fullName: string
         bio: string
         profileImageURL: string
+        language: string
+        isPro: boolean
     }
     errors?: {
         username?: string;
@@ -46,6 +48,8 @@ export interface SigninActionData {
         fullName: string
         bio: string
         profileImageURL: string
+        language: string
+        isPro: boolean
     };
     errors?: {
         usernameOrEmail?: string;

@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import usePlaylistStore from "~/store/usePlaylistStore";
 import { getTitle } from "~/utils";
 
-export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> {
+export async function loader({ request }: LoaderFunctionArgs) {
   try {
     const cookieHeader = request.headers.get("Cookie");
 
@@ -26,7 +26,7 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> 
     const token = cookies["__FlowTune_Token_server"];
 
     if (!token) {
-      redirect("/explore")
+      return redirect("/ft/signin")
     }
 
     const graphqlClient = createGraphqlClient(token);

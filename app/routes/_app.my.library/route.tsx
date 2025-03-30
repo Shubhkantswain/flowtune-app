@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight, Plus, Play } from 'lucide-react';
 import { Link, useLoaderData } from '@remix-run/react';
 import { Track, UserPlaylistsResponse, UserPlaylistsResponseItem } from 'gql/graphql';
 import { createGraphqlClient } from '~/clients/api';
-import { LoaderFunctionArgs } from '@remix-run/cloudflare';
+import { LoaderFunctionArgs, redirect } from '@remix-run/cloudflare';
 import { getCurrentUserPlaylistsQuery } from '~/graphql/queries/playlist';
 import Header from './_component/Header';
 import PlaylistItems from './_component/PlaylistItems';
@@ -26,6 +26,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
     // Extract the `__FlowTune_Token_server` cookie
     const token = cookies["__FlowTune_Token_server"];
+
+    if (!token) {
+      return redirect("/ft/signin")
+    }
 
     const graphqlClient = createGraphqlClient(token);
     const { getCurrentUserPlaylists } = await graphqlClient.request(getCurrentUserPlaylistsQuery);
@@ -83,15 +87,15 @@ const MusicApp = () => {
   };
 
   const [recentTracks, setRecentTracks] = useState<string[]>([]);
-  
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const tracks = JSON.parse(localStorage.getItem("recentTracks") || "[]");
       setRecentTracks(tracks);
     }
   }, []);
-  
-  const { data } = useGetRecentTracks(recentTracks); 
+
+  const { data } = useGetRecentTracks(recentTracks);
 
   // Ensure fetched tracks are sorted in the order they appear in `recentTracks`
   const [sortedTracks, setSortedTracks] = useState<Track[]>([])

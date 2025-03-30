@@ -89,7 +89,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 const MusicPreferencesModal = () => {
   const { data, isLoading } = useCurrentUser()
-  const [selectedLanguage, setSelectedLanguage] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState<string>("");
 
   const toggleLanguage = (language: string) => {
     setSelectedLanguage(language)
@@ -104,12 +104,18 @@ const MusicPreferencesModal = () => {
   const musicPreferenceData = useActionData<MusicPreferenceData>()
 
   useEffect(() => {
-    if (data) {
-      setSelectedLanguage(data?.language || "Hindi")
+    // Set language from data if available
+    if (data?.language) {
+      setSelectedLanguage(data.language);
+      return;
     }
-  }, [data])
 
-  console.log("musicPreferenceData.isSuccess", musicPreferenceData?.errors?.general);
+    // Default to Hindi if no data is available and loading is complete
+    if (!isLoading && !data) {
+      setSelectedLanguage("Hindi");
+    }
+  }, [data, isLoading]);
+
   useEffect(() => {
     if (musicPreferenceData?.isSuccess) {
       toast.success("Changes applied successfully");
@@ -162,7 +168,7 @@ const MusicPreferencesModal = () => {
               <Form method="post">
                 <input type="hidden" name="language" value={selectedLanguage} />
 
-                {(data?.language || "Hindi" !== selectedLanguage && !isLoading) && (
+                {((data ? data.language : "Hindi") !== selectedLanguage && !isLoading && selectedLanguage !== "") && (
                   <div className="p-4 mt-5">
                     <button
                       type="submit"
