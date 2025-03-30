@@ -162,11 +162,11 @@ const MusicPreferencesModal = () => {
               <Form method="post">
                 <input type="hidden" name="language" value={selectedLanguage} />
 
-                {data?.language !== selectedLanguage && !isLoading && (
+                {(data?.language !== selectedLanguage && data) && (
                   <div className="p-4 mt-5">
                     <button
                       type="submit"
-                      disabled={false}
+                      disabled={isSubmitting}
                       className="w-full py-3 bg-[#fa586a] hover:bg-[#e04a5a] text-white font-medium rounded-lg transition-colors disabled:opacity-50"
                     >
                       {isSubmitting ? "Applying..." : "Apply Changes"}
