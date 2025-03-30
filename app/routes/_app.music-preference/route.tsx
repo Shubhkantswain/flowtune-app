@@ -105,7 +105,7 @@ const MusicPreferencesModal = () => {
 
   useEffect(() => {
     if (data) {
-      setSelectedLanguage(data?.language)
+      setSelectedLanguage(data?.language || "Hindi")
     }
   }, [data])
 
