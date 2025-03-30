@@ -88,7 +88,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 
 const MusicPreferencesModal = () => {
-  const { data } = useCurrentUser()
+  const { data, isLoading } = useCurrentUser()
   const [selectedLanguage, setSelectedLanguage] = useState("");
 
   const toggleLanguage = (language: string) => {
@@ -162,7 +162,7 @@ const MusicPreferencesModal = () => {
               <Form method="post">
                 <input type="hidden" name="language" value={selectedLanguage} />
 
-                {data?.language !== selectedLanguage && (
+                {data?.language !== selectedLanguage && !isLoading && (
                   <div className="p-4 mt-5">
                     <button
                       type="submit"
