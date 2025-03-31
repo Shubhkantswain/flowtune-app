@@ -1,11 +1,13 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { AddSongToPlaylistInput, RemoveSongFromPlaylistInput } from "gql/graphql";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { AddSongToPlaylistInput, CreatePlaylistInput, Playlist, RemoveSongFromPlaylistInput } from "gql/graphql";
 import { toast } from "sonner";
 import { createGraphqlClient } from "~/clients/api";
-import { AddSongToPlaylistMutation, DeletePlaylistMutation, RemoveSongFromPlaylistMutation } from "~/graphql/mutations/playlist";
+import { AddSongToPlaylistMutation, CreatePlaylistMutation, DeletePlaylistMutation, RemoveSongFromPlaylistMutation } from "~/graphql/mutations/playlist";
 import { getCurrentUserPlaylistsQuery } from "~/graphql/queries/playlist";
 
 export const useAddSongToPlaylist = () => {
+    const queryClient = useQueryClient()
+
     return useMutation({
         mutationFn: async (payload: AddSongToPlaylistInput) => {
             try {
@@ -19,16 +21,69 @@ export const useAddSongToPlaylist = () => {
                 });
                 return addSongToPlaylist;
             } catch (error: any) {
+                console.log("i hope error", error);
+                
                 throw new Error(
                     error?.response?.errors?.[0]?.message || "Something went wrong"
                 );
             }
         },
-        onSuccess: () => {
+        onSuccess: (data: Playlist | null | undefined) => {
+            if (data) {
+                queryClient.setQueryData(["CurrentUserPlaylists"], (prev: Playlist[]) => {
+                    return [...prev, data]
+                })
+            }
             toast.success("Playlist created successfully");
+
         },
         onError: (error: any) => {
             const errorMessage = error.message.split(":").pop()?.trim() || "Something went wrong";
+            console.log("error msg", error);
+            
+            toast.error(errorMessage);
+        },
+    });
+};
+
+export const useCreatePlaylist = () => {
+    const queryClient = useQueryClient()
+
+    return useMutation({
+        mutationFn: async (payload: CreatePlaylistInput) => {
+            try {
+                let token = ""
+                if (typeof window !== "undefined") {
+                    token = localStorage.getItem("__FlowTune_Token") || ""
+                }
+                const graphqlClient = createGraphqlClient(token);
+                const { createPlaylist } = await graphqlClient.request(CreatePlaylistMutation, {
+                    payload,
+                });
+                return createPlaylist;
+            } catch (error: any) {
+                console.log("i hope error", error);
+                
+                throw new Error(
+                    error?.response?.errors?.[0]?.message || "Something went wrong"
+                );
+            }
+        },
+        onSuccess: (data: Playlist) => {
+            if (data) {
+                queryClient.setQueryData(["CurrentUserPlaylists"], (prev: Playlist[]) => {
+                    if(prev){
+                        return [...prev, data]
+                    }
+                })
+            }
+            toast.success("Playlist created successfully");
+
+        },
+        onError: (error: any) => {
+            const errorMessage = error.message.split(":").pop()?.trim() || "Something went wrong";
+            console.log("error msg", error);
+            
             toast.error(errorMessage);
         },
     });
@@ -72,7 +127,7 @@ export const useDeletePlaylist = () => {
                     token = localStorage.getItem("__FlowTune_Token") || ""
                 }
                 const graphqlClient = createGraphqlClient(token);
-                const { deletePlaylist } = await graphqlClient.request(DeletePlaylistMutation, {playlistId });
+                const { deletePlaylist } = await graphqlClient.request(DeletePlaylistMutation, { playlistId });
                 return deletePlaylist;
             } catch (error: any) {
                 throw new Error(error?.response?.errors?.[0]?.message || "Something went wrong");

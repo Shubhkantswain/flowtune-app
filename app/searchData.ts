@@ -1,78 +1,92 @@
 export const searchData = {
     a: [
-        { title: "Ae Dil Hai Mushkil", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742925514/ixmve6bnlzxextrquvcv.jpg" }
+        { title: `Aur Ho From("Rockstar")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304307/rdytkigkz1jivqvhiivs.jpg" },
+        { title: `Abhi Mujh Mein Kahin From("Agneepath")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743357108/qu4bztszeffrfhkzhgpz.jpg" },
+
+
+
     ],
     b: [
-        { title: "Badtameez Dil", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742958627/govqq7mj7iaqcgsyi5q1.jpg" },
-        { title: "Be Intehaan", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742921465/wsndiuutzk8mxf2k502i.jpg" },
-        { title: "Bekhayali", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742973240/buondfrd1qmxccpyloqp.jpg" },
-        { title: "Bewajah", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742964272/tqio9ukwzxrspssdkspu.jpg" },
-        { title: "Balam Pichkari", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742972768/gxuns4nogruxjzt6sazt.jpg" }
+        { title: `Blue Eyes`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743317216/bj7qjdrumuorhykzfuu5.jpg" },
+        { title: `Be intehaan From("Race 2")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743331406/eeuuztylvm60fbfsczsi.jpg" },
+
+
     ],
     c: [
-        { title: "Chaand Baaliyan", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742916244/bjzfjdog5eackjwvmumb.jpg" },
-        { title: "Chaleya", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742974064/e74r5gdhpmyfewlzu8zo.jpg" }
+        { title: `Chahu Me Ana From("Aashiqui")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304930/z18i6oe23psmvi00kxh1.jpg" },
+
     ],
     d: [
-        { title: "Dooriyan", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742925952/md6yjbrvl5qlkgftfpd2.jpg" }
+        { title: `Dooriyan From("Love Aaj Kal")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743316715/jaxleiumd9x42lnhcfkf.jpg" },
+        { title: `Dooriyan ("Lofi")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743316715/jaxleiumd9x42lnhcfkf.jpg" },
+        { title: `Dil Meri Na Sune From("Genius")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743332707/qwisxjymxytgojiw8pda.jpg" }
+
     ],
     e: [],
     f: [],
     g: [],
     h: [
-        { title: "Hal-E-Dil", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742924210/kpgzqrywadtex8zdtljb.jpg" }
+
     ],
-    i: [
-        { title: "Ilahi", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742961111/pytjf0lcuotlbun6chl8.jpg" },
-    ],
-    j: [
-        { title: "Jo Tum Mere Ho", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742915881/rgndtngwkgvmlnewxh5p.jpg"},
-        { title: "Jaan Ban Gaye", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742973779/vkyft1hgc1tajt8mpjeb.jpg" }
-    ],
+    i: [],
+    j: [],
     k: [
-        { title: "Kya Khoya", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742923459/ozbajecchjmvuuptzpb8.jpg" },
-        { title: "Kheech Meri Photo", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742920550/rpffgb4lxolyoomykdm8.jpg" },
-        { title: "Khamoshiyan", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742922102/fcomkkytpaiyyjt4unh0.jpg" },
-        { title: "Khude Jaane", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742922954/xc9fsdgbshaysyzoccxt.jpg" },
-        { title: "Kabira", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742957348/mrnqcfs0axmb3zawj6ls.jpg" },
-        { title: "Kuch Iss Tarah", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742963538/t7mhvjxrq4aw8vs61vf5.jpg" },
-        { title: "Kesariya", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742975872/afhsbs9svumynvkx3bco.jpg" }
+        { title: `Khuda Jaane From("Bachna Ae Haseeno")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304664/ml4zlre1hvgfq2lxrnnv.jpg" },
+        { title: `Kun Faya From("Rockstar")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304307/rdytkigkz1jivqvhiivs.jpg" },
+        { title: `Khamoshiyan From("Khamoshiyan")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743334262/cxa5qieinukosbtwnvul.jpg" },
+        { title: `Kheech Meri Photo From("Sanam Teri Kasam")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743337460/kk14lcjt1sriph9lmszh.png" },
+
+
+
     ],
     l: [
-        { title: "Lat Lag Gayee", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742959913/pds3tdoisugzzdgaugxk.jpg" }
+        { title: `Lat Lag Gayee From("Race 2")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743332074/wzwauri6gurcwcetnia1.jpg" },
+
     ],
     m: [
-        { title: "Mann Mera", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742921039/oyp1ef305o1xlvzbdq9b.jpg"},
-        { title: "Matargashti", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742963960/mws7i1sf1zmhhdbwk3vs.jpg" }
+        { title: `Main Rang Sharbaton Ka From("PPNH")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743303218/o4zilmzhjl3zavi4lfu7.jpg" },
+        { title: `Mann Mera From("Table No 21")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743312156/kvlwslge81gqoc6eyges.jpg" }
     ],
-    n: [],
-    o: [
-        { title: "O Meri Laila", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742915533/jz0ocxxtjji3oro6w6vn.jpg" }
+    n: [
+        { title: `Nadaan Parindey From("Rockstar")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304307/rdytkigkz1jivqvhiivs.jpg" }
+
     ],
+    o: [],
     p: [
-        { title: "Phir Se Ud Chala", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742916804/vkxmv099h2gxjdvhpvpr.jpg" }
+        { title: `Phir Mohabbat From("Murder 2")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743302972/iz2qcuobthd8nssdctmj.jpg" },
+        { title: `Phir Se Udd Chala From("Rockstar")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304307/rdytkigkz1jivqvhiivs.jpg" },
+        { title: `Piya O Re Piya From("Tere Naal Love Ho Gaya")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743315686/umcw4sxr0gz5iogj5roy.jpg" },
+        { title: `Pehli Dafa `, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743356641/iwmhg8ewmtwzk5ixza3p.jpg" }
+
     ],
     q: [],
     r: [],
     s: [
-        { title: "Sanam Teri Kasam", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742961792/hdyg34bstlqeatrf2ns5.png" },
-        { title: "Sadda Haq", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742974479/wxoa5gwgwbjnlhijlu45.jpg" },
-        { title: "Senorita", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742975045/sgsndr0zm3pmwuyqrwwv.jpg" }
+        { title: `Senorita From("Zindagi Na Milegi Dobara")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304110/rqy6jsr7ahto1jnb15ea.jpg" },
+        { title: `Sadda Haq From("Rockstar")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304307/rdytkigkz1jivqvhiivs.jpg" },
+        { title: `Subah Hone Na De From("Desi Boyz")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743317216/bj7qjdrumuorhykzfuu5.jpg" },
+        { title: `Sunn Rha Hai From("Aashiqui 2")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304930/z18i6oe23psmvi00kxh1.jpg" },
+        { title: `Sun Saathiya From("ABCD 2")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743332395/sy4vpmkdn7upogjfweyi.jpg" },
+
+
     ],
     t: [
-        { title: "Tere Liye", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742922742/ixlkx75vosuin2mskwfj.jpg" },
-        { title: "Tera Ban Jaunga", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742957691/g3pohetwdmefed0xymsh.jpg" },
-        { title: "Tu Hai Kahan", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742958019/dvg40twoomxhdmdgzjy2.jpg" },
-        { title: "Tum Ho", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742959451/andvhqwkzrdng7jofilc.jpg" },
-        { title: "Tera Chehara", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742974849/jttuljkalgairfselsqy.jpg" },
-        { title: "Tum Hi Ho", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1742975371/mmaftgfsgqssvhuorx5h.jpg" }
+        { title: `Tere Liye From("Prince")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743302228/syyosjvvoreo0dd17yy2.jpg" },
+        { title: `Tera Hone Laga Hoon From("APKGK")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743302718/rjew1agxejhwjrhao5cn.jpg" },
+        { title: `Tum Ho From("Rockstar")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304307/rdytkigkz1jivqvhiivs.jpg" },
+        { title: `Tum Se HI From("Jab We Met")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304789/kbpmeyprdvftao25yzng.jpg" },
+        { title: `Tum Hi Ho From("Aashiqui 2")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304930/z18i6oe23psmvi00kxh1.jpg" },
+        { title: `Tum Ho ("Lofi")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743314048/qskkizkqbhypwslygeuk.jpg" },
+        { title: `Tera Chehra From("Sanam Teri Kasam")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743338460/bcvrnmhnsxhifpga8myb.png" },
+
+
     ],
     u: [],
     v: [],
     w: [],
     x: [],
     y: [],
-    z: [] 
+    z: []
 };
 
 const dummyData = [

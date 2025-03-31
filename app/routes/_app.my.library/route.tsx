@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Plus, Play } from 'lucide-react';
 import { Link, useLoaderData } from '@remix-run/react';
-import { Track, UserPlaylistsResponse, UserPlaylistsResponseItem } from 'gql/graphql';
+import { Playlist, Track } from 'gql/graphql';
 import { createGraphqlClient } from '~/clients/api';
 import { LoaderFunctionArgs, redirect } from '@remix-run/cloudflare';
 import { getCurrentUserPlaylistsQuery } from '~/graphql/queries/playlist';
@@ -42,7 +42,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 const MusicApp = () => {
-  const playlists = useLoaderData<UserPlaylistsResponse>(); // Properly typed loader data
+  const playlists = useLoaderData<Playlist[]>(); // Properly typed loader data
   const { trackDetails, setTrackDetails } = useTrackStore()
   const [initialized, setInitialized] = useState(false)
 
@@ -164,7 +164,7 @@ const MusicApp = () => {
           <ScrollControls canScroll={canScroll} scroll={scroll} />
 
           {/* Scrollable Container for playlists - combined for both mobile and desktop */}
-          <PlaylistItems playlists={playlists.playlists || []} handleScroll={handleScroll} scrollContainerRef={scrollContainerRef} activeTab={activeTab} />
+          <PlaylistItems playlists={playlists || []} handleScroll={handleScroll} scrollContainerRef={scrollContainerRef} activeTab={activeTab} />
         </div>
       </div>
 

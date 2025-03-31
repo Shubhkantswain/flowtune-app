@@ -12,7 +12,7 @@ import { Input } from '~/components/ui/input';
 import { Button } from '~/components/ui/button';
 import { Plus } from 'lucide-react';
 import { useAddSongToPlaylist, useGetCurrentUserPlaylists } from '~/hooks/playlist';
-import CreatePlaylistDialog from '~/components/CreatePlaylistDialog';
+import AddSongToPlaylistDialog from '~/components/AddSongToPlaylistDialog';
 
 interface ActionButtonsProps {
     videoEnabled: boolean;
@@ -90,7 +90,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEna
                             <span className="text-white text-sm">New Playlist</span>
                         </div>
                         {/* Other Playlists */}
-                        {playlists?.playlists?.map((playlist) => (
+                        {playlists?.map((playlist) => (
                             <div
                                 key={playlist.id}
                                 className="p-2 rounded-md hover:bg-[#1c1c1c] bg-[#1a1a1a] cursor-pointer transition-colors flex items-center gap-2 border border-transparent hover:border-[#fa586a] hover:shadow-md hover:shadow-[#fa586a]/30 duration-200 ease-in-out"
@@ -104,7 +104,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEna
             </Dialog>
 
             {
-                show && <CreatePlaylistDialog songDialogOpen={show} setSongDialogOpen={setShow} trackId={trackDetails.id} />
+                show && <AddSongToPlaylistDialog songDialogOpen={show} setSongDialogOpen={setShow} trackId={trackDetails.id} />
             }
 
             <button className="flex items-center w-full gap-3 p-4 rounded-lg text-white" onClick={() => {

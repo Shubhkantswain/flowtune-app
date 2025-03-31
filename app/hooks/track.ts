@@ -3,7 +3,7 @@ import { CreateTrackPayload } from "gql/graphql";
 import { toast } from "sonner";
 import { createGraphqlClient } from "~/clients/api";
 import { createTrackMutation, likeTrackMutation } from "~/graphql/mutations/track";
-import { getExploreTracksQuery, getRecentTracksQuery } from "~/graphql/queries/track";
+import { getExploreTracksQuery, getRecentTracksQuery, getSearchTracksQuery } from "~/graphql/queries/track";
 
 export const useCreateTrack = () => {
     return useMutation({
@@ -51,8 +51,8 @@ export const useGetExploreTracks = (page: number) => {
     return useQuery({
         queryKey: ['exploreTracks', page],
         queryFn: async () => {
-            if(page == 1) return []
-            
+            if (page == 1) return []
+
             let token = ""
             if (typeof window !== "undefined") {
                 token = localStorage.getItem("__FlowTune_Token") || ""
@@ -64,11 +64,11 @@ export const useGetExploreTracks = (page: number) => {
     })
 }
 
-export const useGetRecentTracks = (recentTracks: string[]) => {  
+export const useGetRecentTracks = (recentTracks: string[]) => {
     return useQuery({
         queryKey: ['recentTracks', JSON.stringify(recentTracks)],
-        queryFn: async () => { 
-            if(!recentTracks.length) return []
+        queryFn: async () => {
+            if (!recentTracks.length) return []
             let token = ""
             if (typeof window !== "undefined") {
                 token = localStorage.getItem("__FlowTune_Token") || ""
@@ -109,3 +109,19 @@ export const useLikeTrack = () => {
         },
     });
 };
+
+export const useGetSearchTracks = (searchQuery: string, shouldSearch: boolean) => {
+    return useQuery({
+        queryKey: ['searchTracks', searchQuery, shouldSearch],
+        queryFn: async () => {
+            if (!searchQuery || !shouldSearch) return []
+            let token = ""
+            if (typeof window !== "undefined") {
+                token = localStorage.getItem("__FlowTune_Token") || ""
+            }
+            const graphqlClient = createGraphqlClient(token);
+            const { getSearchTracks } = await graphqlClient.request(getSearchTracksQuery, { searchQuery });
+            return getSearchTracks || []
+        }
+    })
+} 

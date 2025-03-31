@@ -17,10 +17,6 @@ const BrowsePage = () => {
   const { searchQuery, setSearchQuery } = useSearchStore();
   const [searchResults, setSearchResults] = useState<Song[]>([]);
   
-  if(searchQuery.trim()){
-    console.log("nooooooooooo-------");
-    
-  }
   useEffect(() => {
     if (searchQuery.trim()) {
       const firstLetter = searchQuery[0].toLowerCase(); // Extract first letter
