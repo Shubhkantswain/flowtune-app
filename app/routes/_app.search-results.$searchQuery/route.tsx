@@ -33,15 +33,16 @@ export async function loader({ request, params }: LoaderFunctionArgs): Promise<T
     return []; // Return an empty array to match the expected type
   }
 }
-   
+
 function route() {
   const tracks = useLoaderData<Track[]>(); // Ensure type safety
   const { trackDetails, setTrackDetails } = useTrackStore()
-  
+
   const [searchResults, setSearchResults] = useState<Track[]>([])
   const [initialized, setInitialized] = useState(false)
   const { page, setPage, searchQuery, setSearchQuery } = useSearchStore()
   const [results, setResults] = useState(true)
+  const [hasMore, setHasMore] = useState(true)
 
   const { initialize } = usePlaylistStore()
   const params = useParams()
@@ -50,7 +51,7 @@ function route() {
   const [mount, setMount] = useState(false)
 
   console.log("page", page);
-  
+
   useEffect(() => {
     if (data && data.length > 0) {
       setMount(true)
@@ -70,7 +71,7 @@ function route() {
           console.log("prev", prev);
           console.log("data", data);
 
-          
+
           return [
             ...prev, ...data
           ]
@@ -79,16 +80,26 @@ function route() {
 
       if (page == 1) {
         setSearchResults([...data])
-        return
       }
     }
+
+    if (data && data.length < 4 && !isLoading && searchQuery) {
+      setHasMore(false)
+    } 
+
+    if(data && data.length >= 4){
+      setHasMore(true)
+    }
+
+    console.log("dat---------------------------", data);
+    
 
     if (data && !data.length && !isLoading && searchQuery) {
       setSearchResults([])
       setResults(false)
     }
 
-  }, [data, page])
+  }, [data, page, isLoading])
 
   console.log("results", searchResults);
 
@@ -161,15 +172,32 @@ function route() {
           </div>
         ))}
 
-        <button
-          onClick={() => {
-            setPage(page + 1);
-            if (!searchQuery) setSearchQuery(params.searchQuery || "");
-          }}
-          className="mt-4 px-4 py-2 bg-neutral-800 text-gray-300 rounded hover:bg-neutral-700"
-        >
-          Load More
-        </button>
+
+        {
+          hasMore && (
+            <button
+              onClick={() => {
+                setPage(page + 1);
+                if (!searchQuery) setSearchQuery(params.searchQuery || "");
+              }}
+              aria-label="Load more tracks"
+              className="mx-auto block px-4 py-2 mt-5 bg-white text-gray-800 text-sm font-medium rounded-full border border-gray-200 hover:bg-gray-50 active:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow transition-all duration-200 w-fit"
+              disabled={isLoading}
+            >
+              {isLoading && page != 1 ? (
+                <span className="flex items-center justify-center gap-1.5">
+                  <svg className="animate-spin h-4 w-4 text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Loading...
+                </span>
+              ) : (
+                'Load More'
+              )}
+            </button>
+          )
+        }
       </div>
     </>
   )
