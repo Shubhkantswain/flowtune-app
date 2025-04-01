@@ -38,6 +38,8 @@ function route() {
   const tracks = useLoaderData<Track[]>(); // Ensure type safety
   const { trackDetails, setTrackDetails } = useTrackStore()
 
+  console.log("tracjs", tracks);
+  
   const [searchResults, setSearchResults] = useState<Track[]>([])
   const [initialized, setInitialized] = useState(false)
   const { page, setPage, searchQuery, setSearchQuery } = useSearchStore()
@@ -50,7 +52,11 @@ function route() {
   const { data, isLoading } = useGetSearchTracks({ page, query: searchQuery }, true)
   const [mount, setMount] = useState(false)
 
-  console.log("page", page);
+  // console.log("page", page);
+
+  useEffect(() => {
+    setSearchQuery(params.searchQuery || "")
+  }, [])
 
   useEffect(() => {
     if (data && data.length > 0) {
@@ -101,7 +107,7 @@ function route() {
 
   }, [data, page, isLoading])
 
-  console.log("results", searchResults);
+  // console.log("results", searchResults);
 
   const handleClick = (isPlayingCurrentSong: boolean, track: Track) => {
     if (isPlayingCurrentSong && initialized) {

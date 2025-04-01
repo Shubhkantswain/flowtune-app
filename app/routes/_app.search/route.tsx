@@ -16,7 +16,7 @@ type searchKey = keyof typeof searchData;
 const BrowsePage = () => {
   const { searchQuery, setSearchQuery } = useSearchStore();
   const [searchResults, setSearchResults] = useState<Song[]>([]);
-  
+
   useEffect(() => {
     if (searchQuery.trim()) {
       const firstLetter = searchQuery[0].toLowerCase(); // Extract first letter
@@ -48,7 +48,10 @@ const BrowsePage = () => {
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-10">
               {searchResults.map((song, index) => (
                 <div key={index} className="flex items-center mb-4 gap-3 cursor-pointer p-2 hover:bg-[#222222]"
-                onClick={() => navigate(`/search-results/${song.title}`)}
+                  onClick={() => {
+                    setSearchQuery(song.title)
+                    navigate(`/search-results/${song.title}`)
+                  }}
                 >
                   <img
                     src={song.coverImageUrl}
@@ -59,7 +62,7 @@ const BrowsePage = () => {
                     <p className="font-bold text-[#fa586a]">Song</p>
                     <h2 className='hover:text-[#fa586a]'>
                       {song.title}
-                      </h2>
+                    </h2>
                   </div>
                 </div>
               ))}
