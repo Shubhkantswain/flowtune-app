@@ -34,14 +34,14 @@ const CreatePlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }: Cr
             visibility: "public",
         },
     });
-    const {mutateAsync: createPlaylist, isPending} = useCreatePlaylist()
+    const { mutateAsync: createPlaylist, isPending } = useCreatePlaylist()
 
     const onSubmit = async (data: NewSong) => {
         createPlaylist({
-           name: data.name,
-           coverImageUrl: imgUrl || "",
-           visibility: data.visibility == "public" ? Visibility.Public : Visibility.Private,
-           trackIds: Object.keys(selectedTracks)
+            name: data.name,
+            coverImageUrl: imgUrl || "",
+            visibility: data.visibility == "public" ? Visibility.Public : Visibility.Private,
+            trackIds: Object.keys(selectedTracks)
         });
     };
 
@@ -65,9 +65,11 @@ const CreatePlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }: Cr
 
     const [suggestionSearchResults, setSuggestionSearchResults] = useState<Song[]>([]);
     const [shouldSearch, setShouldSearch] = useState(false)
+    const [page, setPage] = useState(1)
+    const [noMoreResults, setNoMoreResults] = useState(false)
 
-    const { data: searchResults } = useGetSearchTracks(searchQuery, shouldSearch)
-
+    const { data , isLoading} = useGetSearchTracks({ page, query: searchQuery }, shouldSearch)
+    const [searchResults, setSearchResults] = useState<Track[]>([])
 
     useEffect(() => {
         if (searchQuery.trim()) {
@@ -84,6 +86,20 @@ const CreatePlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }: Cr
             setSuggestionSearchResults([]); // Clear results when searchQuery is empty
         }
     }, [searchQuery]);
+
+    useEffect(() => {
+        if (data && data.length) {
+            if (page == 1) {
+                setSearchResults([...data])
+            } else {
+                setSearchResults((prev: Track[]) => [...prev, ...data])
+            }
+        }
+
+        if(data && !data.length && !isLoading){
+            setSearchResults([])
+        }
+    }, [data, page, isLoading])
 
     return (
         <Dialog open={songDialogOpen} onOpenChange={setSongDialogOpen}>
@@ -168,7 +184,7 @@ const CreatePlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }: Cr
                             <Input
                                 placeholder="Search tracks..."
                                 value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onChange={(e) => {setSearchQuery(e.target.value); setPage(1)}}
                                 className="bg-zinc-800 border-zinc-700 text-white pl-3 pr-10" // Added padding for icon
                                 id="playlist-search" // Added ID for label targeting
                             />
@@ -200,8 +216,8 @@ const CreatePlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }: Cr
 
 
                     {/* Dummy Items with Scrollbar */}
-                    <div className="space-y-2 max-h-[200px] overflow-y-auto border border-zinc-700 rounded-lg p-2">
-                        {!searchResults?.length ? (
+                    <div className="space-y-2 max-h-[300px] overflow-y-auto border border-zinc-700 rounded-lg p-2">
+                        {(!searchResults?.length) ? (
                             <>
                                 <p className="text-zinc-400 text-sm mb-2">Suggestions</p>
                                 {suggestionSearchResults.map((track) => (
@@ -222,6 +238,7 @@ const CreatePlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }: Cr
                                             <p className="text-white font-medium">{track.title}</p>
                                         </div>
                                     </div>
+
                                 ))}
                             </>
                         ) : (
@@ -294,6 +311,13 @@ const CreatePlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }: Cr
                                         </div>
                                     </div>
                                 ))}
+                                <button
+                                    onClick={(e) => {
+                                        e.preventDefault()
+                                        setPage(page+1)
+                                    }} className="text-white">
+                                    Load More
+                                </button>
                             </>
                         )}
                     </div>

@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { CreateTrackPayload } from "gql/graphql";
+import { CreateTrackPayload, SearchInput } from "gql/graphql";
 import { toast } from "sonner";
 import { createGraphqlClient } from "~/clients/api";
 import { createTrackMutation, likeTrackMutation } from "~/graphql/mutations/track";
@@ -110,17 +110,18 @@ export const useLikeTrack = () => {
     });
 };
 
-export const useGetSearchTracks = (searchQuery: string, shouldSearch: boolean) => {
+export const useGetSearchTracks = (input: SearchInput, shouldSearch: boolean) => {
+    const { page, query } = input
     return useQuery({
-        queryKey: ['searchTracks', searchQuery, shouldSearch],
+        queryKey: ['searchTracks', query, page, shouldSearch],
         queryFn: async () => {
-            if (!searchQuery || !shouldSearch) return []
+            if (!query || !shouldSearch) return []
             let token = ""
             if (typeof window !== "undefined") {
                 token = localStorage.getItem("__FlowTune_Token") || ""
             }
             const graphqlClient = createGraphqlClient(token);
-            const { getSearchTracks } = await graphqlClient.request(getSearchTracksQuery, { searchQuery });
+            const { getSearchTracks } = await graphqlClient.request(getSearchTracksQuery, { input });
             return getSearchTracks || []
         }
     })

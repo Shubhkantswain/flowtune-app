@@ -68,22 +68,23 @@ export const getRecentTracksQuery = graphql(`#graphql
   }
 `)
 
-export const getSearchTracksQuery = graphql(`#graphql
-  query GetSearchTracks($searchQuery: String!) {
-    getSearchTracks(searchQuery: $searchQuery) {
-      id   
-      title            
-      singer          
+export const getSearchTracksQuery = graphql(`
+  #graphql
+  query GetSearchTracks($input: SearchInput!) {
+    getSearchTracks(input: $input) {
+      id
+      title
+      singer
       starCast
-      duration             
-      coverImageUrl    
+      duration
+      coverImageUrl
       videoUrl
-      audioFileUrl 
+      audioFileUrl
       hasLiked
-      authorId  
+      authorId
     }
   }
-`)
+`);
 
 export const getLikedTracksQuery = graphql(`#graphql
   query GetLikedTracks {

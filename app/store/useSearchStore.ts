@@ -1,15 +1,18 @@
 import { create } from 'zustand';
 
-// Define the store state interface
 interface SearchState {
   searchQuery: string;
+  page: number;
   setSearchQuery: (query: string) => void;
+  setPage: (page: number) => void;
 }
 
-// Create the store
 const useSearchStore = create<SearchState>((set) => ({
   searchQuery: '',
-  setSearchQuery: (query: string) => set({ searchQuery: query }),
+  page: 1,
+  
+  setSearchQuery: (query) => set({ searchQuery: query }),
+  setPage: (page) => set({ page }),
 }));
 
 export default useSearchStore;

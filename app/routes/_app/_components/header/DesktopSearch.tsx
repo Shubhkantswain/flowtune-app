@@ -5,7 +5,7 @@ import useSearchStore from '~/store/useSearchStore';
 function DesktopSearch() {
     const location = useLocation();
     const navigate = useNavigate();
-    const isSearchPage = location.pathname === "/search";
+    const isSearchPage = location.pathname === "/search" || location.pathname.includes("/search-results");
     const [isHovered, setIsHovered] = useState(false);
 
     const handleInputClick = () => {
@@ -14,7 +14,7 @@ function DesktopSearch() {
         }
     };
 
-    const { searchQuery, setSearchQuery } = useSearchStore();
+    const { searchQuery, setSearchQuery, setPage } = useSearchStore();
 
     return (
         <div
@@ -72,7 +72,7 @@ function DesktopSearch() {
         ${isHovered ? 'translate-x-2' : 'translate-x-0'}
     `}
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => {setSearchQuery(e.target.value) ;setPage(1)}}
                 onKeyDown={(e) => {
                     if (e.key === "Enter" && searchQuery.trim()) {
                         navigate(`/search-results/${searchQuery}`);

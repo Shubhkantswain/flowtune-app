@@ -13,6 +13,20 @@ export const getCurrentUserPlaylistsQuery = graphql(`#graphql
   }
 `)
 
+export const getExplorePlaylistsQuery = graphql(`#graphql
+  query GetExplorePlaylists($page: Int!) {
+    getExplorePlaylists(page: $page) {
+      id
+      name
+      coverImageUrl
+      Visibility
+      totalTracks
+      authorId
+    }
+  }
+`);
+
+
 export const getPlaylistTracksQuery = graphql(`#graphql
   query GetPlaylistTracks($playlistId: String!) {
     getPlaylistTracks(playlistId: $playlistId) {
