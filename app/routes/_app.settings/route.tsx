@@ -1,109 +1,223 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Search, Edit2, ChevronDown } from 'lucide-react';
 import { Switch } from '~/components/ui/switch';
+import { useCurrentUser } from '~/hooks/auth';
+import { ActionFunctionArgs, json } from '@remix-run/cloudflare';
+import { MusicPreferenceData } from '../_app.music-preference/route';
+import { createGraphqlClient } from '~/clients/api';
+import { ChangeMusicPreferenceMutation } from '~/graphql/mutations/user';
+import { Form, useNavigation } from '@remix-run/react';
+
+const musicLanguages = [
+    { name: "Hindi", native: "हिन्दी" },
+    { name: "English", native: "English" },
+    { name: "Punjabi", native: "ਪੰਜਾਬੀ" },
+    { name: "Tamil", native: "தமிழ்" },
+    { name: "Telugu", native: "తెలుగు" },
+    { name: "Kannada", native: "ಕನ್ನಡ" },
+    { name: "Bengali", native: "বাংলা" },
+    { name: "Marathi", native: "मराठी" },
+    { name: "Gujarati", native: "ગુજરાતી" },
+    { name: "Malayalam", native: "മലയാളം" },
+];
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+    const cookieHeader = request.headers.get("Cookie");
+
+    // Parse the cookie manually
+    const cookies = Object.fromEntries(
+        (cookieHeader || "")
+            .split("; ")
+            .map((c) => c.split("="))
+            .map(([key, ...value]) => [key, value.join("=")])
+    );
+
+    // Extract the `__FlowTune_Token_server` cookie
+    const token = cookies["__FlowTune_Token_server"];
+
+    if (!token) {
+        return json<MusicPreferenceData>(
+            {
+                isSuccess: false,
+                errors: {
+                    general: "Please Login/Sign Up First"
+                }
+            },
+            { status: 500 }
+        );
+    }
+    const formData = await request.formData();
+
+    const language = formData.get("language")?.toString().trim() ?? "";
+
+    try {
+        const graphqlClient = createGraphqlClient(token);
+        const { changeMusicPreference } = await graphqlClient.request(ChangeMusicPreferenceMutation, { language });
+
+        const authToken = changeMusicPreference
+        return json<MusicPreferenceData>({
+            isSuccess: true
+        },
+            {
+                status: 200,
+                headers: {
+                    "Set-Cookie": `__FlowTune_Token_server=${authToken}; Max-Age=86400; HttpOnly; Secure; Path=/; SameSite=None`,
+                },
+            }
+        );
+
+    } catch (error: any) {
+        return json<MusicPreferenceData>(
+            {
+                isSuccess: false,
+                errors: {
+                    general: error?.response?.errors?.[0]?.message || "Something went wrong"
+                }
+            },
+            { status: 500 }
+        );
+    }
+}
 
 const SpotifySettings = () => {
     const [compactLibrary, setCompactLibrary] = useState(false);
     const [showNowPlaying, setShowNowPlaying] = useState(true);
     const [showVisuals, setShowVisuals] = useState(true);
-    const [language, setLanguage] = useState("english");
+    const [language, setLanguage] = useState("");
+    const [initialLanguage, setInitialLanguage] = useState("");
     const [showSearchBar, setShowSearchBar] = useState(false);
 
+    const { data } = useCurrentUser()
+
+    useEffect(() => {
+        if (data) {
+            setLanguage(data.language);
+            setInitialLanguage(data.language);
+        }
+    }, [data])
+
+    const handleLanguageChange = (e) => {
+        setLanguage(e.target.value);
+    }
+
+    const navigation = useNavigation()
+    const isSubmitting = navigation.state === "submitting";
+
+
     return (
-        <div className="text-white min-h-screen p-6">
-            <div className="max-w-3xl mx-auto">
-                <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-2xl font-bold">Settings</h1>
-                    <div className="flex items-center">
-                        {showSearchBar && (
-                            <input
-                                type="text"
-                                placeholder="Search settings..."
-                                className="bg-gray-800 text-white text-sm rounded-md px-3 py-1 mr-2 focus:outline-none focus:ring-1 focus:ring-gray-700"
+        <>
+            <div className="text-white p-6">
+                <div className="max-w-3xl mx-auto">
+                    <div className="flex justify-between items-center mb-8">
+                        <h1 className="text-2xl font-bold">Settings</h1>
+                        <div className="flex items-center">
+                            {showSearchBar && (
+                                <input
+                                    type="text"
+                                    placeholder="Search settings..."
+                                    className="bg-gray-800 text-white text-sm rounded-md px-3 py-1 mr-2 focus:outline-none focus:ring-1 focus:ring-gray-700"
+                                />
+                            )}
+                            <Search
+                                className="text-gray-400 cursor-pointer"
+                                size={20}
+                                onClick={() => setShowSearchBar(!showSearchBar)}
                             />
-                        )}
-                        <Search
-                            className="text-gray-400 cursor-pointer"
-                            size={20}
-                            onClick={() => setShowSearchBar(!showSearchBar)}
-                        />
-                    </div>
-                </div>
-
-                <div className="space-y-6">
-                    {/* Account Section */}
-                    <div>
-                        <h2 className="text-lg font-semibold mb-3">Account</h2>
-                        <div className="flex justify-between items-center">
-                            <p className="text-gray-400 text-sm">Edit login methods</p>
-                            <button className="border border-gray-600 rounded-full px-3 py-1 flex items-center gap-1 text-sm">
-                                Edit <Edit2 size={14} />
-                            </button>
                         </div>
                     </div>
 
-                    {/* Music Section */}
-                    <div>
-                        <h2 className="text-lg font-semibold mb-3">Music Preference</h2>
-                        <div className="flex justify-between items-center">
-                            <p className="text-gray-400 text-sm">Choose music preference - Changes will be applied</p>
-                            <div className="relative inline-block w-48">
-                                <select
-                                    value={language}
-                                    onChange={(e) => setLanguage(e.target.value)}
-                                    className="bg-gray-800 text-white text-sm rounded-md px-4 py-2 w-full appearance-none border-none focus:outline-none focus:ring-1 focus:ring-gray-700"
-                                >
-                                    <option value="english">English (English)</option>
-                                    <option value="spanish">Español (Spanish)</option>
-                                    <option value="french">Français (French)</option>
-                                    <option value="german">Deutsch (German)</option>
-                                    <option value="italian">Italiano (Italian)</option>
-                                </select>
-                                <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                                    <ChevronDown size={16} className="text-gray-400" strokeWidth={2} />
+                    <div className="space-y-6">
+                        {/* Account Section */}
+                        <div>
+                            <h2 className="text-lg font-semibold mb-3">Account</h2>
+                            <div className="flex justify-between items-center">
+                                <p className="text-gray-400 text-sm">Edit login methods</p>
+                                <button className="border border-gray-600 rounded-full px-3 py-1 flex items-center gap-1 text-sm">
+                                    Edit <Edit2 size={14} />
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Music Section */}
+                        <div>
+                            <h2 className="text-lg font-semibold mb-3">Music Preference</h2>
+                            <div className="flex flex-col gap-3">
+                                <Form method="post" className="space-y-3">
+                                    <div className="flex justify-between items-center">
+                                        <p className="text-gray-400 text-sm">Choose music preference - Changes will be applied</p>
+                                        <div className="relative inline-block w-48">
+                                            <select
+                                                name="language"  // Add name attribute for form submission
+                                                value={language}
+                                                onChange={handleLanguageChange}
+                                                className="bg-[#333333] text-white text-sm rounded-md px-4 py-2 w-full appearance-none border-none focus:outline-none focus:ring-1 focus:ring-gray-700"
+                                            >
+                                                {musicLanguages.map((lang) => (
+                                                    <option key={lang.name} value={lang.name}>
+                                                        {lang.name} ({lang.native})
+                                                    </option>
+                                                ))}
+                                            </select>
+                                            <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                                <ChevronDown size={16} className="text-gray-400" strokeWidth={2} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {language !== initialLanguage && (
+                                        <div className="flex justify-end">
+                                            <button
+                                                type="submit"
+                                                className="bg-[#fa586a] text-white px-4 py-2 rounded-md text-sm hover:bg-[#e04a5a] transition-colors"
+                                            >
+                                                {isSubmitting ? "Applying..." : "Apply Changes"}
+                                            </button>
+                                        </div>
+                                    )}
+                                </Form>
+                            </div>
+                        </div>
+
+                        {/* Library Section */}
+                        <div>
+                            <h2 className="text-lg font-semibold mb-3">Show queue</h2>
+                            <div className="flex justify-between items-center">
+                                <p className="text-gray-400 text-sm">Use the beautiful queue section</p>
+                                <Switch
+                                    checked={compactLibrary}
+                                    onCheckedChange={setCompactLibrary}
+                                    className="data-[state=checked]:bg-[#fa586a]"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Display Section */}
+                        <div>
+                            <h2 className="text-lg font-semibold mb-3">Display</h2>
+                            <div className="space-y-3">
+                                <div className="flex justify-between items-center">
+                                    <p className="text-gray-400 text-sm">Show the background video in tracks</p>
+                                    <Switch
+                                        checked={showNowPlaying}
+                                        onCheckedChange={setShowNowPlaying}
+                                        className="data-[state=checked]:bg-[#fa586a]"
+                                    />
                                 </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    {/* Library Section */}
-                    <div>
-                        <h2 className="text-lg font-semibold mb-3">Show queue</h2>
-                        <div className="flex justify-between items-center">
-                            <p className="text-gray-400 text-sm">Use the beautiful queue section</p>
-                            <Switch
-                                checked={compactLibrary}
-                                onCheckedChange={setCompactLibrary}
-                                className="data-[state=checked]:bg-[#fa586a]"
-                            />
-                        </div>
-                    </div>
-
-                    {/* Display Section */}
-                    <div>
-                        <h2 className="text-lg font-semibold mb-3">Display</h2>
-                        <div className="space-y-3">
-                            <div className="flex justify-between items-center">
-                                <p className="text-gray-400 text-sm">Show the background video in tracks</p>
-                                <Switch
-                                    checked={showNowPlaying}
-                                    onCheckedChange={setShowNowPlaying}
-                                    className="data-[state=checked]:bg-[#fa586a]"
-                                />
-                            </div>
-
-                            <div className="flex justify-between items-center">
-                                <p className="text-gray-400 text-sm">Track looping</p>
-                                <Switch
-                                    checked={showVisuals}
-                                    onCheckedChange={setShowVisuals}
-                                    className="data-[state=checked]:bg-[#fa586a]"
-                                />
+                                <div className="flex justify-between items-center">
+                                    <p className="text-gray-400 text-sm">Track looping</p>
+                                    <Switch
+                                        checked={showVisuals}
+                                        onCheckedChange={setShowVisuals}
+                                        className="data-[state=checked]:bg-[#fa586a]"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
             <footer className="text-white py-6 px-4 text- mt-10">
                 <div className="container mx-auto grid grid-cols-4 gap-4">
                     {/* Company Column */}
@@ -180,7 +294,7 @@ const SpotifySettings = () => {
                     </div>
                 </div>
             </footer>
-        </div>
+        </>
     );
 };
 
