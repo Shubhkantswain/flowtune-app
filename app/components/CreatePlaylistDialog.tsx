@@ -101,7 +101,7 @@ const CreatePlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }: Cr
             setHasMore(false)
         }
         
-        if (data && data.length < 4) {
+        if (data && data.length >= 4) {
             setHasMore(true)
         }
 

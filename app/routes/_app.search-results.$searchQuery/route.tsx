@@ -38,26 +38,23 @@ function route() {
   const tracks = useLoaderData<Track[]>(); // Ensure type safety
   const { trackDetails, setTrackDetails } = useTrackStore()
 
-  console.log("tracjs", tracks);
   
-  const [searchResults, setSearchResults] = useState<Track[]>([])
   const [initialized, setInitialized] = useState(false)
-  const { page, setPage, searchQuery, setSearchQuery } = useSearchStore()
+  const { page, setPage, searchQuery, setSearchQuery, searchResults, setSearchResults } = useSearchStore()
   const [results, setResults] = useState(true)
-  const [hasMore, setHasMore] = useState(true)
-
+  const [hasMore, setHasMore] = useState(false)
+  
   const { initialize } = usePlaylistStore()
   const params = useParams()
-
+  
   const { data, isLoading } = useGetSearchTracks({ page, query: searchQuery }, true)
   const [mount, setMount] = useState(false)
-
-  // console.log("page", page);
-
+  
   useEffect(() => {
     setSearchQuery(params.searchQuery || "")
   }, [])
-
+  
+  console.log("data------------", data);
   useEffect(() => {
     if (data && data.length > 0) {
       setMount(true)
@@ -65,23 +62,15 @@ function route() {
         if (!mount) {
           setSearchResults([...tracks, ...data])
         } else {
-          setSearchResults((prev: Track[]) => {
-            return [
-              ...prev, ...data
-            ]
-          });
+          setSearchResults([
+            ...searchResults, ...data
+          ]);
         }
       }
       if (page > 2) {
-        setSearchResults((prev: Track[]) => {
-          console.log("prev", prev);
-          console.log("data", data);
-
-
-          return [
-            ...prev, ...data
-          ]
-        });
+        setSearchResults([
+          ...searchResults, ...data
+        ]);
       }
 
       if (page == 1) {
@@ -91,14 +80,13 @@ function route() {
 
     if (data && data.length < 4 && !isLoading && searchQuery) {
       setHasMore(false)
-    } 
+    }
 
-    if(data && data.length >= 4){
+    if (data && data.length >= 4) {
       setHasMore(true)
     }
 
-    console.log("dat---------------------------", data);
-    
+
 
     if (data && !data.length && !isLoading && searchQuery) {
       setSearchResults([])
@@ -107,8 +95,10 @@ function route() {
 
   }, [data, page, isLoading])
 
-  // console.log("results", searchResults);
-
+  useEffect(() => {
+    setSearchResults([])
+  }, [])
+  
   const handleClick = (isPlayingCurrentSong: boolean, track: Track) => {
     if (isPlayingCurrentSong && initialized) {
       setTrackDetails({ isPlaying: false });

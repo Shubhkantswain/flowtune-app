@@ -14,8 +14,8 @@ interface Song {
 type searchKey = keyof typeof searchData;
 
 const BrowsePage = () => {
-  const { searchQuery, setSearchQuery } = useSearchStore();
-  const [searchResults, setSearchResults] = useState<Song[]>([]);
+  const { searchQuery, setSearchQuery, setPage, setSearchResults } = useSearchStore();
+  const [suggestionResults, setSuggestionResults] = useState<Song[]>([]);
 
   useEffect(() => {
     if (searchQuery.trim()) {
@@ -27,9 +27,9 @@ const BrowsePage = () => {
         song.title.toLowerCase().includes(searchQuery.toLowerCase())
       );
 
-      setSearchResults(results);
+      setSuggestionResults(results);
     } else {
-      setSearchResults([]); // Clear results when searchQuery is empty
+      setSuggestionResults([]); // Clear results when searchQuery is empty
     }
   }, [searchQuery]);
 
@@ -44,13 +44,15 @@ const BrowsePage = () => {
       {searchQuery.trim() && (
         <div className="mt-4">
           <h2 className="text-xl font-bold mb-4">Suggestions</h2>
-          {searchResults.length > 0 ? (
+          {suggestionResults.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-10">
-              {searchResults.map((song, index) => (
+              {suggestionResults.map((song, index) => (
                 <div key={index} className="flex items-center mb-4 gap-3 cursor-pointer p-2 hover:bg-[#222222]"
                   onClick={() => {
-                    setSearchQuery(song.title)
+                    setPage(1)
+                    // setSearchResults([])
                     navigate(`/search-results/${song.title}`)
+
                   }}
                 >
                   <img
