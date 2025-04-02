@@ -6,7 +6,9 @@ import { ActionFunctionArgs, json } from '@remix-run/cloudflare';
 import { MusicPreferenceData } from '../_app.music-preference/route';
 import { createGraphqlClient } from '~/clients/api';
 import { ChangeMusicPreferenceMutation } from '~/graphql/mutations/user';
-import { Form, useNavigation } from '@remix-run/react';
+import { Form, useActionData, useNavigation } from '@remix-run/react';
+import { toast } from 'sonner';
+import { useQueryClient } from '@tanstack/react-query';
 
 const musicLanguages = [
     { name: "Hindi", native: "हिन्दी" },
@@ -80,6 +82,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 }
 
 const SpotifySettings = () => {
+    const musicPreferenceData = useActionData<MusicPreferenceData>()
     const [compactLibrary, setCompactLibrary] = useState(false);
     const [showNowPlaying, setShowNowPlaying] = useState(true);
     const [showVisuals, setShowVisuals] = useState(true);
@@ -103,7 +106,14 @@ const SpotifySettings = () => {
     const navigation = useNavigation()
     const isSubmitting = navigation.state === "submitting";
 
-
+    const queryClient = useQueryClient()
+    useEffect(() => {
+        if (musicPreferenceData?.isSuccess) {
+            toast.success("Changes applied successfully");
+            setInitialLanguage(language)
+            queryClient.setQueryData(["currentUser"], {...data, language})
+        }
+    }, [musicPreferenceData]);
     return (
         <>
             <div className="text-white p-6">
