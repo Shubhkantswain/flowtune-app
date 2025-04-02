@@ -114,6 +114,7 @@ const SpotifySettings = () => {
             queryClient.setQueryData(["currentUser"], {...data, language})
         }
     }, [musicPreferenceData]);
+    
     return (
         <>
             <div className="text-white p-6">
