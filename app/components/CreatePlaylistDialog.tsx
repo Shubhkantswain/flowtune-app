@@ -110,9 +110,6 @@ const CreatePlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }: Cr
         }
     }, [data, page, isLoading])
 
-    console.log("hasMore", hasMore);
-
-
     return (
         <Dialog open={songDialogOpen} onOpenChange={setSongDialogOpen}>
             <DialogContent className="bg-gradient-to-b from-black to-zinc-900 border-zinc-700 max-h-[80vh] overflow-auto">

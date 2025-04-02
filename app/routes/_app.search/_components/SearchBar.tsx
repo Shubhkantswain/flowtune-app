@@ -3,7 +3,7 @@ import React from 'react';
 import useSearchStore from '~/store/useSearchStore';
 
 function SearchBar() {
-    const { searchQuery, setSearchQuery } = useSearchStore();
+    const { searchQuery, setSearchQuery, setPage } = useSearchStore();
     const navigate = useNavigate()
 
     return (
@@ -13,7 +13,7 @@ function SearchBar() {
                     type="text"
                     placeholder="Search..."
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) => { setSearchQuery(e.target.value); setPage(1) }}
                     className="w-full p-2 pr-10 text-black rounded-lg bg-[#FFFFFF] placeholder-[#757575] focus:outline-none focus:ring-2 focus:ring-[#fa586a]"
                     onKeyDown={(e) => {
                         if (e.key === "Enter" && searchQuery.trim()) {

@@ -8,6 +8,7 @@ import { useGetSearchTracks } from '~/hooks/track';
 import usePlaylistStore from '~/store/usePlaylistStore';
 import useSearchStore from '~/store/useSearchStore';
 import { useTrackStore } from '~/store/useTrackStore';
+import SearchBar from '../_app.search/_components/SearchBar';
 
 export async function loader({ request, params }: LoaderFunctionArgs): Promise<Track[]> {
   try {
@@ -38,22 +39,22 @@ function route() {
   const tracks = useLoaderData<Track[]>(); // Ensure type safety
   const { trackDetails, setTrackDetails } = useTrackStore()
 
-  
+
   const [initialized, setInitialized] = useState(false)
   const { page, setPage, searchQuery, setSearchQuery, searchResults, setSearchResults } = useSearchStore()
   const [results, setResults] = useState(true)
   const [hasMore, setHasMore] = useState(false)
-  
+
   const { initialize } = usePlaylistStore()
   const params = useParams()
-  
+
   const { data, isLoading } = useGetSearchTracks({ page, query: searchQuery }, true)
   const [mount, setMount] = useState(false)
-  
+
   useEffect(() => {
     setSearchQuery(params.searchQuery || "")
   }, [])
-  
+
   console.log("data------------", data);
   useEffect(() => {
     if (data && data.length > 0) {
@@ -86,8 +87,6 @@ function route() {
       setHasMore(true)
     }
 
-
-
     if (data && !data.length && !isLoading && searchQuery) {
       setSearchResults([])
       setResults(false)
@@ -98,7 +97,7 @@ function route() {
   useEffect(() => {
     setSearchResults([])
   }, [])
-  
+
   const handleClick = (isPlayingCurrentSong: boolean, track: Track) => {
     if (isPlayingCurrentSong && initialized) {
       setTrackDetails({ isPlaying: false });
@@ -132,7 +131,11 @@ function route() {
   return (
     <>
 
-      <div className="flex space-x-2 p-4 sm:p-6 md:p-8 overflow-x-auto bg-black no-scrollbar">
+    <div className=' block md:hidden p-4 sm:p-6 md:p-8 -mb-10'>
+
+        <SearchBar />
+    </div>
+      <div className="flex space-x-2 p-4 sm:p-6 md:p-8 overflow-x-auto  no-scrollbar">
         {tabs.map(tab => (
           <button
             key={tab}
