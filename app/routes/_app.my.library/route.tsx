@@ -11,6 +11,7 @@ import ScrollControls from './_component/ScrollControls';
 import { useGetRecentTracks } from '~/hooks/track';
 import usePlaylistStore from '~/store/usePlaylistStore';
 import { useTrackStore } from '~/store/useTrackStore';
+import { Skeleton } from '~/components/ui/skeleton';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   try {
@@ -95,7 +96,7 @@ const MusicApp = () => {
     }
   }, []);
 
-  const { data } = useGetRecentTracks(recentTracks);
+  const { data, isLoading } = useGetRecentTracks(recentTracks);
 
   // Ensure fetched tracks are sorted in the order they appear in `recentTracks`
   const [sortedTracks, setSortedTracks] = useState<Track[]>([])
@@ -170,32 +171,55 @@ const MusicApp = () => {
 
       <div className="w-full md:w-1/2 md:mr-auto md:ml-0 mx-auto">
         <h2 className="text-xl font-bold mb-4">Recently Play</h2>
-        <div className="space-y-4">
-          {(sortedTracks.length ? sortedTracks : tracks).map((track) => (
-            <div
-              key={track.id}
-              className="flex items-center p-2 hover:bg-white/15 hover:backdrop-filter hover:backdrop-blur-sm justify-between rounded-lg cursor-pointer"
-              onClick={() => handleClick(trackDetails.isPlaying && trackDetails.id == track.id, track)}
-            >
-              <div className="flex items-center space-x-4">
-                <img
-                  src={track.coverImageUrl || ""}
-                  alt={track.title}
-                  className="w-16 h-16 rounded-md object-cover"
-                />
-                <div>
-                  <p className="font-semibold">{track.title}</p>
-                  <p className="text-neutral-400 text-sm">{track.singer}</p>
+
+        {isLoading ? (
+          <div className="space-y-4">
+
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div
+                key={index}
+                className="flex items-center p-2 bg-[#1A1A1A] rounded-lg gap-4"
+              >
+                <div className="w-16 h-16 bg-white/20 rounded-md" />
+                <div className="flex flex-col space-y-2">
+                  <div className="w-32 h-4 bg-white/20 rounded-md" />
+                  <div className="w-24 h-3 bg-white/25 rounded-md" />
+                </div>
+                <div className="ml-auto w-6 h-6 bg-white/20 rounded-md" />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {(sortedTracks.length ? sortedTracks : tracks).map((track) => (
+              <div
+                key={track.id}
+                className="flex items-center p-2 hover:bg-white/15 hover:backdrop-filter hover:backdrop-blur-sm justify-between rounded-lg cursor-pointer"
+                onClick={() =>
+                  handleClick(trackDetails.isPlaying && trackDetails.id === track.id, track)
+                }
+              >
+                <div className="flex items-center space-x-4">
+                  <img
+                    src={track.coverImageUrl || ""}
+                    alt={track.title}
+                    className="w-16 h-16 rounded-md object-cover"
+                  />
+                  <div>
+                    <p className="font-semibold">{track.title}</p>
+                    <p className="text-neutral-400 text-sm">{track.singer}</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <button>
+                    <Plus size={24} className="text-neutral-400" />
+                  </button>
                 </div>
               </div>
-              <div className="flex items-center space-x-2">
-                <button>
-                  <Plus size={24} className="text-neutral-400" />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
+
       </div>
       {/* CSS for hiding scrollbar */}
       <style>{`
