@@ -27,6 +27,19 @@ export const getExplorePlaylistsQuery = graphql(`#graphql
 `);
 
 
+export const getSearchPlaylistsQuery = graphql(`#graphql
+  query GetSearchPlaylists($input: SearchInput!) {
+    getSearchPlaylists(input: $input) {
+      id
+      name
+      coverImageUrl
+      Visibility
+      totalTracks
+      authorId
+    }
+  }
+`);
+
 export const getPlaylistTracksQuery = graphql(`#graphql
   query GetPlaylistTracks($playlistId: String!) {
     getPlaylistTracks(playlistId: $playlistId) {

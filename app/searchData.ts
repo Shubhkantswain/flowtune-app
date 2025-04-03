@@ -97,6 +97,46 @@ export const searchData = {
     z: []
 };
 
+export const playlistSearchData = {
+    a: [],
+    b: [
+        { title: "Best Of Atif Aslam", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743334535/itahg8hmn8gjjca1sucz.jpg" },
+        { title: "Best Of Mohit Chauhan", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743334864/e9gw6pb8qalgjkcw649w.jpg" },
+        { title: "Best Of Arijit Singh", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743334703/bay38rnby9zhs2hqwbhb.jpg" },
+    ],
+    c: [],
+    d: [],
+    e: [],
+    f: [],
+    g: [],
+    h: [],
+    i: [],
+    j: [],
+    k: [],
+    l: [
+        { title: "Lofi Songs", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743335016/d7tklg7zk8ds2n1pctwk.jpg" },
+    ],
+    m: [],
+    n: [],
+    o: [],
+    p: [],
+    q: [],
+    r: [
+        { title: "Rockstar Album", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743338223/emdgk2izuiudidpo3qxb.jpg" },
+    ],
+    s: [
+        { title: "Sanam Teri Kasam Album", coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743348708/mk8rziuqnubbm0diycjx.jpg" },
+    ],
+    t: [],
+    u: [],
+    v: [],
+    w: [],
+    x: [],
+    y: [],
+    z: [],
+};
+
+
 const dummyData = [
     "O Meri Laila",
     "Jo Tum Mere Ho",
