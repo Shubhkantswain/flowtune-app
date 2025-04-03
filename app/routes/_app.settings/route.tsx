@@ -6,7 +6,7 @@ import { ActionFunctionArgs, json } from '@remix-run/cloudflare';
 import { MusicPreferenceData } from '../_app.music-preference/route';
 import { createGraphqlClient } from '~/clients/api';
 import { ChangeMusicPreferenceMutation } from '~/graphql/mutations/user';
-import { Form, useActionData, useNavigation } from '@remix-run/react';
+import { Form, Link, useActionData, useNavigation } from '@remix-run/react';
 import { toast } from 'sonner';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -114,7 +114,7 @@ const SpotifySettings = () => {
             queryClient.setQueryData(["currentUser"], {...data, language})
         }
     }, [musicPreferenceData]);
-    
+
     return (
         <>
             <div className="text-white p-6">
@@ -143,9 +143,9 @@ const SpotifySettings = () => {
                             <h2 className="text-lg font-semibold mb-3">Account</h2>
                             <div className="flex justify-between items-center">
                                 <p className="text-gray-400 text-sm">Edit login methods</p>
-                                <button className="border border-gray-600 rounded-full px-3 py-1 flex items-center gap-1 text-sm">
+                                <Link to={"/account/edit"} className="border border-[#ffffff] rounded-full px-3 py-1 flex items-center gap-1 text-sm">
                                     Edit <Edit2 size={14} />
-                                </button>
+                                </Link>
                             </div>
                         </div>
 

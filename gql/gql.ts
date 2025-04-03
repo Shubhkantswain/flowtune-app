@@ -27,6 +27,7 @@ type Documents = {
     "#graphql\n    mutation LikeTrack($trackId: String!) {\n        likeTrack(trackId: $trackId)\n    }\n": typeof types.LikeTrackDocument,
     "#graphql\nmutation ChangeMusicPreference($language: String!) {\n  changeMusicPreference(language: $language)\n}\n": typeof types.ChangeMusicPreferenceDocument,
     "#graphql\nmutation FollowUser($userId: String!) {\n  followUser(userId: $userId)\n}\n  ": typeof types.FollowUserDocument,
+    "#graphql\n  mutation UpdateUserProfile($payload: UpdateUserProfilePayload!) {\n    updateUserProfile(payload: $payload)\n  }\n": typeof types.UpdateUserProfileDocument,
     "\n    #graphql\n    query GetCurrentUser {\n        getCurrentUser {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            language\n            isPro\n        }\n    }\n": typeof types.GetCurrentUserDocument,
     "#graphql\n  query GetCurrentUserPlaylists {\n    getCurrentUserPlaylists {\n      id\n      name\n      coverImageUrl\n      Visibility\n      totalTracks\n      authorId\n    }\n  }\n": typeof types.GetCurrentUserPlaylistsDocument,
     "#graphql\n  query GetExplorePlaylists($page: Int!) {\n    getExplorePlaylists(page: $page) {\n      id\n      name\n      coverImageUrl\n      Visibility\n      totalTracks\n      authorId\n    }\n  }\n": typeof types.GetExplorePlaylistsDocument,
@@ -54,6 +55,7 @@ const documents: Documents = {
     "#graphql\n    mutation LikeTrack($trackId: String!) {\n        likeTrack(trackId: $trackId)\n    }\n": types.LikeTrackDocument,
     "#graphql\nmutation ChangeMusicPreference($language: String!) {\n  changeMusicPreference(language: $language)\n}\n": types.ChangeMusicPreferenceDocument,
     "#graphql\nmutation FollowUser($userId: String!) {\n  followUser(userId: $userId)\n}\n  ": types.FollowUserDocument,
+    "#graphql\n  mutation UpdateUserProfile($payload: UpdateUserProfilePayload!) {\n    updateUserProfile(payload: $payload)\n  }\n": types.UpdateUserProfileDocument,
     "\n    #graphql\n    query GetCurrentUser {\n        getCurrentUser {\n            id\n            email\n            username\n            fullName\n            bio\n            profileImageURL\n            language\n            isPro\n        }\n    }\n": types.GetCurrentUserDocument,
     "#graphql\n  query GetCurrentUserPlaylists {\n    getCurrentUserPlaylists {\n      id\n      name\n      coverImageUrl\n      Visibility\n      totalTracks\n      authorId\n    }\n  }\n": types.GetCurrentUserPlaylistsDocument,
     "#graphql\n  query GetExplorePlaylists($page: Int!) {\n    getExplorePlaylists(page: $page) {\n      id\n      name\n      coverImageUrl\n      Visibility\n      totalTracks\n      authorId\n    }\n  }\n": types.GetExplorePlaylistsDocument,
@@ -134,6 +136,10 @@ export function graphql(source: "#graphql\nmutation ChangeMusicPreference($langu
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "#graphql\nmutation FollowUser($userId: String!) {\n  followUser(userId: $userId)\n}\n  "): (typeof documents)["#graphql\nmutation FollowUser($userId: String!) {\n  followUser(userId: $userId)\n}\n  "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "#graphql\n  mutation UpdateUserProfile($payload: UpdateUserProfilePayload!) {\n    updateUserProfile(payload: $payload)\n  }\n"): (typeof documents)["#graphql\n  mutation UpdateUserProfile($payload: UpdateUserProfilePayload!) {\n    updateUserProfile(payload: $payload)\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

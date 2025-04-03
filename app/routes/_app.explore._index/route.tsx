@@ -73,7 +73,7 @@ const AppleMusicHomepage: React.FC = () => {
     exploreTracksData.tracks.slice(SECTION_SIZE, SECTION_SIZE * 2),
     exploreTracksData.tracks.slice(SECTION_SIZE * 2, SECTION_SIZE * 3),
   ];
-
+  
   useEffect(() => {
     if (data?.length) {
       setExploreTracks(prev => {
@@ -109,6 +109,8 @@ const AppleMusicHomepage: React.FC = () => {
     }
   }, [exploreTracksData.isAuthenticated])
 
+  console.log("exploreTracksData", exploreTracksData);
+  
   return (
     <>
       <div className="-mt-5 md:-mt-10 lg:-mt-10">

@@ -5,6 +5,7 @@ import SearchBar from './_components/SearchBar';
 import { searchData } from '~/searchData';
 import useSearchStore from '~/store/useSearchStore';
 import { useNavigate } from '@remix-run/react';
+import { useCurrentUser } from '~/hooks/auth';
 
 interface Song {
   title: string;
@@ -16,6 +17,10 @@ type searchKey = keyof typeof searchData;
 const BrowsePage = () => {
   const { searchQuery, setSearchQuery, setPage, setSearchResults } = useSearchStore();
   const [suggestionResults, setSuggestionResults] = useState<Song[]>([]);
+
+  const {data} = useCurrentUser()
+
+  console.log("user", data);
 
   useEffect(() => {
     if (searchQuery.trim()) {

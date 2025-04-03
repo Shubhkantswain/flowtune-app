@@ -120,7 +120,7 @@ const UserPage = () => {
                         <img
                             src={user?.data?.profileImageURL || "https://www.shutterstock.com/image-vector/male-default-avatar-profile-icon-600nw-1725062341.jpg"}
                             alt={user?.data?.username}
-                            className="w-56 h-56 md:w-64 md:h-64 rounded-lg shadow-xl"
+                            className="w-56 h-56 md:w-64 md:h-64 rounded-lg shadow-xl object-cover"
                         />
                         <div className="flex flex-col items-center md:items-start gap-4 text-center md:text-left">
                             {/* Username with Instagram-Like Verified Badge */}

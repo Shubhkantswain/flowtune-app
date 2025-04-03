@@ -180,12 +180,12 @@ const MusicApp = () => {
                 key={index}
                 className="flex items-center p-2 bg-[#1A1A1A] rounded-lg gap-4"
               >
-                <div className="w-16 h-16 bg-white/20 rounded-md" />
+                <div className="w-16 h-16 bg-[#333333] rounded-md" />
                 <div className="flex flex-col space-y-2">
-                  <div className="w-32 h-4 bg-white/20 rounded-md" />
-                  <div className="w-24 h-3 bg-white/25 rounded-md" />
+                  <div className="w-32 h-4 bg-[#333333] rounded-md" />
+                  <div className="w-24 h-3 bg-[#333333] rounded-md" />
                 </div>
-                <div className="ml-auto w-6 h-6 bg-white/20 rounded-md" />
+                <div className="ml-auto w-6 h-6 bg-[#333333] rounded-md" />
               </div>
             ))}
           </div>
