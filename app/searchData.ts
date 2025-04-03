@@ -2,13 +2,13 @@ export const searchData = {
     a: [
         { title: `Aur Ho From("Rockstar")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304307/rdytkigkz1jivqvhiivs.jpg" },
         { title: `Abhi Mujh Mein Kahin From("Agneepath")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743357108/qu4bztszeffrfhkzhgpz.jpg" },
-
-
-
     ],
     b: [
         { title: `Blue Eyes`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743317216/bj7qjdrumuorhykzfuu5.jpg" },
         { title: `Be intehaan From("Race 2")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743331406/eeuuztylvm60fbfsczsi.jpg" },
+        { title: `Bewajah From("Sanam Teri Kasam")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743683537/fzavzc3jvscerfadqirn.jpg" },
+        { title: `Badtameez Dil From("Yeh Jawaani Hai Deewani")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743423153/rlt8hrvkzn2ljhne6q5m.jpg" },
+
 
 
     ],
@@ -17,7 +17,7 @@ export const searchData = {
 
     ],
     d: [
-        { title: `Dooriyan From("Love Aaj Kal")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743316715/jaxleiumd9x42lnhcfkf.jpg" },
+        { title: `Dooriyan From("Love Aaj Kal")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743316408/rganlr7a2uiadnbu0stg.jpg" },
         { title: `Dooriyan ("Lofi")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743316715/jaxleiumd9x42lnhcfkf.jpg" },
         { title: `Dil Meri Na Sune From("Genius")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743332707/qwisxjymxytgojiw8pda.jpg" }
 
@@ -26,9 +26,14 @@ export const searchData = {
     f: [],
     g: [],
     h: [
+        { title: `Hal-E-Dil From("Sanam Teri Kasam")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743422757/cwhwhmy1sb2q6tl6wdjv.png" },
+        { title: `Humdard From("Ek Villain")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743683238/qdzafbnps2eshkdfv2lt.jpg" },
+        { title: `Humdard ("Lofi")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743683410/zzy6dwfs0hmhipcqmdia.jpg" },
 
     ],
-    i: [],
+    i: [
+        { title: `Ilahi From("Yeh Jawaani Hai Deewani")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743423153/rlt8hrvkzn2ljhne6q5m.jpg" }
+    ],
     j: [],
     k: [
         { title: `Khuda Jaane From("Bachna Ae Haseeno")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304664/ml4zlre1hvgfq2lxrnnv.jpg" },
@@ -67,6 +72,9 @@ export const searchData = {
         { title: `Subah Hone Na De From("Desi Boyz")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743317216/bj7qjdrumuorhykzfuu5.jpg" },
         { title: `Sunn Rha Hai From("Aashiqui 2")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304930/z18i6oe23psmvi00kxh1.jpg" },
         { title: `Sun Saathiya From("ABCD 2")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743332395/sy4vpmkdn7upogjfweyi.jpg" },
+        { title: `Sanam Teri Kasam From("Sanam Teri Kasam")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743683693/abekxqjir0ezwjjnqdax.png" },
+        { title: `Sanam Re From("Sanam Re")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743684198/bndynymdl0xmifzab9sg.jpg" },
+
 
 
     ],
