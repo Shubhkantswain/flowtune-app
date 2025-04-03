@@ -7,7 +7,8 @@ const MobileNavigation = () => {
     const buttonRef = useRef<HTMLButtonElement>(null);
     const location = useLocation();
 
-    const isActive = (path: string) => location.pathname === path;
+    const isActive = (path: string) => location.pathname === path ||
+        (path === "/explore" && location.pathname.startsWith("/explore"));
 
     const handleLinkClick = (event: MouseEvent<HTMLAnchorElement>, path: string) => {
         if (isActive(path)) {
