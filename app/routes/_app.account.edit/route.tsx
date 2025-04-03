@@ -11,7 +11,7 @@ import GeneralError from '../_auth/Components/GeneralError';
 // Skeleton Component (static, no animation)
 const Skeleton = ({ className }) => (
   <div className={`bg-white/20 ${className}`}></div>
-);\
+);
 
 const musicLanguages = [
   { name: "Hindi", native: "हिन्दी" },
