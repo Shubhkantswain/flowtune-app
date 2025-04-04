@@ -56,8 +56,6 @@ const BrowsePage = () => {
 
   const navigate = useNavigate()
 
-
-
   const tabs = [
     "Tracks", "Playlists", "Users", "Podcasts"
   ];
@@ -78,7 +76,7 @@ const BrowsePage = () => {
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors duration-200 ${activeTab === tab ? 'bg-white text-black'
+                  className={`px-4 py-2 rounded-full text-xs font-medium whitespace-nowrap transition-colors duration-200 ${activeTab === tab ? 'bg-white text-black'
                     : 'bg-neutral-800 text-gray-300 hover:bg-neutral-700'
                     }`}
                 >
@@ -95,7 +93,7 @@ const BrowsePage = () => {
                       onClick={() => {
                         setPage(1)
                         // setSearchResults([])
-                        navigate(`/search-results/${song.title}`)
+                        navigate(`/search-results/${activeTab.toLowerCase()}/${song.title}`)
 
                       }}
                     >

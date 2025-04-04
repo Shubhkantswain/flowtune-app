@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLoaderData, useParams } from '@remix-run/react';
+import { useLoaderData, useLocation, useNavigate, useParams } from '@remix-run/react';
 import { LoaderFunctionArgs } from '@remix-run/cloudflare';
 import { Track } from 'gql/graphql';
 import { createGraphqlClient } from '~/clients/api';
@@ -9,23 +9,11 @@ import usePlaylistStore from '~/store/usePlaylistStore';
 import useSearchStore from '~/store/useSearchStore';
 import { useTrackStore } from '~/store/useTrackStore';
 import SearchBar from '../_app.search/_components/SearchBar';
+import { MoreHorizontal } from 'lucide-react';
 
-// type Track {
-//   id: ID!    
-
-//   title: String!            
-//   singer: String          
-//   starCast: String
-//   duration: String!             
-
-//   coverImageUrl: String      
-//   videoUrl: String
-//   audioFileUrl: String!  
-      
-//   hasLiked: Boolean!
-//   authorId: String!
-// }
-
+// ─────────────────────────────
+// LOADER FUNCTION
+// ─────────────────────────────
 export async function loader({ request, params }: LoaderFunctionArgs): Promise<Track[]> {
   try {
     const cookieHeader = request.headers.get("Cookie") || "";
@@ -47,51 +35,47 @@ export async function loader({ request, params }: LoaderFunctionArgs): Promise<T
   }
 }
 
+// ─────────────────────────────
+// COMPONENT
+// ─────────────────────────────
 function SearchResultsRoute() {
   const initialTracks = useLoaderData<Track[]>();
   const params = useParams();
+  const location = useLocation();
+  const navigate = useNavigate()
 
   const { trackDetails, setTrackDetails } = useTrackStore();
   const { initialize } = usePlaylistStore();
-  const {
-    searchQuery,
-    setSearchQuery,
-  } = useSearchStore();
+  const { searchQuery, setSearchQuery } = useSearchStore();
 
-  const [page, setPage] = useState(1)
-  const [searchResults, setSearchResults] = useState<Track[]>([])
+  const [page, setPage] = useState(1);
+  const [searchResults, setSearchResults] = useState<Track[]>([]);
   const [initialized, setInitialized] = useState(false);
   const [hasMore, setHasMore] = useState(false);
-  const [activeTab, setActiveTab] = useState("Tracks");
 
   const { data, isLoading } = useGetSearchTracks({ page, query: searchQuery }, true);
 
-  // Set query from URL on mount
+  // Set search query from URL param on mount or when it changes
   useEffect(() => {
-    setSearchQuery(params.searchQuery || "");  //queue
-  }, []);
+    setSearchQuery(params.searchQuery || "");
+  }, [params.searchQuery]);
 
-  // Handle fetched data
+  // Handle newly fetched data
   useEffect(() => {
     if (!data) return;
 
     const isFirstPage = page === 1;
     const newResults = isFirstPage
       ? [...data]
-      : searchResults.length > 0 ? [...searchResults, ...data] : [...initialTracks, ...data];
+      : [...searchResults, ...data];
 
     setSearchResults(newResults);
-
-    setHasMore(data.length >= 4);
+    setHasMore(data.length >= 15);
 
     if (searchQuery && data.length === 0 && !isLoading) {
       setHasMore(false);
     }
   }, [data, page]);
-
-  useEffect(() => {
-    setSearchResults([])
-  }, [])
 
   const handleTrackClick = (isPlayingCurrent: boolean, track: Track) => {
     if (isPlayingCurrent && initialized) {
@@ -119,34 +103,14 @@ function SearchResultsRoute() {
 
   const displayedTracks = searchResults.length ? searchResults : initialTracks;
 
-  const tabs = ["Tracks", "Playlists", "Users", "Podcasts"];
-
-  console.log("displayedTracks", displayedTracks);
-
   return (
     <>
-      <div className="block md:hidden p-4 sm:p-6 md:p-8 -mb-10">
-        <SearchBar />
-      </div>
-
-      <div className="flex space-x-2 p-4 sm:p-6 md:p-8 overflow-x-auto no-scrollbar">
-        {tabs.map(tab => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors duration-200 ${activeTab === tab ? 'bg-white text-black' : 'bg-neutral-800 text-gray-300 hover:bg-neutral-700'
-              }`}
-          >
-            {tab}
-          </button>
-        ))}
-      </div>
-
+      {/* Track Results */}
       <div className="p-4 sm:p-6 md:p-8 -mt-4 lg:-mt-12 md:-mt-12">
         {displayedTracks.map(track => (
           <div
             key={track.id}
-            className="flex items-center hover:bg-[#282828] p-3 cursor-pointer"
+            className="flex items-center justify-between hover:bg-[#282828] p-3 cursor-pointer"
             onClick={() => handleTrackClick(trackDetails.isPlaying && trackDetails.id === track.id, track)}
           >
             <div className="flex-grow flex items-center space-x-4">
@@ -160,9 +124,20 @@ function SearchResultsRoute() {
                 <div className="text-[#b3b3b3] text-sm">{track.singer}</div>
               </div>
             </div>
+
+            <button
+              className="text-gray-400 hover:text-white rounded-full transition-colors"
+              onClick={(e) => {
+                e.stopPropagation(); // prevent track click
+                // handleMoreClick(track);
+              }}
+            >
+              <MoreHorizontal size={20} />
+            </button>
           </div>
         ))}
 
+        {/* Load More Button */}
         {hasMore && (
           <button
             onClick={() => {

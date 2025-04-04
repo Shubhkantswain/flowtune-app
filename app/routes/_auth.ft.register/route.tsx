@@ -2,7 +2,6 @@ import { Form, useActionData, useNavigate, useNavigation } from "@remix-run/reac
 import { useEffect } from "react";
 import { createGraphqlClient } from "~/clients/api";
 import SubmitButton from "../_auth/Components/SubmitButton";
-
 import VerifyEmailTokenForm from "./_components/VerifyEmailTokenForm";
 import GeneralError from "../_auth/Components/GeneralError";
 import RegisterForm from "./_components/RegisterForm";

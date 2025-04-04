@@ -72,7 +72,7 @@ function DesktopSearch() {
         ${isHovered ? 'translate-x-2' : 'translate-x-0'}
     `}
                 value={searchQuery}
-                onChange={(e) => {setSearchQuery(e.target.value) ;setPage(1)}}
+                onChange={(e) => { setSearchQuery(e.target.value); setPage(1) }}
                 onKeyDown={(e) => {
                     if (e.key === "Enter" && searchQuery.trim()) {
                         navigate(`/search-results/${searchQuery}`);

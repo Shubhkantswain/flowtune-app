@@ -137,8 +137,6 @@ const AppleMusicHomepage: React.FC = () => {
           </div>
         </div>
       </footer>
-
-
     </>
   );
 };

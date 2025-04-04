@@ -27,7 +27,7 @@ export default function ExploreLayout() {
             key={item.path}
             to={item.path}
             onClick={(e) => handleLinkClick(e, item.path)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+            className={`px-4 py-2 rounded-full text-xs font-medium transition-colors ${
               location.pathname === item.path
                 ? "bg-white text-black"
                 : "bg-neutral-800 text-gray-300 hover:bg-neutral-700"
