@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from '@remix-run/react';
 import useSearchStore from '~/store/useSearchStore';
+import { useActiveTabStore } from '~/store/useActiveTabStore';
 
 function DesktopSearch() {
     const location = useLocation();
@@ -13,6 +14,8 @@ function DesktopSearch() {
             navigate('/search');
         }
     };
+
+    const { activeTab, setActiveTab } = useActiveTabStore()
 
     const { searchQuery, setSearchQuery, setPage } = useSearchStore();
 
@@ -75,7 +78,7 @@ function DesktopSearch() {
                 onChange={(e) => { setSearchQuery(e.target.value); setPage(1) }}
                 onKeyDown={(e) => {
                     if (e.key === "Enter" && searchQuery.trim()) {
-                        navigate(`/search-results/${searchQuery}`);
+                        navigate(`/search-results/${activeTab.toLocaleLowerCase()}/${searchQuery}`);
                     }
                 }}
             />

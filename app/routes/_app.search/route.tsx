@@ -6,6 +6,7 @@ import { playlistSearchData, searchData } from '~/searchData';
 import useSearchStore from '~/store/useSearchStore';
 import { useNavigate } from '@remix-run/react';
 import { useCurrentUser } from '~/hooks/auth';
+import { useActiveTabStore } from '~/store/useActiveTabStore';
 
 interface Song {
   title: string;
@@ -22,7 +23,7 @@ const BrowsePage = () => {
 
   console.log("user", data);
 
-  const [activeTab, setActiveTab] = useState("Tracks")
+  const {activeTab, setActiveTab} = useActiveTabStore()
   useEffect(() => {
     if (searchQuery.trim()) {
       if (activeTab == "Tracks") {

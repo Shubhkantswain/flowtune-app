@@ -1,10 +1,12 @@
 import { useNavigate } from '@remix-run/react';
 import React from 'react';
+import { useActiveTabStore } from '~/store/useActiveTabStore';
 import useSearchStore from '~/store/useSearchStore';
 
 function SearchBar() {
     const { searchQuery, setSearchQuery, setPage } = useSearchStore();
     const navigate = useNavigate()
+    const { activeTab, setActiveTab } = useActiveTabStore()
 
     return (
         <div className="block md:hidden mt-2 mb-10">
@@ -17,12 +19,12 @@ function SearchBar() {
                     className="w-full p-2 pr-10 text-black rounded-lg bg-[#FFFFFF] placeholder-[#757575] focus:outline-none focus:ring-2 focus:ring-[#fa586a]"
                     onKeyDown={(e) => {
                         if (e.key === "Enter" && searchQuery.trim()) {
-                            navigate(`/search-results/${searchQuery}`);
+                            navigate(`/search-results/${activeTab}/${searchQuery}`);
                         }
                     }}
                 />
                 <button
-                    onClick={() => navigate(`/search-results/${searchQuery}`)}
+                    onClick={() => navigate(`/search-results/${activeTab}/${searchQuery}`)}
                 >
                     <svg
                         className="absolute right-3 top-2.5 h-5 w-5 text-black"
