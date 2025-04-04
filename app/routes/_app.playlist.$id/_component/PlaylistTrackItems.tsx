@@ -78,7 +78,7 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                                         <img
                                             src={track?.coverImageUrl || ""}
                                             alt={track?.title}
-                                            className="w-12 h-12 sm:w-14 sm:h-14 md:w-14 md:h-14 rounded"
+                                            className="w-12 h-12 sm:w-14 sm:h-14 md:w-14 md:h-14 rounded object-cover"
                                         />
                                         <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-200 rounded flex items-center justify-center">
                                             <button className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200">

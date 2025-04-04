@@ -109,7 +109,7 @@ function SearchResultsRoute() {
                     <div
                         key={playlist.id}
                         className="flex items-center hover:bg-[#282828] p-3 cursor-pointer"
-                        onClick={() => navigate(`/playlists/${playlist.id}`)}
+                        onClick={() => navigate(`/playlist/${playlist.id}`)}
                     >
                         <div className="flex-grow flex items-center space-x-4">
                             <img

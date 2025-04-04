@@ -5,6 +5,7 @@ import CreateTrackDialog from './CreateTrackDialog'
 import { useCurrentUser } from '~/hooks/auth';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAuthStore } from '~/store/useAuthStore';
+import CreatePlaylistDialog from '~/components/CreatePlaylistDialog';
 
 function ProfileDropDownMenu({
     isDropdownOpen,
@@ -16,6 +17,7 @@ function ProfileDropDownMenu({
     triggerRef: React.RefObject<HTMLElement>;
 }) {
     const [songDialogOpen, setSongDialogOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false)
     const dropdownRef = useRef<HTMLDivElement>(null)
 
     const { authenticated, setAuthenticated } = useAuthStore()
@@ -132,7 +134,7 @@ function ProfileDropDownMenu({
                                                 return
                                             }
 
-                                            setSongDialogOpen(true)
+                                            setIsOpen(true)
                                         }}
                                     >
                                         Create Playlist
@@ -207,6 +209,7 @@ function ProfileDropDownMenu({
                 </div>
 
                 <CreateTrackDialog songDialogOpen={songDialogOpen} setSongDialogOpen={setSongDialogOpen} />
+                <CreatePlaylistDialog songDialogOpen={isOpen} setSongDialogOpen={setIsOpen} trackId=''/>
             </div>
 
         </>
