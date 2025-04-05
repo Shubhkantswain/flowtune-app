@@ -19,10 +19,14 @@ export const searchData = {
     d: [
         { title: `Dooriyan From("Love Aaj Kal")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743316408/rganlr7a2uiadnbu0stg.jpg" },
         { title: `Dooriyan ("Lofi")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743316715/jaxleiumd9x42lnhcfkf.jpg" },
-        { title: `Dil Meri Na Sune From("Genius")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743332707/qwisxjymxytgojiw8pda.jpg" }
+        { title: `Dil Meri Na Sune From("Genius")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743332707/qwisxjymxytgojiw8pda.jpg" },
+        { title: `Daru Badnaam`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743828120/wospihfb6qpskasov8yo.jpg" },
+        { title: `Dil Nu`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743828672/cveiynrhvvx4ezavwnxo.jpg" }
 
     ],
-    e: [],
+    e: [
+        { title: `Excuses`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743828367/qi8aw3vsbzc3iakp6ldd.jpg" }
+    ],
     f: [],
     g: [],
     h: [
@@ -51,18 +55,28 @@ export const searchData = {
     m: [
         { title: `Main Rang Sharbaton Ka From("PPNH")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743303218/o4zilmzhjl3zavi4lfu7.jpg" },
         { title: `Mann Mera From("Table No 21")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743312156/kvlwslge81gqoc6eyges.jpg" },
-        { title: `Mann Mera ("Lofi")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743819617/jep8habgnje4ucd2llj8.jpg" }
-    ],
-    n: [
-        { title: `Nadaan Parindey From("Rockstar")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304307/rdytkigkz1jivqvhiivs.jpg" }
+        { title: `Mann Mera ("Lofi")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743819617/jep8habgnje4ucd2llj8.jpg" },
+        { title: `Mi Amor`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743826104/px5lcvvpbvxgsjcgia0o.jpg" }
 
     ],
-    o: [],
+    n: [
+        { title: `Nadaan Parindey From("Rockstar")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304307/rdytkigkz1jivqvhiivs.jpg" },
+        { title: `No Love`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743826833/yhy1jr4soov0nyfuaiii.jpg" },
+        { title: `Obsessed`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743827359/idccbglhn3bkdlonpw3d.jpg" }
+
+
+
+    ],
+    o: [
+        { title: `One Love`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743822148/pdjbpcsvvnu1gwh4w73f.jpg" }
+    ],
     p: [
         { title: `Phir Mohabbat From("Murder 2")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743302972/iz2qcuobthd8nssdctmj.jpg" },
         { title: `Phir Se Udd Chala From("Rockstar")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304307/rdytkigkz1jivqvhiivs.jpg" },
         { title: `Piya O Re Piya From("Tere Naal Love Ho Gaya")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743315686/umcw4sxr0gz5iogj5roy.jpg" },
-        { title: `Pehli Dafa `, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743356641/iwmhg8ewmtwzk5ixza3p.jpg" }
+        { title: `Pehli Dafa`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743356641/iwmhg8ewmtwzk5ixza3p.jpg" },
+        { title: `Pasoori`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743826256/oq2wk1ooesnqp8z2gpiu.jpg" }
+
 
     ],
     q: [],
@@ -75,6 +89,7 @@ export const searchData = {
         { title: `Sun Saathiya From("ABCD 2")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743332395/sy4vpmkdn7upogjfweyi.jpg" },
         { title: `Sanam Teri Kasam From("Sanam Teri Kasam")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743683693/abekxqjir0ezwjjnqdax.png" },
         { title: `Sanam Re From("Sanam Re")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743684198/bndynymdl0xmifzab9sg.jpg" },
+        { title: `Satisfya`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743829060/x9deywhh1oqrnbkkpehe.jpg" },
 
 
 
