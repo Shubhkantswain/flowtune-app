@@ -7,6 +7,7 @@ import useSearchStore from '~/store/useSearchStore';
 import { useNavigate } from '@remix-run/react';
 import { useCurrentUser } from '~/hooks/auth';
 import { useActiveTabStore } from '~/store/useActiveTabStore';
+import { useSearchHistoryStore } from '~/store/useSearchHistoryStore';
 
 interface Song {
   title: string;
@@ -18,12 +19,13 @@ type searchKey = keyof typeof searchData;
 const BrowsePage = () => {
   const { searchQuery, setSearchQuery, setPage, setSearchResults } = useSearchStore();
   const [suggestionResults, setSuggestionResults] = useState<Song[]>([]);
+  const { history, setHistory } = useSearchHistoryStore()
 
   const { data } = useCurrentUser()
 
   console.log("user", data);
 
-  const {activeTab, setActiveTab} = useActiveTabStore()
+  const { activeTab, setActiveTab } = useActiveTabStore()
   useEffect(() => {
     if (searchQuery.trim()) {
       if (activeTab == "Tracks") {
@@ -39,7 +41,7 @@ const BrowsePage = () => {
         setSuggestionResults(results);
       }
 
-      if(activeTab == "Playlists"){
+      if (activeTab == "Playlists") {
         const firstLetter = searchQuery[0].toLowerCase(); // Extract first letter
         const filteredSongs: Song[] = playlistSearchData[firstLetter as searchKey] || []; // Get songs for that letter
 
@@ -93,8 +95,15 @@ const BrowsePage = () => {
                     <div key={index} className="flex items-center mb-4 gap-3 cursor-pointer p-2 hover:bg-[#222222]"
                       onClick={() => {
                         setPage(1)
-                        // setSearchResults([])
-                        navigate(`/search-results/${activeTab.toLowerCase()}/${song.title}`)
+                        if (searchQuery.trim()) {
+                          // Add to search history if not already there
+                          if (!history.some(item => item === searchQuery)) {
+                            const data = [song.title, ...history.slice(0, 9)]
+                            setHistory(data);
+                            localStorage.setItem("searchHistory", JSON.stringify(data))
+                          }
+                          navigate(`/search-results/${activeTab.toLowerCase()}/${song.title}`)
+                        }
 
                       }}
                     >

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from '@remix-run/react';
 import useSearchStore from '~/store/useSearchStore';
 import { useActiveTabStore } from '~/store/useActiveTabStore';
+import { useSearchHistoryStore } from '~/store/useSearchHistoryStore';
 
 interface SearchHistoryItem {
     query: string;
@@ -14,15 +15,11 @@ function DesktopSearch(): JSX.Element {
     const isSearchPage = location.pathname === "/search" || location.pathname.includes("/search-results");
     const [isHovered, setIsHovered] = useState<boolean>(false);
     const [showHistory, setShowHistory] = useState<boolean>(false);
-    const [searchHistory, setSearchHistory] = useState<SearchHistoryItem[]>([
-        { query: "previous search 1", timestamp: Date.now() - 86400000 },
-        { query: "cats video", timestamp: Date.now() - 172800000 },
-        { query: "react hooks tutorial", timestamp: Date.now() - 259200000 },
-        { query: "funny videos", timestamp: Date.now() - 345600000 },
-        { query: "javascript tips", timestamp: Date.now() - 432000000 }
-    ]);
+
     const inputRef = useRef<HTMLInputElement>(null);
     const historyRef = useRef<HTMLDivElement>(null);
+
+    const { history, setHistory } = useSearchHistoryStore()
 
     const handleInputClick = (): void => {
         if (!isSearchPage) {
@@ -34,22 +31,21 @@ function DesktopSearch(): JSX.Element {
     const { activeTab, setActiveTab } = useActiveTabStore();
     const { searchQuery, setSearchQuery, setPage } = useSearchStore();
 
-    const handleHistoryItemClick = (item: SearchHistoryItem): void => {
-        setSearchQuery(item.query);
-        setShowHistory(false);
-        if (inputRef.current) {
-            inputRef.current.focus();
-        }
+    const handleHistoryItemClick = (): void => {
+
     };
 
     const handleSubmitSearch = (): void => {
         if (searchQuery.trim()) {
             // Add to search history if not already there
-            if (!searchHistory.some(item => item.query === searchQuery)) {
-                setSearchHistory([
-                    { query: searchQuery, timestamp: Date.now() },
-                    ...searchHistory.slice(0, 9)
-                ]);
+            if (!history.some(item => item === searchQuery)) {
+                const data = [searchQuery, ...history.slice(0, 9)]
+                setHistory(data);
+                localStorage.setItem("searchHistory", JSON.stringify(data))
+            } else {
+                const data = history.filter((item) => item != searchQuery)
+                setHistory([searchQuery, ...data])
+                localStorage.setItem("searchHistory", JSON.stringify([searchQuery, ...data]))
             }
             setShowHistory(false);
             navigate(`/search-results/${activeTab.toLocaleLowerCase()}/${searchQuery}`);
@@ -74,6 +70,18 @@ function DesktopSearch(): JSX.Element {
         };
     }, []);
 
+    useEffect(() => {
+        try {
+            const storedData = localStorage.getItem("searchHistory");
+            const data = storedData ? JSON.parse(storedData) : [];
+            // Optional: validate that data is an array
+            setHistory(Array.isArray(data) ? data : []);
+        } catch (error) {
+            console.error("Error loading search history:", error);
+            setHistory([]);
+        }
+    }, []);
+ 
     return (
         <div className="relative">
             <div
@@ -186,13 +194,20 @@ function DesktopSearch(): JSX.Element {
                 >
                     <div className="py-2 w-full">
                         <h3 className="px-4 py-1 text-sm font-medium text-gray-400 border-b border-[#2E3030]">Search History</h3>
-                        {searchHistory.length > 0 ? (
+                        {history.length > 0 ? (
                             <ul className="max-h-72 overflow-y-auto">
-                                {searchHistory.map((item, index) => (
+                                {history.map((item, index) => (
                                     <li
                                         key={index}
                                         className="flex items-center px-4 py-2.5 hover:bg-[#1E1E1E] cursor-pointer text-gray-200 group"
-                                        onClick={() => handleHistoryItemClick(item)}
+                                        onClick={() => {
+                                            const currentData = item
+                                            const data = history.filter((item) => item != currentData)
+                                            setHistory([currentData, ...data])
+                                            localStorage.setItem("searchHistory", JSON.stringify([currentData, ...data]))
+                                            navigate(`/search-results/${activeTab.toLowerCase()}/${item}`)
+                                            setShowHistory(false)
+                                        }}
                                     >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -209,11 +224,13 @@ function DesktopSearch(): JSX.Element {
                                             <path d="M12 8v4l3 3" />
                                             <circle cx="12" cy="12" r="10" />
                                         </svg>
-                                        <span className="flex-1 truncate text-sm">{item.query}</span>
+                                        <span className="flex-1 truncate text-sm">{item}</span>
                                         <button
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                setSearchHistory(searchHistory.filter((_, i) => i !== index));
+                                                const data = history.filter((_, i) => i !== index)
+                                                setHistory(data);
+                                                localStorage.setItem("searchHistory", JSON.stringify(data))
                                             }}
                                             className="ml-2 text-gray-500 hover:text-gray-300 flex-shrink-0"
                                             aria-label="Remove from history"
@@ -239,11 +256,14 @@ function DesktopSearch(): JSX.Element {
                         ) : (
                             <p className="px-4 py-3 text-sm text-gray-500">No search history</p>
                         )}
-                        {searchHistory.length > 0 && (
+                        {history.length > 0 && (
                             <div className="border-t border-[#2E3030] mt-1 justify-center items-center">
                                 <button
                                     className="w-full text-center py-2.5 text-sm font-bold text-gray-400 hover:text-white transition-colors duration-150"
-                                    onClick={() => setSearchHistory([])}
+                                    onClick={() => {
+                                        setHistory([])
+                                        localStorage.setItem("searchHistory", JSON.stringify([]))
+                                    }}
                                 >
                                     Clear search history
                                 </button>
