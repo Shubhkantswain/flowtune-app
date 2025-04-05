@@ -6,6 +6,7 @@ import { createGraphqlClient } from "~/clients/api";
 import { ChangeMusicPreferenceMutation } from "~/graphql/mutations/user";
 import { useCurrentUser } from "~/hooks/auth";
 import GeneralError from "../_auth/Components/GeneralError";
+import { useQueryClient } from "@tanstack/react-query";
 
 const musicLanguages = [
   { name: "Hindi", native: "हिन्दी" },
@@ -102,6 +103,7 @@ const MusicPreferencesModal = () => {
 
   const navigate = useNavigate()
   const musicPreferenceData = useActionData<MusicPreferenceData>()
+    const queryClient = useQueryClient()
 
   useEffect(() => {
     // Set language from data if available
@@ -119,6 +121,7 @@ const MusicPreferencesModal = () => {
   useEffect(() => {
     if (musicPreferenceData?.isSuccess) {
       toast.success("Changes applied successfully");
+      queryClient.setQueryData(["currentUser"], {...data, selectedLanguage})
       navigate(-1)
     }
   }, [musicPreferenceData]);

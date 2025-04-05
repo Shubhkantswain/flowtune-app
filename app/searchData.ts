@@ -50,7 +50,8 @@ export const searchData = {
     ],
     m: [
         { title: `Main Rang Sharbaton Ka From("PPNH")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743303218/o4zilmzhjl3zavi4lfu7.jpg" },
-        { title: `Mann Mera From("Table No 21")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743312156/kvlwslge81gqoc6eyges.jpg" }
+        { title: `Mann Mera From("Table No 21")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743312156/kvlwslge81gqoc6eyges.jpg" },
+        { title: `Mann Mera ("Lofi")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743819617/jep8habgnje4ucd2llj8.jpg" }
     ],
     n: [
         { title: `Nadaan Parindey From("Rockstar")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304307/rdytkigkz1jivqvhiivs.jpg" }
@@ -86,12 +87,16 @@ export const searchData = {
         { title: `Tum Hi Ho From("Aashiqui 2")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304930/z18i6oe23psmvi00kxh1.jpg" },
         { title: `Tum Ho ("Lofi")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743314048/qskkizkqbhypwslygeuk.jpg" },
         { title: `Tera Chehra From("Sanam Teri Kasam")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743338460/bcvrnmhnsxhifpga8myb.png" },
+        { title: `Tere Bina Na Guzara E`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743820977/pavyiy6wwio8mkn3yeoq.jpg" },
 
 
     ],
     u: [],
     v: [],
-    w: [],
+    w: [
+        { title: `We Rollin`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743820048/cwevwp2mxojytvwbf2so.jpg" }
+
+    ],
     x: [],
     y: [],
     z: []
