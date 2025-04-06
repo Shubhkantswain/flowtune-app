@@ -68,10 +68,6 @@ const Playbackcontroller = () => {
         }
     }, [trackDetails]);
 
-    if(typeof window != "undefined")
-    console.log("localstorage", localStorage.getItem("recentTracks"));
-    
-
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio || !trackDetails.audioFileUrl) return;
