@@ -114,7 +114,7 @@ const UserPage = () => {
             <div className="relative z-10">
                 <div className="p-4 sm:p-6 md:p-8">
                     <UserProfileInfo user={user.data} />
-
+                    
                     <UserTracks tracks={user.tracks} page={page} allTracks={tracks} />
                 </div>
                 <LoadMore handleLoadMore={handleLoadMore} />

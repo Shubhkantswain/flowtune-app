@@ -1,8 +1,9 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
+import { SearchInput } from "gql/graphql"
 import { toast } from "sonner"
 import { createGraphqlClient } from "~/clients/api"
 import { followUserMutation } from "~/graphql/mutations/user"
-import { getUserTracksQuery } from "~/graphql/queries/user"
+import { getSearchUserQuery, getUserTracksQuery } from "~/graphql/queries/user"
 
 export const useGetUserTracks = (userId: string, page: number) => {
     return useQuery({
@@ -17,6 +18,23 @@ export const useGetUserTracks = (userId: string, page: number) => {
         }
     })
 }
+
+export const useGetSearchUsers = (input: SearchInput, shouldSearch: boolean) => {
+    const { page, query } = input
+    return useQuery({
+        queryKey: ['searchUsers', query, page, shouldSearch],
+        queryFn: async () => {
+            if (!query || !shouldSearch) return []
+            let token = ""
+            if (typeof window !== "undefined") {
+                token = localStorage.getItem("__FlowTune_Token") || ""
+            }
+            const graphqlClient = createGraphqlClient(token);
+            const { getSearchUser } = await graphqlClient.request(getSearchUserQuery, { input });
+            return getSearchUser || []
+        }
+    })
+} 
 
 export const useFollowUser = () => {
     return useMutation({

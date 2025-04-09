@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from '@remix-run/react'
 import { GetUserProfileResponse, Track } from 'gql/graphql'
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useCurrentUser } from '~/hooks/auth'
 import { useFollowUser } from '~/hooks/user'
 
@@ -10,13 +10,31 @@ interface UserProfileInfo {
 
 function UserProfileInfo({ user }: UserProfileInfo) {
     const navigate = useNavigate()
-    const {userId} = useParams()
+    const { userId } = useParams()
 
     const { data: currentUser, isLoading } = useCurrentUser()
     const { mutateAsync: followUser } = useFollowUser()
-    
+
     const [follow, setFollow] = useState<boolean>(user?.followedByMe || false)
-    
+    const [showDropdown, setShowDropdown] = useState<boolean>(false)
+
+    const dropdownRef = useRef<HTMLDivElement>(null)
+
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setShowDropdown(false)
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [])
+
+
     return (
         <div className="py-8 md:py-12 flex flex-col md:flex-row items-center md:items-start gap-8">
             <img
@@ -86,17 +104,71 @@ function UserProfileInfo({ user }: UserProfileInfo) {
                         }
                     </button>
 
-                    <button className="p-2 hover:bg-white/10 rounded-full transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                            <path
-                                fill="currentColor"
-                                d="M19,14 C17.895,14 17,13.105 17,12 C17,10.895 17.895,10 19,10 C20.105,10 21,10.895 21,12 C21,13.105 20.105,14 19,14 Z M14,12 C14,10.895 13.105,10 12,10 C10.895,10 10,10.895 10,12 C10,13.105 10.895,14 12,14 C13.105,14 14,13.105 14,12 Z M7,12 C7,10.895 6.105,10 5,10 C3.895,10 3,10.895 3,12 C3,13.105 3.895,14 5,14 C6.105,14 7,13.105 7,12 Z"
-                            />
-                        </svg>
-                    </button>
+                    <div className="relative" ref={dropdownRef}>
+                        <button
+                            className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                            onClick={() => setShowDropdown(!showDropdown)}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                <path
+                                    fill="currentColor"
+                                    d="M19,14 C17.895,14 17,13.105 17,12 C17,10.895 17.895,10 19,10 C20.105,10 21,10.895 21,12 C21,13.105 20.105,14 19,14 Z M14,12 C14,10.895 13.105,10 12,10 C10.895,10 10,10.895 10,12 C10,13.105 10.895,14 12,14 C13.105,14 14,13.105 14,12 Z M7,12 C7,10.895 6.105,10 5,10 C3.895,10 3,10.895 3,12 C3,13.105 3.895,14 5,14 C6.105,14 7,13.105 7,12 Z"
+                                />
+                            </svg>
+                        </button>
+
+                        {/* Dropdown Menu */}
+                        {showDropdown && (
+                            <div className="absolute z-10 -translate-x-1/2 left-1/2 bottom-full mb-2 w-48 rounded-md bg-gradient-to-b from-neutral-950 to-neutral-900 border border-[#2E3030] shadow-lg overflow-hidden">
+                                {[
+                                    isLoading
+                                        ? "Loading..."
+                                        : currentUser?.id === userId
+                                            ? "Edit Profile"
+                                            : follow
+                                                ? "Unfollow"
+                                                : "Follow",
+                                    "Rate this page",
+                                    "Share",
+                                ].map((item, index) => (
+                                    <button
+                                        key={index}
+                                        className="flex items-center w-full px-4 py-3 text-sm text-white hover:bg-[#1E1E1E] border-b border-[#2E3030] last:border-b-0"
+                                        onClick={async () => {
+                                            if (item === "Share") {
+                                                const shareUrl = window.location.href;
+
+                                                if (navigator.share) {
+                                                    try {
+                                                        await navigator.share({
+                                                            title: document.title,
+                                                            url: shareUrl,
+                                                        });
+                                                    } catch (error) {
+                                                        console.error("Error sharing:", error);
+                                                    }
+                                                } else {
+                                                    try {
+                                                        await navigator.clipboard.writeText(shareUrl);
+                                                        alert("Link copied to clipboard!");
+                                                    } catch (error) {
+                                                        console.error("Failed to copy link:", error);
+                                                    }
+                                                }
+                                            }
+
+                                            // Add logic for other actions if needed (e.g., follow/unfollow, edit)
+                                        }}
+                                    >
+                                        {item}
+                                    </button>
+                                ))}
+
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
-
         </div>
     )
 }

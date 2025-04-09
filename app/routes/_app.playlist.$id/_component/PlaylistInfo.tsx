@@ -10,7 +10,7 @@ interface PlaylistInfoProps {
 }
 
 function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
-    const dropdownRef = useRef(null);
+    const dropdownRef = useRef<HTMLDivElement>(null)
 
     const [showDropdown, setShowDropdown] = useState(false);
 
@@ -24,17 +24,17 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
 
     // Close dropdown when clicking outside
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setShowDropdown(false);
+        function handleClickOutside(event: MouseEvent) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setShowDropdown(false)
             }
-        };
+        }
 
-        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('mousedown', handleClickOutside)
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [])
 
     return (
         <div className="py-8 md:py-12 flex flex-col md:flex-row items-center md:items-start gap-8">

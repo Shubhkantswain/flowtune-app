@@ -13,6 +13,17 @@ export const getUserProfileQuery = graphql(`#graphql
       }
     }
         `)
+
+
+export const getSearchUserQuery = graphql(`#graphql
+  query GetSearchUser($input: SearchInput!) {
+  getSearchUser(input: $input) {
+    id
+    username
+    profileImageURL
+  }
+}
+`);
     
 export const getUserTracksQuery = graphql(`#graphql
     query GetUserTracks($payload: GetUserTracksPayload!) {
