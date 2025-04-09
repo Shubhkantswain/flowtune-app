@@ -11,12 +11,10 @@ interface PlaylistInfoProps {
 
 function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
     const dropdownRef = useRef<HTMLDivElement>(null)
-
-    const [showDropdown, setShowDropdown] = useState(false);
-
     const navigate = useNavigate()
     const { mutateAsync: deletePlaylist } = useDeletePlaylist()
-
+    
+    const [showDropdown, setShowDropdown] = useState(false);
 
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
