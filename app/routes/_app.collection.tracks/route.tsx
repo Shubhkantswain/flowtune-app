@@ -273,12 +273,12 @@ const LikedTracks = () => {
                       </div>
                     </div>
 
-                    {/* Track info with responsive text */}
-                    <div className="flex flex-col min-w-0">
-                      <span className={`${track.title === "Dooriyan" ? "text-green-500" : "text-white"} font-medium text-sm sm:text-base truncate max-w-[150px] sm:max-w-xs md:max-w-md`}>
+                    {/* Track info with consistent text size */}
+                    <div className="flex flex-col min-w-0 w-full">
+                      <span className={`${track?.id === trackDetails.id && trackDetails.isPlaying && initialized ? "text-[#fa586a]" : "text-white"} font-medium text-base truncate w-full`}>
                         {track.title}
                       </span>
-                      <span className="text-gray-400 text-xs sm:text-sm truncate max-w-[150px] sm:max-w-xs md:max-w-md">
+                      <span className="text-gray-400 text-sm truncate w-full">
                         {track.singer}
                       </span>
                     </div>
@@ -300,7 +300,7 @@ const LikedTracks = () => {
               ))}
             </div>
           ) : (
-            // List View - Table-like layout similar to the screenshot
+            // List View - Table-like layout with consistent font sizes
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead className="text-gray-400 border-b border-[#2E3030]">
@@ -351,7 +351,7 @@ const LikedTracks = () => {
                         </div>
                       </td>
                       <td className="px-3 py-4">
-                        <span className={`${track.title === "Dooriyan" ? "text-green-500" : "text-white"} text-sm sm:text-base`}>
+                        <span className={`${track?.id === trackDetails.id && trackDetails.isPlaying && initialized ? "text-[#fa586a]" : "text-white"} text-base font-medium`}>
                           {track.title}
                         </span>
                       </td>
