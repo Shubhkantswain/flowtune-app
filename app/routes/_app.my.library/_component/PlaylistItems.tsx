@@ -1,5 +1,5 @@
 import { useNavigate } from '@remix-run/react';
-import { UserPlaylistsResponseItem } from 'gql/graphql';
+import { Playlist } from 'gql/graphql';
 import { Heart, Link, PlusCircle } from 'lucide-react';
 import React from 'react'
 import { useTrackStore } from '~/store/useTrackStore';
@@ -7,7 +7,7 @@ import { useTrackStore } from '~/store/useTrackStore';
 interface PlaylistItemsProps {
     handleScroll: () => void
     scrollContainerRef: React.RefObject<HTMLDivElement>;
-    playlists: UserPlaylistsResponseItem[]
+    playlists: Playlist[]
     activeTab: string
 }
 

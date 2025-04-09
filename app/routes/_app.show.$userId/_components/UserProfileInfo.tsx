@@ -135,6 +135,14 @@ function UserProfileInfo({ user }: UserProfileInfo) {
                                         key={index}
                                         className="flex items-center w-full px-4 py-3 text-sm text-white hover:bg-[#1E1E1E] border-b border-[#2E3030] last:border-b-0"
                                         onClick={async () => {
+                                            if (item == "Edit Profile") {
+                                                return navigate("/account/edit")
+                                            }
+                                            if (item == "Follow") {
+                                                await followUser(user?.id || "");
+                                                setFollow(!follow);
+                                            }
+
                                             if (item === "Share") {
                                                 const shareUrl = window.location.href;
 

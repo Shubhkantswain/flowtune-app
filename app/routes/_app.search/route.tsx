@@ -60,7 +60,7 @@ const BrowsePage = () => {
   const navigate = useNavigate()
 
   const tabs = [
-    "Tracks", "Playlists", "Users", "Podcasts"
+    "Tracks", "Playlists", "Podcasts"
   ];
 
   return (
@@ -80,51 +80,53 @@ const BrowsePage = () => {
                   key={tab}
                   onClick={() => setActiveTab(tab)}
                   className={`px-4 py-2 rounded-full text-xs font-medium whitespace-nowrap transition-colors duration-200 ${activeTab === tab ? 'bg-white text-black'
-                    : 'bg-neutral-800 text-gray-300 hover:bg-neutral-700'
+                    : 'bg-neutral-800 hover:bg-neutral-700 text-gray-300'
                     }`}
                 >
                   {tab}
                 </button>
               ))}
             </div>
-            <div className="mt-4">
-              <h2 className="text-xl font-bold mb-4">Suggestions</h2>
-              {suggestionResults.length > 0 ? (
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-10">
-                  {suggestionResults.map((song, index) => (
-                    <div key={index} className="flex items-center mb-4 gap-3 cursor-pointer p-2 hover:bg-[#222222]"
-                      onClick={() => {
-                        setPage(1)
-                        if (searchQuery.trim()) {
-                          // Add to search history if not already there
-                          if (!history.some(item => item === searchQuery)) {
-                            const data = [song.title, ...history.slice(0, 9)]
-                            setHistory(data);
-                            localStorage.setItem("searchHistory", JSON.stringify(data))
-                          }
-                          navigate(`/search-results/${activeTab.toLowerCase()}/${song.title}`)
-                        }
+            <div className="mt-8">
+              <h2 className="text-2xl font-semibold mb-6 text-white">Suggestions</h2>
 
+              {suggestionResults.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                  {suggestionResults.map((song, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center gap-4 p-3 rounded-lg bg-[#1A1A1A] hover:bg-[#2A2A2A] transition duration-200 cursor-pointer shadow-sm"
+                      onClick={() => {
+                        setPage(1);
+                        if (searchQuery.trim()) {
+                          if (!history.includes(searchQuery)) {
+                            const data = [song.title, ...history.slice(0, 9)];
+                            setHistory(data);
+                            localStorage.setItem("searchHistory", JSON.stringify(data));
+                          }
+                          navigate(`/search-results/${activeTab.toLowerCase()}/${song.title}`);
+                        }
                       }}
                     >
                       <img
                         src={song.coverImageUrl}
                         alt={song.title}
-                        className="w-12 h-12 rounded-md object-cover"
+                        className="w-14 h-14 rounded-lg object-cover shadow-md"
                       />
-                      <div className="py-2 px-0 rounded">
-                        <p className="font-bold text-[#fa586a]">Song</p>
-                        <h2 className='hover:text-[#fa586a]'>
+                      <div>
+                        <p className="text-xs uppercase text-[#fa586a] font-semibold mb-1">Song</p>
+                        <h3 className="text-white text-sm font-medium leading-tight hover:text-[#fa586a]">
                           {song.title}
-                        </h2>
+                        </h3>
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="text-gray-400">No results found.</p>
+                <p className="text-gray-400 mt-4 text-sm">No results found.</p>
               )}
             </div>
+
           </>
         )}
 

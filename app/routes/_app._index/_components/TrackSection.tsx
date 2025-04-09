@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ScrollDirection } from '~/types';
 import { Track } from 'gql/graphql';
 import TrackLists from './TrackLists';
@@ -12,6 +12,33 @@ function TrackSection({ tracks, index, title }: {
     const containerRef = useRef<HTMLDivElement>(null);
     const [isAnimating, setIsAnimating] = useState<boolean>(false);
     const [initialized, setInitialized] = useState(false)
+
+    const [canScrollLeft, setCanScrollLeft] = useState(false);
+    const [canScrollRight, setCanScrollRight] = useState(false);
+
+    const updateScrollArrows = () => {
+        if (containerRef.current) {
+            const container = containerRef.current;
+            setCanScrollLeft(container.scrollLeft > 0);
+            setCanScrollRight(container.scrollLeft + container.clientWidth < container.scrollWidth);
+        }
+    };
+
+    useEffect(() => {
+        updateScrollArrows(); // run once on mount
+
+        const container = containerRef.current;
+        if (!container) return;
+
+        container.addEventListener('scroll', updateScrollArrows);
+        window.addEventListener('resize', updateScrollArrows); // optional, in case of responsive design
+
+        return () => {
+            container.removeEventListener('scroll', updateScrollArrows);
+            window.removeEventListener('resize', updateScrollArrows);
+        };
+    }, []);
+
 
     const scroll = (direction: ScrollDirection): void => {
         if (containerRef.current && !isAnimating) {
@@ -50,10 +77,11 @@ function TrackSection({ tracks, index, title }: {
         }
     }
 
+
     return (
         <div className="text-white p-4 sm:p-6 md:p-8">
             {/* Haeder:- which include the title, left and right arrows and see all button //*/}
-            <Header scroll={scroll} tracks={tracks} initialized={initialized} setInitialized={setInitialized} index={index} title={title}/>
+            <Header scroll={scroll} tracks={tracks} initialized={initialized} setInitialized={setInitialized} index={index} title={title} canScrollLeft={canScrollLeft} canScrollRight={canScrollRight} />
 
             <div className="relative">
                 <div
