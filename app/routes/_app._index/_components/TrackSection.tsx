@@ -76,7 +76,7 @@ function TrackSection({ tracks, index, title }: {
             requestAnimationFrame(animateScroll);
         }
     }
-
+    
 
     return (
         <div className="text-white p-4 sm:p-6 md:p-8">

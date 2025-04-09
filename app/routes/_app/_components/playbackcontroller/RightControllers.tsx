@@ -41,8 +41,9 @@ function RightControllers() {
                 )}
 
                 <button
-                    className="w-10 h-10 rounded-full flex items-center justify-center hover:scale-105 transition-transform"
-                    onClick={() => trackDetails.id && togglePlay()}
+                    className={`${trackDetails.id ? "opacity-100 hover:scale-105" : "opacity-50 cursor-not-allowed"} w-10 h-10 rounded-full flex items-center justify-center transition-transform`}
+                    onClick={() => togglePlay()}
+                    disabled={!trackDetails.id}
                 >
                     {
                         isPlaying ? (
@@ -65,7 +66,10 @@ function RightControllers() {
                     )
                 }
 
-                <button className={`w-10 h-10 rounded-full flex items-center justify-center hover:scale-105 transition-transform`} onClick={handleLike} disabled={isPending}>
+                <button className={`${trackDetails.id ? "opacity-100 hover:scale-105" : "opacity-50 cursor-not-allowed"} w-10 h-10 rounded-full flex items-center justify-center transition-transform`}
+                    onClick={handleLike}
+                    disabled={isPending || !trackDetails.id}
+                >
                     {
                         trackDetails.hasLiked ? (
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#fa586a" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-circle-check"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></svg>
@@ -89,7 +93,7 @@ function RightControllers() {
                         )
                     }
 
-                    <button className="p-2 hover:text-white transition-colors" onClick={() => {
+                    <button className={`${trackDetails.id ? "opacity-100" : "opacity-50 cursor-not-allowed"} p-2 hover:text-white transition-colors`} onClick={() => {
                         if (mute) {
                             handleVolumeChange(100)
                             setMute(false)
@@ -97,7 +101,9 @@ function RightControllers() {
                             handleVolumeChange(0)
                             setMute(true)
                         }
-                    }}>
+                    }}
+                        disabled={!trackDetails.id}
+                    >
                         {
                             mute ? (
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">

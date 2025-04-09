@@ -24,6 +24,7 @@ const musicLanguages = [
 
 export interface MusicPreferenceData {
   isSuccess: boolean;
+  cookie: string;
   errors?: {
     general?: string;
   };
@@ -47,6 +48,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return json<MusicPreferenceData>(
       {
         isSuccess: false,
+        cookie: "",
         errors: {
           general: "Please Login/Sign Up First"
         }
@@ -64,7 +66,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
     const authToken = changeMusicPreference
     return json<MusicPreferenceData>({
-      isSuccess: true
+      isSuccess: true,
+      cookie: authToken
     },
       {
         status: 200,
@@ -78,6 +81,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return json<MusicPreferenceData>(
       {
         isSuccess: false,
+        cookie: "",
         errors: {
           general: error?.response?.errors?.[0]?.message || "Something went wrong"
         }
@@ -103,7 +107,7 @@ const MusicPreferencesModal = () => {
 
   const navigate = useNavigate()
   const musicPreferenceData = useActionData<MusicPreferenceData>()
-    const queryClient = useQueryClient()
+  const queryClient = useQueryClient()
 
   useEffect(() => {
     // Set language from data if available
@@ -121,7 +125,8 @@ const MusicPreferencesModal = () => {
   useEffect(() => {
     if (musicPreferenceData?.isSuccess) {
       toast.success("Changes applied successfully");
-      queryClient.setQueryData(["currentUser"], {...data, selectedLanguage})
+      queryClient.setQueryData(["currentUser"], { ...data, language: selectedLanguage });
+      localStorage.setItem("__FlowTune_Token", musicPreferenceData.cookie)
       navigate(-1)
     }
   }, [musicPreferenceData]);

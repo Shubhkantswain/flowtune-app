@@ -68,15 +68,15 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 const UserPage = () => {
     const user = useLoaderData<UserData>(); // Properly typed loader data
     const { userId } = useParams(); // Get the dynamic userId
-    
+
     const { trackDetails } = useTrackStore();
     const { initialize, setCurrentTrack, setActiveSectionIndex } = usePlaylistStore();
-    
+
     const [tracks, setTracks] = useState<Track[]>(user.tracks);
     const [page, setPage] = useState(1);
-    
-    const { data } = useGetUserTracks(userId || "", page);
-    
+
+    const { data, isLoading } = useGetUserTracks(userId || "", page);
+
     useEffect(() => {
         if (data && data.length > 0) {
             const newArray = [...tracks, ...(Array.isArray(data) ? data : [data])];
@@ -85,19 +85,19 @@ const UserPage = () => {
             setCurrentTrack(trackDetails.id);
         }
     }, [data]);
-    
+
     useEffect(() => {
         setActiveSectionIndex(-1); // To prevent the main page
     }, []);
-    
+
     const handleLoadMore = () => {
         setPage((prevPage) => prevPage + 1);
     };
-    
+
     if (!user.userExist) {
         return <UserDoesNotExists />;
     }
-    
+
     return (
         <div className="text-white relative min-h-screen">
             <div
@@ -114,10 +114,11 @@ const UserPage = () => {
             <div className="relative z-10">
                 <div className="p-4 sm:p-6 md:p-8">
                     <UserProfileInfo user={user.data} />
-                    
+
                     <UserTracks tracks={user.tracks} page={page} allTracks={tracks} />
                 </div>
-                <LoadMore handleLoadMore={handleLoadMore} />
+
+                <LoadMore handleLoadMore={handleLoadMore} isLoading={isLoading} />
 
             </div>
         </div>

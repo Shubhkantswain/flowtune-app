@@ -66,7 +66,7 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                     {((tracks.length > 0 || mount) ? tracks : res.tracks)?.map((track, index) => (
                         <tr
                             key={index}
-                            className="hover:bg-[#2a2b2c] group rounded-lg border-b border-[#2a2b2c] mt-4"
+                            className="hover:bg-[#161616] group rounded-lg border-b border-[#2a2b2c] mt-4"
                             onClick={() => handleControll(track)}
                         >
                             <td className="py-7 pl-4">

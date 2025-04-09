@@ -21,7 +21,7 @@ const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists }) => {
         <>
             {playlistsToRender.map((playlist, index) => {
                 return playlist ? (
-                    <div key={playlist.id} className="flex-none w-36 sm:w-40 md:w-44 transition-transform duration-300"
+                    <div key={playlist.id} className="cursor-pointer flex-none w-36 sm:w-40 md:w-44 transition-transform duration-300"
                         onClick={() => {
                             navigate(`/playlist/${playlist.id}`)
                         }}

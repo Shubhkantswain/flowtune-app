@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ScrollDirection } from '~/types';
 import { Playlist, Track } from 'gql/graphql';
 import Header from './Header';
@@ -48,10 +48,36 @@ function PlaylistSection({ playlists, title }: {
         }
     }
 
+    const [canScrollLeft, setCanScrollLeft] = useState(false);
+    const [canScrollRight, setCanScrollRight] = useState(false);
+
+    const updateScrollArrows = () => {
+        if (containerRef.current) {
+            const container = containerRef.current;
+            setCanScrollLeft(container.scrollLeft > 0);
+            setCanScrollRight(container.scrollLeft + container.clientWidth < container.scrollWidth);
+        }
+    };
+
+    useEffect(() => {
+        updateScrollArrows(); // run once on mount
+
+        const container = containerRef.current;
+        if (!container) return;
+
+        container.addEventListener('scroll', updateScrollArrows);
+        window.addEventListener('resize', updateScrollArrows); // optional, in case of responsive design
+
+        return () => {
+            container.removeEventListener('scroll', updateScrollArrows);
+            window.removeEventListener('resize', updateScrollArrows);
+        };
+    }, []);
+
     return (
         <div className="text-white p-4 sm:p-6 md:p-8">
             {/* Haeder:- which include the title, left and right arrows and see all button //*/}
-            <Header scroll={scroll} title={title} playlists={playlists} />
+            <Header scroll={scroll} title={title} playlists={playlists} canScrollLeft={canScrollLeft} canScrollRight={canScrollRight} />
 
             <div className="relative">
                 <div

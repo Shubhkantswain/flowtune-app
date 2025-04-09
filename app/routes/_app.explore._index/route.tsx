@@ -110,7 +110,7 @@ const AppleMusicHomepage: React.FC = () => {
     }
   }, [exploreTracksData.isAuthenticated])
 
-  console.log("exploreTracksData", exploreTracksData);
+  console.log("exploreTracksData", exploreTracks);
 
   return (
     <>
