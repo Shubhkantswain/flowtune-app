@@ -98,8 +98,6 @@ function SearchResultsRoute() {
 
     const displayedPlaylists = searchResults.length ? searchResults : initialTracks;
 
-
-
     const navigate = useNavigate()
 
     return (

@@ -8,6 +8,7 @@ import { useNavigate } from '@remix-run/react';
 import { useCurrentUser } from '~/hooks/auth';
 import { useActiveTabStore } from '~/store/useActiveTabStore';
 import { useSearchHistoryStore } from '~/store/useSearchHistoryStore';
+import Footer from '../_app/components/Footer';
 
 interface Song {
   title: string;
@@ -139,6 +140,7 @@ const BrowsePage = () => {
             <ExploreSearch title="Music By Genre" exploreItems={genre} gapFromTop={true} />
           </>
         )}
+        <Footer/>
       </div>
     </>
 

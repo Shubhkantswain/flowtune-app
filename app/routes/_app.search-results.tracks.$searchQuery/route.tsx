@@ -55,6 +55,8 @@ function SearchResultsRoute() {
 
   const { data, isLoading } = useGetSearchTracks({ page, query: searchQuery }, true);
 
+  console.log("searchtracks", data);
+  
   // Set search query from URL param on mount or when it changes
   useEffect(() => {
     setSearchQuery(params.searchQuery || "");

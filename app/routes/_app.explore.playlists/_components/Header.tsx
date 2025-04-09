@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import { ScrollDirection } from '~/types'
-import { Track } from 'gql/graphql'
+import { Playlist, Track } from 'gql/graphql'
+import ShowPlaylistDialog from './ShowPlaylistDialog'
 
 interface HeaderProps {
     scroll: (direction: ScrollDirection) => void
     title: string
+    playlists: Playlist[]
 }
 
-const Header: React.FC<HeaderProps> = ({ scroll, title }) => {
+const Header: React.FC<HeaderProps> = ({ scroll, title, playlists }) => {
     const [isOpen, setIsOpen] = useState(false)
 
     return (
@@ -48,10 +50,7 @@ const Header: React.FC<HeaderProps> = ({ scroll, title }) => {
                     </div>
                 </div>
             </header>
-
-            {/* {
-                isOpen && <ShowTrackDialog isOpen={isOpen} onClose={() => setIsOpen(false)} tracks={tracks} initialized={initialized} setInitialized={setInitialized} index={index} />
-            } */}
+            {isOpen && <ShowPlaylistDialog isOpen={isOpen} onClose={() => setIsOpen(false)} playlists={playlists} />}
         </>
     )
 }

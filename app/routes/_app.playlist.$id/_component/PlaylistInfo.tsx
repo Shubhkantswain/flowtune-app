@@ -84,13 +84,24 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
                                                 await deletePlaylist(res.id)
                                                 navigate(-1)
                                             } else {
-                                                const playlistUrl = `${window.location.origin}/playlist/${res.id}`;
+                                                const shareUrl = window.location.href;
 
-                                                try {
-                                                    await navigator.clipboard.writeText(playlistUrl);
-                                                    toast.success("Link copied to clipboard")
-                                                } catch (error) {
-                                                    console.error("Failed to copy URL:", error);
+                                                if (navigator.share) {
+                                                    try {
+                                                        await navigator.share({
+                                                            title: document.title,
+                                                            url: shareUrl,
+                                                        });
+                                                    } catch (error) {
+                                                        console.error("Error sharing:", error);
+                                                    }
+                                                } else {
+                                                    try {
+                                                        await navigator.clipboard.writeText(shareUrl);
+                                                        alert("Link copied to clipboard!");
+                                                    } catch (error) {
+                                                        console.error("Failed to copy link:", error);
+                                                    }
                                                 }
                                             }
                                         }}

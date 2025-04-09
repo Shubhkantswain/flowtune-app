@@ -1,6 +1,7 @@
 import { Outlet, useLocation, useNavigate } from "@remix-run/react";
 import SearchBar from "../_app.search/_components/SearchBar";
 import useSearchStore from "~/store/useSearchStore";
+import Footer from "../_app/components/Footer";
 
 
 
@@ -14,7 +15,7 @@ export default function AppLayout() {
         { label: "Users", pathname: "/search-results/users" },
         { label: "Podcasts", pathname: "/search-results/podcasts" }
     ];
-    
+
     return (
         <>
             <div className="block md:hidden p-4 sm:p-6 md:p-8 -mb-10">
@@ -37,6 +38,7 @@ export default function AppLayout() {
                 ))}
             </div>
             <Outlet />
+            {/* <Footer /> */}
         </>
     );
 }

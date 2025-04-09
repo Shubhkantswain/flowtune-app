@@ -51,7 +51,7 @@ function PlaylistSection({ playlists, title }: {
     return (
         <div className="text-white p-4 sm:p-6 md:p-8">
             {/* Haeder:- which include the title, left and right arrows and see all button //*/}
-            <Header scroll={scroll} title={title} />
+            <Header scroll={scroll} title={title} playlists={playlists} />
 
             <div className="relative">
                 <div
