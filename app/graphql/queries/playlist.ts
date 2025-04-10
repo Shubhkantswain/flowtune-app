@@ -1,5 +1,7 @@
 import { graphql } from "gql";
 
+//i hopew
+
 export const getCurrentUserPlaylistsQuery = graphql(`#graphql
   query GetCurrentUserPlaylists {
     getCurrentUserPlaylists {
@@ -36,7 +38,7 @@ export const getSearchPlaylistsQuery = graphql(`#graphql
       Visibility
       totalTracks
       authorId
-    }
+    }  
   }
 `);
 
