@@ -8,10 +8,10 @@ import { useLoaderData } from '@remix-run/react';
 import usePlaylistStore from '~/store/usePlaylistStore';
 import { useTrackStore } from '~/store/useTrackStore';
 import { formatDuration } from '~/utils';
-import CollectionInfo from './_components/collectionInfo';
 import NoTracks from './_components/NoTracks';
 import CompactScreenTracks from './_components/CompactScreenTracks';
 import ListScreenTracks from './_components/ListScreenTracks';
+import TrackCollectionInfo from './_components/TrackCollectionInfo';
 
 export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> {
   try {
@@ -111,7 +111,7 @@ const LikedTracks = () => {
     <div className="min-h-screen">
       <div className="p-4 sm:p-6 md:p-8">
         {/* Header Section */}
-        <CollectionInfo showDropdown={showDropdown} screenType={screenType} handlePlayTrack={handlePlayTrack} toggleScreenType={toggleScreenType} toggleDropdown={toggleDropdown} dropdownRef={dropdownRef} initialTrack={tracks[0]} />
+        <TrackCollectionInfo showDropdown={showDropdown} screenType={screenType} handlePlayTrack={handlePlayTrack} toggleScreenType={toggleScreenType} toggleDropdown={toggleDropdown} dropdownRef={dropdownRef} initialTrack={tracks[0]} />
 
         {/* Tracks Table - Responsive to screenType */}
         <div className="relative">

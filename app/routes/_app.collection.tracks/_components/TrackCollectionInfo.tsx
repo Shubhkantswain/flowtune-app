@@ -1,7 +1,7 @@
 import { Track } from 'gql/graphql'
 import React from 'react'
 
-interface CollectionInfoProps {
+interface TrackCollectionInfoProps {
     showDropdown: boolean;
     screenType: string;
     handlePlayTrack: (track: Track) => void;
@@ -11,7 +11,7 @@ interface CollectionInfoProps {
     initialTrack: Track
 }
 
-const CollectionInfo: React.FC<CollectionInfoProps> = ({
+const TrackCollectionInfo: React.FC<TrackCollectionInfoProps> = ({
     showDropdown,
     screenType,
     handlePlayTrack,
@@ -124,4 +124,4 @@ const CollectionInfo: React.FC<CollectionInfoProps> = ({
     )
 }
 
-export default CollectionInfo
+export default TrackCollectionInfo
