@@ -9,85 +9,63 @@ function TrackSection({ tracks, index, title }: {
     index: number
     title: string
 }) {
-    const containerRef = useRef<HTMLDivElement>(null);
     const [isAnimating, setIsAnimating] = useState<boolean>(false);
     const [initialized, setInitialized] = useState(false)
 
-    const [canScrollLeft, setCanScrollLeft] = useState(false);
-    const [canScrollRight, setCanScrollRight] = useState(false);
-
-    const updateScrollArrows = () => {
-        if (containerRef.current) {
-            const container = containerRef.current;
-            setCanScrollLeft(container.scrollLeft > 0);
-            setCanScrollRight(container.scrollLeft + container.clientWidth < container.scrollWidth);
-        }
+    const scrollContainerRef = useRef(null);
+    const [canScroll, setCanScroll] = useState({ left: false, right: false });
+  
+    const checkScrollability = (): void => {
+      if (scrollContainerRef.current) {
+        const container = scrollContainerRef.current as HTMLDivElement;
+        const hasHorizontalScroll: boolean = container.scrollWidth > container.clientWidth;
+        const atStart: boolean = container.scrollLeft <= 0;
+        const atEnd: boolean = container.scrollLeft + container.clientWidth >= container.scrollWidth - 5;
+  
+        setCanScroll({
+          left: hasHorizontalScroll && !atStart,
+          right: hasHorizontalScroll && !atEnd,
+        });
+      }
+    };
+  
+  
+    const scroll = (direction: 'left' | 'right'): void => {
+      if (scrollContainerRef.current) {
+        const container = scrollContainerRef.current as HTMLDivElement;
+        const scrollAmount = direction === 'left' ? -300 : 300;
+        container.scrollBy({
+          left: scrollAmount,
+          behavior: 'smooth',
+        });
+  
+        // Update scroll buttons after scrolling
+        setTimeout(checkScrollability, 300);
+      }
+    };
+  
+    const handleScroll = () => {
+      checkScrollability();
     };
 
-    useEffect(() => {
-        updateScrollArrows(); // run once on mount
-
-        const container = containerRef.current;
-        if (!container) return;
-
-        container.addEventListener('scroll', updateScrollArrows);
-        window.addEventListener('resize', updateScrollArrows); // optional, in case of responsive design
-
-        return () => {
-            container.removeEventListener('scroll', updateScrollArrows);
-            window.removeEventListener('resize', updateScrollArrows);
-        };
-    }, []);
-
-
-    const scroll = (direction: ScrollDirection): void => {
-        if (containerRef.current && !isAnimating) {
-            setIsAnimating(true);
-            const scrollAmount = 400;
-            const container = containerRef.current;
-            const currentScroll = container.scrollLeft;
-            const targetScroll = direction === 'left'
-                ? Math.max(0, currentScroll - scrollAmount)
-                : Math.min(container.scrollWidth - container.clientWidth, currentScroll + scrollAmount);
-
-            const startTime = performance.now();
-            const duration = 500; // Animation duration in ms
-
-            const easeInOutCubic = (t: number): number =>
-                t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-
-            const animateScroll = (currentTime: number): void => {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-
-                const easedProgress = easeInOutCubic(progress);
-
-                if (container) {
-                    container.scrollLeft = currentScroll + (targetScroll - currentScroll) * easedProgress;
-                }
-
-                if (progress < 1) {
-                    requestAnimationFrame(animateScroll);
-                } else {
-                    setIsAnimating(false);
-                }
-            };
-
-            requestAnimationFrame(animateScroll);
-        }
-    }
+   useEffect(() => {
+     checkScrollability();
+     window.addEventListener('resize', checkScrollability);
+     return () => window.removeEventListener('resize', checkScrollability);
+   }, []);
     
 
     return (
         <div className="text-white p-4 sm:p-6 md:p-8">
             {/* Haeder:- which include the title, left and right arrows and see all button //*/}
-            <Header scroll={scroll} tracks={tracks} initialized={initialized} setInitialized={setInitialized} index={index} title={title} canScrollLeft={canScrollLeft} canScrollRight={canScrollRight} />
+            <Header scroll={scroll} tracks={tracks} initialized={initialized} setInitialized={setInitialized} index={index} title={title} canScrollLeft={canScroll.left} canScrollRight={canScroll.right} />
 
             <div className="relative">
                 <div
-                    ref={containerRef}
+                    ref={scrollContainerRef}
                     className="flex gap-4 sm:gap-5 md:gap-8 overflow-x-auto scrollbar-hide [-webkit-overflow-scrolling:touch] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden font-serif"
                     style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                    onScroll={handleScroll}
                 >
                     <TrackLists tracks={tracks} initialized={initialized} setInitialized={setInitialized} index={index} />
                 </div>

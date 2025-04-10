@@ -173,7 +173,7 @@ const MusicApp = () => {
         <h2 className="text-xl font-bold mb-4">Recently Play</h2>
 
         {isLoading ? (
-          <div className="space-y-4">
+          <div className="space-y-4"> 
 
             {Array.from({ length: 3 }).map((_, index) => (
               <div
