@@ -52,7 +52,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEna
                 setTrackDetails({ hasLiked: !trackDetails.hasLiked })
             }}>
                 {trackDetails.hasLiked ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#fa586a" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-circle-check"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#02fad5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-circle-check"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></svg>
                 ) : (
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-circle-plus"><circle cx="12" cy="12" r="10" /><path d="M8 12h8" /><path d="M12 8v8" /></svg>
                 )}
@@ -83,17 +83,17 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEna
                     <div className="space-y-2">
                         {/* "+ New Playlist" Button */}
                         <div
-                            className="p-2 rounded-md flex items-center justify-center gap-2 bg-[#1a1a1a] cursor-pointer transition-colors hover:bg-[#1c1c1c] border border-transparent hover:border-[#fa586a] hover:shadow-md hover:shadow-[#fa586a]/30 duration-200 ease-in-out"
+                            className="p-2 rounded-md flex items-center justify-center gap-2 bg-[#1a1a1a] cursor-pointer transition-colors hover:bg-[#1c1c1c] border border-transparent hover:border-[#02fad5] hover:shadow-md hover:shadow-[#02fad5]/30 duration-200 ease-in-out"
                             onClick={() => { setShow(true) }}
                         >
-                            <Plus className="text-[#fa586a] text-sm" />
+                            <Plus className="text-[#02fad5] text-sm" />
                             <span className="text-white text-sm">New Playlist</span>
                         </div>
                         {/* Other Playlists */}
                         {playlists?.map((playlist) => (
                             <div
                                 key={playlist.id}
-                                className="p-2 rounded-md hover:bg-[#1c1c1c] bg-[#1a1a1a] cursor-pointer transition-colors flex items-center gap-2 border border-transparent hover:border-[#fa586a] hover:shadow-md hover:shadow-[#fa586a]/30 duration-200 ease-in-out"
+                                className="p-2 rounded-md hover:bg-[#1c1c1c] bg-[#1a1a1a] cursor-pointer transition-colors flex items-center gap-2 border border-transparent hover:border-[#02fad5] hover:shadow-md hover:shadow-[#02fad5]/30 duration-200 ease-in-out"
                                 onClick={() => { addSongToPlaylist({ existingPlaylistId: playlist.id, trackIds: [trackDetails.id], isNewPlaylist: false }) }}
                             >
                                 <h3 className="font-medium text-xs text-white">{playlist.name}</h3>
@@ -143,7 +143,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEna
 
                         setVideoEnabled(!videoEnabled);
                     }}
-                    className="data-[state=checked]:bg-[#fa586a]"
+                    className="data-[state=checked]:bg-[#02fad5]"
                 />
             </button>
 

@@ -51,13 +51,13 @@ function UserProfileInfo({ user }: UserProfileInfo) {
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             fill="none"
-                            stroke="#fa586a"
+                            stroke="#02fad5"
                             strokeWidth="2"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             className="w-6 h-6"
                         >
-                            <circle cx="12" cy="12" r="10" fill="#fa586a" />
+                            <circle cx="12" cy="12" r="10" fill="#02fad5" />
                             <path d="M8 12l2 2 4-4" stroke="white" strokeWidth="2" />
                         </svg>
                     )}

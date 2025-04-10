@@ -190,7 +190,7 @@ function ProfileDropDownMenu({
                                 <>
                                     <Link
                                         to="/ft/signin"
-                                        className="block px-6 py-3 text-sm text-white bg-[#fa586a] rounded-full hover:bg-[#fa586a]/60 transition mx-4 mt-4 text-center"
+                                        className="block px-6 py-3 text-sm text-white bg-[#02fad5] rounded-full hover:bg-[#02fad5]/60 transition mx-4 mt-4 text-center"
                                     >
                                         Sign in
                                     </Link>

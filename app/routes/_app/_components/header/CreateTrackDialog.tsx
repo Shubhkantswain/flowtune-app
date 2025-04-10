@@ -133,7 +133,7 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
                                         alt="Selected artwork"
                                         className="max-h-40 object-contain rounded-md"
                                     />
-                                    <div className="text-sm text-[#fa586a]">Image selected</div>
+                                    <div className="text-sm text-[#02fad5]">Image selected</div>
                                 </div>
                             ) : (
                                 <>
@@ -142,7 +142,7 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
                                     </div>
                                     <div className="text-sm text-zinc-400 mb-2">Upload artwork</div>
                                     <button
-                                        className="px-3 py-2 text-xs text-[#fa586a] border border-zinc-600 rounded-md hover:bg-zinc-800 transition"
+                                        className="px-3 py-2 text-xs text-[#02fad5] border border-zinc-600 rounded-md hover:bg-zinc-800 transition"
                                         type="button"
                                     >
                                         Choose File
@@ -157,7 +157,7 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
                         <label className="text-sm font-medium text-white">Video File</label>
                         <button
                             type="button"
-                            className="w-full px-4 py-2 text-sm text-[#fa586a] border border-zinc-600 rounded-md hover:bg-zinc-800 transition"
+                            className="w-full px-4 py-2 text-sm text-[#02fad5] border border-zinc-600 rounded-md hover:bg-zinc-800 transition"
                             onClick={() => videoInputRef.current?.click()}
                         >
                             Choose Video File
@@ -183,7 +183,7 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
                         <label className="text-sm font-medium text-white">Audio File</label>
                         <button
                             type="button"
-                            className="w-full px-4 py-2 text-sm text-[#fa586a] border border-zinc-600 rounded-md hover:bg-zinc-800 transition"
+                            className="w-full px-4 py-2 text-sm text-[#02fad5] border border-zinc-600 rounded-md hover:bg-zinc-800 transition"
                             onClick={() => audioInputRef.current?.click()}
                         >
                             Choose Audio File
@@ -312,7 +312,7 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 text-sm text-white bg-[#fa586a] rounded-md hover:bg-[#fa586a]/70 transition"
+                            className="px-4 py-2 text-sm text-white bg-[#02fad5] rounded-md hover:bg-[#02fad5]/70 transition"
                             disabled={isPending}
                         >
                             {

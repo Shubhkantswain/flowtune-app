@@ -45,7 +45,7 @@ const Header: React.FC<HeaderProps> = ({ scroll, tracks, initialized, setInitial
                             </button>
                         </div>
                         <button
-                            className="w-full font-bold sm:w-auto py-1 px-3 text-xs sm:text-sm bg-neutral-800 hover:bg-neutral-700 text-white rounded-full transition-transform transform hover:scale-105 duration-300 ease-in-out"
+                            className="w-full font-bold sm:w-auto py-1 px-3 text-xs sm:text-sm bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white rounded-full transition-transform transform hover:scale-105 duration-300 ease-in-out"
                             aria-label="Show all songs"
 
                             onClick={() => setIsOpen(true)}

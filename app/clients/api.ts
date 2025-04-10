@@ -7,7 +7,7 @@ export const createGraphqlClient = (token?: string) => {
         // credentials: "include",
         headers: {
             Authorization: `Bearer ${Token}`
-        },     
+        },
     });
 
 }

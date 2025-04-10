@@ -15,10 +15,10 @@ const AnimatedEqualizer = () => {
     return (
         <div className="flex items-center justify-center w-6 h-10">
             <svg viewBox="0 0 24 24" className="w-full h-full">
-                <rect x="1" y="8" width="4" height="8" fill="#fa586a" className="animate-[equalizer_1s_ease-in-out_infinite]" style={{ animationDelay: '0.1s' }} />
-                <rect x="7" y="5" width="4" height="14" fill="#fa586a" className="animate-[equalizer_1s_ease-in-out_infinite]" style={{ animationDelay: '0.2s' }} />
-                <rect x="13" y="2" width="4" height="20" fill="#fa586a" className="animate-[equalizer_1s_ease-in-out_infinite]" style={{ animationDelay: '0.3s' }} />
-                <rect x="19" y="5" width="4" height="14" fill="#fa586a" className="animate-[equalizer_1s_ease-in-out_infinite]" style={{ animationDelay: '0.4s' }} />
+                <rect x="1" y="8" width="4" height="8" fill="#02fad5" className="animate-[equalizer_1s_ease-in-out_infinite]" style={{ animationDelay: '0.1s' }} />
+                <rect x="7" y="5" width="4" height="14" fill="#02fad5" className="animate-[equalizer_1s_ease-in-out_infinite]" style={{ animationDelay: '0.2s' }} />
+                <rect x="13" y="2" width="4" height="20" fill="#02fad5" className="animate-[equalizer_1s_ease-in-out_infinite]" style={{ animationDelay: '0.3s' }} />
+                <rect x="19" y="5" width="4" height="14" fill="#02fad5" className="animate-[equalizer_1s_ease-in-out_infinite]" style={{ animationDelay: '0.4s' }} />
             </svg>
         </div>
     );
@@ -28,10 +28,10 @@ const AnimatedEqualizerPause = () => {
     return (
         <div className="flex items-center justify-center w-6 h-10">
             <svg viewBox="0 0 24 24" className="w-full h-full">
-                <rect x="1" y="8" width="4" height="8" fill="#fa586a" style={{ animationDelay: '0.1s' }} />
-                <rect x="7" y="5" width="4" height="14" fill="#fa586a" style={{ animationDelay: '0.2s' }} />
-                <rect x="13" y="2" width="4" height="20" fill="#fa586a" style={{ animationDelay: '0.3s' }} />
-                <rect x="19" y="5" width="4" height="14" fill="#fa586a" style={{ animationDelay: '0.4s' }} />
+                <rect x="1" y="8" width="4" height="8" fill="#02fad5" style={{ animationDelay: '0.1s' }} />
+                <rect x="7" y="5" width="4" height="14" fill="#02fad5" style={{ animationDelay: '0.2s' }} />
+                <rect x="13" y="2" width="4" height="20" fill="#02fad5" style={{ animationDelay: '0.3s' }} />
+                <rect x="19" y="5" width="4" height="14" fill="#02fad5" style={{ animationDelay: '0.4s' }} />
             </svg>
         </div>
     );
@@ -71,10 +71,10 @@ const ShowQueueTracks: React.FC<ShowQueueTracksProps> = ({
                 {trackDetails && (
                     <div className="mb-6 md:mb-8 w-full max-w-2xl">
                         <h3 className="text-lg sm:text-xl font-bold text-white mb-3 md:mb-4 flex items-center">
-                            <span className="inline-block w-2 h-2 bg-[#fa586a] rounded-full mr-2"></span>
+                            <span className="inline-block w-2 h-2 bg-[#02fad5] rounded-full mr-2"></span>
                             Now Playing
                         </h3>
-                        <div className="flex items-center gap-2 sm:gap-4 p-3 sm:p-4 rounded-xl bg-gradient-to-r from-zinc-900/90 to-zinc-800/70 backdrop-blur-md border-l-4 border-[#fa586a] transition-all duration-300 hover:shadow-lg hover:shadow-[#fa586a]/30 ">
+                        <div className="flex items-center gap-2 sm:gap-4 p-3 sm:p-4 rounded-xl bg-gradient-to-r from-zinc-900/90 to-zinc-800/70 backdrop-blur-md border-l-4 border-[#02fad5] transition-all duration-300 hover:shadow-lg hover:shadow-[#02fad5]/30 ">
                             <Button
                                 variant="ghost"
                                 size="icon"

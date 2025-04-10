@@ -25,7 +25,7 @@ const ScrollControls: React.FC<ScrollControlsProps> = ({ canScroll, scroll }) =>
                             <>
                                 <button
                                     onClick={() => scroll('left')}
-                                    className={`bg-neutral-800 ${canScroll.left ? "hover:bg-neutral-700": ""} text-white p-2 rounded-full transition-colors duration-200 flex items-center justify-center ${!canScroll.left && 'opacity-50 cursor-not-allowed'}`}
+                                    className={`bg-[#1A1A1A] ${canScroll.left ? "hover:bg-[#2A2A2A]" : ""} text-white p-2 rounded-full transition-colors duration-200 flex items-center justify-center ${!canScroll.left && 'opacity-50 cursor-not-allowed'}`}
                                     aria-label="Scroll left"
                                     disabled={!canScroll.left}
                                 >
@@ -33,7 +33,7 @@ const ScrollControls: React.FC<ScrollControlsProps> = ({ canScroll, scroll }) =>
                                 </button>
                                 <button
                                     onClick={() => scroll('right')}
-                                    className={`bg-neutral-800 ${canScroll.right ? "hover:bg-neutral-700": ""} text-white p-2 rounded-full transition-colors duration-200 flex items-center justify-center ${!canScroll.right && 'opacity-50 cursor-not-allowed'}`}
+                                    className={`bg-[#1A1A1A] ${canScroll.right ? "hover:bg-[#2A2A2A]" : ""} text-white p-2 rounded-full transition-colors duration-200 flex items-center justify-center ${!canScroll.right && 'opacity-50 cursor-not-allowed'}`}
                                     aria-label="Scroll right"
                                     disabled={!canScroll.right}
                                 >
@@ -42,11 +42,19 @@ const ScrollControls: React.FC<ScrollControlsProps> = ({ canScroll, scroll }) =>
                             </>
                         )}
                     </div>
-                    <button className="bg-neutral-800 hover:bg-neutral-700 text-white px-2 py-1 md:px-3 md:py-1.5 rounded-full flex items-center gap-1 transition-colors duration-200 text-xs md:text-sm"
-                        onClick={() => setIsOpen(true)}
-                    >
-                        <Plus size={16} /> NEW PLAYLIST
-                    </button>
+
+                    <div className='relative group'>
+
+                        <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
+                            opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                            Create New Playlist
+                        </div>
+                        <button className="bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white px-2 py-1 md:px-3 md:py-1.5 rounded-full flex items-center gap-1 transition-colors duration-200 text-xs md:text-sm"
+                            onClick={() => setIsOpen(true)}
+                        >
+                            <Plus size={16} /> NEW PLAYLIST
+                        </button>
+                    </div>
 
                 </div>
             </div>

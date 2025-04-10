@@ -42,6 +42,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         return json<MusicPreferenceData>(
             {
                 isSuccess: false,
+                cookie: "",
                 errors: {
                     general: "Please Login/Sign Up First"
                 }
@@ -59,7 +60,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
         const authToken = changeMusicPreference
         return json<MusicPreferenceData>({
-            isSuccess: true
+            isSuccess: true,
+            cookie: "authToken",
         },
             {
                 status: 200,
@@ -73,6 +75,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         return json<MusicPreferenceData>(
             {
                 isSuccess: false,
+                cookie: "",
                 errors: {
                     general: error?.response?.errors?.[0]?.message || "Something went wrong"
                 }
@@ -113,6 +116,7 @@ const SpotifySettings = () => {
             toast.success("Changes applied successfully");
             setInitialLanguage(language)
             queryClient.setQueryData(["currentUser"], { ...data, language })
+            localStorage.setItem("__FlowTune_Token", musicPreferenceData.cookie)
         }
     }, [musicPreferenceData]);
 
@@ -179,7 +183,7 @@ const SpotifySettings = () => {
                                         <div className="flex justify-end">
                                             <button
                                                 type="submit"
-                                                className="bg-[#fa586a] text-white px-4 py-2 rounded-md text-sm hover:bg-[#e04a5a] transition-colors"
+                                                className="bg-[#02fad5] text-white px-4 py-2 rounded-md text-sm hover:bg-[#02fad5] transition-colors"
                                             >
                                                 {isSubmitting ? "Applying..." : "Apply Changes"}
                                             </button>
@@ -197,7 +201,7 @@ const SpotifySettings = () => {
                                 <Switch
                                     checked={compactLibrary}
                                     onCheckedChange={setCompactLibrary}
-                                    className="data-[state=checked]:bg-[#fa586a]"
+                                    className="data-[state=checked]:bg-[#02fad5]"
                                 />
                             </div>
                         </div>
@@ -211,7 +215,7 @@ const SpotifySettings = () => {
                                     <Switch
                                         checked={showNowPlaying}
                                         onCheckedChange={setShowNowPlaying}
-                                        className="data-[state=checked]:bg-[#fa586a]"
+                                        className="data-[state=checked]:bg-[#02fad5]"
                                     />
                                 </div>
 
@@ -220,7 +224,7 @@ const SpotifySettings = () => {
                                     <Switch
                                         checked={showVisuals}
                                         onCheckedChange={setShowVisuals}
-                                        className="data-[state=checked]:bg-[#fa586a]"
+                                        className="data-[state=checked]:bg-[#02fad5]"
                                     />
                                 </div>
                             </div>

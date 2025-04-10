@@ -30,7 +30,7 @@ export default function ExploreLayout() {
             className={`px-4 py-2 rounded-full text-xs font-medium transition-colors ${
               location.pathname === item.path
                 ? "bg-white text-black"
-                : "bg-neutral-800 text-gray-300 hover:bg-neutral-700"
+                : "bg-[#1A1A1A] hover:bg-[#2A2A2A] text-gray-300"
             }`}
             aria-current={location.pathname === item.path ? "page" : undefined}
           >
