@@ -1,9 +1,21 @@
 // Format time helper function
-export const formatTime = (seconds: number) => {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
-};
+export const formatTime = (dateString: string) => {
+  const date = new Date(dateString);
+
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+
+export const formatDuration = (durationString: string) => {
+  const totalSeconds = Math.floor(parseFloat(durationString));
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
 
 // Function to get the greeting message dynamically
 export const getGreeting = (): string => {
@@ -23,3 +35,4 @@ export const getTitle = (index: number): string => {
   const titles = ["Welcome back", getGreeting(), "Discover more"];
   return titles[index % 3] || "More Tracks"; // This will cycle through 0,1,2,0,1,2...
 };
+

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Slider } from '~/components/ui/slider'
 import { useTrackStore } from '~/store/useTrackStore'
-import { formatTime } from '~/utils'
+import { formatDuration, formatTime } from '~/utils'
 
 function ProgressBar({ currentTime, duration }: { currentTime: number, duration: number }) {
     const { handleSeek } = useTrackStore();
@@ -17,8 +17,8 @@ function ProgressBar({ currentTime, duration }: { currentTime: number, duration:
                 nowPlaying={true}
             />
             <div className="flex justify-between mt-2 text-xs text-zinc-400">
-                <span>{formatTime(currentTime)}</span>
-                <span>{formatTime(duration)}</span>
+            <span>{formatDuration(currentTime.toString())}</span>
+            <span>{formatDuration(duration.toString())}</span>
             </div>
         </div>
     )

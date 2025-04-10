@@ -7,6 +7,7 @@ import { getLikedTracksQuery } from '~/graphql/queries/track';
 import { useLoaderData } from '@remix-run/react';
 import usePlaylistStore from '~/store/usePlaylistStore';
 import { useTrackStore } from '~/store/useTrackStore';
+import { formatDuration } from '~/utils';
 
 export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> {
   try {
@@ -68,12 +69,6 @@ const LikedTracks = () => {
   useEffect(() => {
     setActiveSectionIndex(-1);
   }, []);
-
-  const formatDuration = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-  };
 
   const handlePlayTrack = (track: Track) => {
     const isPlayingCurrentSong = track?.id === trackDetails.id && trackDetails.isPlaying;
@@ -139,58 +134,55 @@ const LikedTracks = () => {
 
             <div className="flex gap-4 items-center mt-4">
               <button
-                className="bg-cyan-400 text-black px-6 py-2 rounded-full font-medium flex items-center gap-2 hover:bg-cyan-300 transition-colors"
-                onClick={() => {
-                  if (tracks.length > 0) {
-                    if (trackDetails.id === tracks[0].id) {
-                      if (trackDetails.isPlaying) {
-                        return;
-                      } else {
-                        setTrackDetails({ isPlaying: true });
-                      }
-                    }
-
-                    setTrackDetails({
-                      id: tracks[0].id,
-                      title: tracks[0].title,
-                      singer: tracks[0].singer,
-                      starCast: tracks[0].starCast,
-                      duration: tracks[0].duration,
-                      coverImageUrl: tracks[0].coverImageUrl || "",
-                      videoUrl: tracks[0].videoUrl,
-                      audioFileUrl: tracks[0].audioFileUrl,
-                      hasLiked: tracks[0].hasLiked,
-                      authorId: tracks[0].authorId,
-                      isPlaying: true,
-                    });
-                  }
-                }}
+                // className="bg-cyan-400 text-black px-6 py-2 rounded-full font-medium flex items-center gap-2 hover:bg-cyan-300 transition-colors"
+                className="flex items-center gap-2 bg-[#fa586a] hover:bg-[#fa586a]/70 text-black font-semibold px-8 py-3 rounded-full"
+                onClick={() => handlePlayTrack(tracks[0])}
               >
-                <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                </svg>
                 Play
               </button>
 
               {/* Toggle view button */}
-              <button
-                className="text-white hover:text-cyan-400 transition-colors"
-                onClick={toggleScreenType}
-              >
-                {screenType === "compact" ? (
-                  <List className="w-5 h-5" />
-                ) : (
-                  <Grid className="w-5 h-5" />
-                )}
-              </button>
+              <div className="relative mt-1.5 group">
+                <div className="absolute -top-12 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
+        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                  Currently in {screenType} screen |
+                  Switch to {screenType == "compact" ? "list" : "compact"}
+                </div>
+
+                <button
+                  className="text-white hover:text-[#fa586a] transition-colors"
+                  onClick={toggleScreenType}
+                >
+                  {screenType === "compact" ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-align-justify-icon lucide-align-justify"><path d="M3 12h18" /><path d="M3 18h18" /><path d="M3 6h18" /></svg>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-list-icon lucide-list"><path d="M3 12h.01" /><path d="M3 18h.01" /><path d="M3 6h.01" /><path d="M8 12h13" /><path d="M8 18h13" /><path d="M8 6h13" /></svg>
+                  )}
+                </button>
+              </div>
 
               {/* More options button with dropdown */}
-              <div className="relative" ref={dropdownRef}>
+              <div className="relative group  mt-1.5" ref={dropdownRef}>
+
+                <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
+        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                  More
+                </div>
+
                 <button
-                  className="text-white hover:scale-105 transition-colors"
+                  className="text-white hover:scale-110 transition-colors"
                   onClick={toggleDropdown}
                 >
-                  <MoreHorizontal className="w-6 h-6" />
+                  {/* <MoreHorizontal className="w-6 h-6" /> */}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <defs>
+                      <path id="ic_action_more-a" d="M19,14 C17.895,14 17,13.105 17,12 C17,10.895 17.895,10 19,10 C20.105,10 21,10.895 21,12 C21,13.105 20.105,14 19,14 Z M14,12 C14,10.895 13.105,10 12,10 C10.895,10 10,10.895 10,12 C10,13.105 10.895,14 12,14 C13.105,14 14,13.105 14,12 Z M7,12 C7,10.895 6.105,10 5,10 C3.895,10 3,10.895 3,12 C3,13.105 3.895,14 5,14 C6.105,14 7,13.105 7,12 Z"></path>
+                    </defs>
+                    <g fillRule="evenodd" fill="transparent">
+                      <rect width="24" height="24"></rect>
+                      <use fillRule="nonzero" href="#ic_action_more-a" fill="currentColor"></use>
+                    </g>
+                  </svg>
                 </button>
 
                 {showDropdown && (
@@ -287,13 +279,21 @@ const LikedTracks = () => {
                   {/* Right side actions */}
                   <div className="flex items-center gap-3">
                     {/* Heart button - filled green */}
-                    <button className="text-green-500 flex-shrink-0">
-                      <Heart className="w-5 h-5" fill="currentColor" />
+                    <button className="flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><defs><path id="ic_action_favoriteon-a" d="M16,3 C14.499,3 13.092,3.552 12,4.544 C10.908,3.552 9.501,3 8,3 C4.691,3 2,5.691 2,9 C2,14.535 8.379,18.788 11.445,20.832 C11.613,20.944 11.807,21 12,21 C12.193,21 12.387,20.944 12.555,20.832 C15.62,18.788 22,14.535 22,9 C22,5.691 19.309,3 16,3 Z"></path></defs><g fill-rule="evenodd" fill="transparent"><rect width="24" height="24"></rect><use href="#ic_action_favoriteon-a" fill="#fa586a"></use></g></svg>
                     </button>
 
                     {/* More options */}
-                    <button className="text-gray-400 flex-shrink-0">
-                      <MoreHorizontal className="w-5 h-5" />
+                    <button className="text-gray-400 hover:text-[#ffffff] flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                        <defs>
+                          <path id="ic_action_more-a" d="M19,14 C17.895,14 17,13.105 17,12 C17,10.895 17.895,10 19,10 C20.105,10 21,10.895 21,12 C21,13.105 20.105,14 19,14 Z M14,12 C14,10.895 13.105,10 12,10 C10.895,10 10,10.895 10,12 C10,13.105 10.895,14 12,14 C13.105,14 14,13.105 14,12 Z M7,12 C7,10.895 6.105,10 5,10 C3.895,10 3,10.895 3,12 C3,13.105 3.895,14 5,14 C6.105,14 7,13.105 7,12 Z"></path>
+                        </defs>
+                        <g fillRule="evenodd" fill="transparent">
+                          <rect width="24" height="24"></rect>
+                          <use fillRule="nonzero" href="#ic_action_more-a" fill="currentColor"></use>
+                        </g>
+                      </svg>
                     </button>
                   </div>
                 </div>
@@ -352,18 +352,17 @@ const LikedTracks = () => {
                       </td>
                       <td className="px-3 py-4">
                         <span className={`${track?.id === trackDetails.id && trackDetails.isPlaying && initialized ? "text-[#fa586a]" : "text-white"} text-base font-medium`}>
-                          {track.title}
+                          {track.title.split("From")[0].trim()}
                         </span>
                       </td>
                       <td className="px-3 py-4 text-gray-400 text-sm hidden sm:table-cell">
                         {track.singer}
                       </td>
                       <td className="px-3 py-4 text-gray-400 text-sm hidden lg:table-cell">
-                        {track.album || "Unknown Album"}
+                        {track?.title?.split("From")[1]?.trim().replace(`("`, "").replace(`")`, "") || "Unknown Album"}
                       </td>
                       <td className="px-3 py-4 text-gray-400 text-sm text-right">
-                        {"0:66"}
-                        {/* {formatDuration(track.duration || 0)} */}
+                        {formatDuration(track.duration || "")}
                       </td>
                     </tr>
                   ))}

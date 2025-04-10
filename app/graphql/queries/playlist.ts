@@ -57,6 +57,7 @@ export const getPlaylistTracksQuery = graphql(`#graphql
         audioFileUrl  
         hasLiked
         authorId 
+        createdAt
       }
     }
   }

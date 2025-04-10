@@ -1,7 +1,7 @@
 import React from 'react';
 import { Slider } from '~/components/ui/slider';
 import { useTrackStore } from '~/store/useTrackStore';
-import { formatTime } from '~/utils';
+import { formatDuration, formatTime } from '~/utils';
 
 function ProgressBar({
     progress,
@@ -18,10 +18,10 @@ function ProgressBar({
     return (
         <div className="relative w-full h-0.5 bg-zinc-800/50 group">
             <div className={`${trackDetails.id ? "group-hover:opacity-100" : ""} absolute top-[-20px] left-0 text-white text-xs opacity-0 transition-opacity`}>
-                {formatTime(currentTime)}
+                {formatDuration(currentTime.toString())}
             </div>
             <div className={`${trackDetails.id ? "group-hover:opacity-100" : ""} absolute top-[-20px] right-0 text-white text-xs opacity-0 transition-opacity`}>
-                {formatTime(duration)}
+                {formatDuration(duration.toString())}
             </div>
             <Slider
                 value={[currentTime]}

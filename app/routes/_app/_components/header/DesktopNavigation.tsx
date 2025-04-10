@@ -45,7 +45,7 @@ function DesktopNavigation() {
               <use href="#ic_navigation_home" fill="currentColor" />
             </g>
           </svg>
-          <span className="hidden lg:inline ml-2 font-semibold">Home</span>
+          <span className="hidden lg:inline ml-2 font-semibold">HOME</span>
         </button>
       </Link>
 
@@ -71,7 +71,7 @@ function DesktopNavigation() {
             <path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z" />
             <circle cx="12" cy="12" r="10" />
           </svg>
-          <span className="hidden lg:inline ml-2">Explore</span>
+          <span className="hidden lg:inline ml-2">EXPLORE</span>
         </button>
       </Link>
 
@@ -106,7 +106,7 @@ function DesktopNavigation() {
               <use href="#library_heartfilled" fill="currentColor" />
             </g>
           </svg>
-          <span className="hidden lg:inline ml-2">Library</span>
+          <span className="hidden lg:inline ml-2">LIBRARY</span>
         </button>
       </Link>
     </nav>
