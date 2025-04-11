@@ -27,7 +27,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const token = cookies["__FlowTune_Token_server"];
 
     if (!token) {
-      return redirect("/ft/signin")
+      return redirect("/explore")
     }
 
     const graphqlClient = createGraphqlClient(token);

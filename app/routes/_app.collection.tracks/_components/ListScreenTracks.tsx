@@ -68,7 +68,7 @@ const ListScreenTracks: React.FC<ListScreenTracksProps> = ({
                                 </div>
                             </td>
                             <td className="px-3 py-4">
-                                <span className={`${track?.id === trackDetails.id && trackDetails.isPlaying && initialized ? "text-[#25d1da]" : "text-white"} text-base font-medium`}>
+                                <span className={`${track?.id === trackDetails.id && trackDetails.isPlaying && initialized ? "text-[#02fad5]" : "text-white"} text-base font-medium`}>
                                     {track.title.split("From")[0].trim()}
                                 </span>
                             </td>

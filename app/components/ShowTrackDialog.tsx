@@ -29,7 +29,7 @@ function ShowTrackDialog({ isOpen, onClose, tracks, initialized, setInitialized,
                         <div
                             key={track.id}
                             className="p-3 rounded-lg hover:bg-[#1c1c1c] bg-[#1a1a1a] cursor-pointer transition-colors flex items-center gap-3 relative 
-              border border-transparent hover:border-[#25d1da] hover:shadow-lg hover:shadow-[#25d1da]/30 duration-300 ease-in-out"
+              border border-transparent hover:border-[#02fad5] hover:shadow-lg hover:shadow-[#02fad5]/30 duration-300 ease-in-out"
                             onClick={() => {
                                 const isPlayingCurrentSong = track?.id == trackDetails.id && trackDetails.isPlaying;
 

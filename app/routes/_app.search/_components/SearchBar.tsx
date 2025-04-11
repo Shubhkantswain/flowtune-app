@@ -69,7 +69,7 @@ function SearchBar() {
                     placeholder="Search..."
                     value={searchQuery}
                     onChange={(e) => { setSearchQuery(e.target.value); setPage(1) }}
-                    className="w-full p-2 pr-10 text-black rounded-lg bg-[#FFFFFF] placeholder-[#757575] focus:outline-none focus:ring-2 focus:ring-[#25d1da]"
+                    className="w-full p-2 pr-10 text-black rounded-lg bg-[#FFFFFF] placeholder-[#757575] focus:outline-none focus:ring-2 focus:ring-[#02fad5]"
                     onKeyDown={(e) => {
                         if (e.key === "Enter" && searchQuery.trim()) {
                             handleSubmitSearch()

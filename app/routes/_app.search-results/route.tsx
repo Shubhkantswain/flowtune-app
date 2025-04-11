@@ -4,6 +4,8 @@ import useSearchStore from "~/store/useSearchStore";
 import Footer from "../../components/Footer";
 import ArtistsGrid from "./_component/ArtistGrid";
 
+
+
 export default function AppLayout() {
     const { searchQuery } = useSearchStore()
     const navigate = useNavigate()

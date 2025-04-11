@@ -131,7 +131,7 @@ const CreateTrackDialog: React.FC<CreateTrackDialogProps> = ({ songDialogOpen, s
                                         alt="Selected artwork"
                                         className="max-h-40 object-contain rounded-md"
                                     />
-                                    <div className="text-sm text-[#25d1da]">Image selected</div>
+                                    <div className="text-sm text-[#02fad5]">Image selected</div>
                                 </div>
                             ) : (
                                 <>
@@ -140,7 +140,7 @@ const CreateTrackDialog: React.FC<CreateTrackDialogProps> = ({ songDialogOpen, s
                                     </div>
                                     <div className="text-sm text-zinc-400 mb-2">Upload artwork</div>
                                     <button
-                                        className="px-3 py-2 text-xs text-[#25d1da] border border-zinc-600 rounded-md hover:bg-zinc-800 transition"
+                                        className="px-3 py-2 text-xs text-[#02fad5] border border-zinc-600 rounded-md hover:bg-zinc-800 transition"
                                         type="button"
                                     >
                                         Choose File
@@ -155,7 +155,7 @@ const CreateTrackDialog: React.FC<CreateTrackDialogProps> = ({ songDialogOpen, s
                         <label className="text-sm font-medium text-white">Video File</label>
                         <button
                             type="button"
-                            className="w-full px-4 py-2 text-sm text-[#25d1da] border border-zinc-600 rounded-md hover:bg-zinc-800 transition"
+                            className="w-full px-4 py-2 text-sm text-[#02fad5] border border-zinc-600 rounded-md hover:bg-zinc-800 transition"
                             onClick={() => videoInputRef.current?.click()}
                         >
                             Choose Video File
@@ -181,7 +181,7 @@ const CreateTrackDialog: React.FC<CreateTrackDialogProps> = ({ songDialogOpen, s
                         <label className="text-sm font-medium text-white">Audio File</label>
                         <button
                             type="button"
-                            className="w-full px-4 py-2 text-sm text-[#25d1da] border border-zinc-600 rounded-md hover:bg-zinc-800 transition"
+                            className="w-full px-4 py-2 text-sm text-[#02fad5] border border-zinc-600 rounded-md hover:bg-zinc-800 transition"
                             onClick={() => audioInputRef.current?.click()}
                         >
                             Choose Audio File
@@ -309,7 +309,7 @@ const CreateTrackDialog: React.FC<CreateTrackDialogProps> = ({ songDialogOpen, s
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 text-sm text-white bg-[#25d1da] rounded-md hover:bg-[#25d1da]/70 transition"
+                            className="px-4 py-2 text-sm text-white bg-[#02fad5] rounded-md hover:bg-[#02fad5]/70 transition"
                             disabled={isPending}
                         >
                             {

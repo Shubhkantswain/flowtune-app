@@ -12,6 +12,22 @@ import SearchBar from '../_app.search/_components/SearchBar';
 import { useGetSearchPlaylists } from '~/hooks/playlist';
 import { getSearchPlaylistsQuery } from '~/graphql/queries/playlist';
 
+// type Track {
+//   id: ID!    
+
+//   title: String!            
+//   singer: String          
+//   starCast: String
+//   duration: String!             
+
+//   coverImageUrl: String      
+//   videoUrl: String
+//   audioFileUrl: String!  
+
+//   hasLiked: Boolean!
+//   authorId: String!
+// }
+
 export async function loader({ request, params }: LoaderFunctionArgs) {
     try {
         const cookieHeader = request.headers.get("Cookie") || "";

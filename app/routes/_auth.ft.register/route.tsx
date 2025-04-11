@@ -1,4 +1,4 @@
-import { Form, useActionData, useLoaderData, useNavigate, useNavigation } from "@remix-run/react";
+import { Form, useActionData, useNavigate, useNavigation } from "@remix-run/react";
 import { useEffect } from "react";
 import { createGraphqlClient } from "~/clients/api";
 import SubmitButton from "../_auth/Components/SubmitButton";
@@ -6,7 +6,7 @@ import VerifyEmailTokenForm from "./_components/VerifyEmailTokenForm";
 import GeneralError from "../_auth/Components/GeneralError";
 import RegisterForm from "./_components/RegisterForm";
 import { FORM_TYPES } from "~/constants";
-import { json, LoaderFunctionArgs, MetaFunction, redirect } from "@remix-run/cloudflare";
+import { json, MetaFunction } from "@remix-run/cloudflare";
 import { ActionFunctionArgs } from "@remix-run/cloudflare";
 import { useQueryClient } from "@tanstack/react-query";
 import { RegisterActionData } from "~/types";
@@ -18,28 +18,6 @@ export const meta: MetaFunction = () => {
         { name: "description", content: "Welcome to Remix!" },
     ];
 };
-
-export async function loader({ request }: LoaderFunctionArgs) {
-    const cookieHeader = request.headers.get("Cookie");
-
-    // Parse the cookie manually
-    const cookies = Object.fromEntries(
-        (cookieHeader || "")
-            .split("; ")
-            .map((c) => c.split("="))
-            .map(([key, ...value]) => [key, value.join("=")])
-    );
-
-    // Extract the `__FlowTune_Token_server` cookie
-    const token = cookies["__FlowTune_Token_server"];
-
-    if (token) {
-        return redirect("/explore")
-    }
-    else {
-        return false
-    }
-}
 
 export const action = async ({ request, context }: ActionFunctionArgs) => {
     const formData = await request.formData();
@@ -173,17 +151,15 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
 };
 
 export default function Register() {
-    const isAuthenticated = useLoaderData()
     const actionData = useActionData<RegisterActionData>();
     const routerNavigation = useNavigation();
-    const navigate = useNavigate();
-    
-    const queryClient = useQueryClient()
-
     const isSubmitting = routerNavigation.state === "submitting";
+
     const isSignupSuccessful = actionData?.isSignupSuccess;
     const isEmailVerificationSuccessful = actionData?.isVerifyEmailSuccess;
 
+    const navigate = useNavigate();
+    const queryClient = useQueryClient()
 
     useEffect(() => {
         if (isEmailVerificationSuccessful) {
@@ -216,12 +192,6 @@ export default function Register() {
             handleSetCookie();
         }
     }, [isEmailVerificationSuccessful]);
-
-    useEffect(() => {
-        if (!isAuthenticated) {
-            localStorage.setItem("__FlowTune_Token", "")
-        }
-    }, [isAuthenticated])
 
     return (
         <Form method="post" className="space-y-6 w-full max-w-sm text-black">

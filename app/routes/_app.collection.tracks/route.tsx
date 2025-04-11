@@ -9,9 +9,9 @@ import usePlaylistStore from '~/store/usePlaylistStore';
 import { useTrackStore } from '~/store/useTrackStore';
 import { formatDuration } from '~/utils';
 import NoTracks from './_components/NoTracks';
-import CompactScreenTracks from './_components/CompactScreenTracks';
 import ListScreenTracks from './_components/ListScreenTracks';
 import TrackCollectionsInfo from './_components/TrackCollectionsInfo';
+import CompactScreenTracks from './_components/CompactScreenTracks';
 
 export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> {
   try {
