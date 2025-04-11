@@ -26,7 +26,7 @@ const DesktopNavigation = () => {
         </div>
         <Link to="/" onClick={(e) => handleLinkClick(e, "/")}>
           <button
-            className={`flex items-center ${isActive("/") ? "text-[#02fad5]" : "hover:text-[#02fad5]"
+            className={`flex items-center ${isActive("/") ? "text-[#25d1da]" : "hover:text-[#25d1da]"
               } transition-colors`}
           >
             <svg
@@ -46,7 +46,7 @@ const DesktopNavigation = () => {
                 <use href="#ic_navigation_home" fill="currentColor" />
               </g>
             </svg>
-            <span className="hidden lg:inline ml-2 font-semibold">Home</span>
+            <span className="hidden lg:inline ml-2 font-bold">Home</span>
           </button>
         </Link>
       </div>
@@ -60,7 +60,7 @@ const DesktopNavigation = () => {
         {/* Explore Link - Will highlight for /explore and all sub-routes */}
         <Link to="/explore" onClick={(e) => handleLinkClick(e, "/explore")}>
           <button
-            className={`flex items-center ${isActive("/explore") ? "text-[#02fad5]" : "hover:text-[#02fad5]"
+            className={`flex items-center ${isActive("/explore") ? "text-[#25d1da]" : "hover:text-[#25d1da]"
               } transition-colors`}
           >
             <svg
@@ -78,7 +78,7 @@ const DesktopNavigation = () => {
               <path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z" />
               <circle cx="12" cy="12" r="10" />
             </svg>
-            <span className="hidden lg:inline ml-2">Explore</span>
+            <span className="hidden lg:inline ml-2 font-bold">Explore</span>
           </button>
         </Link>
       </div>
@@ -91,7 +91,7 @@ const DesktopNavigation = () => {
         {/* Library Link */}
         <Link to="/my/library" onClick={(e) => handleLinkClick(e, "/my/library")}>
           <button
-            className={`flex items-center ${isActive("/my/library") ? "text-[#02fad5]" : "hover:text-[#02fad5]"
+            className={`flex items-center ${isActive("/my/library") ? "text-[#25d1da]" : "hover:text-[#25d1da]"
               } transition-colors`}
           >
             <svg
@@ -118,7 +118,7 @@ const DesktopNavigation = () => {
                 <use href="#library_heartfilled" fill="currentColor" />
               </g>
             </svg>
-            <span className="hidden lg:inline ml-2">Library</span>
+            <span className="hidden lg:inline ml-2 font-bold">Library</span>
           </button>
         </Link>
       </div>

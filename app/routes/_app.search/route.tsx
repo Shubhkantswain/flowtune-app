@@ -4,11 +4,12 @@ import ExploreSearch from './_components/ExploreSearch';
 import SearchBar from './_components/SearchBar';
 import { playlistSearchData, searchData } from '~/searchData';
 import useSearchStore from '~/store/useSearchStore';
-import { useNavigate } from '@remix-run/react';
+import { useLoaderData, useNavigate } from '@remix-run/react';
 import { useCurrentUser } from '~/hooks/auth';
 import { useActiveTabStore } from '~/store/useActiveTabStore';
 import { useSearchHistoryStore } from '~/store/useSearchHistoryStore';
 import Footer from '../../components/Footer';
+import { LoaderFunctionArgs } from '@remix-run/cloudflare';
 
 interface Song {
   title: string;
@@ -17,14 +18,28 @@ interface Song {
 
 type searchKey = keyof typeof searchData;
 
+export async function loader({ request }: LoaderFunctionArgs) {
+  const cookieHeader = request.headers.get("Cookie");
+
+  // Parse the cookie manually
+  const cookies = Object.fromEntries(
+    (cookieHeader || "")
+      .split("; ")
+      .map((c) => c.split("="))
+      .map(([key, ...value]) => [key, value.join("=")])
+  );
+
+  // Extract the `__FlowTune_Token_server` cookie
+  const token = cookies["__FlowTune_Token_server"];
+
+  return token ? true : false
+}
+
 const BrowsePage = () => {
+  const isAuthenticated = useLoaderData()
   const { searchQuery, setSearchQuery, setPage, setSearchResults } = useSearchStore();
   const [suggestionResults, setSuggestionResults] = useState<Song[]>([]);
   const { history, setHistory } = useSearchHistoryStore()
-
-  const { data } = useCurrentUser()
-
-  console.log("user", data);
 
   const { activeTab, setActiveTab } = useActiveTabStore()
   useEffect(() => {
@@ -57,6 +72,12 @@ const BrowsePage = () => {
       setSuggestionResults([]); // Clear results when searchQuery is empty
     }
   }, [searchQuery, activeTab]);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      localStorage.setItem("__FlowTune_Token", "")
+    }
+  }, [isAuthenticated])
 
   const navigate = useNavigate()
 
@@ -115,8 +136,8 @@ const BrowsePage = () => {
                         className="w-14 h-14 rounded-lg object-cover shadow-md"
                       />
                       <div>
-                        <p className="text-xs uppercase text-[#02fad5] font-semibold mb-1">Track</p>
-                        <h3 className="text-white text-sm font-medium leading-tight hover:text-[#02fad5]">
+                        <p className="text-xs uppercase text-[#25d1da] font-semibold mb-1">Track</p>
+                        <h3 className="text-white text-sm font-medium leading-tight hover:text-[#25d1da]">
                           {song.title}
                         </h3>
                       </div>
@@ -130,10 +151,10 @@ const BrowsePage = () => {
 
           </>
         )}
-        <div className={`${searchQuery.trim() ? "mt-10": "mt-0"}`}>
+        <div className={`${searchQuery.trim() ? "mt-10" : "mt-0"}`}>
 
-        {/* Moods & Activities */}
-        <ExploreSearch title="Moods & Activities" exploreItems={MoodsAndActivities} />
+          {/* Moods & Activities */}
+          <ExploreSearch title="Moods & Activities" exploreItems={MoodsAndActivities} />
         </div>
 
         {/* Music By Genre */}

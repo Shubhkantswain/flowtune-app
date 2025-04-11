@@ -82,7 +82,7 @@ function PlaylistSection({ playlists, title }: {
             <div className="relative">
                 <div
                     ref={containerRef}
-                    className="flex gap-4 sm:gap-5 md:gap-8 overflow-x-auto scrollbar-hide [-webkit-overflow-scrolling:touch] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden font-serif"
+                    className="flex gap-4 sm:gap-5 md:gap-8 overflow-x-auto scrollbar-hide [-webkit-overflow-scrolling:touch] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                     style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                 >
                     <PlaylistItems playlists={playlists} />

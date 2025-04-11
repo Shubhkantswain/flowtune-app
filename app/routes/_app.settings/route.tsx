@@ -183,7 +183,7 @@ const SpotifySettings = () => {
                                         <div className="flex justify-end">
                                             <button
                                                 type="submit"
-                                                className="bg-[#02fad5] text-white px-4 py-2 rounded-md text-sm hover:bg-[#02fad5] transition-colors"
+                                                className="bg-[#25d1da] text-white px-4 py-2 rounded-md text-sm hover:bg-[#25d1da] transition-colors"
                                             >
                                                 {isSubmitting ? "Applying..." : "Apply Changes"}
                                             </button>
@@ -201,7 +201,7 @@ const SpotifySettings = () => {
                                 <Switch
                                     checked={compactLibrary}
                                     onCheckedChange={setCompactLibrary}
-                                    className="data-[state=checked]:bg-[#02fad5]"
+                                    className="data-[state=checked]:bg-[#25d1da]"
                                 />
                             </div>
                         </div>
@@ -215,7 +215,7 @@ const SpotifySettings = () => {
                                     <Switch
                                         checked={showNowPlaying}
                                         onCheckedChange={setShowNowPlaying}
-                                        className="data-[state=checked]:bg-[#02fad5]"
+                                        className="data-[state=checked]:bg-[#25d1da]"
                                     />
                                 </div>
 
@@ -224,7 +224,7 @@ const SpotifySettings = () => {
                                     <Switch
                                         checked={showVisuals}
                                         onCheckedChange={setShowVisuals}
-                                        className="data-[state=checked]:bg-[#02fad5]"
+                                        className="data-[state=checked]:bg-[#25d1da]"
                                     />
                                 </div>
                             </div>
