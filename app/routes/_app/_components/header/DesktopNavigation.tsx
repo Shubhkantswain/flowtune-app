@@ -1,8 +1,7 @@
 import { Link, useLocation } from '@remix-run/react';
-import React, { MouseEvent } from 'react';
-import useSearchStore from '~/store/useSearchStore';
+import { MouseEvent } from 'react';
 
-function DesktopNavigation() {
+const DesktopNavigation = () => {
   const location = useLocation();
 
   // Handles exact matches and explore sub-routes
@@ -16,8 +15,6 @@ function DesktopNavigation() {
       event.preventDefault();
     }
   };
-
-  const { setSearchQuery } = useSearchStore()
 
   return (
     <nav className="hidden md:flex items-center space-x-11">

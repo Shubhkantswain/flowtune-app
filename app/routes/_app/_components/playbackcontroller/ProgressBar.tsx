@@ -3,15 +3,13 @@ import { Slider } from '~/components/ui/slider';
 import { useTrackStore } from '~/store/useTrackStore';
 import { formatDuration, formatTime } from '~/utils';
 
-function ProgressBar({
-    progress,
-    currentTime,
-    duration
-}: {
+interface ProgressBarProps {
     progress: number;
     currentTime: number;
     duration: number;
-}) {
+}
+
+const ProgressBar: React.FC<ProgressBarProps> = ({ progress, currentTime, duration }) => {
     const { handleSeek } = useTrackStore()
     const { trackDetails } = useTrackStore()
 

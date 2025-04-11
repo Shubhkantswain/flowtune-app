@@ -1,11 +1,11 @@
 import usePlaylistStore from '~/store/usePlaylistStore'
 import { useTrackStore } from '~/store/useTrackStore'
 
-function CenterPlaybackControllers() {
+const CenterPlaybackControllers = () => {
     const { trackDetails, togglePlay, handleSkip, setTrackDetails } = useTrackStore()
-    const isPlaying = trackDetails.isPlaying
+    const { hasNext, hasPrev, next, prev } = usePlaylistStore()
 
-    const { initialize, getCurrentTrack, hasNext, hasPrev, next, prev } = usePlaylistStore()
+    const isPlaying = trackDetails.isPlaying
 
     return (
         <div className="hidden md:flex items-center justify-center flex-1 md:w-1/3 space-x-2 md:space-x-4">

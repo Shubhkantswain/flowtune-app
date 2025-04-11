@@ -9,37 +9,18 @@ import {
     DialogTitle,
 } from "~/components/ui/dialog";
 import { Input } from "~/components/ui/input";
+import { GENRES, LANGUAGES } from "~/constants";
 import usePreviewFile from "~/hooks/image";
 import { useCreateTrack } from "~/hooks/track";
-
-interface NewSong {
-    title: string;
-    singer: string;
-    starCast: string;
-    duration: string;
-    language: string;
-    genre: string;
-}
+import { NewSong } from "~/types";
 
 interface CreateTrackDialogProps {
     songDialogOpen: boolean;
     setSongDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const LANGUAGES = ["Hindi", "English", "Punjabi", "Tamil", "Telugu", "Kannada", "Bengali", "Marathi", "Gujarati", "Malayalam"];
-const GENRES = ['Love & Romantic', 'Workout', 'Birthday', 'Party Vibe', 'Chill', 'Travel', 'Happy', 'Sleep', 'Sad', 'Bath', "Bollywood", "Hollywood", "Indian Pop", "Punjabi Pop", "Dance and Electronic", "Rock", "Children Music"];
-
-const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDialogProps) => {
-    const { handleFileChange: handleImgChange, fileURL: imgUrl } = usePreviewFile("image");
-    const { handleFileChange: handleAudioChange, fileURL: audioUrl } = usePreviewFile("audio");
-    const { handleFileChange: handleVideoChange, fileURL: videoUrl } = usePreviewFile("video")
-
-    const { mutate: createTrack, isPending } = useCreateTrack()
-
-    const imageInputRef = useRef<HTMLInputElement>(null);
-    const videoInputRef = useRef<HTMLInputElement>(null);
-    const audioInputRef = useRef<HTMLInputElement>(null);
-
+const CreateTrackDialog: React.FC<CreateTrackDialogProps> = ({ songDialogOpen, setSongDialogOpen }) => {
+    // ✅ External hook first
     const { register, handleSubmit, setValue } = useForm<NewSong>({
         defaultValues: {
             title: "",
@@ -51,31 +32,48 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
         },
     });
 
-    const onSubmit = async (data: NewSong) => {
-        // Submit logic
-        createTrack({ title: data.title, singer: data.singer, starCast: data.starCast, duration: data.duration, coverImageUrl: imgUrl, videoUrl: videoUrl, audioFileUrl: audioUrl || "", language: data.language, genre: selectedGenres })
-    };
+    // ✅ Custom hooks - File previews
+    const { handleFileChange: handleImgChange, fileURL: imgUrl } = usePreviewFile("image");
+    const { handleFileChange: handleAudioChange, fileURL: audioUrl } = usePreviewFile("audio");
+    const { handleFileChange: handleVideoChange, fileURL: videoUrl } = usePreviewFile("video");
 
+    // ✅ Mutations
+    const { mutate: createTrack, isPending } = useCreateTrack();
+
+    // ✅ Refs - for DOM element access
+    const imageInputRef = useRef<HTMLInputElement>(null);
+    const audioInputRef = useRef<HTMLInputElement>(null);
+    const videoInputRef = useRef<HTMLInputElement>(null);
+
+    // ✅ Local state
     const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-
-
-    console.log("selecet", selectedGenres);
 
     const handleGenreChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedValue = event.target.value;
-
-        const includes = selectedGenres.includes(selectedValue)
-        if(!includes){
-            setSelectedGenres([...selectedGenres, selectedValue])
+        if (!selectedGenres.includes(selectedValue)) {
+            setSelectedGenres((prev) => [...prev, selectedValue]);
         }
-        
     };
 
-    const removeGenre = (Genre: string) => {
-        const newGeneres = selectedGenres.filter((genre) => genre != Genre)
-        setSelectedGenres(newGeneres)
-    }
-    
+    const removeGenre = (genreToRemove: string) => {
+        setSelectedGenres((prev) => prev.filter((g) => g !== genreToRemove));
+    };
+
+    const onSubmit = async (data: NewSong) => {
+        createTrack({
+            title: data.title,
+            singer: data.singer,
+            starCast: data.starCast,
+            duration: data.duration,
+            coverImageUrl: imgUrl,
+            videoUrl: videoUrl,
+            audioFileUrl: audioUrl || "",
+            language: data.language,
+            genre: selectedGenres,
+        });
+    };
+
+
     return (
         <Dialog open={songDialogOpen} onOpenChange={setSongDialogOpen}>
             <DialogContent className="hide-scrollbar bg-gradient-to-b from-black to-zinc-900 border-zinc-700 max-h-[80vh] overflow-auto">
@@ -295,12 +293,11 @@ const CreateTrackDialog = ({ songDialogOpen, setSongDialogOpen }: CreateTrackDia
                                 </div>
                             ))}
                         </div>
-                    ): (
+                    ) : (
                         <div className="text-white">Pls Select Genre</div>
                     )
-                
-                }
 
+                    }
 
                     <DialogFooter>
                         <button

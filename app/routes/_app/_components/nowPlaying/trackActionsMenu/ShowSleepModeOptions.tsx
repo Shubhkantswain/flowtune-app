@@ -1,8 +1,7 @@
-import React from 'react'
 import { toast } from 'sonner';
 import useSleepModeStore from '~/store/useSleepModeStore'
 
-function ShowSleepModeOptions() {
+const ShowSleepModeOptions = () => {
     const { startSleepMode, setSleepTimeLeft, sleepTimeLeft, setEndOfTheTrackEnabled, stopSleepMode, isSleepModeActive, endOfTheTrackEnabled } = useSleepModeStore()
 
     const handleStartSleepMode = (minutes: number) => {

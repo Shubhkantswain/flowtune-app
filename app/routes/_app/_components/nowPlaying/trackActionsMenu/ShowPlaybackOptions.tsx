@@ -1,5 +1,4 @@
-import { ListEnd } from 'lucide-react';
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner';
 import { Label } from '~/components/ui/label';
 import { Slider } from '~/components/ui/slider';
@@ -7,11 +6,11 @@ import { Switch } from '~/components/ui/switch';
 import { useRepeatableTracksStore } from '~/store/useRepeatableTracksStore';
 import { useTrackStore } from '~/store/useTrackStore';
 
-function ShowPlaybackOptions() {
+const ShowPlaybackOptions = () => {
     const { trackDetails, handlePlaybackSpeed } = useTrackStore();
     const { markTrackAsRepeatable, unmarkTrackAsRepeatable, isTrackRepeatable } = useRepeatableTracksStore()
-    const [isRepeatable, setIsRepeatable] = useState(isTrackRepeatable(trackDetails.id));
 
+    const [isRepeatable, setIsRepeatable] = useState(isTrackRepeatable(trackDetails.id));
     const [playbackSpeed, setPlaybackSpeed] = useState([1]);
 
     useEffect(() => {

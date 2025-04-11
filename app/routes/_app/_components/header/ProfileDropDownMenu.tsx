@@ -7,25 +7,28 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useAuthStore } from '~/store/useAuthStore';
 import CreatePlaylistDialog from '~/components/CreatePlaylistDialog';
 
-function ProfileDropDownMenu({
-    isDropdownOpen,
-    setIsDropdownOpen,
-    triggerRef
-}: {
+interface ProfileDropDownMenuProps {
     isDropdownOpen: boolean;
     setIsDropdownOpen: (isOpen: boolean) => void;
     triggerRef: React.RefObject<HTMLElement>;
-}) {
-    const [songDialogOpen, setSongDialogOpen] = useState(false)
-    const [isOpen, setIsOpen] = useState(false)
-    const dropdownRef = useRef<HTMLDivElement>(null)
+}
 
-    const { authenticated, setAuthenticated } = useAuthStore()
+const ProfileDropDownMenu: React.FC<ProfileDropDownMenuProps> = ({
+    isDropdownOpen,
+    setIsDropdownOpen,
+    triggerRef,
+}) => {
+    const navigate = useNavigate()
+
     const { data, isLoading } = useCurrentUser()
 
-    const queryClient = useQueryClient()
+    const { authenticated, setAuthenticated } = useAuthStore()
 
-    const navigate = useNavigate()
+    const [songDialogOpen, setSongDialogOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false)
+
+    const dropdownRef = useRef<HTMLDivElement>(null)
+
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
             // Don't close if clicking on the trigger button
@@ -88,11 +91,11 @@ function ProfileDropDownMenu({
                                     <button
                                         className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
                                         onClick={() => {
-                                            if(isLoading){
+                                            if (isLoading) {
                                                 return
                                             }
 
-                                            if(!data?.isPro){
+                                            if (!data?.isPro) {
                                                 navigate("/pro-plan")
                                                 return
                                             }
@@ -125,11 +128,11 @@ function ProfileDropDownMenu({
                                     <button
                                         className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
                                         onClick={() => {
-                                            if(isLoading){
+                                            if (isLoading) {
                                                 return
                                             }
 
-                                            if(!data?.isPro){
+                                            if (!data?.isPro) {
                                                 navigate("/pro-plan")
                                                 return
                                             }
@@ -197,7 +200,7 @@ function ProfileDropDownMenu({
 
 
                                     <Link
-                                    to={"/music-preference"}
+                                        to={"/music-preference"}
                                         className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
                                     >
                                         Music Preferences
@@ -209,7 +212,7 @@ function ProfileDropDownMenu({
                 </div>
 
                 <CreateTrackDialog songDialogOpen={songDialogOpen} setSongDialogOpen={setSongDialogOpen} />
-                <CreatePlaylistDialog songDialogOpen={isOpen} setSongDialogOpen={setIsOpen} trackId=''/>
+                <CreatePlaylistDialog songDialogOpen={isOpen} setSongDialogOpen={setIsOpen} trackId='' />
             </div>
 
         </>

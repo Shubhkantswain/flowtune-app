@@ -1,20 +1,10 @@
 // File: app/routes/_app.tsx
-import { Link, Outlet, useLocation, useParams } from "@remix-run/react";
-import { useState } from "react";
+import { Outlet, useLocation, useParams } from "@remix-run/react";
 import Playbackcontroller from "./_components/playbackcontroller/Playbackcontroller";
 import Header from "./_components/header/Header";
-import { MetaFunction } from "@remix-run/cloudflare";
 import { genreIdsSwap } from "~/searchData";
 
-export const meta: MetaFunction = () => {
-    return [
-        { title: "FlowTune" },
-        { name: "description", content: "Welcome to Remix!" },
-    ];
-};
-
 export default function AppLayout() {
-
     const location = useLocation()
     const includes = location.pathname.includes("/genres")
     const params = useParams()

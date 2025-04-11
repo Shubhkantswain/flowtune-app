@@ -4,9 +4,7 @@ import DesktopSearch from './DesktopSearch'
 import MobileNavigation from './MobileNavigation'
 import DesktopAccount from './DesktopAccount'
 
-function Header() {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-
+const Header = () => {
     return (
         <header className="sticky top-0 z-40 bg-black/40 backdrop-blur-lg border-b border-[#2E3030]">
             <div className="flex items-center justify-between px-4 lg:px-6 py-4">

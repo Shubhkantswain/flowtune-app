@@ -5,13 +5,13 @@ import { createGraphqlClient } from "~/clients/api";
 import { getExploreTracksQuery, getFeedTracksQuery } from "~/graphql/queries/track";
 import { LoaderFunctionArgs } from "@remix-run/cloudflare";
 import { MetaFunction } from "@remix-run/cloudflare";
-import TrackSection from "../_app._index/_components/TrackSection";
+import TrackSection from "../../components/TrackSection";
 import { useEffect, useState } from "react";
 import usePlaylistStore from "~/store/usePlaylistStore";
 import { useGetExploreTracks } from "~/hooks/track";
 import { getTitle } from "~/utils";
 import { SECTION_SIZE } from "~/constants";
-import Footer from "../_app/components/Footer";
+import Footer from "../../components/Footer";
 
 export const meta: MetaFunction = () => {
   return [
@@ -115,7 +115,6 @@ const AppleMusicHomepage: React.FC = () => {
   return (
     <>
       <div className="-mt-5 md:-mt-10 lg:-mt-10">
-
         {exploreTracks.length > 0
           ? exploreTracks.map((section, index) => (
             <TrackSection key={index} tracks={section} index={index} title={getTitle(index)} />

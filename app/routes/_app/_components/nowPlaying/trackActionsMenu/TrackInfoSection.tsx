@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTrackStore } from '~/store/useTrackStore'
 
-function TrackInfoSection() {
+const TrackInfoSection = () => {
     const { trackDetails } = useTrackStore()
     return (
         <div className="flex items-center space-x-4 p-4">

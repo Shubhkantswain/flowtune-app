@@ -38,9 +38,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
         const token = cookies["__FlowTune_Token_server"];
         const client = createGraphqlClient(token);
-        const { getSearchPlaylists } = await client.request(getSearchPlaylistsQuery, {
-            input: { page: 1, query: params.searchQuery || "" },
-        });
+        const { getSearchPlaylists } = await client.request(getSearchPlaylistsQuery, { input: { page: 1, query: params.searchQuery || "" },});
 
         return getSearchPlaylists || [];
     } catch (error) {

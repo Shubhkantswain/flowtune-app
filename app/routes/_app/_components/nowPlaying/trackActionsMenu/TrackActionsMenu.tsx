@@ -5,11 +5,15 @@ interface TrackActionsMenuProps {
     isVisible: boolean;
     onDismiss: () => void;
     videoEnabled: boolean;
-    setVideoEnabled: React.Dispatch<React.SetStateAction<boolean>>
+    setVideoEnabled: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const TrackActionsMenu = ({ isVisible, onDismiss, videoEnabled, setVideoEnabled }: TrackActionsMenuProps) => {
-
+const TrackActionsMenu: React.FC<TrackActionsMenuProps> = ({
+    isVisible,
+    onDismiss,
+    videoEnabled,
+    setVideoEnabled,
+}) => {
     if (!isVisible) {
         return null
     }

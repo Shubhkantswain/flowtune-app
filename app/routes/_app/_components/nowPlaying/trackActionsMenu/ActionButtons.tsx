@@ -20,24 +20,20 @@ interface ActionButtonsProps {
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEnabled }) => {
-    const { trackDetails, setTrackDetails } = useTrackStore();
-    const [showPlaybackOptions, setShowPlaybackOptions] = useState(false);
-    const [showSleepModeOptions, setShowSleepModeOptions] = useState(false);
-    const [showTrackInfo, setShowTrackInfo] = useState(false);
-
-    const { enqueueTrack, dequeueTrack, isTrackInQueue } = useQueueStore()
-
-    const [inQueue, setInQueue] = useState(false);
+    const { data: playlists } = useGetCurrentUserPlaylists()
 
     const { mutateAsync: likeTrack, isPending } = useLikeTrack()
     const { mutateAsync: addSongToPlaylist } = useAddSongToPlaylist()
 
-    const [search, setSearch] = useState("");
+    const { trackDetails, setTrackDetails } = useTrackStore();
+    const { enqueueTrack, dequeueTrack, isTrackInQueue } = useQueueStore()
+
+    const [showPlaybackOptions, setShowPlaybackOptions] = useState(false);
+    const [showSleepModeOptions, setShowSleepModeOptions] = useState(false);
+    const [showTrackInfo, setShowTrackInfo] = useState(false);
+    const [inQueue, setInQueue] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-
     const [show, setShow] = useState(false)
-
-    const { data: playlists } = useGetCurrentUserPlaylists()
 
     // Check if the current track is in the queue
     useEffect(() => {

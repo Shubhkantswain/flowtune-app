@@ -4,7 +4,7 @@ import { Track } from 'gql/graphql';
 import React, { useEffect } from 'react'
 import { createGraphqlClient } from '~/clients/api';
 import { getTracksByGenreIdQuery } from '~/graphql/queries/track';
-import TrackSection from '../_app._index/_components/TrackSection';
+import TrackSection from '../../components/TrackSection';
 import usePlaylistStore from '~/store/usePlaylistStore';
 import { genreIds, genreIdsSwap } from '~/searchData';
 

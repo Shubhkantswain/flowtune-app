@@ -3,9 +3,10 @@ import React, { MouseEvent, useRef, useState } from 'react';
 import ProfileDropDownMenu from './ProfileDropDownMenu';
 
 const MobileNavigation = () => {
+    const location = useLocation();
+    
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const buttonRef = useRef<HTMLButtonElement>(null);
-    const location = useLocation();
 
     const isActive = (path: string) => location.pathname === path ||
         (path === "/explore" && location.pathname.startsWith("/explore"));

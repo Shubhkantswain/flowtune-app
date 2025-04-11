@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Heart, MoreHorizontal, Share2, List, Grid } from 'lucide-react';
-import { LoaderFunctionArgs } from '@remix-run/cloudflare';
+import { LoaderFunctionArgs, redirect } from '@remix-run/cloudflare';
 import { Track } from 'gql/graphql';
 import { createGraphqlClient } from '~/clients/api';
 import { getLikedTracksQuery } from '~/graphql/queries/track';
@@ -11,7 +11,7 @@ import { formatDuration } from '~/utils';
 import NoTracks from './_components/NoTracks';
 import CompactScreenTracks from './_components/CompactScreenTracks';
 import ListScreenTracks from './_components/ListScreenTracks';
-import TrackCollectionInfo from './_components/TrackCollectionInfo';
+import TrackCollectionsInfo from './_components/TrackCollectionsInfo';
 
 export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> {
   try {
@@ -27,6 +27,10 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> 
 
     // Extract the `__FlowTune_Token_server` cookie
     const token = cookies["__FlowTune_Token_server"];
+
+    if(!token){
+      redirect("/explore")
+    }
 
     const graphqlClient = createGraphqlClient(token);
     const { getLikedTracks } = await graphqlClient.request(getLikedTracksQuery);
@@ -111,7 +115,7 @@ const LikedTracks = () => {
     <div className="min-h-screen">
       <div className="p-4 sm:p-6 md:p-8">
         {/* Header Section */}
-        <TrackCollectionInfo showDropdown={showDropdown} screenType={screenType} handlePlayTrack={handlePlayTrack} toggleScreenType={toggleScreenType} toggleDropdown={toggleDropdown} dropdownRef={dropdownRef} initialTrack={tracks[0]} />
+        <TrackCollectionsInfo showDropdown={showDropdown} screenType={screenType} handlePlayTrack={handlePlayTrack} toggleScreenType={toggleScreenType} toggleDropdown={toggleDropdown} dropdownRef={dropdownRef} initialTrack={tracks[0]} />
 
         {/* Tracks Table - Responsive to screenType */}
         <div className="relative">

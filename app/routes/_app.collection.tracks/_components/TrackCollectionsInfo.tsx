@@ -1,7 +1,8 @@
 import { Track } from 'gql/graphql'
 import React from 'react'
+import TrackCollectionsCover from './TrackCollectionsCover';
 
-interface TrackCollectionInfoProps {
+interface TrackCollectionsInfoProps {
     showDropdown: boolean;
     screenType: string;
     handlePlayTrack: (track: Track) => void;
@@ -11,7 +12,7 @@ interface TrackCollectionInfoProps {
     initialTrack: Track
 }
 
-const TrackCollectionInfo: React.FC<TrackCollectionInfoProps> = ({
+const TrackCollectionsInfo: React.FC<TrackCollectionsInfoProps> = ({
     showDropdown,
     screenType,
     handlePlayTrack,
@@ -23,26 +24,7 @@ const TrackCollectionInfo: React.FC<TrackCollectionInfoProps> = ({
     return (
         <div className="flex flex-col md:flex-row gap-6 items-center md:items-start mb-8">
             {/* Playlist Cover with Gradient Heart */}
-            <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden shrink-0">
-                {/* Gradient background with blur */}
-                <div className="absolute inset-0">
-                    <div className="absolute -inset-4 bg-gradient-to-br from-purple-600 to-cyan-400 opacity-50 blur-2xl" />
-                </div>
-
-                {/* Heart icon with its own gradient */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="relative">
-                        {/* <Heart className="w-24 h-24 md:w-32 md:h-32 text-cyan-400" fill="currentColor" /> */}
-                        <svg xmlns="http://www.w3.org/2000/svg" width="170" height="170" viewBox="0 0 24 24"><defs><path id="ic_action_favoriteon-a" d="M16,3 C14.499,3 13.092,3.552 12,4.544 C10.908,3.552 9.501,3 8,3 C4.691,3 2,5.691 2,9 C2,14.535 8.379,18.788 11.445,20.832 C11.613,20.944 11.807,21 12,21 C12.193,21 12.387,20.944 12.555,20.832 C15.62,18.788 22,14.535 22,9 C22,5.691 19.309,3 16,3 Z"></path></defs><g fill-rule="evenodd" fill="transparent"><rect width="24" height="24"></rect><use href="#ic_action_favoriteon-a" fill="#02fad5"></use></g></svg>
-
-                        <div className="absolute inset-0 blur-md">
-                            {/* <Heart className="w-24 h-24 md:w-32 md:h-32 text-purple-500" fill="currentColor" /> */}
-                            <svg xmlns="http://www.w3.org/2000/svg" width="170" height="170" viewBox="0 0 24 24"><defs><path id="ic_action_favoriteon-a" d="M16,3 C14.499,3 13.092,3.552 12,4.544 C10.908,3.552 9.501,3 8,3 C4.691,3 2,5.691 2,9 C2,14.535 8.379,18.788 11.445,20.832 C11.613,20.944 11.807,21 12,21 C12.193,21 12.387,20.944 12.555,20.832 C15.62,18.788 22,14.535 22,9 C22,5.691 19.309,3 16,3 Z"></path></defs><g fill-rule="evenodd" fill="transparent"><rect width="24" height="24"></rect><use href="#ic_action_favoriteon-a" fill="#02fad5"></use></g></svg>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <TrackCollectionsCover/>
 
             {/* Playlist Info */}
             <div className="flex flex-col gap-4 items-center md:items-start">
@@ -124,4 +106,4 @@ const TrackCollectionInfo: React.FC<TrackCollectionInfoProps> = ({
     )
 }
 
-export default TrackCollectionInfo
+export default TrackCollectionsInfo

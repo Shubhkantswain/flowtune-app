@@ -85,3 +85,12 @@ export type ExploreItem = {
 export type SignOutActionResponse = {
     success: boolean;
 };
+
+export interface NewSong {
+    title: string;
+    singer: string;
+    starCast: string;
+    duration: string;
+    language: string;
+    genre: string;
+}

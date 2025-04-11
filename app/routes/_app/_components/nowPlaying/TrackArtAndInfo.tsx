@@ -1,15 +1,16 @@
-import React from 'react'
 import { useLikeTrack } from '~/hooks/track'
 import { useTrackStore } from '~/store/useTrackStore'
+import LeftSideWaveLines from './LeftSideWaveLines';
+import RightSideWaveLines from './RightSideWaveLines';
 
-
-
-function TrackArtAndInfo({ onShow, videoEnabled }: {
-    onShow: () => void,
+interface TrackArtAndInfoProps {
+    onShow: () => void;
     videoEnabled: boolean;
-}) {
-    const { trackDetails, setTrackDetails } = useTrackStore()
+}
+
+const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled }) => {
     const { mutateAsync: likeTrack, isPending } = useLikeTrack()
+    const { trackDetails, setTrackDetails } = useTrackStore()
 
     return (
         <div className="px-8 pt-8 -mt-7">
@@ -18,28 +19,7 @@ function TrackArtAndInfo({ onShow, videoEnabled }: {
                 className={`aspect-square w-full max-w-sm lg:max-w-[300px] lg:ml-0 mx-auto rounded-lg mb-8 will-change-transform transition-transform duration-500 ease-out transform wave-container ${trackDetails.isPlaying ? 'scale-100 playing' : 'scale-95'}`}
             >
                 {/* Left side wave lines */}
-                <div className="wave-lines-left hidden md:block">
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                </div>
+                <LeftSideWaveLines />
 
                 {/* Image */}
                 <img
@@ -49,55 +29,13 @@ function TrackArtAndInfo({ onShow, videoEnabled }: {
                 />
 
                 {/* Right side wave lines */}
-                <div className="wave-lines-right hidden md:block">
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                    <div className="wave-line"></div>
-                </div>
+                <RightSideWaveLines />
 
                 {
                     (!trackDetails.videoUrl || !videoEnabled) && (
                         <>
                             {/* Left side wave lines */}
-                            <div className="wave-lines-left block md:hidden">
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                            </div>
+                            <LeftSideWaveLines />
 
                             {/* Image */}
                             <img
@@ -107,28 +45,7 @@ function TrackArtAndInfo({ onShow, videoEnabled }: {
                             />
 
                             {/* Right side wave lines */}
-                            <div className="wave-lines-right block md:hidden">
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                                <div className="wave-line"></div>
-                            </div>
+                            <RightSideWaveLines />
                         </>
                     )
                 }
@@ -221,8 +138,6 @@ function TrackArtAndInfo({ onShow, videoEnabled }: {
                     </div>
                 </div>
             </div>
-
-
         </div>
     )
 }

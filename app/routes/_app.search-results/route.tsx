@@ -1,7 +1,8 @@
 import { Outlet, useLocation, useNavigate } from "@remix-run/react";
 import SearchBar from "../_app.search/_components/SearchBar";
 import useSearchStore from "~/store/useSearchStore";
-import Footer from "../_app/components/Footer";
+import Footer from "../../components/Footer";
+import ArtistsGrid from "./_component/ArtistGrid";
 
 
 
@@ -38,7 +39,10 @@ export default function AppLayout() {
                 ))}
             </div>
             <Outlet />
-            <Footer />
+
+            <ArtistsGrid/>
+
+            <Footer/>
         </>
     );
 }

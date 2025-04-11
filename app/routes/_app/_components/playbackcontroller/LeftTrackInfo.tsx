@@ -1,20 +1,20 @@
 import React from 'react';
 import { useTrackStore } from '~/store/useTrackStore';
 
-type LeftTrackInfoProps = {
+interface LeftTrackInfoProps {
     setIsOpen: (isOpen: boolean) => void;
 };
 
 const LeftTrackInfo: React.FC<LeftTrackInfoProps> = ({ setIsOpen }) => {
     const { trackDetails } = useTrackStore();
 
+    const isTrackSelected = Boolean(trackDetails.id);
+
     const handleExpandClick = () => {
         if (trackDetails.id) {
             setIsOpen(true);
         }
     };
-
-    const isTrackSelected = Boolean(trackDetails.id);
 
     return (
         <article className="flex items-center flex-1 min-w-0 md:w-1/3">

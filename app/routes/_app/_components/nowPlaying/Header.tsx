@@ -1,14 +1,16 @@
 import React from 'react'
 import { useTrackStore } from '~/store/useTrackStore';
 
-function Header({ onClose, onShowQueueTrack, hide, setHide }: {
+interface HeaderProps {
     onClose: () => void;
-    onShowQueueTrack: () => void
+    onShowQueueTrack: () => void;
     hide: boolean;
     setHide: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
+}
 
+const Header: React.FC<HeaderProps> = ({ onClose, onShowQueueTrack, hide, setHide }) => {
     const { trackDetails } = useTrackStore()
+    
     return (
         <div className="p-4 flex items-center justify-between relative">
             <div className="relative group">

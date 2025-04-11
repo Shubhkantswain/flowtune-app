@@ -3,12 +3,12 @@ import { useLikeTrack } from '~/hooks/track'
 import { useTrackStore } from '~/store/useTrackStore'
 import { useVolumeStore } from '~/store/useVloumeStore'
 
-function RightControllers() {
-    const { trackDetails, togglePlay, setTrackDetails, handleVolumeChange } = useTrackStore()
-    const isPlaying = trackDetails.isPlaying
+const RightControllers = () => {
     const { mutateAsync: likeTrack, isPending } = useLikeTrack()
-
+    const { trackDetails, togglePlay, setTrackDetails, handleVolumeChange } = useTrackStore()
     const { mute, setMute } = useVolumeStore()
+    
+    const isPlaying = trackDetails.isPlaying
 
     const handleLike = async () => {
         await likeTrack(trackDetails.id)

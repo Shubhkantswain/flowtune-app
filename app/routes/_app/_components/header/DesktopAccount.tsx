@@ -1,12 +1,10 @@
 // DesktopAccount.tsx
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import ProfileDropDownMenu from './ProfileDropDownMenu';
 
-function DesktopAccount() {
-    const [isOpen, setIsOpen] = useState(false);
+const DesktopAccount = () => {
     const buttonRef = useRef<HTMLButtonElement>(null);
-    const [musicPreferencesOpen, setMusicPreferencesOpen] = useState(false)
-
+    const [isOpen, setIsOpen] = useState(false);
 
     const handleToggle = () => {
         setIsOpen(!isOpen);

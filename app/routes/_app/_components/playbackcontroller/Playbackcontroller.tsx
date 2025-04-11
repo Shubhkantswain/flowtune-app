@@ -12,17 +12,17 @@ import useSleepModeStore from '~/store/useSleepModeStore';
 import usePlaylistStore from '~/store/usePlaylistStore';
 
 const Playbackcontroller = () => {
+    const { trackDetails, setTrackDetails, handleVolumeChange, handlePlaybackSpeed } = useTrackStore();
+    const { isTrackRepeatable } = useRepeatableTracksStore()
+    const { dequeueFirstTrack } = useQueueStore()
+    const { isSleepModeComplete, endOfTheTrackEnabled } = useSleepModeStore()
+    const { hasNext, next, setCurrentTrack } = usePlaylistStore()
+
     const [isOpen, setIsOpen] = useState(false)
     const [progress, setProgress] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
-    const { trackDetails, setTrackDetails, togglePlay, handleVolumeChange, handlePlaybackSpeed } = useTrackStore();
     const audioRef = useRef<HTMLAudioElement | null>(null);
-    const { isTrackRepeatable } = useRepeatableTracksStore()
-    const { dequeueFirstTrack } = useQueueStore()
-    const { isSleepModeComplete, endOfTheTrackEnabled } = useSleepModeStore()
-
-    const { hasNext, hasPrev, next, setCurrentTrack } = usePlaylistStore()
 
     useEffect(() => {
         const audio = audioRef.current;

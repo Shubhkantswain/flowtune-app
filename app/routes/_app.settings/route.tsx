@@ -9,7 +9,7 @@ import { ChangeMusicPreferenceMutation } from '~/graphql/mutations/user';
 import { Form, Link, useActionData, useNavigation } from '@remix-run/react';
 import { toast } from 'sonner';
 import { useQueryClient } from '@tanstack/react-query';
-import Footer from '../_app/components/Footer';
+import Footer from '../../components/Footer';
 
 const musicLanguages = [
     { name: "Hindi", native: "हिन्दी" },

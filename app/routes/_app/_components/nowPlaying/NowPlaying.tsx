@@ -23,14 +23,13 @@ interface NowPlayingProps {
 
 const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, currentTime, duration }) => {
   const { trackDetails } = useTrackStore();
-  const [menuVisible, setMenuVisible] = useState(false);
-  const [isQueueTrackVisible, setIsQueueTrackVisible] = useState(false);
-  const { getAllTracks, isTrackInQueue, getQueueSize, dequeueFirstTrack } = useQueueStore();
-  const [queueTracks, setQueueTracks] = useState<Track[]>([]);
+  const { getAllTracks, getQueueSize } = useQueueStore();
   const { isSleepModeComplete } = useSleepModeStore()
 
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [isQueueTrackVisible, setIsQueueTrackVisible] = useState(false);
+  const [queueTracks, setQueueTracks] = useState<Track[]>([]);
   const [hide, setHide] = useState(false)
-
   const [videoEnabled, setVideoEnabled] = useState(true)
 
   // Fetch all tracks whenever the queue changes

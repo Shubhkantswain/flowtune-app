@@ -8,7 +8,7 @@ import { useNavigate } from '@remix-run/react';
 import { useCurrentUser } from '~/hooks/auth';
 import { useActiveTabStore } from '~/store/useActiveTabStore';
 import { useSearchHistoryStore } from '~/store/useSearchHistoryStore';
-import Footer from '../_app/components/Footer';
+import Footer from '../../components/Footer';
 
 interface Song {
   title: string;
@@ -130,17 +130,14 @@ const BrowsePage = () => {
 
           </>
         )}
+        <div className={`${searchQuery.trim() ? "mt-10": "mt-0"}`}>
 
-        {!searchQuery.trim() && (
-          <>
-            {/* Moods & Activities */}
-            <ExploreSearch title="Moods & Activities" exploreItems={MoodsAndActivities} />
+        {/* Moods & Activities */}
+        <ExploreSearch title="Moods & Activities" exploreItems={MoodsAndActivities} />
+        </div>
 
-            {/* Music By Genre */}
-            <ExploreSearch title="Music By Genre" exploreItems={genre} gapFromTop={true} />
-          </>
-        )}
-        <Footer/>
+        {/* Music By Genre */}
+        <ExploreSearch title="Music By Genre" exploreItems={genre} gapFromTop={true} />
       </div>
     </>
 

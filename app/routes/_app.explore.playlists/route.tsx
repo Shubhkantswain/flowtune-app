@@ -10,7 +10,7 @@ import usePlaylistStore from "~/store/usePlaylistStore";
 import { getTitle } from "~/utils";
 import { getExplorePlaylistsQuery } from "~/graphql/queries/playlist";
 import PlaylistSection from "./_components/PlaylistSection";
-import Footer from "../_app/components/Footer";
+import Footer from "../../components/Footer";
 
 export const meta: MetaFunction = () => {
     return [

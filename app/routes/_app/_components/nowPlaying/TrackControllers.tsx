@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { useLikeTrack } from '~/hooks/track'
+import { useEffect, useState } from 'react'
 import usePlaylistStore from '~/store/usePlaylistStore'
 import { useTrackStore } from '~/store/useTrackStore'
 import { useVolumeStore } from '~/store/useVloumeStore'
 
-function TrackControllers() {
+const TrackControllers = () => {
     const { trackDetails, togglePlay, setTrackDetails, handleVolumeChange, handleSkip } = useTrackStore()
-    const isPlaying = trackDetails.isPlaying
-    const [volume, setVolume] = useState(0.5);
-
     const { hasNext, hasPrev, next, prev } = usePlaylistStore()
-
     const { mute, setMute } = useVolumeStore()
+
+    const [volume, setVolume] = useState(0.5);
+    
+    const isPlaying = trackDetails.isPlaying
 
     useEffect(() => {
         let storedVolume = localStorage.getItem('volume');
