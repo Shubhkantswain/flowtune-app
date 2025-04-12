@@ -88,8 +88,8 @@ const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitial
                 </button>
               </div>
             </div>
-            <h3 className="mt-2 font-medium truncate text-xs sm:text-sm md:text-base">{track.title}</h3>
-            <p className="text-gray-400 text-xs truncate text-[10px]">{track.singer}</p>
+            <div className="mt-2 font-medium truncate text-xs sm:text-sm md:text-base">{track.title}</div>
+            <div className="text-sm text-gray-400 truncate text-[10px]">{track.singer}</div>
           </div>
         ) : (
           <div key={`dummy-${index}`} className="flex-none w-36 sm:w-40 md:w-44 opacity-50">
