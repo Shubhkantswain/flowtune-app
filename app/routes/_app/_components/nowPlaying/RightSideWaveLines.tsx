@@ -1,27 +1,27 @@
-const RightSideWaveLines = () => {
+const RightSideWaveLines = ({ shouldHide }: { shouldHide: boolean }) => {
   return (
-    <div className="wave-lines-right hidden md:block">
-    <div className="wave-line"></div>
-    <div className="wave-line"></div>
-    <div className="wave-line"></div>
-    <div className="wave-line"></div>
-    <div className="wave-line"></div>
-    <div className="wave-line"></div>
-    <div className="wave-line"></div>
-    <div className="wave-line"></div>
-    <div className="wave-line"></div>
-    <div className="wave-line"></div>
-    <div className="wave-line"></div>
-    <div className="wave-line"></div>
-    <div className="wave-line"></div>
-    <div className="wave-line"></div>
-    <div className="wave-line"></div>
-    <div className="wave-line"></div>
-    <div className="wave-line"></div>
-    <div className="wave-line"></div>
-    <div className="wave-line"></div>
-    <div className="wave-line"></div>
-</div>
+    <div className={`${shouldHide ? "hidden md:block" : ""} wave-lines-right`}>
+      <div className="wave-line"></div>
+      <div className="wave-line"></div>
+      <div className="wave-line"></div>
+      <div className="wave-line"></div>
+      <div className="wave-line"></div>
+      <div className="wave-line"></div>
+      <div className="wave-line"></div>
+      <div className="wave-line"></div>
+      <div className="wave-line"></div>
+      <div className="wave-line"></div>
+      <div className="wave-line"></div>
+      <div className="wave-line"></div>
+      <div className="wave-line"></div>
+      <div className="wave-line"></div>
+      <div className="wave-line"></div>
+      <div className="wave-line"></div>
+      <div className="wave-line"></div>
+      <div className="wave-line"></div>
+      <div className="wave-line"></div>
+      <div className="wave-line"></div>
+    </div>
   )
 }
 

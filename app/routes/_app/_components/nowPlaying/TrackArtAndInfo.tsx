@@ -12,6 +12,8 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
     const { mutateAsync: likeTrack, isPending } = useLikeTrack()
     const { trackDetails, setTrackDetails } = useTrackStore()
 
+    console.log("let see", videoEnabled);
+    
     return (
         <div className="px-8 pt-8 -mt-7">
 
@@ -19,7 +21,7 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
                 className={`aspect-square w-full max-w-sm lg:max-w-[300px] lg:ml-0 mx-auto rounded-lg mb-8 will-change-transform transition-transform duration-500 ease-out transform wave-container ${trackDetails.isPlaying ? 'scale-100 playing' : 'scale-95'}`}
             >
                 {/* Left side wave lines */}
-                <LeftSideWaveLines />
+                <LeftSideWaveLines shouldHide={true}/>
 
                 {/* Image */}
                 <img
@@ -29,13 +31,13 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
                 />
 
                 {/* Right side wave lines */}
-                <RightSideWaveLines />
+                <RightSideWaveLines shouldHide={true} />
 
                 {
                     (!trackDetails.videoUrl || !videoEnabled) && (
                         <>
                             {/* Left side wave lines */}
-                            <LeftSideWaveLines />
+                            <LeftSideWaveLines shouldHide={false} />
 
                             {/* Image */}
                             <img
@@ -45,7 +47,7 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
                             />
 
                             {/* Right side wave lines */}
-                            <RightSideWaveLines />
+                            <RightSideWaveLines shouldHide={false}/>
                         </>
                     )
                 }
