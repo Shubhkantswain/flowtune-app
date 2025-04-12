@@ -34,7 +34,7 @@ const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists }) => {
                             />
                         </div>
                         <div className="mt-2 font-medium truncate text-xs sm:text-sm md:text-base">{playlist.name}</div>
-                        <div className="text-sm text-gray-400 truncate text-[10px]">Total Tracks : {playlist.totalTracks}</div>
+                        <div className="text-xs sm:text-sm text-gray-400 truncate text-[10px]">Total Tracks : {playlist.totalTracks}</div>
                     </div>
                 ) : (
                     <div key={`dummy-${index}`} className="flex-none w-36 sm:w-40 md:w-44 opacity-50">
