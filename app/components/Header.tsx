@@ -79,7 +79,7 @@ const Header: React.FC<HeaderProps> = ({ scroll, tracks, initialized, setInitial
                         </div>
 
                         {/* See All Button */}
-                        <button className="px-4 py-2 bg-[#292a2a] text-white rounded-full hover:bg-[#5D5E5E] transition-colors text-xs font-medium"
+                        <button className="px-3 py-1.5 md:px-4 md:py-2 bg-[#292a2a] text-white rounded-full hover:bg-[#5D5E5E] transition-colors text-xs font-medium"
                             onClick={() => setIsOpen(true)}
                         >
                             SEE ALL

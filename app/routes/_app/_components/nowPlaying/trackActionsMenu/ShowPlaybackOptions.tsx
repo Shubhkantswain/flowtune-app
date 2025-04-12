@@ -38,7 +38,7 @@ const ShowPlaybackOptions = () => {
 
                         setIsRepeatable(!isRepeatable)
                     }}
-                    className="data-[state=checked]:bg-[#02fad5]"
+                    className="data-[state=checked]:bg-[#25d1da]"
                 />
             </div>
 

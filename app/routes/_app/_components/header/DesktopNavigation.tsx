@@ -26,7 +26,7 @@ const DesktopNavigation = () => {
         </div>
         <Link to="/" onClick={(e) => handleLinkClick(e, "/")}>
           <button
-            className={`flex items-center ${isActive("/") ? "text-[#02fad5]" : "hover:text-[#02fad5]"
+            className={`flex items-center ${isActive("/") ? "text-[#25d1da]" : "hover:text-[#25d1da]"
               } transition-colors`}
           >
             <svg
@@ -60,7 +60,7 @@ const DesktopNavigation = () => {
         {/* Explore Link - Will highlight for /explore and all sub-routes */}
         <Link to="/explore" onClick={(e) => handleLinkClick(e, "/explore")}>
           <button
-            className={`flex items-center ${isActive("/explore") ? "text-[#02fad5]" : "hover:text-[#02fad5]"
+            className={`flex items-center ${isActive("/explore") ? "text-[#25d1da]" : "hover:text-[#25d1da]"
               } transition-colors`}
           >
             <svg
@@ -91,7 +91,7 @@ const DesktopNavigation = () => {
         {/* Library Link */}
         <Link to="/my/library" onClick={(e) => handleLinkClick(e, "/my/library")}>
           <button
-            className={`flex items-center ${isActive("/my/library") ? "text-[#02fad5]" : "hover:text-[#02fad5]"
+            className={`flex items-center ${isActive("/my/library") ? "text-[#25d1da]" : "hover:text-[#25d1da]"
               } transition-colors`}
           >
             <svg

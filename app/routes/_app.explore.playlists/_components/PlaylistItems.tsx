@@ -10,7 +10,7 @@ interface PlaylistItemsProps {
 }
 
 const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists }) => {
-    const playlistsToRender = [
+    const playlistsToRender: Playlist[] = [
         ...playlists,
         ...Array(Math.max(0, SECTION_SIZE - playlists.length)).fill(null)
     ];
@@ -33,8 +33,12 @@ const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists }) => {
                                 className="w-full aspect-square rounded-lg transition-opacity duration-300 group-hover:brightness-50 object-cover"
                             />
                         </div>
-                        <div className="mt-2 font-medium truncate text-xs sm:text-sm md:text-base">{playlist.name}</div>
-                        <div className="text-xs sm:text-sm text-gray-400 truncate text-[10px]">Total Tracks : {playlist.totalTracks}</div>
+                        <div className="font-medium mt-2 truncate overflow-ellipsis">
+                            {playlist.name}
+                        </div>
+                        <div className="text-sm text-gray-400 truncate overflow-ellipsis mt-0.5">
+                            Total Tracks : {playlist.totalTracks}
+                        </div>
                     </div>
                 ) : (
                     <div key={`dummy-${index}`} className="flex-none w-36 sm:w-40 md:w-44 opacity-50">

@@ -20,7 +20,7 @@ const LeftTrackInfo: React.FC<LeftTrackInfoProps> = ({ setIsOpen }) => {
         <article className="flex items-center flex-1 min-w-0 md:w-1/3">
             <button
                 className={`
-                    w-12 h-12 rounded-sm overflow-hidden mr-3 
+                    w-12 h-12 sm:w-14 sm:h-14 md:w-14 md:h-14 rounded-sm overflow-hidden mr-3 
                     flex-shrink-0 relative group 
                     ${isTrackSelected ? "cursor-pointer" : "cursor-default"}
                 `}
@@ -67,9 +67,9 @@ const LeftTrackInfo: React.FC<LeftTrackInfoProps> = ({ setIsOpen }) => {
                         </div>
                     )}
 
-                    <h2 className="font-medium text-white truncate cursor-pointer">
+                    <div className="font-medium text-white truncate cursor-pointer">
                         {trackDetails.title || "No Track Selected"}
-                    </h2>
+                    </div>
                 </div>
 
                 <div className="relative group">
@@ -80,9 +80,9 @@ const LeftTrackInfo: React.FC<LeftTrackInfoProps> = ({ setIsOpen }) => {
                         </div>
                     )}
 
-                    <p className="text-sm text-gray-400 truncate cursor-pointer">
+                    <div className="text-sm text-gray-400 truncate cursor-pointer">
                         {trackDetails.singer || "Artist Name"}
-                    </p>
+                    </div>
                 </div>
             </div>
 

@@ -16,7 +16,7 @@ const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitial
     ...tracks,
     ...Array(Math.max(0, SECTION_SIZE - tracks.length)).fill(null)
   ];
-
+ 
 
   const { trackDetails, setTrackDetails } = useTrackStore()
 
@@ -88,8 +88,12 @@ const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitial
                 </button>
               </div>
             </div>
-            <div className="mt-2 font-medium truncate text-xs sm:text-sm md:text-base">{track.title}</div>
-            <div className="text-xs sm:text-sm text-gray-400 truncate text-[10px]">{track.singer}</div>
+            <div className="font-medium mt-2 truncate overflow-ellipsis">
+              {track?.title}
+            </div>
+            <div className="text-sm text-gray-400 truncate overflow-ellipsis mt-0.5">
+              {track?.singer}
+            </div>
           </div>
         ) : (
           <div key={`dummy-${index}`} className="flex-none w-36 sm:w-40 md:w-44 opacity-50">

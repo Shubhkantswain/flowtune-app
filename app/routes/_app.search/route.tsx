@@ -115,8 +115,8 @@ const BrowsePage = () => {
                         className="w-14 h-14 rounded-lg object-cover shadow-md"
                       />
                       <div>
-                        <p className="text-xs uppercase text-[#02fad5] font-semibold mb-1">Track</p>
-                        <h3 className="text-white text-sm font-medium leading-tight hover:text-[#02fad5]">
+                        <p className="text-xs uppercase text-[#25d1da] font-semibold mb-1">Track</p>
+                        <h3 className="text-white text-sm font-medium leading-tight hover:text-[#25d1da]">
                           {song.title}
                         </h3>
                       </div>

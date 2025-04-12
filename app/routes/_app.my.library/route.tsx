@@ -12,6 +12,8 @@ import { useGetRecentTracks } from '~/hooks/track';
 import usePlaylistStore from '~/store/usePlaylistStore';
 import { useTrackStore } from '~/store/useTrackStore';
 import { Skeleton } from '~/components/ui/skeleton';
+import AddToPlaylistDialog from '~/components/AddToPlaylistDialog';
+import AddToNewPlaylistDialog from '~/components/AddToNewPlaylistDialog';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   try {
@@ -154,6 +156,9 @@ const MusicApp = () => {
     }
   };
 
+  const [isAddToPlaylistOpen, setAddToPlaylistOpen] = useState(false);
+  const [isNewPlaylistDialogOpen, setNewPlaylistDialogOpen] = useState(false);
+
   return (
     <div className="text-white min-h-screen p-4 sm:p-6 md:p-8">
       <div className="max-w-7xl mx-auto">
@@ -173,7 +178,7 @@ const MusicApp = () => {
         <h2 className="text-xl font-bold mb-4">Recently Play</h2>
 
         {isLoading ? (
-          <div className="space-y-4"> 
+          <div className="space-y-4">
 
             {Array.from({ length: 3 }).map((_, index) => (
               <div
@@ -203,16 +208,21 @@ const MusicApp = () => {
                   <img
                     src={track.coverImageUrl || ""}
                     alt={track.title}
-                    className="w-16 h-16 rounded-md object-cover"
+                    className="w-12 h-12 sm:w-14 sm:h-14 md:w-14 md:h-14 rounded object-cover"
                   />
                   <div>
-                    <p className="font-semibold">{track.title}</p>
+                    <p className="font-medium">{track.title}</p>
                     <p className="text-neutral-400 text-sm">{track.singer}</p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <button>
-                    <Plus size={24} className="text-neutral-400" />
+                <div className="flex items-center space-x-2"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setAddToPlaylistOpen(true)
+                  }}
+                >
+                  <button className='text-gray-400 hover:text-white'>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><defs><path id="ic_action_add-a" d="M21,11 L13,11 L13,3 C13,2.448 12.552,2 12,2 C11.448,2 11,2.448 11,3 L11,11 L3,11 C2.448,11 2,11.448 2,12 C2,12.552 2.448,13 3,13 L11,13 L11,21 C11,21.553 11.448,22 12,22 C12.552,22 13,21.553 13,21 L13,13 L21,13 C21.552,13 22,12.552 22,12 C22,11.448 21.552,11 21,11 Z"></path></defs><g fill-rule="evenodd" fill="transparent"><rect width="24" height="24"></rect><use href="#ic_action_add-a" fill="currentColor"></use></g></svg>
                   </button>
                 </div>
               </div>
@@ -220,6 +230,9 @@ const MusicApp = () => {
           </div>
         )}
 
+        <AddToPlaylistDialog isOpen={isAddToPlaylistOpen} setIsOpen={setAddToPlaylistOpen} setNewPlaylistDialogOpen={setNewPlaylistDialogOpen} />
+        <AddToNewPlaylistDialog isOpen={isNewPlaylistDialogOpen} setIsOpen={setNewPlaylistDialogOpen} trackId={trackDetails.id} />
+        
       </div>
       {/* CSS for hiding scrollbar */}
       <style>{`

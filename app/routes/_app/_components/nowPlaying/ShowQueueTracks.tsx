@@ -46,10 +46,10 @@ const ShowQueueTracks: React.FC<ShowQueueTracksProps> = ({
                 {trackDetails && (
                     <div className="mb-6 md:mb-8 w-full max-w-2xl">
                         <h3 className="text-lg sm:text-xl font-bold text-white mb-3 md:mb-4 flex items-center">
-                            <span className="inline-block w-2 h-2 bg-[#02fad5] rounded-full mr-2"></span>
+                            <span className="inline-block w-2 h-2 bg-[#25d1da] rounded-full mr-2"></span>
                             Now Playing
                         </h3>
-                        <div className="flex items-center gap-2 sm:gap-4 p-3 sm:p-4 rounded-xl bg-gradient-to-r from-zinc-900/90 to-zinc-800/70 backdrop-blur-md border-l-4 border-[#02fad5] transition-all duration-300 hover:shadow-lg hover:shadow-[#02fad5]/30 ">
+                        <div className="flex items-center gap-2 sm:gap-4 p-3 sm:p-4 rounded-xl bg-gradient-to-r from-zinc-900/90 to-zinc-800/70 backdrop-blur-md border-l-4 border-[#25d1da] transition-all duration-300 hover:shadow-lg hover:shadow-[#25d1da]/30 ">
                             <Button
                                 variant="ghost"
                                 size="icon"

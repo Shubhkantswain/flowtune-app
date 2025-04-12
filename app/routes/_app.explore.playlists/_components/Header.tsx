@@ -16,7 +16,7 @@ const Header: React.FC<HeaderProps> = ({ scroll, title, playlists, canScrollLeft
 
     return (
         <>
-            <header className="mb-4 md:mb-6">
+              <header className="mb-4 md:mb-6">
                 <div className="flex flex-row justify-between items-center gap-4 mb-4">
                     <div>
                         <h1 className="text-lg sm:text-xl md:text-2xl font-bold mb-1">
@@ -76,7 +76,7 @@ const Header: React.FC<HeaderProps> = ({ scroll, title, playlists, canScrollLeft
                         </div>
 
                         {/* See All Button */}
-                        <button className="px-4 py-2 bg-[#292a2a] text-white rounded-full hover:bg-[#5D5E5E] transition-colors text-xs font-medium"
+                        <button className="px-3 py-1.5 md:px-4 md:py-2 bg-[#292a2a] text-white rounded-full hover:bg-[#5D5E5E] transition-colors text-xs font-medium"
                             onClick={() => setIsOpen(true)}
                         >
                             SEE ALL

@@ -13,13 +13,13 @@ interface NewSong {
     visibility: "public" | "private";
 }
 
-interface AddSongToPlaylistDialogProps {
-    songDialogOpen: boolean;
-    setSongDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+interface AddToNewPlaylistDialogProps {
+    isOpen: boolean;
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
     trackId: string;
 }
 
-const AddSongToPlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }: AddSongToPlaylistDialogProps) => {
+const AddToNewPlaylistDialog = ({ isOpen, setIsOpen, trackId }: AddToNewPlaylistDialogProps) => {
     const { handleFileChange: handleImgChange, fileURL: imgUrl } = usePreviewFile("image");
     const { mutate: addSongToPlaylist, isPending } = useAddSongToPlaylist();
 
@@ -37,13 +37,13 @@ const AddSongToPlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }:
             isNewPlaylist: true,
             name: data.name,
             coverImageUrl: imgUrl || "",
-            visibility: Visibility.Public,
+            visibility: data.visibility == "public" ? Visibility.Public: Visibility.Private,
             trackIds: [trackId]
         });
     };
 
     return (
-        <Dialog open={songDialogOpen} onOpenChange={setSongDialogOpen}>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogContent className="bg-gradient-to-b from-black to-zinc-900 border-zinc-700 max-h-[80vh] overflow-auto">
                 <DialogHeader>
                     <DialogTitle className="text-white">Add New Song</DialogTitle>
@@ -122,7 +122,7 @@ const AddSongToPlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }:
                         <Button
                             type="button"
                             variant="outline"
-                            onClick={() => setSongDialogOpen(false)}
+                            onClick={() => setIsOpen(false)}
                             disabled={isPending}
                             className="cursor-pointer"
                         >
@@ -138,4 +138,4 @@ const AddSongToPlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }:
     );
 };
 
-export default AddSongToPlaylistDialog;
+export default AddToNewPlaylistDialog;

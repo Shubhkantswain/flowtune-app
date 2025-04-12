@@ -35,7 +35,7 @@ const TrackCollectionsInfo: React.FC<TrackCollectionsInfoProps> = ({
                 <div className="flex gap-4 items-center mt-4">
                     <button
                         // className="bg-cyan-400 text-black px-6 py-2 rounded-full font-medium flex items-center gap-2 hover:bg-cyan-300 transition-colors"
-                        className="flex items-center gap-2 bg-[#02fad5] hover:bg-[#02fad5]/70 text-black font-semibold px-8 py-3 rounded-full"
+                        className="flex items-center gap-2 bg-[#25d1da] hover:bg-[#25d1da]/70 text-black font-semibold px-8 py-3 rounded-full"
                         onClick={() => handlePlayTrack(initialTrack)}
                     >
                         Play
@@ -49,7 +49,7 @@ const TrackCollectionsInfo: React.FC<TrackCollectionsInfoProps> = ({
                         </div>
 
                         <button
-                            className="text-white hover:text-[#02fad5] transition-colors"
+                            className="text-white hover:text-[#25d1da] transition-colors"
                             onClick={toggleScreenType}
                         >
                             {screenType === "compact" ? (

@@ -66,7 +66,7 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
                 className="w-56 h-56 md:w-64 md:h-64 rounded-lg shadow-xl object-cover"
             />
             <div className="flex flex-col items-center md:items-start gap-4 text-center md:text-left">
-                <span className="text-[#02fad5] text-sm">PRIVATE</span>
+                <span className="text-[#25d1da] text-sm">PRIVATE</span>
                 <h1 className="text-4xl md:text-5xl font-bold">{res.title}</h1>
 
                 <div className="text-sm text-gray-400">
@@ -79,7 +79,7 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
                                 handleControll(res.tracks[0])
                             }
                         }}
-                        className="flex items-center gap-2 bg-[#02fad5] hover:bg-[#02fad5]/70 text-black font-semibold px-8 py-3 rounded-full"
+                        className="flex items-center gap-2 bg-[#25d1da] hover:bg-[#25d1da]/70 text-black font-semibold px-8 py-3 rounded-full"
                     >
                         Play
                     </button>

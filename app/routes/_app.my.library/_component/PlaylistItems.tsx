@@ -27,7 +27,7 @@ const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists, handleScroll, 
             <div className="grid grid-flow-col auto-cols-max gap-4">
                 {
                     (activeTab == "Likes" || activeTab == "All") && (
-                        <div className="group w-32 sm:w-40 md:w-48 sm:mr-2 md:mr-3 lg:mr-5">
+                        <div className="group w-36 sm:w-40 md:w-44 sm:mr-2 md:mr-3 lg:mr-5">
                             <div className="relative aspect-square overflow-hidden rounded-lg mb-2 bg-neutral-800">
                                 <div
                                     className="absolute inset-0 flex items-center justify-center cursor-pointer hover:brightness-50"
@@ -41,7 +41,7 @@ const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists, handleScroll, 
                                     </div>
                                 </div>
                             </div>
-                            <div className="text-sm truncate">My Likes</div>
+                            <div className="font-medium truncate">My Likes</div>
                             <div className="text-sm truncate text-gray-400"></div>
                         </div>
                     )
@@ -50,7 +50,7 @@ const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists, handleScroll, 
                 {
                     (activeTab == "Playlists" || activeTab == "All") && (
                         playlists?.map(playlist => (
-                            <div key={playlist.id} className="group w-32 sm:w-40 md:w-48 sm:mr-2 md:mr-3 lg:mr-5">
+                            <div key={playlist.id} className="group w-36 sm:w-40 md:w-44 sm:mr-2 md:mr-3 lg:mr-5">
                                 <div className="relative aspect-square overflow-hidden rounded-lg mb-2 bg-neutral-800">
                                     <div
                                         className="absolute inset-0 cursor-pointer"
@@ -63,8 +63,12 @@ const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists, handleScroll, 
                                         />
                                     </div>
                                 </div>
-                                <div className="text-sm truncate">{playlist.name}</div>
-                                <div className="text-sm truncate text-gray-400">Total Tracks : {playlist.totalTracks}</div>
+                                <div className="font-medium mt-2 truncate overflow-ellipsis">
+                                    {playlist?.name}
+                                </div>
+                                <div className="text-sm text-gray-400 truncate overflow-ellipsis mt-0.5">
+                                    Total Tracks : {playlist.totalTracks}
+                                </div>
                             </div>
                         ))
                     )
