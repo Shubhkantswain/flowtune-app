@@ -58,7 +58,7 @@ const ShowQueueTracks: React.FC<ShowQueueTracksProps> = ({
                                 {trackDetails.isPlaying ? <AnimatedEqualizer /> : <AnimatedEqualizerPause />}
                             </Button>
 
-                            <div className="h-14 w-14 sm:h-20 sm:w-20 rounded-lg overflow-hidden flex-shrink-0 shadow-lg shadow-black/20 transform transition-transform duration-300 hover:scale-105">
+                            <div className="h-14 w-14 sm:h-20 sm:w-20 rounded-sm overflow-hidden flex-shrink-0 shadow-lg shadow-black/20 transform transition-transform duration-300 hover:scale-105">
                                 <img
                                     src={trackDetails.coverImageUrl || ""}
                                     alt={trackDetails.title}
@@ -98,11 +98,11 @@ const ShowQueueTracks: React.FC<ShowQueueTracksProps> = ({
                                     {idx + 1}
                                 </div>
 
-                                <div className="h-12 w-12 sm:h-16 sm:w-16 rounded-md overflow-hidden flex-shrink-0 shadow-md transition-all duration-300 group-hover:shadow-lg group-hover:shadow-purple-500/10">
+                                <div className="rounded-sm overflow-hidden flex-shrink-0 shadow-md transition-all duration-300 group-hover:shadow-lg group-hover:shadow-purple-500/10">
                                     <img
                                         src={track.coverImageUrl || ""}
                                         alt={track.title}
-                                        className="w-full h-full object-cover"
+                                        className="w-12 h-12 sm:w-14 sm:h-14 md:w-14 md:h-14 rounded-sm object-cover"
                                     />
                                 </div>
 

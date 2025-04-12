@@ -129,7 +129,7 @@ const CreateTrackDialog: React.FC<CreateTrackDialogProps> = ({ songDialogOpen, s
                                     <img
                                         src={imgUrl}
                                         alt="Selected artwork"
-                                        className="max-h-40 object-contain rounded-md"
+                                        className="max-h-40 object-contain rounded-sm"
                                     />
                                     <div className="text-sm text-[#25d1da]">Image selected</div>
                                 </div>

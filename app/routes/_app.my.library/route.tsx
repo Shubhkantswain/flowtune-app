@@ -31,7 +31,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const token = cookies["__FlowTune_Token_server"];
 
     if (!token) {
-      return redirect("/explore")
+      return redirect("/ft/signin")
     }
 
     const graphqlClient = createGraphqlClient(token);
@@ -215,12 +215,17 @@ const MusicApp = () => {
                     <p className="text-neutral-400 text-sm">{track.singer}</p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-2"
+                <div className="relative group flex items-center space-x-2"
                   onClick={(e) => {
                     e.stopPropagation()
                     setAddToPlaylistOpen(true)
                   }}
                 >
+                  <div className="absolute -top-10 left-0 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
+                  opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                    Add To Playlist
+                  </div>
+
                   <button className='text-gray-400 hover:text-white'>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><defs><path id="ic_action_add-a" d="M21,11 L13,11 L13,3 C13,2.448 12.552,2 12,2 C11.448,2 11,2.448 11,3 L11,11 L3,11 C2.448,11 2,11.448 2,12 C2,12.552 2.448,13 3,13 L11,13 L11,21 C11,21.553 11.448,22 12,22 C12.552,22 13,21.553 13,21 L13,13 L21,13 C21.552,13 22,12.552 22,12 C22,11.448 21.552,11 21,11 Z"></path></defs><g fill-rule="evenodd" fill="transparent"><rect width="24" height="24"></rect><use href="#ic_action_add-a" fill="currentColor"></use></g></svg>
                   </button>
@@ -232,7 +237,7 @@ const MusicApp = () => {
 
         <AddToPlaylistDialog isOpen={isAddToPlaylistOpen} setIsOpen={setAddToPlaylistOpen} setNewPlaylistDialogOpen={setNewPlaylistDialogOpen} />
         <AddToNewPlaylistDialog isOpen={isNewPlaylistDialogOpen} setIsOpen={setNewPlaylistDialogOpen} trackId={trackDetails.id} />
-        
+
       </div>
       {/* CSS for hiding scrollbar */}
       <style>{`

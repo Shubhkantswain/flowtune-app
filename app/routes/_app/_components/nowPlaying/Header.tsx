@@ -16,7 +16,7 @@ const Header: React.FC<HeaderProps> = ({ onClose, onShowQueueTrack, hide, setHid
         <div className="p-4 flex items-center justify-between relative">
             <div className="relative group">
                 <div
-                    className="absolute top-7 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
+                    className="absolute top-7 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
                opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white
                whitespace-nowrap left-0"
                 >
@@ -44,8 +44,8 @@ const Header: React.FC<HeaderProps> = ({ onClose, onShowQueueTrack, hide, setHid
             {
                 (trackDetails.videoUrl && videoEnabled) && (
                     <div className="relative group -mt-7">
-                        <div className="absolute top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
-        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                        <div className="absolute top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
+                        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
                             {
                                 hide ? "Show Controllers" : "Hide Controllers"
                             }
@@ -62,7 +62,7 @@ const Header: React.FC<HeaderProps> = ({ onClose, onShowQueueTrack, hide, setHid
             {/* Show Queue */}
             <div className="relative group">
                 <div
-                    className="absolute top-6 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
+                    className="absolute top-6 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
                opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white
                whitespace-nowrap right-0"
                 >

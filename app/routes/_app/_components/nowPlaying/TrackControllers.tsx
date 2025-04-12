@@ -40,7 +40,7 @@ const TrackControllers = () => {
                 <div className='relative group'>
                     {
 
-                        <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
+                        <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
      opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
                             Skip Backward 15s
                         </div>
@@ -63,7 +63,7 @@ const TrackControllers = () => {
                 <div className='relative group'>
                     {
                         (hasPrev() && trackDetails.id) && (
-                            <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
+                            <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
         opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
                                 Previous
                             </div>
@@ -86,7 +86,7 @@ const TrackControllers = () => {
                 <div className='relative group'>
                     {
                         trackDetails.id && (
-                            <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
+                            <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
         opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
                                 {isPlaying ? "Pause" : "Play"}
                             </div>
@@ -107,7 +107,7 @@ const TrackControllers = () => {
                 <div className='relative group'>
                     {
                         (hasNext() && trackDetails.id) && (
-                            <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
+                            <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
         opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
                                 Next
                             </div>
@@ -129,7 +129,7 @@ const TrackControllers = () => {
 
                     {
                         trackDetails.id && (
-                            <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
+                            <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
         opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
                                 Skip Forward 30s
                             </div>

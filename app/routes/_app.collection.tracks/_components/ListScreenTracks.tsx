@@ -40,7 +40,7 @@ const ListScreenTracks: React.FC<ListScreenTracksProps> = ({
                     {tracks.map((track, index) => (
                         <tr
                             key={track.id}
-                            className="group hover:bg-[#161616] cursor-pointer"
+                            className="group hover:bg-[#29292A] cursor-pointer"
                             onClick={() => handlePlayTrack(track)}
                         >
                             <td className="px-3 py-4 w-8 text-gray-400">
@@ -68,9 +68,9 @@ const ListScreenTracks: React.FC<ListScreenTracksProps> = ({
                                 </div>
                             </td>
                             <td className="px-3 py-4">
-                                <span className={`${track?.id === trackDetails.id && trackDetails.isPlaying && initialized ? "text-[#25d1da]" : "text-white"} text-base font-medium`}>
+                                <div className={`${track?.id === trackDetails.id && trackDetails.isPlaying && initialized ? "text-[#25d1da]" : "text-white"} font-medium`}>
                                     {track.title.split("From")[0].trim()}
-                                </span>
+                                </div>
                             </td>
                             <td className="px-3 py-4 text-gray-400 text-sm hidden sm:table-cell">
                                 {track.singer}

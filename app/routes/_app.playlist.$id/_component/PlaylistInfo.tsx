@@ -63,7 +63,7 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
             <img
                 src={res.coverImageUrl}
                 alt={res.title}
-                className="w-56 h-56 md:w-64 md:h-64 rounded-lg shadow-xl object-cover"
+                className="w-56 h-56 md:w-64 md:h-64 rounded-sm shadow-xl object-cover"
             />
             <div className="flex flex-col items-center md:items-start gap-4 text-center md:text-left">
                 <span className="text-[#25d1da] text-sm">PRIVATE</span>
@@ -84,7 +84,12 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
                         Play
                     </button>
 
-                    <div className="relative" ref={dropdownRef}>
+                    <div className="relative group" ref={dropdownRef}>
+                        <div className="absolute -top-7 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
+                        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                            More
+                        </div>
+
                         <button
                             onClick={toggleDropdown}
                             className="p-2 rounded-full transition-colors focus:outline-none hover:scale-110"
