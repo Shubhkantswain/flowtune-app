@@ -39,6 +39,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        {/* Google Fonts - Rubik */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+          rel="stylesheet"
+        />
         <Meta />
         <Links />
       </head>
@@ -54,6 +62,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     </html>
   );
 }
+
 
 export default function App() {
   return <Outlet />;

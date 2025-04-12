@@ -20,7 +20,7 @@ const LeftTrackInfo: React.FC<LeftTrackInfoProps> = ({ setIsOpen }) => {
         <article className="flex items-center flex-1 min-w-0 md:w-1/3">
             <button
                 className={`
-                    w-12 h-12 rounded-md overflow-hidden mr-3 
+                    w-12 h-12 rounded-sm overflow-hidden mr-3 
                     flex-shrink-0 relative group 
                     ${isTrackSelected ? "cursor-pointer" : "cursor-default"}
                 `}

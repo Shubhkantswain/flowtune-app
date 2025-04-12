@@ -33,8 +33,8 @@ const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists }) => {
                                 className="w-full aspect-square rounded-lg transition-opacity duration-300 group-hover:brightness-50 object-cover"
                             />
                         </div>
-                        <h3 className="mt-2 font-semibold truncate text-xs sm:text-sm md:text-base">{playlist.name}</h3>
-                        <p className="text-gray-400 text-xs sm:text-sm truncate text-[10px] md:text-sm">Total Tracks : {playlist.totalTracks}</p>
+                        <h3 className="mt-2 font-medium truncate text-xs sm:text-sm md:text-base">{playlist.name}</h3>
+                        <p className="text-gray-400 text-xs truncate text-[10px]">Total Tracks : {playlist.totalTracks}</p>
                     </div>
                 ) : (
                     <div key={`dummy-${index}`} className="flex-none w-36 sm:w-40 md:w-44 opacity-50">

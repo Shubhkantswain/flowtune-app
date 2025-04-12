@@ -54,7 +54,7 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
             <div className="flex justify-between items-center">
                 <div className="space-y-1 text-left flex-1 min-w-0">
                     <div className="relative group">
-                        <h2 className="text-2xl md:text-3xl font-semibold transition-all duration-300 truncate overflow-hidden max-w-full">
+                        <h2 className="text-2xl md:text-3xl font-medium transition-all duration-300 truncate overflow-hidden max-w-full">
                             {trackDetails.title}
                         </h2>
                         <span className="absolute left-0 bottom-full mb-1 w-max px-2 py-1 bg-zinc-800 border border-white text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">

@@ -33,7 +33,7 @@ function TrackSection({ tracks, index, title }: {
     const scroll = (direction: 'left' | 'right'): void => {
       if (scrollContainerRef.current) {
         const container = scrollContainerRef.current as HTMLDivElement;
-        const scrollAmount = direction === 'left' ? -300 : 300;
+        const scrollAmount = direction === 'left' ? -350 : 350;
         container.scrollBy({
           left: scrollAmount,
           behavior: 'smooth',

@@ -18,7 +18,7 @@ export default function AppLayout() {
                 <Header />
 
                 {/* Main Content */}
-                <main className={`flex-1 overflow-y-auto pb-24 ${includes ? genreIdsSwap[params.genreId as GenreKey][1] : "bg-gradient-to-b from-black via-[#0a0a0a] to-[#050505]"} text-gray-300`}>
+                <main className={`flex-1 overflow-y-auto pb-24 ${includes ? genreIdsSwap[params.genreId as GenreKey][1] : "bg-gradient-to-b from-[#030304] to-[#0D1011]"} text-gray-300`}>
                     <Outlet />
                 </main>
 
