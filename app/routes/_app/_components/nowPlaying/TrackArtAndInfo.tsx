@@ -13,42 +13,43 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
     const { trackDetails, setTrackDetails } = useTrackStore()
 
     console.log("let see", videoEnabled);
-    
+
     return (
         <div className="px-8 pt-8 -mt-7">
-
             <div
                 className={`aspect-square w-full max-w-sm lg:max-w-[300px] lg:ml-0 mx-auto rounded-lg mb-8 will-change-transform transition-transform duration-500 ease-out transform wave-container ${trackDetails.isPlaying ? 'scale-100 playing' : 'scale-95'}`}
             >
-                {/* Left side wave lines */}
-                <LeftSideWaveLines shouldHide={true}/>
+                <div className='hidden md:block'>
+                    {/* Left side wave lines */}
+                    <LeftSideWaveLines />
 
-                {/* Image */}
-                <img
-                    src={trackDetails.coverImageUrl || ""}
-                    alt="Album art"
-                    className="w-full h-full object-cover rounded-lg hidden md:block"
-                />
+                    {/* Image */}
+                    <img
+                        src={trackDetails.coverImageUrl || ""}
+                        alt="Album art"
+                        className="w-full h-full object-cover rounded-lg"
+                    />
 
-                {/* Right side wave lines */}
-                <RightSideWaveLines shouldHide={true} />
+                    {/* Right side wave lines */}
+                    <RightSideWaveLines />
+                </div>
 
                 {
                     (!trackDetails.videoUrl || !videoEnabled) && (
-                        <>
+                        <div className='block md:hidden'>
                             {/* Left side wave lines */}
-                            <LeftSideWaveLines shouldHide={false} />
+                            <LeftSideWaveLines />
 
                             {/* Image */}
                             <img
                                 src={trackDetails.coverImageUrl || ""}
                                 alt="Album art"
-                                className="w-full h-full object-cover rounded-lg block md:hidden"
+                                className="w-full h-full object-cover rounded-lg"
                             />
 
                             {/* Right side wave lines */}
-                            <RightSideWaveLines shouldHide={false}/>
-                        </>
+                            <RightSideWaveLines />
+                        </div>
                     )
                 }
             </div>

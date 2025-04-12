@@ -1,6 +1,6 @@
-const LeftSideWaveLines = ({ shouldHide }: { shouldHide: boolean }) => {
+const LeftSideWaveLines = () => {
     return (
-        <div className={`${shouldHide ? "hidden md:block" : ""} wave-lines-left`}>
+        <div className="wave-lines-left">
             <div className="wave-line"></div>
             <div className="wave-line"></div>
             <div className="wave-line"></div>
