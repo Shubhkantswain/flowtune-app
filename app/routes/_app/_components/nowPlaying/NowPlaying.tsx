@@ -122,7 +122,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
 
         <div className="relative z-10 max-w-3xl mx-auto min-h-full">
           {/* Header */}
-          <Header onClose={onClose} onShowQueueTrack={() => setIsQueueTrackVisible(true)} hide={hide} setHide={setHide} />
+          <Header onClose={onClose} onShowQueueTrack={() => setIsQueueTrackVisible(true)} hide={hide} setHide={setHide} videoEnabled={videoEnabled}/>
 
           {
             !hide && (

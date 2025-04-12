@@ -6,9 +6,10 @@ interface HeaderProps {
     onShowQueueTrack: () => void;
     hide: boolean;
     setHide: React.Dispatch<React.SetStateAction<boolean>>;
+    videoEnabled: boolean
 }
 
-const Header: React.FC<HeaderProps> = ({ onClose, onShowQueueTrack, hide, setHide }) => {
+const Header: React.FC<HeaderProps> = ({ onClose, onShowQueueTrack, hide, setHide, videoEnabled }) => {
     const { trackDetails } = useTrackStore()
     
     return (
@@ -41,7 +42,7 @@ const Header: React.FC<HeaderProps> = ({ onClose, onShowQueueTrack, hide, setHid
             </div>
 
             {
-                trackDetails.videoUrl && (
+                (trackDetails.videoUrl && videoEnabled) && (
                     <div className="relative group -mt-7">
                         <div className="absolute top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white rounded-md shadow-lg 
         opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">

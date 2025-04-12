@@ -67,7 +67,7 @@ const ShowQueueTracks: React.FC<ShowQueueTracksProps> = ({
                             </div>
 
                             <div className="flex flex-col min-w-0 flex-1">
-                                <span className="text-base sm:text-lg font-semibold text-white truncate">
+                                <span className="text-base sm:text-lg font-medium text-white truncate">
                                     {trackDetails.title}
                                 </span>
                                 <span className="text-xs sm:text-sm text-gray-300">
