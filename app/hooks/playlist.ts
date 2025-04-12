@@ -22,7 +22,7 @@ export const useAddSongToPlaylist = () => {
                 return addSongToPlaylist;
             } catch (error: any) {
                 console.log("i hope error", error);
-                
+
                 throw new Error(
                     error?.response?.errors?.[0]?.message || "Something went wrong"
                 );
@@ -40,7 +40,7 @@ export const useAddSongToPlaylist = () => {
         onError: (error: any) => {
             const errorMessage = error.message.split(":").pop()?.trim() || "Something went wrong";
             console.log("error msg", error);
-            
+
             toast.error(errorMessage);
         },
     });
@@ -63,7 +63,7 @@ export const useCreatePlaylist = () => {
                 return createPlaylist;
             } catch (error: any) {
                 console.log("i hope error", error);
-                
+
                 throw new Error(
                     error?.response?.errors?.[0]?.message || "Something went wrong"
                 );
@@ -72,7 +72,7 @@ export const useCreatePlaylist = () => {
         onSuccess: (data: Playlist) => {
             if (data) {
                 queryClient.setQueryData(["CurrentUserPlaylists"], (prev: Playlist[]) => {
-                    if(prev){
+                    if (prev) {
                         return [...prev, data]
                     }
                 })
@@ -83,7 +83,7 @@ export const useCreatePlaylist = () => {
         onError: (error: any) => {
             const errorMessage = error.message.split(":").pop()?.trim() || "Something went wrong";
             console.log("error msg", error);
-            
+
             toast.error(errorMessage);
         },
     });
@@ -145,16 +145,16 @@ export const useDeletePlaylist = () => {
     });
 };
 
-export const useGetCurrentUserPlaylists = () => {
+export const useGetCurrentUserPlaylists = (page: number) => {
     return useQuery({
-        queryKey: ['CurrentUserPlaylists'],
+        queryKey: ['CurrentUserPlaylists', page],
         queryFn: async () => {
             let token = ""
             if (typeof window !== "undefined") {
                 token = localStorage.getItem("__FlowTune_Token") || ""
             }
             const graphqlClient = createGraphqlClient(token)
-            const { getCurrentUserPlaylists } = await graphqlClient.request(getCurrentUserPlaylistsQuery)
+            const { getCurrentUserPlaylists } = await graphqlClient.request(getCurrentUserPlaylistsQuery, { page })
             return getCurrentUserPlaylists
         }
     })

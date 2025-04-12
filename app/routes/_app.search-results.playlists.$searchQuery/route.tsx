@@ -104,14 +104,14 @@ function SearchResultsRoute() {
                 {displayedPlaylists.map(playlist => (
                     <div
                         key={playlist.id}
-                        className="flex items-center hover:bg-[#282828] p-3 cursor-pointer"
+                        className="flex items-center hover:bg-[#29292A] p-3 cursor-pointer"
                         onClick={() => navigate(`/playlist/${playlist.id}`)}
                     >
                         <div className="flex-grow flex items-center space-x-4">
                             <img
                                 src={playlist.coverImageUrl || ""}
                                 alt={playlist.name}
-                                className="w-12 h-12 object-cover"
+                                className="w-12 h-12 sm:w-14 sm:h-14 md:w-14 md:h-14 rounded-sm object-cover"
                             />
                             <div>
                                 <div className="text-white">{playlist.name}</div>

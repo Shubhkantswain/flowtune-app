@@ -183,7 +183,7 @@ const MusicApp = () => {
             {Array.from({ length: 3 }).map((_, index) => (
               <div
                 key={index}
-                className="flex items-center p-2 bg-[#1A1A1A] rounded-lg gap-4"
+                className="flex items-center p-2 bg-[#1A1A1A] rounded-lg gap-4 border border-[#2a2a2a]"
               >
                 <div className="w-16 h-16 bg-[#333333] rounded-md" />
                 <div className="flex flex-col space-y-2">
@@ -208,7 +208,7 @@ const MusicApp = () => {
                   <img
                     src={track.coverImageUrl || ""}
                     alt={track.title}
-                    className="w-12 h-12 sm:w-14 sm:h-14 md:w-14 md:h-14 rounded object-cover"
+                    className="w-12 h-12 sm:w-14 sm:h-14 md:w-14 md:h-14 rounded-sm object-cover"
                   />
                   <div>
                     <p className="font-medium">{track.title}</p>
@@ -235,7 +235,11 @@ const MusicApp = () => {
           </div>
         )}
 
-        <AddToPlaylistDialog isOpen={isAddToPlaylistOpen} setIsOpen={setAddToPlaylistOpen} setNewPlaylistDialogOpen={setNewPlaylistDialogOpen} />
+        {
+          isAddToPlaylistOpen && (
+            <AddToPlaylistDialog isOpen={isAddToPlaylistOpen} setIsOpen={setAddToPlaylistOpen} setNewPlaylistDialogOpen={setNewPlaylistDialogOpen} />
+          )
+        }
         <AddToNewPlaylistDialog isOpen={isNewPlaylistDialogOpen} setIsOpen={setNewPlaylistDialogOpen} trackId={trackDetails.id} />
 
       </div>

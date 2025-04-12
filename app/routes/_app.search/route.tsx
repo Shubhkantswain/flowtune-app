@@ -112,7 +112,7 @@ const BrowsePage = () => {
                       <img
                         src={song.coverImageUrl}
                         alt={song.title}
-                        className="w-14 h-14 rounded-lg object-cover shadow-md"
+                        className="w-12 h-12 sm:w-14 sm:h-14 md:w-14 md:h-14 rounded-sm object-cover"
                       />
                       <div>
                         <p className="text-xs uppercase text-[#25d1da] font-semibold mb-1">Track</p>

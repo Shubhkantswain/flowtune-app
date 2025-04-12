@@ -112,14 +112,14 @@ function SearchResultsRoute() {
         {displayedTracks.map(track => (
           <div
             key={track.id}
-            className="flex items-center justify-between hover:bg-[#282828] p-3 cursor-pointer"
+            className="flex items-center justify-between hover:bg-[#29292A] p-3 cursor-pointer"
             onClick={() => handleTrackClick(trackDetails.isPlaying && trackDetails.id === track.id, track)}
           >
             <div className="flex-grow flex items-center space-x-4">
               <img
                 src={track.coverImageUrl || ""}
                 alt={track.title}
-                className="w-12 h-12 object-cover"
+                className="w-12 h-12 sm:w-14 sm:h-14 md:w-14 md:h-14 rounded-sm object-cover"
               />
               <div>
                 <div className="text-white">{track.title}</div>
