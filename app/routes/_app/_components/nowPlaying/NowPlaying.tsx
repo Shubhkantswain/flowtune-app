@@ -62,10 +62,10 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
 
   useEffect(() => {
     const enabled = localStorage.getItem("videoEnabled")
-    if (enabled == null) {
+    if (enabled == null && trackDetails.videoUrl) {
       setVideoEnabled(true)
     } else {
-      if (enabled == "true") {
+      if (enabled == "true" && trackDetails.videoUrl) {
         setVideoEnabled(true)
       } else if (enabled == "false") {
         setVideoEnabled(false)
@@ -73,7 +73,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
         setVideoEnabled(false)
       }
     }
-  }, [])
+  }, [trackDetails])
 
   return (
     <>

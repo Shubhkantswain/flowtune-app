@@ -145,7 +145,7 @@ export const useDeletePlaylist = () => {
     });
 };
 
-export const useGetCurrentUserPlaylists = (input: GetCurrentUserPlaylistsInput) => {
+export const useGetCurrentUserPlaylists = (input: GetCurrentUserPlaylistsInput, shouldFetch: boolean) => {
     return useQuery({
         queryKey: ['CurrentUserPlaylists', input.page],
         queryFn: async () => {
@@ -153,7 +153,7 @@ export const useGetCurrentUserPlaylists = (input: GetCurrentUserPlaylistsInput) 
             if (typeof window !== "undefined") {
                 token = localStorage.getItem("__FlowTune_Token") || ""
             }
-            if(input.page == 1) return []
+            if (!shouldFetch) return []
             const graphqlClient = createGraphqlClient(token)
             const { getCurrentUserPlaylists } = await graphqlClient.request(getCurrentUserPlaylistsQuery, { input })
             return getCurrentUserPlaylists

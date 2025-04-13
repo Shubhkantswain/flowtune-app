@@ -21,7 +21,7 @@ const AddToPlaylistDialog: React.FC<AddToPlaylistDialogProps> = ({
 }) => {
     const [page, setPage] = useState(1)
     const [playlists, setPlaylists] = useState<Playlist[]>([])
-    const { data, isLoading } = useGetCurrentUserPlaylists(page)
+    const { data, isLoading } = useGetCurrentUserPlaylists({page:1, limit: 10}, true)
     const { mutateAsync: addSongToPlaylist } = useAddSongToPlaylist()
 
     useEffect(() => {

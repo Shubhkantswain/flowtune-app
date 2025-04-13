@@ -124,7 +124,7 @@ const MusicApp = () => {
   const [isAddToPlaylistOpen, setAddToPlaylistOpen] = useState(false);
   const [isNewPlaylistDialogOpen, setNewPlaylistDialogOpen] = useState(false);
   const [page, setPage] = useState(1)
-  const { data: userPlaylists } = useGetCurrentUserPlaylists({ page, limit: 16 })
+  const { data: userPlaylists, isLoading:isFetchingCurrentUserPlaylists } = useGetCurrentUserPlaylists({ page, limit: 16 }, page != 1)
 
   useEffect(() => {
     if (userPlaylists && userPlaylists.length > 0) {
@@ -147,8 +147,6 @@ const MusicApp = () => {
 
         <div className="mb-6">
           {/* Scroll Controls */}
-          {/* <ScrollControls canScroll={canScroll} scroll={scroll} /> */}
-
           {/* Scrollable Container for playlists - combined for both mobile and desktop */}
           {
             playlistSections.length > 0 ? (
@@ -170,9 +168,9 @@ const MusicApp = () => {
             onClick={() => setPage(page + 1)}
             aria-label="Load more tracks"
             className="mx-auto block px-4 py-2 mt-5 bg-white text-gray-800 text-sm font-medium rounded-full border border-gray-200 hover:bg-gray-50 active:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow transition-all duration-200 w-fit"
-            disabled={isLoading}
+            disabled={isFetchingCurrentUserPlaylists}
           >
-            {isLoading && page != 1 ? (
+            {isFetchingCurrentUserPlaylists && page != 1 ? (
               <span className="flex items-center justify-center gap-1.5">
                 <svg className="animate-spin h-4 w-4 text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3"></circle>
