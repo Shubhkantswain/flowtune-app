@@ -35,13 +35,13 @@ function ShowPlaylistDialog({ isOpen, onClose, playlists }: ShowPlaylistDialogPr
                             <img
                                 src={playlist.coverImageUrl || 'https://via.placeholder.com/50'} // Fallback image if no URL is provided
                                 alt={playlist.name}
-                                className="w-12 h-12 rounded-md object-cover"
+                                className="w-12 h-12 sm:w-14 sm:h-14 md:w-14 md:h-14 rounded-sm object-cover"
                             />
 
                             {/* Track Details */}
                             <div className="flex-1">
                                 <h3 className="font-semibold text-sm text-white">{playlist.name}</h3> {/* White text for title */}
-                                <p className="text-xs text-gray-400">{playlist.totalTracks}</p> {/* Light gray text for artist */}
+                                <p className="text-xs text-gray-400">Total Tracks : {playlist.totalTracks}</p> {/* Light gray text for artist */}
                             </div>
 
                          

@@ -10,18 +10,19 @@ interface AddToPlaylistDialogProps {
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
     setNewPlaylistDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    trackId: string
 }
 
 const AddToPlaylistDialog: React.FC<AddToPlaylistDialogProps> = ({
     isOpen,
     setIsOpen,
-    setNewPlaylistDialogOpen
+    setNewPlaylistDialogOpen,
+    trackId
 }) => {
     const [page, setPage] = useState(1)
     const [playlists, setPlaylists] = useState<Playlist[]>([])
     const { data, isLoading } = useGetCurrentUserPlaylists(page)
     const { mutateAsync: addSongToPlaylist } = useAddSongToPlaylist()
-    const { trackDetails } = useTrackStore()
 
     useEffect(() => {
         if (data) {
@@ -77,7 +78,7 @@ const AddToPlaylistDialog: React.FC<AddToPlaylistDialogProps> = ({
                             <div
                                 key={playlist.id}
                                 className="p-2 rounded-md hover:bg-[#1c1c1c] bg-[#1a1a1a] cursor-pointer transition-colors flex items-center gap-2 border border-transparent hover:border-[#25d1da] hover:shadow-md hover:shadow-[#25d1da]/30 duration-200 ease-in-out"
-                                onClick={() => { addSongToPlaylist({ existingPlaylistId: playlist.id, trackIds: [trackDetails.id], isNewPlaylist: false }) }}
+                                onClick={() => { addSongToPlaylist({ existingPlaylistId: playlist.id, trackIds: [trackId], isNewPlaylist: false }) }}
                             >
                                 <h3 className="font-medium text-xs text-white">{playlist.name}</h3>
                             </div>

@@ -103,6 +103,8 @@ const MusicApp = () => {
   // Ensure fetched tracks are sorted in the order they appear in `recentTracks`
   const [sortedTracks, setSortedTracks] = useState<Track[]>([])
 
+  const [trackId, setTrackId] = useState("")
+
   const tracks = data
     ? [...data].sort((a, b) => recentTracks.indexOf(a.id) - recentTracks.indexOf(b.id))
     : []
@@ -219,6 +221,7 @@ const MusicApp = () => {
                   onClick={(e) => {
                     e.stopPropagation()
                     setAddToPlaylistOpen(true)
+                    setTrackId(track.id)
                   }}
                 >
                   <div className="absolute -top-10 left-0 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
@@ -237,10 +240,10 @@ const MusicApp = () => {
 
         {
           isAddToPlaylistOpen && (
-            <AddToPlaylistDialog isOpen={isAddToPlaylistOpen} setIsOpen={setAddToPlaylistOpen} setNewPlaylistDialogOpen={setNewPlaylistDialogOpen} />
+            <AddToPlaylistDialog isOpen={isAddToPlaylistOpen} setIsOpen={setAddToPlaylistOpen} setNewPlaylistDialogOpen={setNewPlaylistDialogOpen} trackId={trackId} />
           )
         }
-        <AddToNewPlaylistDialog isOpen={isNewPlaylistDialogOpen} setIsOpen={setNewPlaylistDialogOpen} trackId={trackDetails.id} />
+        <AddToNewPlaylistDialog isOpen={isNewPlaylistDialogOpen} setIsOpen={setNewPlaylistDialogOpen} trackId={trackId} />
 
       </div>
       {/* CSS for hiding scrollbar */}

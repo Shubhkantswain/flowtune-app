@@ -37,7 +37,7 @@ const AddToNewPlaylistDialog = ({ isOpen, setIsOpen, trackId }: AddToNewPlaylist
             isNewPlaylist: true,
             name: data.name,
             coverImageUrl: imgUrl || "",
-            visibility: data.visibility == "public" ? Visibility.Public: Visibility.Private,
+            visibility: data.visibility == "public" ? Visibility.Public : Visibility.Private,
             trackIds: [trackId]
         });
     };

@@ -3,7 +3,7 @@ import { AddSongToPlaylistInput, CreatePlaylistInput, Playlist, RemoveSongFromPl
 import { toast } from "sonner";
 import { createGraphqlClient } from "~/clients/api";
 import { AddSongToPlaylistMutation, CreatePlaylistMutation, DeletePlaylistMutation, RemoveSongFromPlaylistMutation } from "~/graphql/mutations/playlist";
-import { getCurrentUserPlaylistsQuery, getSearchPlaylistsQuery } from "~/graphql/queries/playlist";
+import { getCurrentUserPlaylistsQuery, getExplorePlaylistsQuery, getSearchPlaylistsQuery } from "~/graphql/queries/playlist";
 
 export const useAddSongToPlaylist = () => {
     const queryClient = useQueryClient()
@@ -156,6 +156,23 @@ export const useGetCurrentUserPlaylists = (page: number) => {
             const graphqlClient = createGraphqlClient(token)
             const { getCurrentUserPlaylists } = await graphqlClient.request(getCurrentUserPlaylistsQuery, { page })
             return getCurrentUserPlaylists
+        }
+    })
+}
+
+export const useGetExplorePlaylists = (page: number) => {
+    return useQuery({
+        queryKey: ['explorePlaylists', page],
+        queryFn: async () => {
+            if (page == 1) return []
+
+            let token = ""
+            if (typeof window !== "undefined") {
+                token = localStorage.getItem("__FlowTune_Token") || ""
+            }
+            const graphqlClient = createGraphqlClient(token);
+            const { getExplorePlaylists } = await graphqlClient.request(getExplorePlaylistsQuery, { page });
+            return getExplorePlaylists
         }
     })
 }

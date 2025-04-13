@@ -70,7 +70,7 @@ function ShowTrackDialog({ isOpen, onClose, tracks, initialized, setInitialized,
                             <img
                                 src={track.coverImageUrl || 'https://via.placeholder.com/50'} // Fallback image if no URL is provided
                                 alt={track.title}
-                                className="w-12 h-12 rounded-md object-cover"
+                                className="w-12 h-12 sm:w-14 sm:h-14 md:w-14 md:h-14 rounded-sm object-cover"
                             />
 
                             {/* Track Details */}
