@@ -9,7 +9,6 @@ function TrackSection({ tracks, index, title }: {
     index: number
     title: string
 }) {
-    const [isAnimating, setIsAnimating] = useState<boolean>(false);
     const [initialized, setInitialized] = useState(false)
 
     const scrollContainerRef = useRef(null);
@@ -28,7 +27,6 @@ function TrackSection({ tracks, index, title }: {
         });
       }
     };
-  
   
     const scroll = (direction: 'left' | 'right'): void => {
       if (scrollContainerRef.current) {

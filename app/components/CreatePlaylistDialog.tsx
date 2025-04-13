@@ -100,7 +100,7 @@ const CreatePlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }: Cr
         if (data && data.length < 4 && !isLoading && shouldSearch) {
             setHasMore(false)
         }
-        
+
         if (data && data.length >= 4) {
             setHasMore(true)
         }
@@ -126,30 +126,38 @@ const CreatePlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }: Cr
                         className="flex items-center justify-center p-6 border-2 border-dashed border-zinc-700 rounded-lg cursor-pointer"
                         onClick={() => imageInputRef.current?.click()}
                     >
-                        {imgUrl ? (
-                            <img
-                                src={imgUrl}
-                                alt="Selected artwork"
-                                className="max-h-40 object-contain rounded-md"
-                            />
-                        ) : (
-                            <div className="text-center">
-                                <div className="p-3 bg-zinc-800 rounded-full inline-block mb-2">
-                                    <Upload className="h-6 w-6 text-zinc-400" />
+                        <div className="text-center">
+                            {imgUrl ? (
+                                <div className="space-y-2">
+                                    <img
+                                        src={imgUrl}
+                                        alt="Selected artwork"
+                                        className="max-h-40 object-contain rounded-sm"
+                                    />
+                                    <div className="text-sm text-[#25d1da]">Image selected</div>
                                 </div>
-                                <p className="text-sm text-zinc-400">Upload Artwork</p>
-                                <Button variant="outline" size="sm" type="button">
-                                    Choose File
-                                </Button>
-                            </div>
-                        )}
-                        <input
-                            type="file"
-                            ref={imageInputRef}
-                            hidden
-                            accept="image/*"
-                            onChange={handleImgChange}
-                        />
+                            ) : (
+                                <>
+                                    <div className="p-3 bg-zinc-800 rounded-full inline-block mb-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-upload"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" x2="12" y1="3" y2="15" /></svg>
+                                    </div>
+                                    <div className="text-sm text-zinc-400 mb-2">Upload artwork</div>
+                                    <button
+                                        className="px-3 py-2 text-xs text-[#25d1da] border border-zinc-600 rounded-md hover:bg-zinc-800 transition"
+                                        type="button"
+                                    >
+                                        Choose File
+                                    </button>
+                                </>
+                            )}
+                            <input
+                                type="file"
+                                ref={imageInputRef}
+                                hidden
+                                accept="image/*"
+                                onChange={handleImgChange}
+                            />
+                        </div>
                     </div>
 
                     {/* Song Name */}
@@ -157,7 +165,7 @@ const CreatePlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }: Cr
                         <label className="text-sm font-medium text-white">Name</label>
                         <Input
                             {...register("name")}
-                            className="bg-zinc-800 border-zinc-700 text-white cursor-pointer"
+                            className="bg-zinc-800 border-zinc-700 text-white"
                         />
                     </div>
 

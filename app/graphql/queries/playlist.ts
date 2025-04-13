@@ -3,8 +3,8 @@ import { graphql } from "gql";
 //i hopew
 
 export const getCurrentUserPlaylistsQuery = graphql(`#graphql
-  query GetCurrentUserPlaylists($page: Int!) {
-    getCurrentUserPlaylists(page: $page) {
+  query GetCurrentUserPlaylists($input: getCurrentUserPlaylistsInput!) {
+    getCurrentUserPlaylists(input: $input) {
       id
       name
       coverImageUrl

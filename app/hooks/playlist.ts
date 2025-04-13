@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AddSongToPlaylistInput, CreatePlaylistInput, Playlist, RemoveSongFromPlaylistInput, SearchInput } from "gql/graphql";
+import { AddSongToPlaylistInput, CreatePlaylistInput, GetCurrentUserPlaylistsInput, Playlist, RemoveSongFromPlaylistInput, SearchInput } from "gql/graphql";
 import { toast } from "sonner";
 import { createGraphqlClient } from "~/clients/api";
 import { AddSongToPlaylistMutation, CreatePlaylistMutation, DeletePlaylistMutation, RemoveSongFromPlaylistMutation } from "~/graphql/mutations/playlist";
@@ -145,16 +145,17 @@ export const useDeletePlaylist = () => {
     });
 };
 
-export const useGetCurrentUserPlaylists = (page: number) => {
+export const useGetCurrentUserPlaylists = (input: GetCurrentUserPlaylistsInput) => {
     return useQuery({
-        queryKey: ['CurrentUserPlaylists', page],
+        queryKey: ['CurrentUserPlaylists', input.page],
         queryFn: async () => {
             let token = ""
             if (typeof window !== "undefined") {
                 token = localStorage.getItem("__FlowTune_Token") || ""
             }
+            if(input.page == 1) return []
             const graphqlClient = createGraphqlClient(token)
-            const { getCurrentUserPlaylists } = await graphqlClient.request(getCurrentUserPlaylistsQuery, { page })
+            const { getCurrentUserPlaylists } = await graphqlClient.request(getCurrentUserPlaylistsQuery, { input })
             return getCurrentUserPlaylists
         }
     })

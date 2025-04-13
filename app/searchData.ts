@@ -90,6 +90,8 @@ export const searchData = {
         { title: `Sanam Teri Kasam From("Sanam Teri Kasam")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743683693/abekxqjir0ezwjjnqdax.png" },
         { title: `Sanam Re From("Sanam Re")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743684198/bndynymdl0xmifzab9sg.jpg" },
         { title: `Satisfya`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743829060/x9deywhh1oqrnbkkpehe.jpg" },
+        { title: `Shape of you`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1744520203/byf6t2ar2exo3lt2j4zs.jpg" },
+
 
 
 
@@ -216,21 +218,40 @@ export const genreIds = {
     "Children Music": "Xcv0ZQW2"
 };
 
+// export const genreIdsSwap = {
+//     "Xpw1ALAB": ["Love & Romantic", "bg-gradient-to-b from-pink-900 to-black via-black"],
+//     "K9zYb2CD": ["Workout", "bg-gradient-to-b from-emerald-900 to-black via-black"],
+//     "Mnp3QWE4": ["Birthday Party", "bg-gradient-to-b from-purple-900 to-black via-black"],
+//     "Rst5UIO7": ["Chill", "bg-gradient-to-b from-gray-900 to-black via-black"],
+//     "Bcd6EFG8": ["Travel", "bg-gradient-to-b from-blue-900 to-black via-black"],
+//     "Hjk9LMN0": ["Happy", "bg-gradient-to-b from-amber-900 to-black via-black"],
+//     "Vwx1PQR2": ["Sleep", "bg-gradient-to-b from-indigo-900 to-black via-black"],
+//     "Zas3STU4": ["Sad", "bg-gradient-to-b from-red-900 to-black via-black"],
+//     "Yhn5VWX6": ["Bath", "bg-gradient-to-b from-teal-900 to-black via-black"],
+//     "Tgb7YZA9": ["Bollywood", "bg-gradient-to-b from-rose-900 to-black via-black"],
+//     "Qwe2RTY1": ["Hollywood", "bg-gradient-to-b from-yellow-900 to-black via-black"],
+//     "Lop8KIU3": ["Indian Pop", "bg-gradient-to-b from-green-900 to-black via-black"],
+//     "Juy4HGT5": ["Punjabi Pop", "bg-gradient-to-b from-orange-900 to-black via-black"],
+//     "Fds6NMB7": ["Dance and Electronic", "bg-gradient-to-b from-violet-900 to-black via-black"],
+//     "Wer9PLO1": ["Rock", "bg-gradient-to-b from-neutral-900 to-black via-black"],
+//     "Xcv0ZQW2": ["Children Music", "bg-gradient-to-b from-sky-900 to-black via-black"]
+// };
+
 export const genreIdsSwap = {
-    "Xpw1ALAB": ["Love & Romantic", "bg-gradient-to-b from-pink-900 to-black via-black"],
-    "K9zYb2CD": ["Workout", "bg-gradient-to-b from-emerald-900 to-black via-black"],
-    "Mnp3QWE4": ["Birthday Party", "bg-gradient-to-b from-purple-900 to-black via-black"],
-    "Rst5UIO7": ["Chill", "bg-gradient-to-b from-gray-900 to-black via-black"],
-    "Bcd6EFG8": ["Travel", "bg-gradient-to-b from-blue-900 to-black via-black"],
-    "Hjk9LMN0": ["Happy", "bg-gradient-to-b from-amber-900 to-black via-black"],
-    "Vwx1PQR2": ["Sleep", "bg-gradient-to-b from-indigo-900 to-black via-black"],
-    "Zas3STU4": ["Sad", "bg-gradient-to-b from-red-900 to-black via-black"],
-    "Yhn5VWX6": ["Bath", "bg-gradient-to-b from-teal-900 to-black via-black"],
-    "Tgb7YZA9": ["Bollywood", "bg-gradient-to-b from-rose-900 to-black via-black"],
-    "Qwe2RTY1": ["Hollywood", "bg-gradient-to-b from-yellow-900 to-black via-black"],
-    "Lop8KIU3": ["Indian Pop", "bg-gradient-to-b from-green-900 to-black via-black"],
-    "Juy4HGT5": ["Punjabi Pop", "bg-gradient-to-b from-orange-900 to-black via-black"],
-    "Fds6NMB7": ["Dance and Electronic", "bg-gradient-to-b from-violet-900 to-black via-black"],
-    "Wer9PLO1": ["Rock", "bg-gradient-to-b from-neutral-900 to-black via-black"],
-    "Xcv0ZQW2": ["Children Music", "bg-gradient-to-b from-sky-900 to-black via-black"]
+    "Xpw1ALAB": ["Love & Romantic", "bg-gradient-to-b from-pink-900 to-[#0D1011] via-[#0D1011]"],
+    "K9zYb2CD": ["Workout", "bg-gradient-to-b from-emerald-900 to-[#0D1011] via-[#0D1011]"],
+    "Mnp3QWE4": ["Birthday Party", "bg-gradient-to-b from-purple-900 to-[#0D1011] via-[#0D1011]"],
+    "Rst5UIO7": ["Chill", "bg-gradient-to-b from-gray-900 to-[#0D1011] via-[#0D1011]"],
+    "Bcd6EFG8": ["Travel", "bg-gradient-to-b from-blue-900 to-[#0D1011] via-[#0D1011]"],
+    "Hjk9LMN0": ["Happy", "bg-gradient-to-b from-amber-900 to-[#0D1011] via-[#0D1011]"],
+    "Vwx1PQR2": ["Sleep", "bg-gradient-to-b from-indigo-900 to-[#0D1011] via-[#0D1011]"],
+    "Zas3STU4": ["Sad", "bg-gradient-to-b from-red-900 to-[#0D1011] via-[#0D1011]"],
+    "Yhn5VWX6": ["Bath", "bg-gradient-to-b from-teal-900 to-[#0D1011] via-[#0D1011]"],
+    "Tgb7YZA9": ["Bollywood", "bg-gradient-to-b from-rose-900 to-[#0D1011] via-[#0D1011]"],
+    "Qwe2RTY1": ["Hollywood", "bg-gradient-to-b from-yellow-900 to-[#0D1011] via-[#0D1011]"],
+    "Lop8KIU3": ["Indian Pop", "bg-gradient-to-b from-green-900 to-[#0D1011] via-[#0D1011]"],
+    "Juy4HGT5": ["Punjabi Pop", "bg-gradient-to-b from-orange-900 to-[#0D1011] via-[#0D1011]"],
+    "Fds6NMB7": ["Dance and Electronic", "bg-gradient-to-b from-violet-900 to-[#0D1011] via-[#0D1011]"],
+    "Wer9PLO1": ["Rock", "bg-gradient-to-b from-neutral-900 to-[#0D1011] via-[#0D1011]"],
+    "Xcv0ZQW2": ["Children Music", "bg-gradient-to-b from-sky-900 to-[#0D1011] via-[#0D1011]"]
 };

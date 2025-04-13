@@ -37,7 +37,7 @@ function PlaylistSection({ playlists, title }: {
 
             // Update scroll buttons after scrolling
             setTimeout(checkScrollability, 300);
-        } 
+        }
     };
 
     const handleScroll = () => {
@@ -50,6 +50,8 @@ function PlaylistSection({ playlists, title }: {
         return () => window.removeEventListener('resize', checkScrollability);
     }, []);
 
+
+
     return (
         <div className="text-white p-4 sm:p-6 md:p-8">
             {/* Haeder:- which include the title, left and right arrows and see all button //*/}
@@ -60,6 +62,7 @@ function PlaylistSection({ playlists, title }: {
                     ref={scrollContainerRef}
                     className="flex gap-4 sm:gap-5 md:gap-8 overflow-x-auto scrollbar-hide [-webkit-overflow-scrolling:touch] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                     style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                    onScroll={handleScroll}
                 >
                     <PlaylistItems playlists={playlists} />
                 </div>
