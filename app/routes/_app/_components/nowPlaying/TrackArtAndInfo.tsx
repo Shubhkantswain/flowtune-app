@@ -17,7 +17,12 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
     return (
         <div className="px-8 pt-8 -mt-7">
             <div
-                className={`aspect-square w-full max-w-sm lg:max-w-[300px] lg:ml-0 mx-auto rounded-lg mb-8 will-change-transform transition-transform duration-500 ease-out transform wave-container ${trackDetails.isPlaying ? 'scale-100 playing' : 'scale-75'}`}
+                className={`aspect-square w-full max-w-sm lg:max-w-[300px] lg:ml-0 mx-auto rounded-lg mb-8 will-change-transform transition-transform duration-500 ease-out transform wave-container ${
+                    trackDetails.isPlaying
+                      ? 'scale-100 playing'
+                      : 'scale-75 lg:scale-95'
+                  }`}
+                  
             >
                 <div className="hidden md:block relative w-full h-full">
                     {/* Left side wave lines */}
@@ -38,20 +43,20 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
                 {
                     (!trackDetails.videoUrl || !videoEnabled) && (
                         <div className="block md:hidden aspect-square relative w-full h-full">
-                        {/* Left side wave lines */}
-                        <LeftSideWaveLines />
-                    
-                        {/* Image */}
-                        <img
-                            src={trackDetails.coverImageUrl || ""}
-                            alt="Album art"
-                            className="absolute inset-0 w-full h-full object-cover rounded-sm"
-                        />
-                    
-                        {/* Right side wave lines */}
-                        <RightSideWaveLines />
-                    </div>
-                    
+                            {/* Left side wave lines */}
+                            <LeftSideWaveLines />
+
+                            {/* Image */}
+                            <img
+                                src={trackDetails.coverImageUrl || ""}
+                                alt="Album art"
+                                className="absolute inset-0 w-full h-full object-cover rounded-sm"
+                            />
+
+                            {/* Right side wave lines */}
+                            <RightSideWaveLines />
+                        </div>
+
                     )
                 }
             </div>
