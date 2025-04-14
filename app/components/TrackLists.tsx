@@ -88,7 +88,7 @@ const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitial
                 </button>
               </div>
             </div>
-            <div className="font-medium mt-2 truncate overflow-ellipsis">
+            <div className="font-normal mt-2 truncate overflow-ellipsis">
               {track?.title}
             </div>
             <div className="text-sm text-gray-400 truncate overflow-ellipsis mt-0.5">

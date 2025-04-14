@@ -87,7 +87,7 @@ const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists, activeTab, sho
                                         </div>
                                     </div>
                                 </div>
-                                <div className="font-medium truncate">My Likes</div>
+                                <div className="font-normal truncate">My Likes</div>
                                 <div className="text-sm truncate text-gray-400"></div>
                             </div>
                         )
@@ -109,7 +109,7 @@ const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists, activeTab, sho
                                             />
                                         </div>
                                     </div>
-                                    <div className="font-medium mt-2 truncate overflow-ellipsis">
+                                    <div className="font-normal mt-2 truncate overflow-ellipsis">
                                         {playlist?.name}
                                     </div>
                                     <div className="text-sm text-gray-400 truncate overflow-ellipsis mt-0.5">

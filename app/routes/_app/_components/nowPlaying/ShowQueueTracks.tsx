@@ -67,12 +67,12 @@ const ShowQueueTracks: React.FC<ShowQueueTracksProps> = ({
                             </div>
 
                             <div className="flex flex-col min-w-0 flex-1">
-                                <span className="text-base sm:text-lg font-medium text-white truncate">
+                                <div className="text-base sm:text-lg font-medium text-white truncate">
                                     {trackDetails.title}
-                                </span>
-                                <span className="text-xs sm:text-sm text-gray-300">
+                                </div>
+                                <div className="text-xs sm:text-sm text-gray-300">
                                     {trackDetails.singer}
-                                </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -107,12 +107,12 @@ const ShowQueueTracks: React.FC<ShowQueueTracksProps> = ({
                                 </div>
 
                                 <div className="flex flex-col min-w-0 flex-1">
-                                    <span className="text-sm sm:text-base font-medium text-white truncate group-hover:text-purple-300 transition-colors">
+                                    <div className="text-sm sm:text-base font-medium text-white truncate group-hover:text-purple-300 transition-colors">
                                         {track.title}
-                                    </span>
-                                    <span className="text-xs sm:text-sm text-gray-400 truncate">
+                                    </div>
+                                    <div className="text-xs sm:text-sm text-gray-400 truncate">
                                         {track.singer}
-                                    </span>
+                                    </div>
                                 </div>
                                 
                                 <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity ml-1 sm:ml-2">

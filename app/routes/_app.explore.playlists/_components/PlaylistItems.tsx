@@ -33,7 +33,7 @@ const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists }) => {
                                 className="w-full aspect-square rounded-lg transition-opacity duration-300 group-hover:brightness-50 object-cover"
                             />
                         </div>
-                        <div className="font-medium mt-2 truncate overflow-ellipsis">
+                        <div className="font-normal mt-2 truncate overflow-ellipsis">
                             {playlist.name}
                         </div>
                         <div className="text-sm text-gray-400 truncate overflow-ellipsis mt-0.5">

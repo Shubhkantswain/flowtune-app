@@ -40,7 +40,7 @@ function ShowPlaylistDialog({ isOpen, onClose, playlists }: ShowPlaylistDialogPr
 
                             {/* Track Details */}
                             <div className="flex-1">
-                                <h3 className="font-semibold text-sm text-white">{playlist.name}</h3> {/* White text for title */}
+                                <h3 className="font-medium text-sm text-white">{playlist.name}</h3> {/* White text for title */}
                                 <p className="text-xs text-gray-400">Total Tracks : {playlist.totalTracks}</p> {/* Light gray text for artist */}
                             </div>
 

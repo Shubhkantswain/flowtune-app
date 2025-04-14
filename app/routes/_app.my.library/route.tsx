@@ -222,7 +222,7 @@ const MusicApp = () => {
                     className="w-12 h-12 sm:w-14 sm:h-14 md:w-14 md:h-14 rounded-sm object-cover"
                   />
                   <div>
-                    <p className="font-medium">{track.title}</p>
+                    <p className="font-normal">{track.title}</p>
                     <p className="text-neutral-400 text-sm">{track.singer}</p>
                   </div>
                 </div>
