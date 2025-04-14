@@ -1,12 +1,38 @@
-import { Form, useActionData, useNavigation } from '@remix-run/react'
-import React from 'react'
+import { Form, useActionData, useLoaderData, useNavigation } from '@remix-run/react'
+import React, { useEffect } from 'react'
 import GeneralError from '../_auth/Components/GeneralError'
 import ResetPasswordForm from './_component/ResetPasswordForm'
-import { ActionFunctionArgs, json } from '@remix-run/cloudflare'
+import { ActionFunctionArgs, json, LoaderFunctionArgs, redirect } from '@remix-run/cloudflare'
 import { ResetpasswordData } from '~/types'
 import { createGraphqlClient } from '~/clients/api'
 import { ResetPasswordMutation } from '~/graphql/mutations/auth'
 import SubmitButton from '../_auth/Components/SubmitButton'
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  try {
+      const cookieHeader = request.headers.get("Cookie");
+
+      // Parse the cookie manually
+      const cookies = Object.fromEntries(
+          (cookieHeader || "")
+              .split("; ")
+              .map((c) => c.split("="))
+              .map(([key, ...value]) => [key, value.join("=")])
+      );
+
+      // Extract the `__FlowTune_Token_server` cookie
+      const token = cookies["__FlowTune_Token_server"];
+      if(token){
+          return redirect("/explore")
+      }
+  
+      return token ? true : false
+
+  } catch (error) {
+      console.error("Error fetching tracks:", error);
+      return []; // Return an empty array to match the expected type
+  }
+}
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {
   const formData = await request.formData();
@@ -50,9 +76,16 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 }
 
 function route() {
+  const isAuthenticated = useLoaderData()
   const actionData = useActionData<ResetpasswordData>()
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      localStorage.setItem("__FlowTune_Token", "")
+    }
+  }, [isAuthenticated])
 
   return (
     <Form method="post" className="space-y-6 w-full max-w-sm">

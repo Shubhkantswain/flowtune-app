@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Heart, MoreHorizontal, Share2, List, Grid } from 'lucide-react';
 import { LoaderFunctionArgs, redirect } from '@remix-run/cloudflare';
 import { Track } from 'gql/graphql';
 import { createGraphqlClient } from '~/clients/api';
@@ -7,13 +6,12 @@ import { getLikedTracksQuery } from '~/graphql/queries/track';
 import { useLoaderData } from '@remix-run/react';
 import usePlaylistStore from '~/store/usePlaylistStore';
 import { useTrackStore } from '~/store/useTrackStore';
-import { formatDuration } from '~/utils';
 import NoTracks from './_components/NoTracks';
 import ListScreenTracks from './_components/ListScreenTracks';
 import TrackCollectionsInfo from './_components/TrackCollectionsInfo';
 import CompactScreenTracks from './_components/CompactScreenTracks';
 
-export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> {
+export async function loader({ request }: LoaderFunctionArgs) {
   try {
     const cookieHeader = request.headers.get("Cookie");
 
@@ -29,7 +27,7 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Track[]> 
     const token = cookies["__FlowTune_Token_server"];
 
     if(!token){
-      redirect("/explore")
+      return redirect("/ft/signin")
     }
 
     const graphqlClient = createGraphqlClient(token);

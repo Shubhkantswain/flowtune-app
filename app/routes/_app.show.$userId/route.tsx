@@ -16,6 +16,7 @@ interface UserData {
     data: GetUserProfileResponse | null
     tracks: Track[]
     userExist: boolean
+    isAuthenticated: boolean
 }
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
@@ -41,7 +42,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
             return json<UserData>({
                 data: null,
                 tracks: [],
-                userExist: false
+                userExist: false,
+                isAuthenticated: token ? true : false
             })
         }
 
@@ -51,7 +53,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         return json<UserData>({
             data: getUserProfile,
             tracks: getUserTracks,
-            userExist: true
+            userExist: true,
+            isAuthenticated: token ? true : false
         })
 
     } catch (error) {
@@ -59,7 +62,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         return json<UserData>({
             data: null,
             tracks: [],
-            userExist: false
+            userExist: false,
+            isAuthenticated: true
         });
     }
 
@@ -89,6 +93,12 @@ const UserPage = () => {
     useEffect(() => {
         setActiveSectionIndex(-1); // To prevent the main page
     }, []);
+
+    useEffect(() => {
+        if (!user.isAuthenticated) {
+            localStorage.setItem("__FlowTune_Token", "")
+        }
+    }, [user.isAuthenticated])
 
     const handleLoadMore = () => {
         setPage((prevPage) => prevPage + 1);

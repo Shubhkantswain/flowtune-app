@@ -1,22 +1,49 @@
 // app/routes/ft.signin.tsx
-import { Form, useActionData, useNavigate, useNavigation } from "@remix-run/react";
+import { Form, useActionData, useLoaderData, useNavigate, useNavigation } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import SigninForm from "./_components/SigninForm";
 import GeneralError from "../_auth/Components/GeneralError";
 import SubmitButton from "../_auth/Components/SubmitButton";
-import { ActionFunctionArgs, json } from "@remix-run/cloudflare";
+import { ActionFunctionArgs, json, redirect } from "@remix-run/cloudflare";
 import { createGraphqlClient } from "~/clients/api";
 import { LoginUserMutation } from "~/graphql/mutations/auth";
 import { useQueryClient } from "@tanstack/react-query";
 import { SigninActionData } from "~/types";
 import { MetaFunction } from "@remix-run/cloudflare";
+import { LoaderFunctionArgs } from "@remix-run/cloudflare";
 
 export const meta: MetaFunction = () => {
-  return [
-    { title: "FlowTune sign in" },
-    { name: "description", content: "Welcome to Remix!" },
-  ];
+    return [
+        { title: "FlowTune sign in" },
+        { name: "description", content: "Welcome to Remix!" },
+    ];
 };
+
+export async function loader({ request }: LoaderFunctionArgs) {
+    try {
+        const cookieHeader = request.headers.get("Cookie");
+
+        // Parse the cookie manually
+        const cookies = Object.fromEntries(
+            (cookieHeader || "")
+                .split("; ")
+                .map((c) => c.split("="))
+                .map(([key, ...value]) => [key, value.join("=")])
+        );
+
+        // Extract the `__FlowTune_Token_server` cookie
+        const token = cookies["__FlowTune_Token_server"];
+        if(token){
+            return redirect("/explore")
+        }
+    
+        return token ? true : false
+
+    } catch (error) {
+        console.error("Error fetching tracks:", error);
+        return []; // Return an empty array to match the expected type
+    }
+}
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const formData = await request.formData();
@@ -75,6 +102,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 }
 
 export default function SignIn() {
+    const isAuthenticated = useLoaderData()
     const actionData = useActionData<SigninActionData>();
     const navigation = useNavigation();
     const isSubmitting = navigation.state === "submitting";
@@ -115,6 +143,12 @@ export default function SignIn() {
         }
     }, [isLoginSuccessful]);
 
+    useEffect(() => {
+        if (!isAuthenticated) {
+          localStorage.setItem("__FlowTune_Token", "")
+        }
+      }, [isAuthenticated])
+      
     return (
         <Form method="post" className="space-y-6 w-full max-w-sm">
             {actionData?.errors?.general && (

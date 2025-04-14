@@ -1,12 +1,39 @@
-import { ActionFunctionArgs, json } from '@remix-run/cloudflare';
-import { Form, useActionData, useNavigation } from '@remix-run/react'
+import { ActionFunctionArgs, json, redirect } from '@remix-run/cloudflare';
+import { Form, useActionData, useLoaderData, useNavigation } from '@remix-run/react'
 import { createGraphqlClient } from '~/clients/api';
 import { ForgotPasswordMutation } from '~/graphql/mutations/auth';
 import { ForgotpasswordData } from '~/types';
 import SubmitButton from '../_auth/Components/SubmitButton';
 import GeneralError from '../_auth/Components/GeneralError';
 import ForgotPasswordForm from './_component/ForgotPasswordForm';
+import { LoaderFunctionArgs } from '@remix-run/cloudflare';
+import { useEffect } from 'react';
 
+export async function loader({ request }: LoaderFunctionArgs) {
+  try {
+      const cookieHeader = request.headers.get("Cookie");
+
+      // Parse the cookie manually
+      const cookies = Object.fromEntries(
+          (cookieHeader || "")
+              .split("; ")
+              .map((c) => c.split("="))
+              .map(([key, ...value]) => [key, value.join("=")])
+      );
+
+      // Extract the `__FlowTune_Token_server` cookie
+      const token = cookies["__FlowTune_Token_server"];
+      if(token){
+          return redirect("/explore")
+      }
+  
+      return token ? true : false
+
+  } catch (error) {
+      console.error("Error fetching tracks:", error);
+      return []; // Return an empty array to match the expected type
+  }
+}
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
@@ -43,9 +70,16 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 }
 
 function route() {
+  const isAuthenticated = useLoaderData()
   const actionData = useActionData<ForgotpasswordData>()
   const routerNavigation = useNavigation();
   const isSubmitting = routerNavigation.state === "submitting";
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      localStorage.setItem("__FlowTune_Token", "")
+    }
+  }, [isAuthenticated])
 
   return (
     <Form method="post" className="space-y-6 w-full max-w-sm">

@@ -4,20 +4,47 @@ import ExploreSearch from './_components/ExploreSearch';
 import SearchBar from './_components/SearchBar';
 import { playlistSearchData, searchData } from '~/searchData';
 import useSearchStore from '~/store/useSearchStore';
-import { useNavigate } from '@remix-run/react';
+import { redirect, useLoaderData, useNavigate } from '@remix-run/react';
 import { useCurrentUser } from '~/hooks/auth';
 import { useActiveTabStore } from '~/store/useActiveTabStore';
 import { useSearchHistoryStore } from '~/store/useSearchHistoryStore';
-import Footer from '../../components/Footer';
+import { LoaderFunctionArgs } from '@remix-run/cloudflare';
+import { createGraphqlClient } from '~/clients/api';
+import { getLikedTracksQuery } from '~/graphql/queries/track';
 
 interface Song {
   title: string;
   coverImageUrl: string;
 }
 
+export async function loader({ request }: LoaderFunctionArgs) {
+  try {
+    const cookieHeader = request.headers.get("Cookie");
+
+    // Parse the cookie manually
+    const cookies = Object.fromEntries(
+      (cookieHeader || "")
+        .split("; ")
+        .map((c) => c.split("="))
+        .map(([key, ...value]) => [key, value.join("=")])
+    );
+
+    // Extract the `__FlowTune_Token_server` cookie
+    const token = cookies["__FlowTune_Token_server"];
+
+    return token ? true : false
+
+  } catch (error) {
+    console.error("Error fetching tracks:", error);
+    return []; // Return an empty array to match the expected type
+  }
+}
+
+
 type searchKey = keyof typeof searchData;
 
 const BrowsePage = () => {
+  const isAuthenticated = useLoaderData()
   const { searchQuery, setSearchQuery, setPage, setSearchResults } = useSearchStore();
   const [suggestionResults, setSuggestionResults] = useState<Song[]>([]);
   const { history, setHistory } = useSearchHistoryStore()
@@ -63,6 +90,12 @@ const BrowsePage = () => {
   const tabs = [
     "Tracks", "Playlists", "Podcasts"
   ];
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      localStorage.setItem("__FlowTune_Token", "")
+    }
+  }, [isAuthenticated])
 
   return (
     <>
@@ -130,10 +163,10 @@ const BrowsePage = () => {
 
           </>
         )}
-        <div className={`${searchQuery.trim() ? "mt-10": "mt-0"}`}>
+        <div className={`${searchQuery.trim() ? "mt-10" : "mt-0"}`}>
 
-        {/* Moods & Activities */}
-        <ExploreSearch title="Moods & Activities" exploreItems={MoodsAndActivities} />
+          {/* Moods & Activities */}
+          <ExploreSearch title="Moods & Activities" exploreItems={MoodsAndActivities} />
         </div>
 
         {/* Music By Genre */}

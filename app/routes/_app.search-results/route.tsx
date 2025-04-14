@@ -1,12 +1,37 @@
-import { Outlet, useLocation, useNavigate } from "@remix-run/react";
+import { Outlet, useLoaderData, useLocation, useNavigate } from "@remix-run/react";
 import SearchBar from "../_app.search/_components/SearchBar";
 import useSearchStore from "~/store/useSearchStore";
 import Footer from "../../components/Footer";
 import ArtistsGrid from "./_component/ArtistGrid";
+import { LoaderFunctionArgs } from "@remix-run/cloudflare";
+import { useEffect } from "react";
 
 
+export async function loader({ request }: LoaderFunctionArgs) {
+    try {
+        const cookieHeader = request.headers.get("Cookie");
+
+        // Parse the cookie manually
+        const cookies = Object.fromEntries(
+            (cookieHeader || "")
+                .split("; ")
+                .map((c) => c.split("="))
+                .map(([key, ...value]) => [key, value.join("=")])
+        );
+
+        // Extract the `__FlowTune_Token_server` cookie
+        const token = cookies["__FlowTune_Token_server"];
+
+        return token ? true : false
+
+    } catch (error) {
+        console.error("Error fetching tracks:", error);
+        return []; // Return an empty array to match the expected type
+    }
+}
 
 export default function AppLayout() {
+    const isAuthenticated = useLoaderData()
     const { searchQuery } = useSearchStore()
     const navigate = useNavigate()
     const location = useLocation()
@@ -16,6 +41,12 @@ export default function AppLayout() {
         { label: "Users", pathname: "/search-results/users" },
         { label: "Podcasts", pathname: "/search-results/podcasts" }
     ];
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            localStorage.setItem("__FlowTune_Token", "")
+        }
+    }, [isAuthenticated])
 
     return (
         <>
@@ -40,9 +71,9 @@ export default function AppLayout() {
             </div>
             <Outlet />
 
-            <ArtistsGrid/>
+            <ArtistsGrid />
 
-            <Footer/>
+            <Footer />
         </>
     );
 }
