@@ -75,6 +75,8 @@ const AppleMusicHomepage: React.FC = () => {
     exploreTracksData.tracks.slice(SECTION_SIZE * 2, SECTION_SIZE * 3),
   ];
 
+  console.log("useGetExploreTracks", data);
+  
   useEffect(() => {
     if (data?.length) {
       setExploreTracks(prev => {

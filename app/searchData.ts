@@ -31,8 +31,8 @@ export const searchData = {
     g: [],
     h: [
         { title: `Hal-E-Dil From("Sanam Teri Kasam")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743422757/cwhwhmy1sb2q6tl6wdjv.png" },
-        { title: `Humdard From("Ek Villain")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743683238/qdzafbnps2eshkdfv2lt.jpg" },
-        { title: `Humdard ("Lofi")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743683410/zzy6dwfs0hmhipcqmdia.jpg" },
+        { title: `Humdard From("Ek Villain")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2735903af0e14dba4e076ad56bd" },
+        { title: `Humdard ("Lofi")`, coverImageUrl: "https://i.scdn.co/image/ab67616d00001e02a461ba0a88ac8737f21c08b2" },
 
     ],
     i: [

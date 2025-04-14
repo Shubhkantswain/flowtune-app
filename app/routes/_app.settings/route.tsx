@@ -93,7 +93,8 @@ const SpotifySettings = () => {
     const [language, setLanguage] = useState("");
     const [initialLanguage, setInitialLanguage] = useState("");
     const [showSearchBar, setShowSearchBar] = useState(false);
-
+    const [videoEnabled, setVideoEnabled] = useState(false)
+    const [showQueue, setShowQueue] = useState(false)
     const { data } = useCurrentUser()
 
     useEffect(() => {
@@ -119,6 +120,34 @@ const SpotifySettings = () => {
             localStorage.setItem("__FlowTune_Token", musicPreferenceData.cookie)
         }
     }, [musicPreferenceData]);
+
+    useEffect(() => {
+        const enabled = localStorage.getItem("videoEnabled")
+        if (enabled == null) {
+            setVideoEnabled(true)
+        } else {
+            if (enabled == "true") {
+                setVideoEnabled(true)
+            } else if (enabled == "false") {
+                setVideoEnabled(false)
+            } else {
+                setVideoEnabled(false)
+            }
+        }
+
+        const showQueue = localStorage.getItem("showQueue")
+        if (showQueue == null) {
+            setShowQueue(true)
+        } else {
+            if (showQueue == "true") {
+                setShowQueue(true)
+            } else if (showQueue == "false") {
+                setShowQueue(false)
+            } else {
+                setShowQueue(false)
+            }
+        }
+    }, [])
 
     return (
         <>
@@ -199,8 +228,22 @@ const SpotifySettings = () => {
                             <div className="flex justify-between items-center">
                                 <p className="text-gray-400 text-sm">Use the beautiful queue section</p>
                                 <Switch
-                                    checked={compactLibrary}
-                                    onCheckedChange={setCompactLibrary}
+                                    checked={showQueue}
+                                    onCheckedChange={(checked: boolean) => {
+                                        if (checked) {
+                                            if (typeof window !== "undefined") {
+                                                localStorage.setItem("showQueue", "true");
+                                            }
+                                            toast.success("Now you can see queue section, Enjoy");
+                                        } else {
+                                            if (typeof window !== "undefined") {
+                                                localStorage.setItem("showQueue", "false");
+                                            }
+                                            toast.success("queue section is disabled");
+                                        }
+
+                                        setShowQueue(!showQueue);
+                                    }}
                                     className="data-[state=checked]:bg-[#25d1da]"
                                 />
                             </div>
@@ -213,20 +256,27 @@ const SpotifySettings = () => {
                                 <div className="flex justify-between items-center">
                                     <p className="text-gray-400 text-sm">Show the background video in tracks</p>
                                     <Switch
-                                        checked={showNowPlaying}
-                                        onCheckedChange={setShowNowPlaying}
+                                        checked={videoEnabled}
+                                        onCheckedChange={(checked: boolean) => {
+                                            if (checked) {
+                                                if (typeof window !== "undefined") {
+                                                    localStorage.setItem("videoEnabled", "true");
+                                                }
+                                                toast.success("Background video is enabled, Enjoy");
+                                            } else {
+                                                if (typeof window !== "undefined") {
+                                                    localStorage.setItem("videoEnabled", "false");
+                                                }
+                                                toast.success("Background video is disabled");
+                                            }
+
+                                            setVideoEnabled(!videoEnabled);
+                                        }}
                                         className="data-[state=checked]:bg-[#25d1da]"
                                     />
                                 </div>
 
-                                <div className="flex justify-between items-center">
-                                    <p className="text-gray-400 text-sm">Track looping</p>
-                                    <Switch
-                                        checked={showVisuals}
-                                        onCheckedChange={setShowVisuals}
-                                        className="data-[state=checked]:bg-[#25d1da]"
-                                    />
-                                </div>
+                              
                             </div>
                         </div>
                     </div>
