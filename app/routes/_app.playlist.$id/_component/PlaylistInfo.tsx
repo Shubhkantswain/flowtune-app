@@ -16,7 +16,7 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
     const { mutateAsync: deletePlaylist } = useDeletePlaylist()
 
     const [showDropdown, setShowDropdown] = useState(false)
-    const [scale, setScale] = useState(1)
+    const [imgSize, setImgSize] = useState({ width: 224, height: 224 }) // 56 * 4 = 224 (56rem)
 
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown)
@@ -36,15 +36,16 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
         }
     }, [])
 
-    // Shrink image only on small screens
+    // Reduce image size only on small screens
     useEffect(() => {
         const handleScroll = () => {
             if (window.innerWidth < 768) {
                 const scrollY = window.scrollY
-                const newScale = Math.max(0.6, 1 - scrollY / 500)
-                setScale(newScale)
+                const newWidth = Math.max(134, 224 - scrollY / 2) // Minimum 134px (about 60% of original)
+                const newHeight = Math.max(134, 224 - scrollY / 2)
+                setImgSize({ width: newWidth, height: newHeight })
             } else {
-                setScale(1) // Reset scale on large screens
+                setImgSize({ width: 224, height: 224 }) // Reset size on large screens
             }
         }
 
@@ -56,13 +57,18 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
 
     return (
         <div className="py-8 md:py-12 flex flex-col md:flex-row items-center md:items-start gap-8">
-            {/* Wrapper with fixed size to prevent layout shift */}
-            <div className="w-56 h-56 md:w-64 md:h-64 flex-shrink-0 relative">
+            {/* Wrapper with dynamic size based on scroll */}
+            <div 
+                className="flex-shrink-0 relative transition-all duration-75 ease-out"
+                style={{ 
+                    width: `${imgSize.width}px`,
+                    height: `${imgSize.height}px`
+                }}
+            >
                 <img
                     src={res.coverImageUrl}
                     alt={res.title}
-                    className="w-full h-full rounded-sm shadow-xl object-cover transition-transform duration-75 ease-out"
-                    style={{ transform: `scale(${scale})` }}
+                    className="w-full h-full rounded-sm shadow-xl object-cover"
                 />
             </div>
 
