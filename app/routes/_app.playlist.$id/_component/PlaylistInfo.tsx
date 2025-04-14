@@ -3,45 +3,26 @@ import { GetPlaylistTracksResponse, Track } from 'gql/graphql'
 import React, { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { useDeletePlaylist } from '~/hooks/playlist'
+import { formatTotalDuration } from '~/utils'
 
 interface PlaylistInfoProps {
     res: GetPlaylistTracksResponse;
     handleControll: (track: Track) => void
 }
 
-function formatTotalDuration(durations: string[]) {
-    // Convert all to numbers and sum total seconds
-    const totalSeconds = durations.reduce((sum, val) => {
-        return sum + Math.floor(parseFloat(val));
-    }, 0);
-
-    const totalMinutes = Math.floor(totalSeconds / 60);
-    const hours = Math.floor(totalMinutes / 60);
-    const minutes = totalMinutes % 60;
-
-    const hourPart = hours > 0 ? `${hours} HOUR${hours > 1 ? 'S' : ''}` : '';
-    const minutePart = minutes > 0 ? `${minutes} MINUTE${minutes > 1 ? 'S' : ''}` : '';
-
-    if (hourPart && minutePart) return `${hourPart} AND ${minutePart}`;
-    if (hourPart) return hourPart;
-    if (minutePart) return minutePart;
-
-    return '0 MINUTES';
-}
-
-
 function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
     const dropdownRef = useRef<HTMLDivElement>(null)
     const navigate = useNavigate()
     const { mutateAsync: deletePlaylist } = useDeletePlaylist()
 
-    const [showDropdown, setShowDropdown] = useState(false);
+    const [showDropdown, setShowDropdown] = useState(false)
+    const [scale, setScale] = useState(1)
 
     const toggleDropdown = () => {
-        setShowDropdown(!showDropdown);
-    };
+        setShowDropdown(!showDropdown)
+    }
 
-    // Close dropdown when clicking outside
+    // Handle outside click to close dropdown
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -55,16 +36,36 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
         }
     }, [])
 
-    const arr = res?.tracks?.map((track) => {
-        return track.duration
-    })
+    // Shrink image only on small screens
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.innerWidth < 768) {
+                const scrollY = window.scrollY
+                const newScale = Math.max(0.6, 1 - scrollY / 500)
+                setScale(newScale)
+            } else {
+                setScale(1) // Reset scale on large screens
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [])
+
+    const arr = res?.tracks?.map((track) => track.duration)
+
     return (
         <div className="py-8 md:py-12 flex flex-col md:flex-row items-center md:items-start gap-8">
-            <img
-                src={res.coverImageUrl}
-                alt={res.title}
-                className="w-56 h-56 md:w-64 md:h-64 rounded-sm shadow-xl object-cover"
-            />
+            {/* Wrapper with fixed size to prevent layout shift */}
+            <div className="w-56 h-56 md:w-64 md:h-64 flex-shrink-0 relative">
+                <img
+                    src={res.coverImageUrl}
+                    alt={res.title}
+                    className="w-full h-full rounded-sm shadow-xl object-cover transition-transform duration-75 ease-out"
+                    style={{ transform: `scale(${scale})` }}
+                />
+            </div>
+
             <div className="flex flex-col items-center md:items-start gap-4 text-center md:text-left">
                 <span className="text-[#25d1da] text-sm">PRIVATE</span>
                 <h1 className="text-4xl md:text-5xl font-bold">{res.title}</h1>
@@ -72,6 +73,7 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
                 <div className="text-sm text-gray-400">
                     {`${formatTotalDuration(arr || [])} . ${res?.tracks?.length} TRACKS`}
                 </div>
+
                 <div className="flex items-center gap-4 mt-4">
                     <button
                         onClick={() => {
@@ -86,7 +88,7 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
 
                     <div className="relative group" ref={dropdownRef}>
                         <div className="absolute -top-7 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                            opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
                             More
                         </div>
 
@@ -100,15 +102,12 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
 
                         {showDropdown && (
                             <div className="absolute z-10 -translate-x-1/2 left-1/2 bottom-full mb-2 w-48 rounded-md bg-gradient-to-b from-neutral-950 to-neutral-900 border border-[#2E3030] shadow-lg overflow-hidden">
-                                {[
-                                    "Delete this playlist",
-                                    "Share",
-                                ].map((item, index) => (
+                                {["Delete this playlist", "Share"].map((item, index) => (
                                     <button
                                         key={index}
                                         className="flex items-center w-full px-4 py-3 text-sm text-white hover:bg-[#1E1E1E] border-b border-[#2E3030] last:border-b-0"
                                         onClick={async () => {
-                                            if (index == 0) {
+                                            if (index === 0) {
                                                 await deletePlaylist(res.id)
                                                 navigate(-1)
                                             } else {

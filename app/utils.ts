@@ -17,6 +17,21 @@ export const formatDuration = (durationString: string) => {
   return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
 
+export const formatTotalDuration = (durations: string[]) => {
+    const totalSeconds = durations.reduce((sum, val) => sum + Math.floor(parseFloat(val)), 0);
+    const totalMinutes = Math.floor(totalSeconds / 60);
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+
+    const hourPart = hours > 0 ? `${hours} HOUR${hours > 1 ? 'S' : ''}` : '';
+    const minutePart = minutes > 0 ? `${minutes} MINUTE${minutes > 1 ? 'S' : ''}` : '';
+
+    if (hourPart && minutePart) return `${hourPart} AND ${minutePart}`;
+    if (hourPart) return hourPart;
+    if (minutePart) return minutePart;
+    return '0 MINUTES';
+}
+
 // Function to get the greeting message dynamically
 export const getGreeting = (): string => {
   const now = new Date();
