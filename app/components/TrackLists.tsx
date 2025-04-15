@@ -64,12 +64,17 @@ const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitial
 
         return track ? (
           <div key={track.id} className="flex-none w-36 sm:w-40 md:w-44 transition-transform duration-300">
-            <div className="group relative overflow-hidden rounded-lg shadow-xl hover:shadow-2xl transition-shadow duration-300">
+            <div className="group relative overflow-hidden rounded-sm shadow-xl hover:shadow-2xl transition-shadow duration-300">
+              
+              {/* <div className="w-36 sm:w-40 md:w-44 h-36 sm:h-40 md:h-44 bg-red-950"> */}
+
               <img
                 src={track.coverImageUrl || ""}
                 alt={`Album cover for ${track.title}`}
-                className="w-full aspect-square rounded-lg transition-opacity duration-300 group-hover:brightness-50 object-cover"
-              />
+                className="w-full aspect-square rounded-sm transition-opacity duration-300 group-hover:brightness-50 object-cover"
+                />
+                {/* </div> */}
+              
               <div
                 className="absolute inset-0 flex items-center justify-center"
               >
@@ -97,7 +102,7 @@ const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitial
           </div>
         ) : (
           <div key={`dummy-${index}`} className="flex-none w-36 sm:w-40 md:w-44 opacity-50">
-            <div className="bg-[#313232] aspect-square rounded-lg flex items-center justify-center">
+            <div className="bg-[#313232] aspect-square rounded-sm flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-disc-3">
                 <circle cx="12" cy="12" r="10" />
                 <path d="M6 12c0-1.7.7-3.2 1.8-4.2" />

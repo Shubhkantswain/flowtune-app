@@ -55,7 +55,7 @@ const MusicApp = () => {
 
 
 
- 
+
 
   const [recentTracks, setRecentTracks] = useState<string[]>([]);
 
@@ -124,7 +124,7 @@ const MusicApp = () => {
   const [isAddToPlaylistOpen, setAddToPlaylistOpen] = useState(false);
   const [isNewPlaylistDialogOpen, setNewPlaylistDialogOpen] = useState(false);
   const [page, setPage] = useState(1)
-  const { data: userPlaylists, isLoading:isFetchingCurrentUserPlaylists } = useGetCurrentUserPlaylists({ page, limit: 16 }, page != 1)
+  const { data: userPlaylists, isLoading: isFetchingCurrentUserPlaylists } = useGetCurrentUserPlaylists({ page, limit: 16 }, page != 1)
 
   useEffect(() => {
     if (userPlaylists && userPlaylists.length > 0) {
@@ -151,7 +151,7 @@ const MusicApp = () => {
           {
             playlistSections.length > 0 ? (
               playlistSections.map((section, index) => (
-                <div className={`${index != 0 ? "mt-7": "mt-0"}`}>
+                <div className={`${index != 0 ? "mt-7" : "mt-0"}`}>
                   <PlaylistItems
                     playlists={section || []}
                     activeTab={activeTab}
@@ -160,7 +160,7 @@ const MusicApp = () => {
                 </div>
               ))
             ) : (
-              < PlaylistItems playlists={playlists || []}  activeTab={activeTab} shouldShowLikedPlaylist={true} />
+              < PlaylistItems playlists={playlists || []} activeTab={activeTab} shouldShowLikedPlaylist={true} />
             )
           }
 
@@ -186,7 +186,7 @@ const MusicApp = () => {
       </div>
 
       <div className="w-full md:w-1/2 md:mr-auto md:ml-0 mx-auto">
-        <h2 className="text-xl font-bold mb-4">Recently Play</h2>
+        <h2 className="text-xl font-bold mb-4">{sortedTracks.length > 0 ? "Recently Play" : ""}</h2>
 
         {isLoading ? (
           <div className="space-y-4">

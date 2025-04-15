@@ -68,7 +68,7 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
                 <img
                     src={res.coverImageUrl}
                     alt={res.title}
-                    className="w-full h-full rounded-sm shadow-xl object-cover"
+                    className="w-full h-full rounded-none shadow-xl object-cover"
                 />
             </div>
 
