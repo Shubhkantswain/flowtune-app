@@ -36,16 +36,23 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
         }
     }, [])
 
-    // Reduce image size only on small screens
+    // Smooth scroll-based image resizing with requestAnimationFrame
     useEffect(() => {
+        let ticking = false
+
         const handleScroll = () => {
-            if (window.innerWidth < 768) {
-                const scrollY = window.scrollY
-                const newWidth = Math.max(134, 224 - scrollY / 2) // Minimum 134px (about 60% of original)
-                const newHeight = Math.max(134, 224 - scrollY / 2)
-                setImgSize({ width: newWidth, height: newHeight })
-            } else {
-                setImgSize({ width: 224, height: 224 }) // Reset size on large screens
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    if (window.innerWidth < 768) {
+                        const scrollY = window.scrollY
+                        const newSize = Math.max(134, 224 - scrollY / 2)
+                        setImgSize({ width: newSize, height: newSize })
+                    } else {
+                        setImgSize({ width: 224, height: 224 })
+                    }
+                    ticking = false
+                })
+                ticking = true
             }
         }
 
@@ -58,9 +65,9 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
     return (
         <div className="py-8 md:py-12 flex flex-col md:flex-row items-center md:items-start gap-8">
             {/* Wrapper with dynamic size based on scroll */}
-            <div 
-                className="flex-shrink-0 relative transition-all duration-75 ease-out"
-                style={{ 
+            <div
+                className="flex-shrink-0 relative transition-all duration-300 ease-in-out"
+                style={{
                     width: `${imgSize.width}px`,
                     height: `${imgSize.height}px`
                 }}
@@ -117,23 +124,23 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
                                                 await deletePlaylist(res.id)
                                                 navigate(-1)
                                             } else {
-                                                const shareUrl = window.location.href;
+                                                const shareUrl = window.location.href
 
                                                 if (navigator.share) {
                                                     try {
                                                         await navigator.share({
                                                             title: document.title,
                                                             url: shareUrl,
-                                                        });
+                                                        })
                                                     } catch (error) {
-                                                        console.error("Error sharing:", error);
+                                                        console.error("Error sharing:", error)
                                                     }
                                                 } else {
                                                     try {
-                                                        await navigator.clipboard.writeText(shareUrl);
-                                                        alert("Link copied to clipboard!");
+                                                        await navigator.clipboard.writeText(shareUrl)
+                                                        alert("Link copied to clipboard!")
                                                     } catch (error) {
-                                                        console.error("Failed to copy link:", error);
+                                                        console.error("Failed to copy link:", error)
                                                     }
                                                 }
                                             }
