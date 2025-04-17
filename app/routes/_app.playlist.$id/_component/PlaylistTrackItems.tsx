@@ -23,6 +23,7 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
     const { mutateAsync: removeSongFromPlaylist } = useRemoveSongFromPlaylist()
 
     const { mutateAsync: likeTrack } = useLikeTrack()
+    
     useEffect(() => {
         if (res.tracks) {
             setTracks(res.tracks)
