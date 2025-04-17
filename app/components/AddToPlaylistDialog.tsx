@@ -28,7 +28,7 @@ const AddToPlaylistDialog: React.FC<AddToPlaylistDialogProps> = ({
         if (data) {
             console.log("new ");
             
-            setPlaylists([...playlists, ...data])
+            setPlaylists((prev) => [...prev, ...data])
         }
     }, [data])
 
