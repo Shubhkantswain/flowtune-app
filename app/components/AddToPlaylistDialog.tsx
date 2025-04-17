@@ -25,8 +25,8 @@ const AddToPlaylistDialog: React.FC<AddToPlaylistDialogProps> = ({
     const { mutateAsync: addSongToPlaylist } = useAddSongToPlaylist()
 
     useEffect(() => {
+        console.log("new ");
         if (data) {
-            console.log("new ");
             
             setPlaylists((prev) => [...prev, ...data])
         }
