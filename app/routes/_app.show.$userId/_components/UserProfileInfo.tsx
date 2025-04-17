@@ -40,7 +40,7 @@ function UserProfileInfo({ user }: UserProfileInfo) {
             <img
                 src={user?.profileImageURL || "https://www.shutterstock.com/image-vector/male-default-avatar-profile-icon-600nw-1725062341.jpg"}
                 alt={user?.username}
-                className="w-56 h-56 md:w-64 md:h-64 rounded-lg shadow-xl object-cover"
+                className="w-56 h-56 md:w-64 md:h-64 rounded-none shadow-xl object-cover"
             />
             <div className="flex flex-col items-center md:items-start gap-4 text-center md:text-left">
                 {/* Username with Instagram-Like Verified Badge */}

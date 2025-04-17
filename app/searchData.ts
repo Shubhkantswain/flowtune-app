@@ -28,6 +28,8 @@ export const searchData = {
 
     ],
     e: [
+        { title: `Enna Sona From("Ok Jaanu")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ca99ff80246fc0fb4d670126" },
+
     ],
     f: [],
     g: [
@@ -53,7 +55,7 @@ export const searchData = {
         { title: `Khamoshiyan From("Khamoshiyan")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273d79e0d62e3946104b9f07870" },
         { title: `Kaise Hua From("Kabir Singh")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ce1f4349305971b5beb75fcd" },
         { title: `Kya Khoya From("Khamoshiyan")`, coverImageUrl: "https://c.saavncdn.com/378/Khamoshiyan-Hindi-2014-20190516123124-500x500.jpg" },
-
+        { title: `Kya Mujhe Pyaar Hai From("Woh Lamhe")`, coverImageUrl: "https://c.saavncdn.com/720/Kya-Mujhe-Pyaar-Hai-Hindi-2021-20211201011527-500x500.jpg" },
 
 
 
@@ -91,6 +93,8 @@ export const searchData = {
         { title: `Senorita From("Zindagi Na Milegi Dobara")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2730acb5a72549287bf33b51b71" },
         { title: `Sunn Raha Hai From("Aashiqui")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2736404721c1943d5069f0805f3" },
         { title: `Sanam Re From("Sanam Re")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ce6e8a2a6cce64f2cc077218" },
+        { title: `Sooraj Dooba Hain From("Roy")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273f6371011af4c82fb31d54820" },
+
 
 
     ],
@@ -113,7 +117,9 @@ export const searchData = {
     ],
     x: [],
     y: [],
-    z: []
+    z: [
+        { title: `Zara Sa From("Jannat")`, coverImageUrl: "https://i.scdn.co/image/ab67616d00001e02a41b4623b061d9b773221615" },
+    ]
 };
 
 export const playlistSearchData = {

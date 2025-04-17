@@ -149,6 +149,7 @@ export const useDeletePlaylist = () => {
 };
 
 export const useGetCurrentUserPlaylists = (input: GetCurrentUserPlaylistsInput, shouldFetch: boolean) => {
+    
     return useQuery({
         queryKey: ['CurrentUserPlaylists', input.page, shouldFetch],
         queryFn: async () => {
