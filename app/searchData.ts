@@ -1,117 +1,114 @@
 export const searchData = {
     a: [
-        { title: `Aur Ho From("Rockstar")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304307/rdytkigkz1jivqvhiivs.jpg" },
-        { title: `Abhi Mujh Mein Kahin From("Agneepath")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743357108/qu4bztszeffrfhkzhgpz.jpg" },
+        { title: `Apna Bana Le From("Bhediya")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304307/rdytkigkz1jivqvhiivs.jpg" },
+        { title: `Ae Dil Hai Mushkil From("Ae Dil Hai Mushkil")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2734a00b4392365a753c201bd75" },
+        { title: `Akhiyaan Gulaab From("TBMAUJ")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27352e3a807b72281cb40c08092" },
+
     ],
     b: [
-        { title: `Blue Eyes`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743317216/bj7qjdrumuorhykzfuu5.jpg" },
-        { title: `Be intehaan From("Race 2")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743331406/eeuuztylvm60fbfsczsi.jpg" },
-        { title: `Bewajah From("Sanam Teri Kasam")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743683537/fzavzc3jvscerfadqirn.jpg" },
-        { title: `Badtameez Dil From("Yeh Jawaani Hai Deewani")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743423153/rlt8hrvkzn2ljhne6q5m.jpg" },
+
+        { title: `Be Intehaan From("Race 2")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2738357346ac0ff5f43c325a0e3" },
+        { title: `Bewajah From ("Sanam Teri Kasam")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ddaabc10aebdc619c1c9504c" },
+        { title: `Bulleya From("Ae Dil Hai Mushkil")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273cfdf2cecda3a566ca424df3e" },
+        { title: `Badtameez Dil From("Yeh Jawaani Hai Deewani")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273707ea5b8023ac77d31756ed4" },
 
 
 
     ],
     c: [
-        { title: `Chahu Me Ana From("Aashiqui")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304930/z18i6oe23psmvi00kxh1.jpg" },
+        { title: `Chaleya From("Jawan")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27360dbbb589dff0c57a3a4ffb2" },
+        { title: `Chaand Baaliyan`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ec4ecaa0fcf68c0966f21514" },
 
     ],
     d: [
-        { title: `Dooriyan From("Love Aaj Kal")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743316408/rganlr7a2uiadnbu0stg.jpg" },
-        { title: `Dooriyan ("Lofi")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743316715/jaxleiumd9x42lnhcfkf.jpg" },
-        { title: `Dil Meri Na Sune From("Genius")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743332707/qwisxjymxytgojiw8pda.jpg" },
-        { title: `Daru Badnaam`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743828120/wospihfb6qpskasov8yo.jpg" },
-        { title: `Dil Nu`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743828672/cveiynrhvvx4ezavwnxo.jpg" }
+        { title: `Dil Meri Na Sune From("Genius")`, coverImageUrl: "https://c.saavncdn.com/014/Dil-Meri-Na-Sune-From-Genius--Hindi-2018-20191216191847-500x500.jpg" },
+        { title: `Dooriyan From("Love Aaj Kal")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273b47eb88571640ed71dd2fd47" },
+        { title: `Dil Ibaadat From("Tum Mile")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2734910290f1a40686d6e1d2d0e" },
+
 
     ],
     e: [
-        { title: `Excuses`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743828367/qi8aw3vsbzc3iakp6ldd.jpg" }
     ],
     f: [],
-    g: [],
+    g: [
+        { title: `Galliyan From("Ek Villain")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273a2ef89ae0f8d1848081c1449" },
+    ],
     h: [
-        { title: `Hal-E-Dil From("Sanam Teri Kasam")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743422757/cwhwhmy1sb2q6tl6wdjv.png" },
-        { title: `Humdard From("Ek Villain")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2735903af0e14dba4e076ad56bd" },
-        { title: `Humdard ("Lofi")`, coverImageUrl: "https://i.scdn.co/image/ab67616d00001e02a461ba0a88ac8737f21c08b2" },
+        { title: `Heeriye`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2734a60872ae145776164540a7f" },
+        { title: `Humdard From("Ek Villain")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273a2ef89ae0f8d1848081c1449" },
+
 
     ],
     i: [
-        { title: `Ilahi From("Yeh Jawaani Hai Deewani")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743423153/rlt8hrvkzn2ljhne6q5m.jpg" }
+        { title: `Ilahi From("Yeh Jawaani Hai Deewani")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273707ea5b8023ac77d31756ed4" },
     ],
-    j: [],
+    j: [
+        { title: `Jo Tum Mere Ho`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27372a77d038887cdc425f5ee55" },
+        { title: `Jeena Jeena From("Badlapur")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273e6498bb9a267972ab7596705" },
+
+
+    ],
     k: [
-        { title: `Khuda Jaane From("Bachna Ae Haseeno")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304664/ml4zlre1hvgfq2lxrnnv.jpg" },
-        { title: `Kun Faya From("Rockstar")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304307/rdytkigkz1jivqvhiivs.jpg" },
-        { title: `Khamoshiyan From("Khamoshiyan")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743334262/cxa5qieinukosbtwnvul.jpg" },
-        { title: `Kheech Meri Photo From("Sanam Teri Kasam")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743337460/kk14lcjt1sriph9lmszh.png" },
+        { title: `Kesariya From("Brahmastra")`, coverImageUrl: "https://c.saavncdn.com/191/Kesariya-From-Brahmastra-Hindi-2022-20220717092820-500x500.jpg" },
+        { title: `Khamoshiyan From("Khamoshiyan")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273d79e0d62e3946104b9f07870" },
+        { title: `Kaise Hua From("Kabir Singh")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ce1f4349305971b5beb75fcd" },
+        { title: `Kya Khoya From("Khamoshiyan")`, coverImageUrl: "https://c.saavncdn.com/378/Khamoshiyan-Hindi-2014-20190516123124-500x500.jpg" },
+
 
 
 
     ],
     l: [
-        { title: `Lat Lag Gayee From("Race 2")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743332074/wzwauri6gurcwcetnia1.jpg" },
 
     ],
     m: [
-        { title: `Main Rang Sharbaton Ka From("PPNH")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743303218/o4zilmzhjl3zavi4lfu7.jpg" },
-        { title: `Mann Mera From("Table No 21")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743312156/kvlwslge81gqoc6eyges.jpg" },
-        { title: `Mann Mera ("Lofi")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743819617/jep8habgnje4ucd2llj8.jpg" },
-        { title: `Mi Amor`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743826104/px5lcvvpbvxgsjcgia0o.jpg" }
+        { title: `Mann Mera From("Table No 21")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27396fec3d5c7afafc59ed0043e" },
 
     ],
     n: [
-        { title: `Nadaan Parindey From("Rockstar")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304307/rdytkigkz1jivqvhiivs.jpg" },
-        { title: `No Love`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743826833/yhy1jr4soov0nyfuaiii.jpg" },
-        { title: `Obsessed`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743827359/idccbglhn3bkdlonpw3d.jpg" }
-
 
 
     ],
     o: [
-        { title: `One Love`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743822148/pdjbpcsvvnu1gwh4w73f.jpg" }
+        { title: `O Meri Laila From("Laila Majnu")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273fc8c4535825cdc0bcafde19a" },
+
     ],
     p: [
-        { title: `Phir Mohabbat From("Murder 2")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743302972/iz2qcuobthd8nssdctmj.jpg" },
-        { title: `Phir Se Udd Chala From("Rockstar")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304307/rdytkigkz1jivqvhiivs.jpg" },
-        { title: `Piya O Re Piya From("Tere Naal Love Ho Gaya")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743315686/umcw4sxr0gz5iogj5roy.jpg" },
-        { title: `Pehli Dafa`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743356641/iwmhg8ewmtwzk5ixza3p.jpg" },
-        { title: `Pasoori`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743826256/oq2wk1ooesnqp8z2gpiu.jpg" }
+        { title: `Phir Se Udd Chala From("Rockstar")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273869a9b15675b514a06d2c049" },
+        { title: `Phir Mohabbat From("Murder 2")`, coverImageUrl: "https://i.scdn.co/image/ab67616d00001e02c60fa2360b6dfbd7e1ff20b4" },
+
 
 
     ],
     q: [],
-    r: [],
+    r: [
+        { title: `Raataan Lambiyan From("Shershaah")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273a75c2f26913099a420050f01" },
+
+    ],
     s: [
-        { title: `Senorita From("Zindagi Na Milegi Dobara")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304110/rqy6jsr7ahto1jnb15ea.jpg" },
-        { title: `Sadda Haq From("Rockstar")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304307/rdytkigkz1jivqvhiivs.jpg" },
-        { title: `Subah Hone Na De From("Desi Boyz")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743317216/bj7qjdrumuorhykzfuu5.jpg" },
-        { title: `Sunn Rha Hai From("Aashiqui 2")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304930/z18i6oe23psmvi00kxh1.jpg" },
-        { title: `Sun Saathiya From("ABCD 2")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743332395/sy4vpmkdn7upogjfweyi.jpg" },
-        { title: `Sanam Teri Kasam From("Sanam Teri Kasam")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743683693/abekxqjir0ezwjjnqdax.png" },
-        { title: `Sanam Re From("Sanam Re")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743684198/bndynymdl0xmifzab9sg.jpg" },
-        { title: `Satisfya`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743829060/x9deywhh1oqrnbkkpehe.jpg" },
-        { title: `Shape of you`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1744520203/byf6t2ar2exo3lt2j4zs.jpg" },
-
-
+        { title: `Sajni From("Laapataa Ladies")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273d5f4378b1ffc9119fdc7306d" },
+        { title: `Satranga From("Animal")`, coverImageUrl: "https://c.saavncdn.com/415/Satranga-From-ANIMAL-Hindi-2023-20231027131032-500x500.jpg" },
+        { title: `Senorita From("Zindagi Na Milegi Dobara")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2730acb5a72549287bf33b51b71" },
+        { title: `Sunn Raha Hai From("Aashiqui")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2736404721c1943d5069f0805f3" },
+        { title: `Sanam Re From("Sanam Re")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ce6e8a2a6cce64f2cc077218" },
 
 
     ],
     t: [
-        { title: `Tere Liye From("Prince")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743302228/syyosjvvoreo0dd17yy2.jpg" },
-        { title: `Tera Hone Laga Hoon From("APKGK")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743302718/rjew1agxejhwjrhao5cn.jpg" },
-        { title: `Tum Ho From("Rockstar")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304307/rdytkigkz1jivqvhiivs.jpg" },
-        { title: `Tum Se HI From("Jab We Met")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304789/kbpmeyprdvftao25yzng.jpg" },
-        { title: `Tum Hi Ho From("Aashiqui 2")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304930/z18i6oe23psmvi00kxh1.jpg" },
-        { title: `Tum Ho ("Lofi")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743314048/qskkizkqbhypwslygeuk.jpg" },
-        { title: `Tera Chehra From("Sanam Teri Kasam")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743338460/bcvrnmhnsxhifpga8myb.png" },
-        { title: `Tere Bina Na Guzara E`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743820977/pavyiy6wwio8mkn3yeoq.jpg" },
+        { title: `Tera Ban Jaunga From("Kabir Singh")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273c5545f737b16ad5ee767b62a" },
+        { title: `Tum Se Hi From ("Jab We Met")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27352fe6875028c892308ffc2f7" },
+        { title: `Tum Hi Ho From("Aashiqui 2")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2736404721c1943d5069f0805f3" },
+        { title: `Tera Chehra From("Sanam Teri Kasam")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ddaabc10aebdc619c1c9504c" },
+        { title: `Tum Ho From("Rockstar")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273869a9b15675b514a06d2c049" },
+        { title: `Tera Yaar Ho Main From("SKTKS")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27322927ab54277255e23fc4756" },
+
+
 
 
     ],
     u: [],
     v: [],
     w: [
-        { title: `We Rollin`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743820048/cwevwp2mxojytvwbf2so.jpg" }
 
     ],
     x: [],

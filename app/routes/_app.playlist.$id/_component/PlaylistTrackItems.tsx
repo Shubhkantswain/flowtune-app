@@ -92,7 +92,7 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                                         </div>
                                     </div>
                                     <div className="min-w-0 flex-1 overflow-hidden">
-                                        <div className={`font-medium ${track?.id == trackDetails.id && trackDetails.isPlaying && initialized ? "text-[#25d1da]" : ""} truncate overflow-ellipsis`}>
+                                        <div className={`font-normal ${track?.id == trackDetails.id && trackDetails.isPlaying && initialized ? "text-[#25d1da]" : ""} truncate overflow-ellipsis`}>
                                             {track?.title}
                                         </div>
                                         <div className="text-sm text-gray-400 truncate overflow-ellipsis mt-0.5">

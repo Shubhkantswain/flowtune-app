@@ -2,6 +2,7 @@ import { useLikeTrack } from '~/hooks/track'
 import { useTrackStore } from '~/store/useTrackStore'
 import LeftSideWaveLines from './LeftSideWaveLines';
 import RightSideWaveLines from './RightSideWaveLines';
+import { useLikedTrackStore } from '~/store/useLikedTrackStore';
 
 interface TrackArtAndInfoProps {
     onShow: () => void;
@@ -11,18 +12,16 @@ interface TrackArtAndInfoProps {
 const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled }) => {
     const { mutateAsync: likeTrack, isPending } = useLikeTrack()
     const { trackDetails, setTrackDetails } = useTrackStore()
-
-    console.log("let see", videoEnabled);
+    const { removeLikedTrack } = useLikedTrackStore()
 
     return (
         <div className="px-8 pt-8 -mt-7">
             <div
-                className={`aspect-square w-full max-w-sm lg:max-w-[300px] lg:ml-0 mx-auto rounded-lg mb-8 will-change-transform transition-transform duration-500 ease-out transform wave-container ${
-                    trackDetails.isPlaying
-                      ? 'scale-100 playing'
-                      : 'scale-75 lg:scale-95'
-                  }`}
-                  
+                className={`aspect-square w-full max-w-sm lg:max-w-[300px] lg:ml-0 mx-auto rounded-lg mb-8 will-change-transform transition-transform duration-500 ease-out transform wave-container ${trackDetails.isPlaying
+                    ? 'scale-100 playing'
+                    : 'scale-75 lg:scale-95'
+                    }`}
+
             >
                 <div className="hidden md:block relative w-full h-full">
                     {/* Left side wave lines */}
@@ -88,7 +87,7 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
                         {
                             trackDetails.id && (
                                 <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                                opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
                                     {trackDetails.hasLiked ? "Remove From Your Favourite" : "Add To Your Favourite"}
                                 </div>
                             )
@@ -97,6 +96,9 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
                             className={`p-2.5 rounded-full transition-all duration-300 group hover:scale-110`}
                             onClick={async () => {
                                 await likeTrack(trackDetails.id);
+                                if (trackDetails.hasLiked) {
+                                    removeLikedTrack(trackDetails.id)
+                                }
                                 setTrackDetails({ hasLiked: !trackDetails.hasLiked });
                             }}
                             disabled={isPending}

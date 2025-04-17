@@ -4,13 +4,13 @@ import { useTrackStore } from '~/store/useTrackStore'
 import { formatDuration } from '~/utils'
 
 interface ListScreenTracksProps {
-    tracks: Track[];
+    likedTracks: Track[];
     initialized: boolean;
     handlePlayTrack: (track: Track) => void;
 }
 
 const ListScreenTracks: React.FC<ListScreenTracksProps> = ({
-    tracks,
+    likedTracks,
     handlePlayTrack,
     initialized,
 }) => {
@@ -37,7 +37,7 @@ const ListScreenTracks: React.FC<ListScreenTracksProps> = ({
                     </tr>
                 </thead>
                 <tbody>
-                    {tracks.map((track, index) => (
+                    {likedTracks.map((track, index) => (
                         <tr
                             key={track.id}
                             className="group hover:bg-[#29292A] cursor-pointer"
@@ -68,7 +68,7 @@ const ListScreenTracks: React.FC<ListScreenTracksProps> = ({
                                 </div>
                             </td>
                             <td className="px-3 py-4">
-                                <div className={`${track?.id === trackDetails.id && trackDetails.isPlaying && initialized ? "text-[#25d1da]" : "text-white"} font-medium`}>
+                                <div className={`${track?.id === trackDetails.id && trackDetails.isPlaying && initialized ? "text-[#25d1da]" : "text-white"} font-normal`}>
                                     {track.title.split("From")[0].trim()}
                                 </div>
                             </td>

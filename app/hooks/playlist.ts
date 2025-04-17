@@ -58,7 +58,10 @@ export const useCreatePlaylist = () => {
                 }
                 const graphqlClient = createGraphqlClient(token);
                 const { createPlaylist } = await graphqlClient.request(CreatePlaylistMutation, {
-                    payload,
+                    payload: {
+                        ...payload,
+                        coverImageUrl: "none"
+                    }
                 });
                 return createPlaylist;
             } catch (error: any) {

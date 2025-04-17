@@ -14,6 +14,7 @@ import { Plus } from 'lucide-react';
 import { useAddSongToPlaylist, useGetCurrentUserPlaylists } from '~/hooks/playlist';
 import AddToPlaylistDialog from '~/components/AddToPlaylistDialog';
 import AddToNewPlaylistDialog from '~/components/AddToNewPlaylistDialog';
+import { useLikedTrackStore } from '~/store/useLikedTrackStore';
 
 interface ActionButtonsProps {
     videoEnabled: boolean;
@@ -35,6 +36,8 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEna
     const [isAddToPlaylistOpen, setAddToPlaylistOpen] = useState(false);
     const [isNewPlaylistDialogOpen, setNewPlaylistDialogOpen] = useState(false);
 
+    const { removeLikedTrack } = useLikedTrackStore()
+
 
     // Check if the current track is in the queue
     useEffect(() => {
@@ -46,6 +49,9 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEna
         <div className="space-y-4">
             <button className="flex items-center w-full gap-3 p-4 rounded-lg text-white" onClick={async () => {
                 await likeTrack(trackDetails.id)
+                if (trackDetails.hasLiked) {
+                    removeLikedTrack(trackDetails.id)
+                }
                 setTrackDetails({ hasLiked: !trackDetails.hasLiked })
             }}>
                 {trackDetails.hasLiked ? (
@@ -58,6 +64,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEna
                     trackDetails.hasLiked ? "Remove From Your Favourite" : "Add To Your Favourite"
                 }
             </button>
+
             <button className="flex items-center w-full gap-3 p-4 rounded-lg text-white" onClick={() => setAddToPlaylistOpen(true)}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><defs><path id="ic_action_add-a" d="M21,11 L13,11 L13,3 C13,2.448 12.552,2 12,2 C11.448,2 11,2.448 11,3 L11,11 L3,11 C2.448,11 2,11.448 2,12 C2,12.552 2.448,13 3,13 L11,13 L11,21 C11,21.553 11.448,22 12,22 C12.552,22 13,21.553 13,21 L13,13 L21,13 C21.552,13 22,12.552 22,12 C22,11.448 21.552,11 21,11 Z"></path></defs><g fill-rule="evenodd" fill="transparent"><rect width="24" height="24"></rect><use href="#ic_action_add-a" fill="currentColor"></use></g></svg>
                 Add To Playlist

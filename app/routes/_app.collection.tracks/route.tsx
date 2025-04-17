@@ -10,12 +10,11 @@ import NoTracks from './_components/NoTracks';
 import ListScreenTracks from './_components/ListScreenTracks';
 import TrackCollectionsInfo from './_components/TrackCollectionsInfo';
 import CompactScreenTracks from './_components/CompactScreenTracks';
+import { useLikedTrackStore } from '~/store/useLikedTrackStore';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   try {
     const cookieHeader = request.headers.get("Cookie");
-
-    // Parse the cookie manually
     const cookies = Object.fromEntries(
       (cookieHeader || "")
         .split("; ")
@@ -23,42 +22,33 @@ export async function loader({ request }: LoaderFunctionArgs) {
         .map(([key, ...value]) => [key, value.join("=")])
     );
 
-    // Extract the `__FlowTune_Token_server` cookie
     const token = cookies["__FlowTune_Token_server"];
-
-    if(!token){
-      return redirect("/ft/signin")
-    }
+    if (!token) return redirect("/ft/signin");
 
     const graphqlClient = createGraphqlClient(token);
     const { getLikedTracks } = await graphqlClient.request(getLikedTracksQuery);
 
-    return getLikedTracks || []; // Expecting an array of `Track`
+    return getLikedTracks || [];
   } catch (error) {
     console.error("Error fetching tracks:", error);
-    return []; // Return an empty array to match the expected type
+    return [];
   }
 }
 
 const LikedTracks = () => {
-  const tracks = useLoaderData<Track[]>(); // Properly typed loader data
+  const initialTracks = useLoaderData<Track[]>();
   const { initialize, setCurrentTrack, getCurrent, setActiveSectionIndex } = usePlaylistStore();
   const { setTrackDetails, trackDetails } = useTrackStore();
-  const [initialized, setInitialized] = useState(false);
+  const { likedTracks, setLikedTracks } = useLikedTrackStore();
 
-  const [screenType, setScreenType] = useState<string>("compact");
+  const [initialized, setInitialized] = useState(false);
+  const [screenType, setScreenType] = useState("compact");
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const toggleDropdown = () => {
-    setShowDropdown(!showDropdown);
-  };
+  const toggleDropdown = () => setShowDropdown(!showDropdown);
+  const toggleScreenType = () => setScreenType(prev => (prev === "compact" ? "list" : "compact"));
 
-  const toggleScreenType = () => {
-    setScreenType(screenType === "compact" ? "list" : "compact");
-  };
-
-  // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -67,14 +57,16 @@ const LikedTracks = () => {
     }
 
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   useEffect(() => {
     setActiveSectionIndex(-1);
   }, []);
+
+  useEffect(() => {
+    setLikedTracks(initialTracks);
+  }, [initialTracks, setLikedTracks]);
 
   const handlePlayTrack = (track: Track) => {
     const isPlayingCurrentSong = track?.id === trackDetails.id && trackDetails.isPlaying;
@@ -87,7 +79,7 @@ const LikedTracks = () => {
       return;
     } else {
       if (!initialized) {
-        initialize(tracks);
+        initialize(initialTracks);
       }
 
       setTrackDetails({
@@ -112,19 +104,31 @@ const LikedTracks = () => {
   return (
     <div className="min-h-screen">
       <div className="p-4 sm:p-6 md:p-8">
-        {/* Header Section */}
-        <TrackCollectionsInfo showDropdown={showDropdown} screenType={screenType} handlePlayTrack={handlePlayTrack} toggleScreenType={toggleScreenType} toggleDropdown={toggleDropdown} dropdownRef={dropdownRef} initialTrack={tracks[0]} />
+        <TrackCollectionsInfo
+          showDropdown={showDropdown}
+          screenType={screenType}
+          handlePlayTrack={handlePlayTrack}
+          toggleScreenType={toggleScreenType}
+          toggleDropdown={toggleDropdown}
+          dropdownRef={dropdownRef}
+          initialTrack={initialTracks[0]}
+        />
 
-        {/* Tracks Table - Responsive to screenType */}
         <div className="relative">
-          {tracks.length === 0 ? (
+          {initialTracks.length === 0 ? (
             <NoTracks />
           ) : screenType === "compact" ? (
-            // Compact View - Original design with album art
-            <CompactScreenTracks tracks={tracks} initialized={initialized} handlePlayTrack={handlePlayTrack} />
+            <CompactScreenTracks
+              likedTracks={likedTracks.length ? likedTracks : initialTracks}
+              initialized={initialized}
+              handlePlayTrack={handlePlayTrack}
+            />
           ) : (
-            // List View - Table-like layout with consistent font sizes
-            <ListScreenTracks tracks={tracks} initialized={initialized} handlePlayTrack={handlePlayTrack}/>
+            <ListScreenTracks
+              likedTracks={likedTracks.length ? likedTracks : initialTracks}
+              initialized={initialized}
+              handlePlayTrack={handlePlayTrack}
+            />
           )}
         </div>
       </div>
