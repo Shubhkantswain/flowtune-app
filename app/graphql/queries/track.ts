@@ -35,21 +35,22 @@ export const getExploreTracksQuery = graphql(`#graphql
 `)
 
 export const getTracksByGenreIdQuery = graphql(`#graphql
-  query GetTracksByGenreId($genreId: String!) {
-    getTracksByGenreId(genreId: $genreId) {
-      id   
-      title            
-      singer          
+  query GetTracksByGenreId($input: GetTracksByGenreIdInput!) {
+    getTracksByGenreId(input: $input) {
+      id
+      title
+      singer
       starCast
-      duration             
-      coverImageUrl    
+      duration
+      coverImageUrl
       videoUrl
-      audioFileUrl 
+      audioFileUrl
       hasLiked
-      authorId  
+      authorId
     }
   }
-`)
+`);
+
 
 export const getRecentTracksQuery = graphql(`#graphql
   query GetRecentTracks($recentTracks: [String!]!) {

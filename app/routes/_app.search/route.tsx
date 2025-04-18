@@ -97,6 +97,10 @@ const BrowsePage = () => {
     }
   }, [isAuthenticated])
 
+  useEffect(() => {
+    setPage(1)
+  }, [])
+  
   return (
     <>
       {/* Search bar - only visible on small screens */}

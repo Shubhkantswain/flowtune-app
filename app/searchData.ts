@@ -11,6 +11,8 @@ export const searchData = {
         { title: `Bewajah From ("Sanam Teri Kasam")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ddaabc10aebdc619c1c9504c" },
         { title: `Bulleya From("Ae Dil Hai Mushkil")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273cfdf2cecda3a566ca424df3e" },
         { title: `Badtameez Dil From("Yeh Jawaani Hai Deewani")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273707ea5b8023ac77d31756ed4" },
+        { title: `Bekhayali From("Kabir Singh")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27390d98409f70719daa0dc0421" },
+
 
 
 
@@ -18,6 +20,8 @@ export const searchData = {
     c: [
         { title: `Chaleya From("Jawan")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27360dbbb589dff0c57a3a4ffb2" },
         { title: `Chaand Baaliyan`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ec4ecaa0fcf68c0966f21514" },
+        { title: `Cutiepie From("Ae Dil Hai Mushkil")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2733420c3d84f78ea149550d004" },
+
 
     ],
     d: [
@@ -38,6 +42,8 @@ export const searchData = {
     h: [
         { title: `Heeriye`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2734a60872ae145776164540a7f" },
         { title: `Humdard From("Ek Villain")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273a2ef89ae0f8d1848081c1449" },
+        { title: `Hua Main From("Animal")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ac2f40efa7f20f169acfb46f" },
+
 
 
     ],
@@ -78,6 +84,8 @@ export const searchData = {
     p: [
         { title: `Phir Se Udd Chala From("Rockstar")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273869a9b15675b514a06d2c049" },
         { title: `Phir Mohabbat From("Murder 2")`, coverImageUrl: "https://i.scdn.co/image/ab67616d00001e02c60fa2360b6dfbd7e1ff20b4" },
+        { title: `Pehli Dafa`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273afd2bc3f876235be94c0d36d" },
+
 
 
 
@@ -94,6 +102,8 @@ export const searchData = {
         { title: `Sunn Raha Hai From("Aashiqui")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2736404721c1943d5069f0805f3" },
         { title: `Sanam Re From("Sanam Re")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ce6e8a2a6cce64f2cc077218" },
         { title: `Sooraj Dooba Hain From("Roy")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273f6371011af4c82fb31d54820" },
+        { title: `Shayad From("Love Aaj Kal")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273c51066dc572e8942e5ef1f44" },
+
 
 
 

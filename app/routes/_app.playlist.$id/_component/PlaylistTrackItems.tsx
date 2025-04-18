@@ -72,7 +72,7 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
     };
 
    const queueTracks = getAllTracks()
-
+   
     return (
         <div className="pb-8 mt-3 overflow-x-hidden">
             <table className="w-full">

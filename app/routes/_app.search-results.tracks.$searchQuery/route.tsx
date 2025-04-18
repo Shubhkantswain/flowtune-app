@@ -46,17 +46,15 @@ function SearchResultsRoute() {
 
   const { trackDetails, setTrackDetails } = useTrackStore();
   const { initialize } = usePlaylistStore();
-  const { searchQuery, setSearchQuery } = useSearchStore();
+  const { searchQuery, setSearchQuery, page, setPage } = useSearchStore();
 
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
   const [searchResults, setSearchResults] = useState<Track[]>([]);
   const [initialized, setInitialized] = useState(false);
   const [hasMore, setHasMore] = useState(false);
 
   const { data, isLoading } = useGetSearchTracks({ page, query: searchQuery }, true);
-
-  console.log("searchtracks", data);
-  
+ 
   // Set search query from URL param on mount or when it changes
   useEffect(() => {
     setSearchQuery(params.searchQuery || "");
@@ -72,7 +70,7 @@ function SearchResultsRoute() {
       : [...searchResults, ...data];
 
     setSearchResults(newResults);
-    setHasMore(data.length >= 15);
+    setHasMore(data.length >= 4);
 
     if (searchQuery && data.length === 0 && !isLoading) {
       setHasMore(false);

@@ -1,9 +1,9 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { CreateTrackPayload, SearchInput } from "gql/graphql";
+import { CreateTrackPayload, GetTracksByGenreIdInput, SearchInput } from "gql/graphql";
 import { toast } from "sonner";
 import { createGraphqlClient } from "~/clients/api";
 import { createTrackMutation, likeTrackMutation } from "~/graphql/mutations/track";
-import { getExploreTracksQuery, getRecentTracksQuery, getSearchTracksQuery } from "~/graphql/queries/track";
+import { getExploreTracksQuery, getRecentTracksQuery, getSearchTracksQuery, getTracksByGenreIdQuery } from "~/graphql/queries/track";
 
 export const useCreateTrack = () => {
     return useMutation({
@@ -60,6 +60,23 @@ export const useGetExploreTracks = (page: number) => {
             const graphqlClient = createGraphqlClient(token);
             const { getExploreTracks } = await graphqlClient.request(getExploreTracksQuery, { page });
             return getExploreTracks
+        }
+    })
+}
+
+export const useGetTracksByGenreId = (input: GetTracksByGenreIdInput) => {
+    return useQuery({
+        queryKey: ['tracksByGenreId', input.page],
+        queryFn: async () => {
+            if (input.page == 1) return []
+
+            let token = ""
+            if (typeof window !== "undefined") {
+                token = localStorage.getItem("__FlowTune_Token") || ""
+            }
+            const graphqlClient = createGraphqlClient(token);
+            const { getTracksByGenreId } = await graphqlClient.request(getTracksByGenreIdQuery, { input });
+            return getTracksByGenreId
         }
     })
 }
