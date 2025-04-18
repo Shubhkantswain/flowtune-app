@@ -16,6 +16,7 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
     const { mutateAsync: deletePlaylist } = useDeletePlaylist()
 
     const [showDropdown, setShowDropdown] = useState(false)
+    const [imgSize, setImgSize] = useState({ width: 224, height: 224 }) // 56 * 4 = 224 (56rem)
 
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown)
@@ -35,6 +36,23 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
         }
     }, [])
 
+    // Reduce image size only on small screens
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.innerWidth < 768) {
+                const scrollY = window.scrollY
+                const newWidth = Math.max(134, 224 - scrollY / 2) // Minimum 134px (about 60% of original)
+                const newHeight = Math.max(134, 224 - scrollY / 2)
+                setImgSize({ width: newWidth, height: newHeight })
+            } else {
+                setImgSize({ width: 224, height: 224 }) // Reset size on large screens
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [])
+
     const arr = res?.tracks?.map((track) => track.duration)
 
     return (
@@ -42,6 +60,10 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
             {/* Wrapper with dynamic size based on scroll */}
             <div 
                 className="flex-shrink-0 relative transition-all duration-75 ease-out"
+                style={{ 
+                    width: `${imgSize.width}px`,
+                    height: `${imgSize.height}px`
+                }}
             >
                 <img
                     src={res.coverImageUrl}
