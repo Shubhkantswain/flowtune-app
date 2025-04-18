@@ -5,6 +5,12 @@ import { useTrackStore } from '~/store/useTrackStore';
 import { useRemoveSongFromPlaylist } from '~/hooks/playlist';
 import { useLikeTrack } from '~/hooks/track';
 import { formatDuration, formatTime } from '~/utils';
+import { Link } from '@remix-run/react';
+import { useCurrentUser } from '~/hooks/auth';
+import AddToPlaylistDialog from '~/components/AddToPlaylistDialog';
+import AddToNewPlaylistDialog from '~/components/AddToNewPlaylistDialog';
+import { useQueueStore } from '~/store/useQueueStore';
+import { toast } from 'sonner';
 
 interface PlaylistTrackItemsProps {
     res: GetPlaylistTracksResponse;
@@ -14,16 +20,24 @@ interface PlaylistTrackItemsProps {
 }
 
 function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }: PlaylistTrackItemsProps) {
-    const { trackDetails } = useTrackStore();
+    const { trackDetails, setTrackDetails } = useTrackStore();
+    const { isTrackInQueue, dequeueTrack, enqueueTrack, getAllTracks, getQueueSize } = useQueueStore()
+
+    const [queueTracks, setQueueTracks] = useState<{ [id: string]: boolean }>()
+
     const [showDropdown, setShowDropdown] = useState<number | null>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const [mount, setMount] = useState(false)
+    const [isAddToPlaylistOpen, setAddToPlaylistOpen] = useState(false);
+    const [isNewPlaylistDialogOpen, setNewPlaylistDialogOpen] = useState(false);
+
     const [tracks, setTracks] = useState<Track[]>([])
     const { mutateAsync: removeSongFromPlaylist } = useRemoveSongFromPlaylist()
+    const { data } = useCurrentUser()
 
     const { mutateAsync: likeTrack } = useLikeTrack()
-    
+
     useEffect(() => {
         if (res.tracks) {
             setTracks(res.tracks)
@@ -58,6 +72,19 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
     const toggleDropdown = (index: number) => {
         setShowDropdown(showDropdown === index ? null : index);
     };
+
+    useEffect(() => {
+        const trackObj = getAllTracks();
+
+        const idMap: { [id: string]: boolean } = {};
+        Object.keys(trackObj).forEach(id => {
+            idMap[id] = true;
+        });
+
+        setQueueTracks(idMap);
+    }, [getQueueSize()]);
+
+    console.log("queueTracks", queueTracks);
 
     return (
         <div className="pb-8 mt-3 overflow-x-hidden">
@@ -161,19 +188,109 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                                 {showDropdown === index && (
                                     <div
                                         ref={dropdownRef}
-                                        className="absolute right-0 -mt-10 w-48 bg-gradient-to-b from-neutral-950 to-neutral-900 border border-[#2E3030] transform transition-all duration-300 ease-in-out rounded-lg shadow-lg z-10 animate-fade-in"
+                                        className={`absolute right-0 top-0 w-64 z-50 transform transition-all duration-300 ease-in-out ${showDropdown === index ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
                                     >
-                                        <div className="py-1">
-                                            <button
-                                                className="block w-full px-4 py-3 text-sm text-gray-300 hover:bg-[#3a3b3c] text-left"
-                                                onClick={async (e) => {
-                                                    e.stopPropagation();
-                                                    await handleRemoveTrackFromPlaylist(track.id);
-                                                }}
-                                            >
-                                                Remove From Playlist
-                                            </button>
+                                        <div className="bg-gradient-to-b from-neutral-950 to-neutral-900 rounded-md shadow-xl border border-[#2E3030]">
+                                            <div className="py-1">
+                                                <button
+                                                    className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation()
+                                                        setAddToPlaylistOpen(true)
+                                                    }}
+
+                                                >
+                                                    Add To Playlist
+
+                                                </button>
+
+                                                <div className="border-b border-[#2E3030]"></div>
+
+                                                <button
+                                                    className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation()
+                                                        if (queueTracks?.[track.id]) {
+                                                            dequeueTrack(trackDetails.id);
+                                                            toast.success(`"${trackDetails.title}" removed from queue`);
+                                                        } else {
+                                                            enqueueTrack(track);
+                                                            toast.success(`"${trackDetails.title}" added to queue`);
+                                                        }
+
+                                                        setQueueTracks(prev => {
+                                                            const newQueue = { ...prev };
+
+                                                            if (newQueue[track.id]) {
+                                                                delete newQueue[track.id]; // remove if exists (i.e., was liked)
+                                                            } else {
+                                                                newQueue[track.id] = true; // add if not exists
+                                                            }
+
+                                                            return newQueue;
+                                                        });
+
+                                                    }}
+                                                >
+                                                    {queueTracks?.[track.id] ? "Remove from queue" : "Add to queue"}
+                                                </button>
+
+                                                <div className="border-b border-[#2E3030]"></div>
+
+                                                <button
+                                                    className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+                                                    onClick={async (e) => {
+                                                        e.preventDefault()
+                                                        await likeTrack(track.id)
+                                                        if (track.id == trackDetails.id) {
+                                                            setTrackDetails({ hasLiked: !track.hasLiked })
+                                                        }
+                                                    }}
+                                                >
+                                                    {
+                                                        track.hasLiked ? "Unlike This Track" : "Like This Track"
+                                                    }
+
+                                                </button>
+
+                                                <div className="border-b border-[#2E3030]"></div>
+
+                                                <button
+                                                    className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+
+                                                >
+                                                    Play This Track
+
+                                                </button>
+
+                                                <div className="border-b border-[#2E3030]"></div>
+
+                                                <button
+                                                    className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+
+                                                >
+                                                    Remove This Track
+
+                                                </button>
+
+                                                {
+                                                    res.id == data?.id && (
+                                                        <>
+                                                            <div className="border-b border-[#2E3030]"></div>
+
+                                                            <button
+                                                                className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+                                                            >
+                                                                Remove This Track
+
+                                                            </button>
+                                                        </>
+                                                    )
+                                                }
+
+                                            </div>
                                         </div>
+
                                     </div>
                                 )}
                             </td>
@@ -181,6 +298,19 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                     ))}
                 </tbody>
             </table>
+
+            {
+                isAddToPlaylistOpen && (
+                    <AddToPlaylistDialog isOpen={isAddToPlaylistOpen} setIsOpen={setAddToPlaylistOpen} setNewPlaylistDialogOpen={setNewPlaylistDialogOpen} trackId={trackDetails.id} />
+                )
+            }
+
+            {
+                isNewPlaylistDialogOpen && (
+                    <AddToNewPlaylistDialog isOpen={isNewPlaylistDialogOpen} setIsOpen={setNewPlaylistDialogOpen} trackId={trackDetails.id} />
+                )
+            }
+
         </div>
     );
 }

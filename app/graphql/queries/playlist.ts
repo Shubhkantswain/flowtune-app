@@ -62,6 +62,7 @@ export const getPlaylistTracksQuery = graphql(`#graphql
         authorId 
         createdAt
       }
+      authorId
     }
   }
 `);

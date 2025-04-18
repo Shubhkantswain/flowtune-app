@@ -83,17 +83,18 @@ class TrackQueue {
         return this.size;
     }
 
-    getAllTracks(): Track[] {
-        const tracks: Track[] = [];
+    getAllTracks(): { [id: string]: Track } {
+        const tracks: { [id: string]: Track } = {};
         let current = this.head.next;
-
+    
         while (current && current !== this.tail) {
-            tracks.push(current.track);
+            tracks[current.track.id] = current.track;
             current = current.next!;
         }
-
+    
         return tracks;
     }
+    
 }
 
 /**
@@ -106,7 +107,7 @@ interface QueueStoreState {
     dequeueFirstTrack: () => Track | null;
     isTrackInQueue: (trackId: string) => boolean;
     getQueueSize: () => number;
-    getAllTracks: () => Track[];
+    getAllTracks: () => { [id: string]: Track };
 }
 
 /**

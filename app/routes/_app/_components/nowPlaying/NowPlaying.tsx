@@ -28,7 +28,8 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
 
   const [menuVisible, setMenuVisible] = useState(false);
   const [isQueueTrackVisible, setIsQueueTrackVisible] = useState(false);
-  const [queueTracks, setQueueTracks] = useState<Track[]>([]);
+  const [queueTracks, setQueueTracks] = useState<{ [id: string]: Track }>(getAllTracks())
+
   const [hide, setHide] = useState(false)
   const [videoEnabled, setVideoEnabled] = useState(true)
 
@@ -122,7 +123,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({ isOpen, onClose, progress, curr
 
         <div className="relative z-10 max-w-3xl mx-auto min-h-full">
           {/* Header */}
-          <Header onClose={onClose} onShowQueueTrack={() => setIsQueueTrackVisible(true)} hide={hide} setHide={setHide} videoEnabled={videoEnabled}/>
+          <Header onClose={onClose} onShowQueueTrack={() => setIsQueueTrackVisible(true)} hide={hide} setHide={setHide} videoEnabled={videoEnabled} />
 
           {
             !hide && (

@@ -9,7 +9,7 @@ import AnimatedEqualizerPause from './AnimatedEqualizerPause';
 interface ShowQueueTracksProps {
     isQueueTrackVisible: boolean;
     onHideQueueTrack: () => void;
-    queueTracks: Track[];
+    queueTracks: { [id: string]: Track };
 }
 
 const ShowQueueTracks: React.FC<ShowQueueTracksProps> = ({
@@ -87,7 +87,7 @@ const ShowQueueTracks: React.FC<ShowQueueTracksProps> = ({
                         Next in Queue
                     </h3>
                     <div className="space-y-2 sm:space-y-3">
-                        {queueTracks.map((track, idx) => (
+                        {Object.values(queueTracks).map((track, idx) => (
                             <div
                                 key={track.id}
                                 className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg bg-gradient-to-r from-zinc-900/80 to-zinc-800/60 backdrop-blur-sm transition-all duration-200 group hover:translate-x-1 relative overflow-hidden"
