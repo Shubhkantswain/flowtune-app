@@ -23,8 +23,6 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
     const { trackDetails, setTrackDetails } = useTrackStore();
     const { isTrackInQueue, dequeueTrack, enqueueTrack, getAllTracks, getQueueSize } = useQueueStore()
 
-    const [queueTracks, setQueueTracks] = useState<{ [id: string]: boolean }>()
-
     const [showDropdown, setShowDropdown] = useState<number | null>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -73,18 +71,7 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
         setShowDropdown(showDropdown === index ? null : index);
     };
 
-    useEffect(() => {
-        const trackObj = getAllTracks();
-
-        const idMap: { [id: string]: boolean } = {};
-        Object.keys(trackObj).forEach(id => {
-            idMap[id] = true;
-        });
-
-        setQueueTracks(idMap);
-    }, [getQueueSize()]);
-
-    console.log("queueTracks", queueTracks);
+   const queueTracks = getAllTracks()
 
     return (
         <div className="pb-8 mt-3 overflow-x-hidden">
@@ -217,19 +204,6 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                                                             enqueueTrack(track);
                                                             toast.success(`"${trackDetails.title}" added to queue`);
                                                         }
-
-                                                        setQueueTracks(prev => {
-                                                            const newQueue = { ...prev };
-
-                                                            if (newQueue[track.id]) {
-                                                                delete newQueue[track.id]; // remove if exists (i.e., was liked)
-                                                            } else {
-                                                                newQueue[track.id] = true; // add if not exists
-                                                            }
-
-                                                            return newQueue;
-                                                        });
-
                                                     }}
                                                 >
                                                     {queueTracks?.[track.id] ? "Remove from queue" : "Add to queue"}
