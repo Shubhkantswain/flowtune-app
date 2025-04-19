@@ -180,7 +180,7 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                                         <div className="bg-gradient-to-b from-neutral-950 to-neutral-900 rounded-md shadow-xl border border-[#2E3030]">
                                             <div className="py-1">
                                                 <button
-                                                    className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+                                                    className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white"
                                                     onClick={(e) => {
                                                         e.stopPropagation()
                                                         setAddToPlaylistOpen(true)
@@ -194,7 +194,7 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                                                 <div className="border-b border-[#2E3030]"></div>
 
                                                 <button
-                                                    className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+                                                    className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white"
                                                     onClick={(e) => {
                                                         e.stopPropagation()
                                                         if (queueTracks?.[track.id]) {
@@ -212,7 +212,7 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                                                 <div className="border-b border-[#2E3030]"></div>
 
                                                 <button
-                                                    className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+                                                    className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white"
                                                     onClick={async (e) => {
                                                         e.preventDefault()
                                                         await likeTrack(track.id)
@@ -230,7 +230,7 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                                                 <div className="border-b border-[#2E3030]"></div>
 
                                                 <button
-                                                    className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+                                                    className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white"
                                                     onClick={() => handleControll(track)}
 
                                                 >
@@ -246,7 +246,7 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                                                             <div className="border-b border-[#2E3030]"></div>
 
                                                             <button
-                                                                className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+                                                                className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white"
                                                             >
                                                                 Remove This Track
 

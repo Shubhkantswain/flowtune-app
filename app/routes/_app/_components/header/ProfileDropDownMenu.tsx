@@ -75,13 +75,13 @@ const ProfileDropDownMenu: React.FC<ProfileDropDownMenuProps> = ({
                                 <>
                                     {isLoading ? (
                                         <button
-                                            className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+                                            className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white"
                                         >
                                             Fetching Your Profile...
                                         </button>
                                     ) : (
                                         // Actual content
-                                        <Link to={`/show/${data?.id}`} className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">
+                                        <Link to={`/show/${data?.id}`} className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white">
                                             My Profile
                                         </Link>
                                     )}
@@ -89,7 +89,7 @@ const ProfileDropDownMenu: React.FC<ProfileDropDownMenuProps> = ({
                                     <div className="border-b border-[#2E3030]"></div>
 
                                     <button
-                                        className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+                                        className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white"
                                         onClick={() => {
                                             if (isLoading) {
                                                 return
@@ -126,7 +126,7 @@ const ProfileDropDownMenu: React.FC<ProfileDropDownMenuProps> = ({
                                     <div className="border-b border-[#2E3030]"></div>
 
                                     <button
-                                        className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+                                        className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white"
                                         onClick={() => {
                                             if (isLoading) {
                                                 return
@@ -162,30 +162,30 @@ const ProfileDropDownMenu: React.FC<ProfileDropDownMenuProps> = ({
 
                                     <div className="border-b border-[#2E3030]"></div>
 
-                                    <Link to="/collection/tracks" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">
+                                    <Link to="/collection/tracks" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white">
                                         Liked Tracks
                                     </Link>
                                     <div className="border-b border-[#2E3030]"></div>
 
                                     <Link
                                         to={"/music-preference"}
-                                        className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+                                        className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white"
                                     >
                                         Music Preferences
                                     </Link>
 
                                     <div className="border-b border-[#2E3030]"></div>
 
-                                    <Link to="/settings" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">
+                                    <Link to="/settings" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white">
                                         Change Display Language
                                     </Link>
                                     <div className="border-b border-[#2E3030]"></div>
-                                    <Link to="/settings" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">
+                                    <Link to="/settings" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white">
                                         Settings
                                     </Link>
                                     <div className="border-b border-[#2E3030]"></div>
 
-                                    <Link to="/ft/sign-out" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white">
+                                    <Link to="/ft/sign-out" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white">
                                         Sign out
                                     </Link>
                                 </>
@@ -201,7 +201,7 @@ const ProfileDropDownMenu: React.FC<ProfileDropDownMenuProps> = ({
 
                                     <Link
                                         to={"/music-preference"}
-                                        className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+                                        className="block w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white"
                                     >
                                         Music Preferences
                                     </Link>

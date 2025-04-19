@@ -111,7 +111,7 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
                                 {["Delete this playlist", "Share"].map((item, index) => (
                                     <button
                                         key={index}
-                                        className="flex items-center w-full px-4 py-3 text-sm text-white hover:bg-[#1E1E1E] border-b border-[#2E3030] last:border-b-0"
+                                        className="flex items-center w-full px-4 py-3 text-sm text-white hover:bg-[#29292A] border-b border-[#2E3030] last:border-b-0"
                                         onClick={async () => {
                                             if (index === 0) {
                                                 await deletePlaylist(res.id)
