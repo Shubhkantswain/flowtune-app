@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useLikeTrack } from '~/hooks/track'
+import { useLikedTrackStore } from '~/store/useLikedTrackStore'
 import { useTrackStore } from '~/store/useTrackStore'
 import { useVolumeStore } from '~/store/useVloumeStore'
 
@@ -7,11 +8,31 @@ const RightControllers = () => {
     const { mutateAsync: likeTrack, isPending } = useLikeTrack()
     const { trackDetails, togglePlay, setTrackDetails, handleVolumeChange } = useTrackStore()
     const { mute, setMute } = useVolumeStore()
-    
+    const { removeLikedTrack, addLikedTrack } = useLikedTrackStore()
+
     const isPlaying = trackDetails.isPlaying
 
     const handleLike = async () => {
         await likeTrack(trackDetails.id)
+        if (trackDetails.hasLiked) {
+            removeLikedTrack(trackDetails.id)
+        } else {
+            addLikedTrack({
+                id: trackDetails.id,
+
+                title: trackDetails.title,
+                singer: trackDetails.singer,
+                starCast: trackDetails.starCast,
+                duration: trackDetails.duration,
+
+                coverImageUrl: trackDetails.coverImageUrl,
+                videoUrl: trackDetails.videoUrl,
+                audioFileUrl: trackDetails.audioFileUrl,
+
+                hasLiked: true,
+                authorId: trackDetails.audioFileUrl,
+            })
+        }
         setTrackDetails({ hasLiked: !trackDetails.hasLiked })
     }
 

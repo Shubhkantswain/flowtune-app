@@ -34,7 +34,6 @@ const TrackCollectionsInfo: React.FC<TrackCollectionsInfoProps> = ({
 
                 <div className="flex gap-4 items-center mt-4">
                     <button
-                        // className="bg-cyan-400 text-black px-6 py-2 rounded-full font-medium flex items-center gap-2 hover:bg-cyan-300 transition-colors"
                         className="flex items-center gap-2 bg-[#25d1da] hover:bg-[#25d1da]/70 text-black font-semibold px-8 py-3 rounded-full"
                         onClick={() => handlePlayTrack(initialTrack)}
                     >
@@ -61,44 +60,45 @@ const TrackCollectionsInfo: React.FC<TrackCollectionsInfoProps> = ({
                     </div>
 
                     {/* More options button with dropdown */}
-                    <div className="relative group  mt-1.5" ref={dropdownRef}>
-
-                        <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                            More
-                        </div>
-
+                    <div className="relative" ref={dropdownRef}>
                         <button
-                            className="text-white hover:scale-110 transition-colors"
                             onClick={toggleDropdown}
+                            className="p-2 rounded-full transition-colors focus:outline-none group"
+                            aria-label="More options"
                         >
-                            {/* <MoreHorizontal className="w-6 h-6" /> */}
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                <defs>
-                                    <path id="ic_action_more-a" d="M19,14 C17.895,14 17,13.105 17,12 C17,10.895 17.895,10 19,10 C20.105,10 21,10.895 21,12 C21,13.105 20.105,14 19,14 Z M14,12 C14,10.895 13.105,10 12,10 C10.895,10 10,10.895 10,12 C10,13.105 10.895,14 12,14 C13.105,14 14,13.105 14,12 Z M7,12 C7,10.895 6.105,10 5,10 C3.895,10 3,10.895 3,12 C3,13.105 3.895,14 5,14 C6.105,14 7,13.105 7,12 Z"></path>
-                                </defs>
-                                <g fillRule="evenodd" fill="transparent">
-                                    <rect width="24" height="24"></rect>
-                                    <use fillRule="nonzero" href="#ic_action_more-a" fill="currentColor"></use>
-                                </g>
-                            </svg>
+                            {/* Tooltip inside the button */}
+                            <div className="absolute -top-7 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
+                            opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                                More
+                            </div>
+
+                            <div className='hover:scale-110'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-ellipsis">
+                                    <circle cx="12" cy="12" r="1" />
+                                    <circle cx="19" cy="12" r="1" />
+                                    <circle cx="5" cy="12" r="1" />
+                                </svg>
+                            </div>
                         </button>
 
                         {showDropdown && (
-                            <div className="absolute z-10 -translate-x-1/2 left-1/2 bottom-full mb-2 w-48 rounded-md bg-gradient-to-b from-neutral-950 to-neutral-900 border border-[#2E3030] shadow-lg overflow-hidden">
-                                {[
-                                    "Play",
-                                    "Share",
-                                ].map((item, index) => (
-                                    <button
-                                        key={index}
-                                        className="flex items-center w-full px-4 py-3 text-sm text-white hover:bg-[#29292A] border-b border-[#2E3030] last:border-b-0"
-                                        onClick={async() => {
-                                            if (item == "Play") {
+                            <div className={`absolute bottom-12 left-1/2 -translate-x-1/2 w-64 z-50 transform transition-all duration-300 ease-in-out ${showDropdown ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
+                                <div className="bg-gradient-to-b from-neutral-950 to-neutral-900 rounded-md shadow-xl border border-[#2E3030]">
+                                    <div className="py-1">
+                                        <button
+                                            className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white"
+                                            onClick={() => {
                                                 handlePlayTrack(initialTrack)
-                                            } else {
-                                                const shareUrl = window.location.href;
+                                            }}
+                                        >
+                                            Play
+                                        </button>
+                                        <div className="border-b border-[#2E3030]"></div>
 
+                                        <button
+                                            className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white"
+                                            onClick={async () => {
+                                                const shareUrl = window.location.href;
                                                 if (navigator.share) {
                                                     try {
                                                         await navigator.share({
@@ -116,12 +116,12 @@ const TrackCollectionsInfo: React.FC<TrackCollectionsInfoProps> = ({
                                                         console.error("Failed to copy link:", error);
                                                     }
                                                 }
-                                            }
-                                        }}
-                                    >
-                                        {item}
-                                    </button>
-                                ))}
+                                            }}
+                                        >
+                                            Share
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         )}
                     </div>

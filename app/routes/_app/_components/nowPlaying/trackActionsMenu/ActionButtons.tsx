@@ -6,11 +6,6 @@ import ShowPlaybackOptions from './ShowPlaybackOptions';
 import ShowSleepModeOptions from './ShowSleepModeOptions';
 import { Switch } from '~/components/ui/switch';
 import { useLikeTrack } from '~/hooks/track';
-import { Label } from '~/components/ui/label';
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '~/components/ui/dialog';
-import { Input } from '~/components/ui/input';
-import { Button } from '~/components/ui/button';
-import { Plus } from 'lucide-react';
 import { useAddSongToPlaylist, useGetCurrentUserPlaylists } from '~/hooks/playlist';
 import AddToPlaylistDialog from '~/components/AddToPlaylistDialog';
 import AddToNewPlaylistDialog from '~/components/AddToNewPlaylistDialog';
@@ -20,10 +15,8 @@ interface ActionButtonsProps {
     videoEnabled: boolean;
     setVideoEnabled: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
 const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEnabled }) => {
     const { mutateAsync: likeTrack, isPending } = useLikeTrack()
-    const { mutateAsync: addSongToPlaylist } = useAddSongToPlaylist()
 
     const { trackDetails, setTrackDetails } = useTrackStore();
     const { enqueueTrack, dequeueTrack, isTrackInQueue } = useQueueStore()
@@ -36,7 +29,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEna
     const [isAddToPlaylistOpen, setAddToPlaylistOpen] = useState(false);
     const [isNewPlaylistDialogOpen, setNewPlaylistDialogOpen] = useState(false);
 
-    const { removeLikedTrack } = useLikedTrackStore()
+    const { removeLikedTrack, addLikedTrack } = useLikedTrackStore()
 
 
     // Check if the current track is in the queue
@@ -51,6 +44,22 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEna
                 await likeTrack(trackDetails.id)
                 if (trackDetails.hasLiked) {
                     removeLikedTrack(trackDetails.id)
+                } else {
+                    addLikedTrack({
+                        id: trackDetails.id,
+
+                        title: trackDetails.title,
+                        singer: trackDetails.singer,
+                        starCast: trackDetails.starCast,
+                        duration: trackDetails.duration,
+
+                        coverImageUrl: trackDetails.coverImageUrl,
+                        videoUrl: trackDetails.videoUrl,
+                        audioFileUrl: trackDetails.audioFileUrl,
+
+                        hasLiked: true,
+                        authorId: trackDetails.audioFileUrl,
+                    })
                 }
                 setTrackDetails({ hasLiked: !trackDetails.hasLiked })
             }}>
@@ -61,7 +70,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEna
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><defs><path id="ic_action_favorite-a" d="M16,3 C14.499,3 13.092,3.552 12,4.544 C10.908,3.552 9.501,3 8,3 C4.691,3 2,5.691 2,9 C2,14.535 8.379,18.788 11.445,20.832 C11.613,20.944 11.807,21 12,21 C12.193,21 12.387,20.944 12.555,20.832 C15.62,18.788 22,14.535 22,9 C22,5.691 19.309,3 16,3 Z M12,18.797 C9.077,16.832 4,13.186 4,9 C4,6.794 5.794,5 8,5 C9.263,5 10.429,5.592 11.198,6.625 C11.575,7.131 12.425,7.131 12.802,6.625 C13.571,5.592 14.737,5 16,5 C18.206,5 20,6.794 20,9 C20,13.186 14.923,16.832 12,18.797 Z"></path></defs><g fill-rule="evenodd" fill="transparent"><rect width="24" height="24"></rect><use fill-rule="nonzero" href="#ic_action_favorite-a" fill="currentColor"></use></g></svg>
                 )}
                 {
-                    trackDetails.hasLiked ? "Remove From Your Favourite" : "Add To Your Favourite"
+                    trackDetails.hasLiked ? "Unlike This Track" : "Like This Track"
                 }
             </button>
 

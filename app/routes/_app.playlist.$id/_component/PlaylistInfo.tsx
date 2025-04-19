@@ -2,6 +2,7 @@ import { useNavigate } from '@remix-run/react'
 import { GetPlaylistTracksResponse, Track } from 'gql/graphql'
 import React, { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
+import { useCurrentUser } from '~/hooks/auth'
 import { useDeletePlaylist } from '~/hooks/playlist'
 import { formatTotalDuration } from '~/utils'
 
@@ -17,6 +18,7 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
 
     const [showDropdown, setShowDropdown] = useState(false)
     const [imgSize, setImgSize] = useState({ width: 224, height: 224 }) // 56 * 4 = 224 (56rem)
+    const { data } = useCurrentUser()
 
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown)
@@ -58,9 +60,9 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
     return (
         <div className="py-8 md:py-12 flex flex-col md:flex-row items-center md:items-start gap-8">
             {/* Wrapper with dynamic size based on scroll */}
-            <div 
+            <div
                 className="flex-shrink-0 relative transition-all duration-75 ease-out"
-                style={{ 
+                style={{
                     width: `${imgSize.width}px`,
                     height: `${imgSize.height}px`
                 }}
@@ -92,33 +94,49 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
                         Play
                     </button>
 
-                    <div className="relative group" ref={dropdownRef}>
-                        <div className="absolute -top-7 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                            opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                            More
-                        </div>
-
+                    <div className="relative" ref={dropdownRef}>
                         <button
                             onClick={toggleDropdown}
-                            className="p-2 rounded-full transition-colors focus:outline-none hover:scale-110"
+                            className="p-2 rounded-full transition-colors focus:outline-none group"
                             aria-label="More options"
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-ellipsis"><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /></svg>
+                            {/* Tooltip inside the button */}
+                            <div className="absolute -top-7 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
+                            opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                                More
+                            </div>
+
+                            <div className='hover:scale-110'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-ellipsis">
+                                    <circle cx="12" cy="12" r="1" />
+                                    <circle cx="19" cy="12" r="1" />
+                                    <circle cx="5" cy="12" r="1" />
+                                </svg>
+                            </div>
                         </button>
 
                         {showDropdown && (
-                            <div className="absolute z-10 -translate-x-1/2 left-1/2 bottom-full mb-2 w-48 rounded-md bg-gradient-to-b from-neutral-950 to-neutral-900 border border-[#2E3030] shadow-lg overflow-hidden">
-                                {["Delete this playlist", "Share"].map((item, index) => (
-                                    <button
-                                        key={index}
-                                        className="flex items-center w-full px-4 py-3 text-sm text-white hover:bg-[#29292A] border-b border-[#2E3030] last:border-b-0"
-                                        onClick={async () => {
-                                            if (index === 0) {
-                                                await deletePlaylist(res.id)
-                                                navigate(-1)
-                                            } else {
+                            <div className={`absolute bottom-12 left-1/2 -translate-x-1/2 w-64 z-50 transform transition-all duration-300 ease-in-out ${showDropdown ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
+                                <div className="bg-gradient-to-b from-neutral-950 to-neutral-900 rounded-md shadow-xl border border-[#2E3030]">
+                                    <div className="py-1">
+                                        {res.authorId == data?.id && (
+                                            <>
+                                                <button
+                                                    className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white"
+                                                    onClick={async () => {
+                                                        await deletePlaylist(res.id)
+                                                        navigate(-1)
+                                                    }}
+                                                >
+                                                    Delete This Playlist
+                                                </button>
+                                                <div className="border-b border-[#2E3030]"></div>
+                                            </>
+                                        )}
+                                        <button
+                                            className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white"
+                                            onClick={async () => {
                                                 const shareUrl = window.location.href;
-
                                                 if (navigator.share) {
                                                     try {
                                                         await navigator.share({
@@ -136,12 +154,12 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
                                                         console.error("Failed to copy link:", error);
                                                     }
                                                 }
-                                            }
-                                        }}
-                                    >
-                                        {item}
-                                    </button>
-                                ))}
+                                            }}
+                                        >
+                                            Share
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         )}
                     </div>
