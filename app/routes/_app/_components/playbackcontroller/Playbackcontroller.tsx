@@ -195,15 +195,12 @@ const Playbackcontroller = () => {
                 hasLiked: true
             });
         } 
-        // if(!isLiked && trackDetails.hasLiked){
-        //     setTrackDetails({
-        //         hasLiked: false
-        //     });
-        // }
+        if(!isLiked && trackDetails.hasLiked){
+            setTrackDetails({
+                hasLiked: false
+            });
+        }
     }, [trackDetails]);
-    
-
-    console.log("trackd", trackDetails);
     
     return (
         <>

@@ -12,6 +12,7 @@ import { useGetExploreTracks } from "~/hooks/track";
 import { getTitle } from "~/utils";
 import { SECTION_SIZE } from "~/constants";
 import Footer from "../../components/Footer";
+import { useLikedTrackStore } from "~/store/useLikedTrackStore";
 
 export const meta: MetaFunction = () => {
   return [
@@ -64,6 +65,8 @@ const AppleMusicHomepage: React.FC = () => {
   const [page, setPage] = useState(1);
   const [exploreTracks, setExploreTracks] = useState<Track[][]>([]);
 
+  const { setLikedTracks, likedTracks } = useLikedTrackStore()
+
   // Internal Hooks
   const { setActiveSectionIndex } = usePlaylistStore();
   const { data, isLoading } = useGetExploreTracks(page);
@@ -76,7 +79,7 @@ const AppleMusicHomepage: React.FC = () => {
   ];
 
   console.log("useGetExploreTracks", data);
-  
+
   useEffect(() => {
     if (data?.length) {
       setExploreTracks(prev => {
@@ -101,6 +104,23 @@ const AppleMusicHomepage: React.FC = () => {
       });
     }
   }, [data])
+
+  useEffect(() => {
+    // const newTrack =  (exploreTracks.length > 0 ? exploreTracks : trackSections) 
+    // .flat() // Flatten from Track[][] to Track[]
+    // .filter((track) => track.hasLiked); // Only keep liked ones
+    let newTracks = []
+    if (page == 1 && data?.length == 0) {
+      newTracks = exploreTracksData.tracks.filter((item) => item.hasLiked) || []
+    } else {
+      newTracks = data?.filter((item) => item.hasLiked) || []
+    }
+    setLikedTracks([...likedTracks, ...newTracks])
+
+  }, [data])
+
+  console.log("likedtracks", likedTracks);
+
 
   useEffect(() => {
     setActiveSectionIndex(-1)
