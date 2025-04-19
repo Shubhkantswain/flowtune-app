@@ -24,7 +24,7 @@ const TrackCollectionsInfo: React.FC<TrackCollectionsInfoProps> = ({
     return (
         <div className="flex flex-col md:flex-row gap-6 items-center md:items-start mb-8">
             {/* Playlist Cover with Gradient Heart */}
-            <TrackCollectionsCover/>
+            <TrackCollectionsCover />
 
             {/* Playlist Info */}
             <div className="flex flex-col gap-4 items-center md:items-start">
@@ -93,6 +93,31 @@ const TrackCollectionsInfo: React.FC<TrackCollectionsInfoProps> = ({
                                     <button
                                         key={index}
                                         className="flex items-center w-full px-4 py-3 text-sm text-white hover:bg-[#1E1E1E] border-b border-[#2E3030] last:border-b-0"
+                                        onClick={async() => {
+                                            if (item == "Play") {
+                                                handlePlayTrack(initialTrack)
+                                            } else {
+                                                const shareUrl = window.location.href;
+
+                                                if (navigator.share) {
+                                                    try {
+                                                        await navigator.share({
+                                                            title: document.title,
+                                                            url: shareUrl,
+                                                        });
+                                                    } catch (error) {
+                                                        console.error("Error sharing:", error);
+                                                    }
+                                                } else {
+                                                    try {
+                                                        await navigator.clipboard.writeText(shareUrl);
+                                                        alert("Link copied to clipboard!");
+                                                    } catch (error) {
+                                                        console.error("Failed to copy link:", error);
+                                                    }
+                                                }
+                                            }
+                                        }}
                                     >
                                         {item}
                                     </button>

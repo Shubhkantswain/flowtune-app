@@ -71,8 +71,8 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
         setShowDropdown(showDropdown === index ? null : index);
     };
 
-   const queueTracks = getAllTracks()
-   
+    const queueTracks = getAllTracks()
+
     return (
         <div className="pb-8 mt-3 overflow-x-hidden">
             <table className="w-full">
@@ -206,7 +206,7 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                                                         }
                                                     }}
                                                 >
-                                                    {queueTracks?.[track.id] ? "Remove from queue" : "Add to queue"}
+                                                    {queueTracks?.[track.id] ? "Remove From Queue" : "Add To Queue"}
                                                 </button>
 
                                                 <div className="border-b border-[#2E3030]"></div>
@@ -231,24 +231,17 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
 
                                                 <button
                                                     className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
+                                                    onClick={() => handleControll(track)}
 
                                                 >
-                                                    Play This Track
-
-                                                </button>
-
-                                                <div className="border-b border-[#2E3030]"></div>
-
-                                                <button
-                                                    className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#1E1E1E] hover:text-white"
-
-                                                >
-                                                    Remove This Track
+                                                    {
+                                                        (track?.id === trackDetails.id && trackDetails.isPlaying && initialized) ? "Pause This Track" : "Play This Track"
+                                                    }
 
                                                 </button>
 
                                                 {
-                                                    res.id == data?.id && (
+                                                    res.authorId == data?.id && (
                                                         <>
                                                             <div className="border-b border-[#2E3030]"></div>
 
