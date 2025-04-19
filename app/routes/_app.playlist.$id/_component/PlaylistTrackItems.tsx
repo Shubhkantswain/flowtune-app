@@ -11,6 +11,7 @@ import AddToPlaylistDialog from '~/components/AddToPlaylistDialog';
 import AddToNewPlaylistDialog from '~/components/AddToNewPlaylistDialog';
 import { useQueueStore } from '~/store/useQueueStore';
 import { toast } from 'sonner';
+import usePlaylistStore from '~/store/usePlaylistStore';
 
 interface PlaylistTrackItemsProps {
     res: GetPlaylistTracksResponse;
@@ -22,6 +23,7 @@ interface PlaylistTrackItemsProps {
 function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }: PlaylistTrackItemsProps) {
     const { trackDetails, setTrackDetails } = useTrackStore();
     const { isTrackInQueue, dequeueTrack, enqueueTrack, getAllTracks, getQueueSize } = useQueueStore()
+    const {initialize, setCurrentTrack} = usePlaylistStore()
 
     const [showDropdown, setShowDropdown] = useState<number | null>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -63,6 +65,8 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
         await removeSongFromPlaylist({ trackId, playlistId: res.id })
         const newTracks = tracks.filter((track) => track.id != trackId)
         setTracks(newTracks)
+        initialize(newTracks)
+        setCurrentTrack(trackDetails.id)
         setShowDropdown(null);
     }
 
@@ -247,6 +251,7 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
 
                                                             <button
                                                                 className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white"
+                                                                onClick={() => handleRemoveTrackFromPlaylist(track.id)}
                                                             >
                                                                 Remove This Track
 

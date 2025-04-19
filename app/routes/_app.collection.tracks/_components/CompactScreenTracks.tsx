@@ -2,6 +2,7 @@ import { Track } from 'gql/graphql'
 import React, { Dispatch, SetStateAction } from 'react'
 import { useLikeTrack } from '~/hooks/track';
 import { useLikedTrackStore } from '~/store/useLikedTrackStore';
+import usePlaylistStore from '~/store/usePlaylistStore';
 import { useTrackStore } from '~/store/useTrackStore'
 
 interface CompactScreenTracksProps {
@@ -17,7 +18,8 @@ const CompactScreenTracks: React.FC<CompactScreenTracksProps> = ({
 }) => {
     const { trackDetails, setTrackDetails } = useTrackStore()
     const { mutateAsync: likeTrack } = useLikeTrack()
-    const { removeLikedTrack } = useLikedTrackStore()
+    const { removeLikedTrack, setLikedTracks } = useLikedTrackStore()
+    const { initialize, setCurrentTrack } = usePlaylistStore()
 
     return (
         <div className="">
@@ -74,7 +76,11 @@ const CompactScreenTracks: React.FC<CompactScreenTracksProps> = ({
                             onClick={async (e) => {
                                 e.stopPropagation()
                                 await likeTrack(track.id)
-                                removeLikedTrack(track.id)
+
+                                const newTracks = likedTracks.filter((item) => item.id != trackDetails.id)
+                                setLikedTracks(newTracks)
+                                initialize(newTracks)
+                                setCurrentTrack(trackDetails.id);
                                 if (track.id == trackDetails.id) {
                                     setTrackDetails({ hasLiked: false })
                                 }

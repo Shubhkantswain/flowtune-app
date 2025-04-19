@@ -60,6 +60,9 @@ const LikedTracks = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  console.log("likedTraks", likedTracks);
+  
+
   useEffect(() => {
     setActiveSectionIndex(-1);
   }, []);

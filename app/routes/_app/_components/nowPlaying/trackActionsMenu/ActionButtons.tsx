@@ -10,6 +10,7 @@ import { useAddSongToPlaylist, useGetCurrentUserPlaylists } from '~/hooks/playli
 import AddToPlaylistDialog from '~/components/AddToPlaylistDialog';
 import AddToNewPlaylistDialog from '~/components/AddToNewPlaylistDialog';
 import { useLikedTrackStore } from '~/store/useLikedTrackStore';
+import usePlaylistStore from '~/store/usePlaylistStore';
 
 interface ActionButtonsProps {
     videoEnabled: boolean;
@@ -29,7 +30,8 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEna
     const [isAddToPlaylistOpen, setAddToPlaylistOpen] = useState(false);
     const [isNewPlaylistDialogOpen, setNewPlaylistDialogOpen] = useState(false);
 
-    const { removeLikedTrack, addLikedTrack } = useLikedTrackStore()
+    const { removeLikedTrack, addLikedTrack, likedTracks, setLikedTracks } = useLikedTrackStore()
+    const {initialize, setCurrentTrack} = usePlaylistStore()
 
 
     // Check if the current track is in the queue
@@ -43,23 +45,30 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEna
             <button className="flex items-center w-full gap-3 p-4 rounded-lg text-white" onClick={async () => {
                 await likeTrack(trackDetails.id)
                 if (trackDetails.hasLiked) {
-                    removeLikedTrack(trackDetails.id)
+                    const newTracks = likedTracks.filter((item) => item.id != trackDetails.id)
+                    setLikedTracks(newTracks)
+                    initialize(newTracks)
+                    setCurrentTrack(trackDetails.id);
                 } else {
-                    addLikedTrack({
-                        id: trackDetails.id,
-
-                        title: trackDetails.title,
-                        singer: trackDetails.singer,
-                        starCast: trackDetails.starCast,
-                        duration: trackDetails.duration,
-
-                        coverImageUrl: trackDetails.coverImageUrl,
-                        videoUrl: trackDetails.videoUrl,
-                        audioFileUrl: trackDetails.audioFileUrl,
-
-                        hasLiked: true,
-                        authorId: trackDetails.audioFileUrl,
-                    })
+                    const newTracks = [
+                        ...likedTracks,
+                        {
+                            id: trackDetails.id,
+                            title: trackDetails.title,
+                            singer: trackDetails.singer,
+                            startCast: trackDetails.starCast,
+                            duration: trackDetails.duration,
+                            coverImageUrl: trackDetails.coverImageUrl,
+                            videoUrl: trackDetails.videoUrl,
+                            audioFileUrl: trackDetails.audioFileUrl,
+                            hasLiked: true,
+                            authorId: trackDetails.authorId,
+                            isPlaying: true,
+                        }
+                    ]
+                    setLikedTracks(newTracks)
+                    initialize(newTracks)
+                    setCurrentTrack(trackDetails.id);
                 }
                 setTrackDetails({ hasLiked: !trackDetails.hasLiked })
             }}>

@@ -3,6 +3,7 @@ import { useTrackStore } from '~/store/useTrackStore'
 import LeftSideWaveLines from './LeftSideWaveLines';
 import RightSideWaveLines from './RightSideWaveLines';
 import { useLikedTrackStore } from '~/store/useLikedTrackStore';
+import usePlaylistStore from '~/store/usePlaylistStore';
 
 interface TrackArtAndInfoProps {
     onShow: () => void;
@@ -12,7 +13,8 @@ interface TrackArtAndInfoProps {
 const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled }) => {
     const { mutateAsync: likeTrack, isPending } = useLikeTrack()
     const { trackDetails, setTrackDetails } = useTrackStore()
-    const { removeLikedTrack, addLikedTrack } = useLikedTrackStore()
+    const { removeLikedTrack, addLikedTrack, likedTracks, setLikedTracks } = useLikedTrackStore()
+    const { initialize, setCurrentTrack } = usePlaylistStore()
 
     return (
         <div className="px-8 pt-8 -mt-7">
@@ -97,23 +99,30 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
                             onClick={async () => {
                                 await likeTrack(trackDetails.id);
                                 if (trackDetails.hasLiked) {
-                                    removeLikedTrack(trackDetails.id)
+                                    const newTracks = likedTracks.filter((item) => item.id != trackDetails.id)
+                                    setLikedTracks(newTracks)
+                                    initialize(newTracks)
+                                    setCurrentTrack(trackDetails.id);
                                 } else {
-                                    addLikedTrack({
-                                        id: trackDetails.id,
-                
-                                        title: trackDetails.title,
-                                        singer: trackDetails.singer,
-                                        starCast: trackDetails.starCast,
-                                        duration: trackDetails.duration,
-                
-                                        coverImageUrl: trackDetails.coverImageUrl,
-                                        videoUrl: trackDetails.videoUrl,
-                                        audioFileUrl: trackDetails.audioFileUrl,
-                
-                                        hasLiked: true,
-                                        authorId: trackDetails.audioFileUrl,
-                                    })
+                                    const newTracks = [
+                                        ...likedTracks,
+                                        {
+                                            id: trackDetails.id,
+                                            title: trackDetails.title,
+                                            singer: trackDetails.singer,
+                                            startCast: trackDetails.starCast,
+                                            duration: trackDetails.duration,
+                                            coverImageUrl: trackDetails.coverImageUrl,
+                                            videoUrl: trackDetails.videoUrl,
+                                            audioFileUrl: trackDetails.audioFileUrl,
+                                            hasLiked: true,
+                                            authorId: trackDetails.authorId,
+                                            isPlaying: true,
+                                        }
+                                    ]
+                                    setLikedTracks(newTracks)
+                                    initialize(newTracks)
+                                    setCurrentTrack(trackDetails.id);
                                 }
                                 setTrackDetails({ hasLiked: !trackDetails.hasLiked });
                             }}
