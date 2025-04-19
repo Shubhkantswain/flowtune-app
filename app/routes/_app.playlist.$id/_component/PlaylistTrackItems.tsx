@@ -179,7 +179,7 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                                 {showDropdown === index && (
                                     <div
                                         ref={dropdownRef}
-                                        className={`absolute right-0 top-0 w-64 z-50 transform transition-all duration-300 ease-in-out ${showDropdown === index ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
+                                        className={`absolute right-0 top-0 w-64 z-0 transform transition-all duration-300 ease-in-out ${showDropdown === index ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
                                     >
                                         <div className="bg-gradient-to-b from-neutral-950 to-neutral-900 rounded-md shadow-xl border border-[#2E3030]">
                                             <div className="py-1">

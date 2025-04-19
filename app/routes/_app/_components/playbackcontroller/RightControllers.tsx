@@ -1,3 +1,4 @@
+import { useLocation } from '@remix-run/react'
 import React, { useEffect, useState } from 'react'
 import { useLikeTrack } from '~/hooks/track'
 import { useLikedTrackStore } from '~/store/useLikedTrackStore'
@@ -29,35 +30,39 @@ const RightControllers = () => {
     //     audoRef: null,
     // },
 
+    const location = useLocation()
+
     const handleLike = async () => {
         await likeTrack(trackDetails.id)
-        if (trackDetails.hasLiked) {
-            const newTracks = likedTracks.filter((item) => item.id != trackDetails.id)
-            setLikedTracks(newTracks)
-            initialize(newTracks)
-            setCurrentTrack(trackDetails.id);
-        } else {
-            const newTracks = [
-                ...likedTracks,
-                {
-                    id: trackDetails.id,
-                    title: trackDetails.title,
-                    singer: trackDetails.singer,
-                    startCast: trackDetails.starCast,
-                    duration: trackDetails.duration,
-                    coverImageUrl: trackDetails.coverImageUrl,
-                    videoUrl: trackDetails.videoUrl,
-                    audioFileUrl: trackDetails.audioFileUrl,
-                    hasLiked: true,
-                    authorId: trackDetails.authorId,
-                    isPlaying: true,
+            if (trackDetails.hasLiked) {
+                const newTracks = likedTracks.filter((item) => item.id != trackDetails.id)
+                setLikedTracks(newTracks)
+                if(location.pathname == "/collection/tracks"){
+                    initialize(newTracks)
+                    setCurrentTrack(trackDetails.id);
                 }
-            ]
-            setLikedTracks(newTracks)
-            initialize(newTracks)
-            setCurrentTrack(trackDetails.id);
-
-
+            } else {
+                const newTracks = [
+                    ...likedTracks,
+                    {
+                        id: trackDetails.id,
+                        title: trackDetails.title,
+                        singer: trackDetails.singer,
+                        startCast: trackDetails.starCast,
+                        duration: trackDetails.duration,
+                        coverImageUrl: trackDetails.coverImageUrl,
+                        videoUrl: trackDetails.videoUrl,
+                        audioFileUrl: trackDetails.audioFileUrl,
+                        hasLiked: true,
+                        authorId: trackDetails.authorId,
+                        isPlaying: true,
+                    }
+                ]
+                setLikedTracks(newTracks)
+                if(location.pathname == "/collection/tracks"){
+                    initialize(newTracks)
+                    setCurrentTrack(trackDetails.id);
+                }
         }
         setTrackDetails({ hasLiked: !trackDetails.hasLiked })
     }

@@ -10,6 +10,7 @@ import { useQueueStore } from '~/store/useQueueStore';
 import Swal from 'sweetalert2'
 import useSleepModeStore from '~/store/useSleepModeStore';
 import usePlaylistStore from '~/store/usePlaylistStore';
+import { useLikedTrackStore } from '~/store/useLikedTrackStore';
 
 const Playbackcontroller = () => {
     const { trackDetails, setTrackDetails, handleVolumeChange, handlePlaybackSpeed } = useTrackStore();
@@ -17,6 +18,8 @@ const Playbackcontroller = () => {
     const { dequeueFirstTrack } = useQueueStore()
     const { isSleepModeComplete, endOfTheTrackEnabled } = useSleepModeStore()
     const { hasNext, next, setCurrentTrack } = usePlaylistStore()
+
+    const {likedTracks} = useLikedTrackStore()
 
     const [isOpen, setIsOpen] = useState(false)
     const [progress, setProgress] = useState(0);
@@ -86,8 +89,6 @@ const Playbackcontroller = () => {
                 setTrackDetails({ isPlaying: false })
             }
         };
-
-
 
         const handleTimeUpdate = () => {
             setProgress((audio.currentTime / audio.duration) * 100);
@@ -185,6 +186,25 @@ const Playbackcontroller = () => {
         }
     }, [isSleepModeComplete])
 
+    useEffect(() => {
+        const isLiked = likedTracks.some((item) => item.id === trackDetails.id);
+    
+        // Only update if the value actually changed
+        if (isLiked && !trackDetails.hasLiked) {
+            setTrackDetails({
+                hasLiked: true
+            });
+        } 
+        // if(!isLiked && trackDetails.hasLiked){
+        //     setTrackDetails({
+        //         hasLiked: false
+        //     });
+        // }
+    }, [trackDetails]);
+    
+
+    console.log("trackd", trackDetails);
+    
     return (
         <>
             <div className="fixed bottom-0 left-0 right-0 z-40 bg-black/70 backdrop-blur-lg">

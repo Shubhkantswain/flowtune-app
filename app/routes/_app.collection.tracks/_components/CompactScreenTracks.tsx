@@ -77,7 +77,7 @@ const CompactScreenTracks: React.FC<CompactScreenTracksProps> = ({
                                 e.stopPropagation()
                                 await likeTrack(track.id)
 
-                                const newTracks = likedTracks.filter((item) => item.id != trackDetails.id)
+                                const newTracks = likedTracks.filter((item) => item.id != track.id)
                                 setLikedTracks(newTracks)
                                 initialize(newTracks)
                                 setCurrentTrack(trackDetails.id);

@@ -4,6 +4,7 @@ import LeftSideWaveLines from './LeftSideWaveLines';
 import RightSideWaveLines from './RightSideWaveLines';
 import { useLikedTrackStore } from '~/store/useLikedTrackStore';
 import usePlaylistStore from '~/store/usePlaylistStore';
+import { useEffect } from 'react';
 
 interface TrackArtAndInfoProps {
     onShow: () => void;
@@ -98,11 +99,15 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
                             className={`p-2.5 rounded-full transition-all duration-300 group hover:scale-110`}
                             onClick={async () => {
                                 await likeTrack(trackDetails.id);
+
                                 if (trackDetails.hasLiked) {
                                     const newTracks = likedTracks.filter((item) => item.id != trackDetails.id)
                                     setLikedTracks(newTracks)
-                                    initialize(newTracks)
-                                    setCurrentTrack(trackDetails.id);
+
+                                    if (location.pathname == "/collection/tracks") {
+                                        initialize(newTracks)
+                                        setCurrentTrack(trackDetails.id);
+                                    }
                                 } else {
                                     const newTracks = [
                                         ...likedTracks,
@@ -121,9 +126,12 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
                                         }
                                     ]
                                     setLikedTracks(newTracks)
-                                    initialize(newTracks)
-                                    setCurrentTrack(trackDetails.id);
+                                    if (location.pathname == "/collection/tracks") {
+                                        initialize(newTracks)
+                                        setCurrentTrack(trackDetails.id);
+                                    }
                                 }
+
                                 setTrackDetails({ hasLiked: !trackDetails.hasLiked });
                             }}
                             disabled={isPending}

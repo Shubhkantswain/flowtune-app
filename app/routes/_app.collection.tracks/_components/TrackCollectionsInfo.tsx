@@ -82,7 +82,7 @@ const TrackCollectionsInfo: React.FC<TrackCollectionsInfoProps> = ({
                         </button>
 
                         {showDropdown && (
-                            <div className={`absolute bottom-12 left-1/2 -translate-x-1/2 w-64 z-50 transform transition-all duration-300 ease-in-out ${showDropdown ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
+                            <div className={`absolute bottom-12 left-1/2 -translate-x-1/2 w-64 z-0 transform transition-all duration-300 ease-in-out ${showDropdown ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
                                 <div className="bg-gradient-to-b from-neutral-950 to-neutral-900 rounded-md shadow-xl border border-[#2E3030]">
                                     <div className="py-1">
                                         <button
