@@ -61,7 +61,7 @@ export default function AppLayout() {
                         key={tab.label}
                         className={`px-4 py-2 rounded-full text-xs font-medium whitespace-nowrap transition-colors duration-200 ${location.pathname.includes(tab.pathname)
                             ? 'bg-white text-black'
-                            : 'bg-neutral-800 text-gray-300 hover:bg-neutral-700'
+                            : 'bg-[#292a2a] hover:bg-[#5D5E5E] text-gray-300'
                             }`}
                         onClick={() => navigate(`${tab.pathname}/${searchQuery}`)}
                     >

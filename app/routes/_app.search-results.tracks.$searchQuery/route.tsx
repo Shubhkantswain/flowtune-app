@@ -70,7 +70,7 @@ function SearchResultsRoute() {
       : [...searchResults, ...data];
 
     setSearchResults(newResults);
-    setHasMore(data.length >= 4);
+    setHasMore(data.length >= 15);
 
     if (searchQuery && data.length === 0 && !isLoading) {
       setHasMore(false);

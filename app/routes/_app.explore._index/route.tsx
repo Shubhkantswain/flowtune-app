@@ -106,21 +106,15 @@ const AppleMusicHomepage: React.FC = () => {
   }, [data])
 
   useEffect(() => {
-    // const newTrack =  (exploreTracks.length > 0 ? exploreTracks : trackSections) 
-    // .flat() // Flatten from Track[][] to Track[]
-    // .filter((track) => track.hasLiked); // Only keep liked ones
-    let newTracks = []
-    if (page == 1 && data?.length == 0) {
-      newTracks = exploreTracksData.tracks.filter((item) => item.hasLiked) || []
-    } else {
-      newTracks = data?.filter((item) => item.hasLiked) || []
-    }
-    setLikedTracks([...likedTracks, ...newTracks])
-
-  }, [data])
-
-  console.log("likedtracks", likedTracks);
-
+    const isFirstPage = page === 1;
+    const sourceData = isFirstPage ? exploreTracksData.tracks : data ?? [];
+    const newTracks = sourceData.filter((item) => item.hasLiked);
+  
+    setLikedTracks(
+      isFirstPage ? newTracks : [...likedTracks, ...newTracks]
+    );
+  }, [data]);
+  
 
   useEffect(() => {
     setActiveSectionIndex(-1)
@@ -132,7 +126,7 @@ const AppleMusicHomepage: React.FC = () => {
     }
   }, [exploreTracksData.isAuthenticated])
 
-  console.log("exploreTracksData", exploreTracks);
+  console.log("likedTracks", likedTracks);
 
   return (
     <>

@@ -1,6 +1,8 @@
+import { useNavigate } from '@remix-run/react';
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react'
 import React, { useState } from 'react'
 import CreatePlaylistDialog from '~/components/CreatePlaylistDialog';
+import { useCurrentUser } from '~/hooks/auth';
 
 interface ScrollState {
     left: boolean;
@@ -14,6 +16,8 @@ interface ScrollControlsProps {
 
 const ScrollControls: React.FC<ScrollControlsProps> = ({ canScroll, scroll }) => {
     const [isOpen, setIsOpen] = useState(false)
+    const { data, isLoading } = useCurrentUser()
+    const navigate = useNavigate()
 
     return (
         <>
@@ -49,9 +53,17 @@ const ScrollControls: React.FC<ScrollControlsProps> = ({ canScroll, scroll }) =>
                             opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
                             Create New Playlist
                         </div>
-                        <button className="bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white px-2 py-1 md:px-3 md:py-1.5 rounded-full flex items-center gap-1 transition-colors duration-200 text-xs md:text-sm"
-                            onClick={() => setIsOpen(true)}
-                        >
+                        <button className="bg-[#292a2a] hover:bg-[#5D5E5E] text-white px-2 py-1 md:px-3 md:py-1.5 rounded-full flex items-center gap-1 transition-colors duration-200 text-xs md:text-sm"
+                            onClick={() => {
+                                if(isLoading) return
+
+                                if(data?.isPro){
+                                    setIsOpen(true)
+                                } else {
+                                    navigate("/pro-plan")
+                                }
+                            }
+                        }>
                             <Plus size={16} /> NEW PLAYLIST
                         </button>
                     </div>

@@ -74,7 +74,7 @@ const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists, activeTab, sho
                     {
                         ((activeTab == "Likes" || activeTab == "All") && shouldShowLikedPlaylist) && (
                             <div className="group w-36 sm:w-40 md:w-44 sm:mr-2 md:mr-3 lg:mr-5">
-                                <div className="relative aspect-square overflow-hidden rounded-lg mb-2 bg-neutral-800">
+                                <div className="relative aspect-square overflow-hidden rounded-sm mb-2 bg-neutral-800">
                                     <div
                                         className="absolute inset-0 flex items-center justify-center cursor-pointer hover:brightness-50"
                                         onClick={() => { navigate(`/collection/tracks`) }}
@@ -97,7 +97,7 @@ const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists, activeTab, sho
                         (activeTab == "Playlists" || activeTab == "All") && (
                             playlists?.map(playlist => (
                                 <div key={playlist.id} className="group w-36 sm:w-40 md:w-44 sm:mr-2 md:mr-3 lg:mr-5">
-                                    <div className="relative aspect-square overflow-hidden rounded-lg mb-2 bg-neutral-800">
+                                    <div className="relative aspect-square overflow-hidden rounded-sm mb-2 bg-neutral-800">
                                         <div
                                             className="absolute inset-0 cursor-pointer"
                                             onClick={() => { navigate(`/playlist/${playlist.id}`) }}

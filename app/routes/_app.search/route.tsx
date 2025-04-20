@@ -118,7 +118,7 @@ const BrowsePage = () => {
                   key={tab}
                   onClick={() => setActiveTab(tab)}
                   className={`px-4 py-2 rounded-full text-xs font-medium whitespace-nowrap transition-colors duration-200 ${activeTab === tab ? 'bg-white text-black'
-                    : 'bg-neutral-800 hover:bg-neutral-700 text-gray-300'
+                    : 'bg-[#292a2a] hover:bg-[#5D5E5E] text-gray-300'
                     }`}
                 >
                   {tab}
@@ -133,7 +133,7 @@ const BrowsePage = () => {
                   {suggestionResults.map((song, index) => (
                     <div
                       key={index}
-                      className="flex items-center gap-4 p-3 rounded-lg bg-[#1A1A1A] hover:bg-[#2A2A2A] transition duration-200 cursor-pointer shadow-sm"
+                      className="flex items-center gap-4 p-3 rounded-lg bg-[#1a1a1a] hover:bg-[#2A2A2A] transition duration-200 cursor-pointer shadow-sm"
                       onClick={() => {
                         setPage(1);
                         if (searchQuery.trim()) {

@@ -17,7 +17,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, tabs }) => {
                         key={tab}
                         className={`px-4 py-2 rounded-full text-xs font-medium whitespace-nowrap transition-colors duration-200 ${activeTab == tab
                             ? 'bg-white text-black'
-                            : ' text-gray-300 bg-[#1A1A1A] hover:bg-[#2A2A2A]'
+                            : ' text-gray-300 bg-[#292a2a] hover:bg-[#5D5E5E]'
                             }`}
                         // onClick={() => navigate(`${tab.pathname}/${searchQuery}`)}
                         onClick={() => setActiveTab(tab)}

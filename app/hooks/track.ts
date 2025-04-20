@@ -66,7 +66,7 @@ export const useGetExploreTracks = (page: number) => {
 
 export const useGetTracksByGenreId = (input: GetTracksByGenreIdInput) => {
     return useQuery({
-        queryKey: ['tracksByGenreId', input.page],
+        queryKey: ['tracksByGenreId', input.page, input.genreId],
         queryFn: async () => {
             if (input.page == 1) return []
 

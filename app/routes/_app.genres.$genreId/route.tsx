@@ -11,6 +11,7 @@ import { getTitle } from '~/utils';
 import { SECTION_SIZE } from '~/constants';
 import { useGetTracksByGenreId } from '~/hooks/track';
 import Footer from '~/components/Footer';
+import { useLikedTrackStore } from '~/store/useLikedTrackStore';
 
 interface genreTracksData {
   tracks: Track[],
@@ -52,6 +53,8 @@ const AppleMusicHomepage: React.FC = () => {
   // Fetching data
   const tracksByGenreIdData = useLoaderData<genreTracksData>();
 
+  const { likedTracks, setLikedTracks } = useLikedTrackStore()
+
   const params = useParams()
 
   // State management
@@ -68,8 +71,6 @@ const AppleMusicHomepage: React.FC = () => {
     tracksByGenreIdData.tracks.slice(SECTION_SIZE, SECTION_SIZE * 2),
     tracksByGenreIdData.tracks.slice(SECTION_SIZE * 2, SECTION_SIZE * 3),
   ];
-
-  console.log("useGetExploreTracks", data);
 
   useEffect(() => {
     if (data?.length) {
@@ -95,6 +96,18 @@ const AppleMusicHomepage: React.FC = () => {
       });
     }
   }, [data])
+
+  useEffect(() => {
+    const isFirstPage = page === 1;
+    const sourceData = isFirstPage ? tracksByGenreIdData.tracks : data ?? [];
+    const newTracks = sourceData.filter((item) => item.hasLiked);
+
+    setLikedTracks(
+      isFirstPage ? newTracks : [...likedTracks, ...newTracks]
+    );
+  }, [data]);
+
+  console.log("likedtracks", likedTracks);
 
   useEffect(() => {
     setActiveSectionIndex(-1)
