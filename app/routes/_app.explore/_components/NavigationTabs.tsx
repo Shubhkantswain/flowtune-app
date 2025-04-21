@@ -25,7 +25,7 @@ const NavigationTabs = () => {
                     to={item.path}
                     onClick={(e) => handleLinkClick(e, item.path)}
                     className={`px-4 py-2 rounded-full text-xs font-medium transition-colors ${location.pathname === item.path
-                        ? "bg-white text-black"
+                        ? "text-white border bg-[#5D5E5E] border-white"
                         : "bg-[#292a2a] hover:bg-[#5D5E5E] text-gray-300"
                         }`}
                     aria-current={location.pathname === item.path ? "page" : undefined}

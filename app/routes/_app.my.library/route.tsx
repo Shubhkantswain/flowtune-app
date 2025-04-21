@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Plus, Play } from 'lucide-react';
-import { Link, useLoaderData } from '@remix-run/react';
+import { Link, useLoaderData, useNavigate } from '@remix-run/react';
 import { Playlist, Track } from 'gql/graphql';
 import { createGraphqlClient } from '~/clients/api';
 import { LoaderFunctionArgs, redirect } from '@remix-run/cloudflare';
@@ -15,6 +15,8 @@ import { Skeleton } from '~/components/ui/skeleton';
 import AddToPlaylistDialog from '~/components/AddToPlaylistDialog';
 import AddToNewPlaylistDialog from '~/components/AddToNewPlaylistDialog';
 import { useGetCurrentUserPlaylists } from '~/hooks/playlist';
+import { useLikedTrackStore } from '~/store/useLikedTrackStore';
+import { useCurrentUser } from '~/hooks/auth';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   try {
@@ -53,11 +55,13 @@ const MusicApp = () => {
   const [activeTab, setActiveTab] = useState('All');
   const tabs = ['All', 'Playlists', 'Likes', 'Podcast'];
 
+  const { data: user, isLoading: isFetchingUser } = useCurrentUser()
 
-
-
+  const { likedTracks, setLikedTracks } = useLikedTrackStore()
 
   const [recentTracks, setRecentTracks] = useState<string[]>([]);
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -136,8 +140,11 @@ const MusicApp = () => {
     }
   }, [userPlaylists])
 
-  console.log("playlistSections", playlistSections);
+  useEffect(() => {
+    const newTracks = data?.filter((item) => item.hasLiked) || [];
 
+    setLikedTracks(newTracks);
+  }, [data]);
 
   return (
     <div className="text-white min-h-screen p-4 sm:p-6 md:p-8">
@@ -167,12 +174,12 @@ const MusicApp = () => {
           <button
             onClick={() => setPage(page + 1)}
             aria-label="Load more tracks"
-            className="mx-auto block px-4 py-2 mt-5 bg-white text-gray-800 text-sm font-medium rounded-full border border-gray-200 hover:bg-gray-50 active:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow transition-all duration-200 w-fit"
-            disabled={isFetchingCurrentUserPlaylists}
+            className="mx-auto block px-4 py-2 mt-5 text-white bg-[#292a2a] hover:bg-[#5D5E5E] text-sm font-medium rounded-full disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow transition-all duration-200 w-fit"
+            disabled={isLoading}
           >
-            {isFetchingCurrentUserPlaylists && page != 1 ? (
+            {isLoading && page != 1 ? (
               <span className="flex items-center justify-center gap-1.5">
-                <svg className="animate-spin h-4 w-4 text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
@@ -182,11 +189,12 @@ const MusicApp = () => {
               'Load More'
             )}
           </button>
+
         </div>
       </div>
 
       <div className="w-full md:w-1/2 md:mr-auto md:ml-0 mx-auto">
-        <h2 className="text-xl font-bold mb-4">{sortedTracks.length > 0 ? "Recently Play" : ""}</h2>
+        <h2 className="text-xl font-bold mb-4">{data?.length > 0 ? "Recently Play" : ""}</h2>
 
         {isLoading ? (
           <div className="space-y-4">
@@ -229,6 +237,10 @@ const MusicApp = () => {
                 <div className="relative group flex items-center space-x-2"
                   onClick={(e) => {
                     e.stopPropagation()
+                    if (isFetchingUser) return
+                    if (!user?.isPro) {
+                      return navigate("/pro-plan")
+                    }
                     setAddToPlaylistOpen(true)
                     setTrackId(track.id)
                   }}
