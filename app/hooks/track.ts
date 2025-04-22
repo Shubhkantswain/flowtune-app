@@ -132,7 +132,7 @@ export const useGetSearchTracks = (input: SearchInput, shouldSearch: boolean) =>
     return useQuery({
         queryKey: ['searchTracks', query, page, shouldSearch],
         queryFn: async () => {
-            if (!query || !shouldSearch) return []
+            if (!shouldSearch) return []
             let token = ""
             if (typeof window !== "undefined") {
                 token = localStorage.getItem("__FlowTune_Token") || ""

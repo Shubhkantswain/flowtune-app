@@ -3,6 +3,8 @@ export const searchData = {
         { title: `Apna Bana Le From("Bhediya")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304307/rdytkigkz1jivqvhiivs.jpg" },
         { title: `Ae Dil Hai Mushkil From("Ae Dil Hai Mushkil")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2734a00b4392365a753c201bd75" },
         { title: `Akhiyaan Gulaab From("TBMAUJ")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27352e3a807b72281cb40c08092" },
+        { title: `Abhi Mujh Mein Kahin From("Agneepath")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273c2fd8e88b0dcb889089a0abc" },
+
 
     ],
     b: [
@@ -21,6 +23,7 @@ export const searchData = {
         { title: `Chaleya From("Jawan")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27360dbbb589dff0c57a3a4ffb2" },
         { title: `Chaand Baaliyan`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ec4ecaa0fcf68c0966f21514" },
         { title: `Cutiepie From("Ae Dil Hai Mushkil")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2733420c3d84f78ea149550d004" },
+        { title: `Chahun Main Ya Naa From("Aashiqui 2")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2736404721c1943d5069f0805f3" },
 
 
     ],
@@ -35,7 +38,9 @@ export const searchData = {
         { title: `Enna Sona From("Ok Jaanu")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ca99ff80246fc0fb4d670126" },
 
     ],
-    f: [],
+    f: [
+        { title: `Fitoor From("Fitoor")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273b99c0e6b9bf5ba4da74e816d" },
+    ],
     g: [
         { title: `Galliyan From("Ek Villain")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273a2ef89ae0f8d1848081c1449" },
     ],
@@ -43,6 +48,8 @@ export const searchData = {
         { title: `Heeriye`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2734a60872ae145776164540a7f" },
         { title: `Humdard From("Ek Villain")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273a2ef89ae0f8d1848081c1449" },
         { title: `Hua Main From("Animal")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ac2f40efa7f20f169acfb46f" },
+        { title: `Hale Dil From("Murder 2")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273f6a65bf4f6220e58013c752d" },
+
 
 
 
@@ -115,6 +122,8 @@ export const searchData = {
         { title: `Tera Chehra From("Sanam Teri Kasam")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ddaabc10aebdc619c1c9504c" },
         { title: `Tum Ho From("Rockstar")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273869a9b15675b514a06d2c049" },
         { title: `Tera Yaar Ho Main From("SKTKS")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27322927ab54277255e23fc4756" },
+        { title: `Tere Liye From("Prince")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27378109adafee981634990753a" },
+
 
 
 

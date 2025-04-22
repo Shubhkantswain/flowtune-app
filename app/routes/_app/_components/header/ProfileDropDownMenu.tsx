@@ -66,7 +66,7 @@ const ProfileDropDownMenu: React.FC<ProfileDropDownMenuProps> = ({
         <>
             <div
                 ref={dropdownRef}
-                className={`absolute right-4 top-16 w-64 transform transition-all duration-300 ease-in-out ${isDropdownOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
+                className={`absolute right-4 top-16 mt-2.5  md:mt-4 w-64 transform transition-all duration-300 ease-in-out ${isDropdownOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
             >
                 <div className="bg-gradient-to-b from-neutral-950 to-neutral-900 rounded-md shadow-xl border border-[#2E3030]">
                     <div className="py-1">

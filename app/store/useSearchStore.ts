@@ -3,10 +3,8 @@ import { create } from 'zustand';
 
 interface SearchState {
   searchQuery: string;
-  page: number;
   searchResults: Track[];
   setSearchQuery: (query: string) => void;
-  setPage: (page: number) => void;
   setSearchResults: (results: Track[]) => void;
 }
 
@@ -16,7 +14,6 @@ const useSearchStore = create<SearchState>((set) => ({
   searchResults: [],
 
   setSearchQuery: (query) => set({ searchQuery: query }),
-  setPage: (page) => set({ page }),
   setSearchResults: (results) => set({ searchResults: results }),
 }));
 

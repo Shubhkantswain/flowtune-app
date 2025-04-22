@@ -10,7 +10,7 @@ const Header = () => {
             <div className="flex items-center justify-between px-4 lg:px-6 py-4">
                 {/* Logo */}
                 <div className="flex items-center">
-                    <span className="text-base cursor-pointer sm:text-lg md:text-xl font-bold mr-4 sm:mr-8 md:mr-11 whitespace-nowrap">FlowTune</span>
+                    <span className="text-base cursor-pointer sm:text-lg md:text-xl font-bold mr-4 sm:mr-8 md:mr-14 whitespace-nowrap">FlowTune</span>
 
                     {/* Desktop Navigation */}
                     <DesktopNavigation />
@@ -19,7 +19,10 @@ const Header = () => {
                 {/* Right Side Actions */}
                 <div className="flex items-center">
                     {/* Desktop Search */}
+                    
+
                     <DesktopSearch />
+                    
 
                     {/* Mobile Icons */}
                     <MobileNavigation />

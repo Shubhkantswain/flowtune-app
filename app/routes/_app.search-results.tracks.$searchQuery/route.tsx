@@ -42,21 +42,19 @@ export async function loader({ request, params }: LoaderFunctionArgs): Promise<T
 function SearchResultsRoute() {
   const initialTracks = useLoaderData<Track[]>();
   const params = useParams();
-  const location = useLocation();
-  const navigate = useNavigate()
 
   const { trackDetails, setTrackDetails } = useTrackStore();
   const { initialize } = usePlaylistStore();
-  const { searchQuery, setSearchQuery, page, setPage } = useSearchStore();
+  const { searchQuery, setSearchQuery } = useSearchStore();
 
   const { likedTracks, setLikedTracks } = useLikedTrackStore()
 
-  // const [page, setPage] = useState(1);
   const [searchResults, setSearchResults] = useState<Track[]>([]);
   const [initialized, setInitialized] = useState(false);
   const [hasMore, setHasMore] = useState(false);
-
-  const { data, isLoading } = useGetSearchTracks({ page, query: searchQuery }, true);
+  const [page, setPage] = useState(1)
+  
+  const { data, isLoading } = useGetSearchTracks({ page, query: searchQuery }, page != 1);
 
   // Set search query from URL param on mount or when it changes
   useEffect(() => {
@@ -65,19 +63,30 @@ function SearchResultsRoute() {
 
   // Handle newly fetched data
   useEffect(() => {
-    if (!data) return;
+    if (data?.length) {
+      setSearchResults(prev => {
+        const newTracks = data
 
-    const isFirstPage = page === 1;
-    const newResults = isFirstPage
-      ? [...data]
-      : [...searchResults, ...data];
+        // If page is 2, include both the initial trackSections and new data
+        if (page === 2) {
+          return [...initialTracks, ...newTracks];
+        }
 
-    setSearchResults(newResults);
-    setHasMore(data.length >= 15);
+        // For other pages, just append new sections
+        return [...prev, ...newTracks];
+      });
 
-    if (searchQuery && data.length === 0 && !isLoading) {
-      setHasMore(false);
     }
+    if(data){
+      if(page == 1){
+        setHasMore(initialTracks.length >= 5)
+      } else{
+        setHasMore(data?.length >= 5)
+      }
+    }
+    // if (searchQuery && data.length === 0 && !isLoading) {
+    //   setHasMore(false);
+    // }
   }, [data, page]);
 
   useEffect(() => {
@@ -89,7 +98,6 @@ function SearchResultsRoute() {
       isFirstPage ? newTracks : [...likedTracks, ...newTracks]
     );
   }, [data]);
-
 
   const handleTrackClick = (isPlayingCurrent: boolean, track: Track) => {
     if (isPlayingCurrent && initialized) {

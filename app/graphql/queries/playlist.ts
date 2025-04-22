@@ -49,6 +49,7 @@ export const getPlaylistTracksQuery = graphql(`#graphql
       id
       title
       coverImageUrl
+      visibility
       tracks {
         id    
         title            

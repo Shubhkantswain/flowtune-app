@@ -75,7 +75,7 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
             </div>
 
             <div className="flex flex-col items-center md:items-start gap-4 text-center md:text-left">
-                <span className="text-[#25d1da] text-sm">PRIVATE</span>
+                <span className="text-[#25d1da] text-sm">{res.visibility}</span>
                 <h1 className="text-4xl md:text-5xl font-bold">{res.title}</h1>
 
                 <div className="text-sm text-gray-400">

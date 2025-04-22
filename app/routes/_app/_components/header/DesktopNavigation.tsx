@@ -17,7 +17,7 @@ const DesktopNavigation = () => {
   };
 
   return (
-    <nav className="hidden md:flex items-center space-x-11">
+    <nav className="hidden md:flex items-center gap-14">
       {/* Home Link */}
       <div className='relative group'>
         <div className="absolute top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
