@@ -45,7 +45,7 @@ type searchKey = keyof typeof searchData;
 
 const BrowsePage = () => {
   const isAuthenticated = useLoaderData()
-  const { searchQuery, setSearchQuery, setPage, setSearchResults } = useSearchStore();
+  const { searchQuery, setSearchQuery, setSearchResults } = useSearchStore();
   const [suggestionResults, setSuggestionResults] = useState<Song[]>([]);
   const { history, setHistory } = useSearchHistoryStore()
 
@@ -177,7 +177,6 @@ const BrowsePage = () => {
                     key={index}
                     className="flex items-center gap-4 p-3 rounded-lg bg-[#1a1a1a] hover:bg-[#2A2A2A] transition duration-200 cursor-pointer shadow-sm"
                     onClick={() => {
-                      setPage(1);
                       if (searchQuery.trim()) {
                         if (!history.includes(searchQuery)) {
                           const data = [song.title, ...history.slice(0, 9)];
