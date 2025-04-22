@@ -177,14 +177,16 @@ const BrowsePage = () => {
                     key={index}
                     className="flex items-center gap-4 p-3 rounded-lg bg-[#1a1a1a] hover:bg-[#2A2A2A] transition duration-200 cursor-pointer shadow-sm"
                     onClick={() => {
-                      if (searchQuery.trim()) {
-                        if (!history.includes(searchQuery)) {
+                        if (!history.some(item => item === searchQuery)) {
                           const data = [song.title, ...history.slice(0, 9)];
                           setHistory(data);
                           localStorage.setItem("searchHistory", JSON.stringify(data));
+                        } else {
+                          const data = history.filter((item) => item !== song.title);
+                          setHistory([song.title, ...data]);
+                          localStorage.setItem("searchHistory", JSON.stringify([song.title, ...data]));
                         }
-                        navigate(`/search-results/${activeTab.toLowerCase()}/${song.title}`);
-                      }
+                        navigate(`/search-results/${activeTab.toLocaleLowerCase()}/${song.title}`);
                     }}
                   >
                     <img
