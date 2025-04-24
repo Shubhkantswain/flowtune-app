@@ -3,6 +3,7 @@ import { GetUserProfileResponse, Track } from 'gql/graphql'
 import React, { useState, useRef, useEffect } from 'react'
 import { useCurrentUser } from '~/hooks/auth'
 import { useFollowUser } from '~/hooks/user'
+import { BadgeIcon, HeartIconFilled, MoreIcon } from '~/Svgs'
 
 interface UserProfileInfo {
     user: GetUserProfileResponse | null
@@ -40,26 +41,16 @@ function UserProfileInfo({ user }: UserProfileInfo) {
             <img
                 src={user?.profileImageURL || "https://www.shutterstock.com/image-vector/male-default-avatar-profile-icon-600nw-1725062341.jpg"}
                 alt={user?.username}
-                className="w-56 h-56 md:w-64 md:h-64 rounded-none shadow-xl object-cover"
+                className="w-56 h-56 md:w-64 md:h-64 rounded-none shadow-2xl object-cover"
             />
             <div className="flex flex-col items-center md:items-start gap-4 text-center md:text-left">
                 {/* Username with Instagram-Like Verified Badge */}
                 <div className="flex items-center gap-2">
                     <h1 className="text-4xl md:text-5xl font-bold">{user?.username}</h1>
                     {user?.username === "flowtune" && (
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="#25d1da"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="w-6 h-6"
-                        >
-                            <circle cx="12" cy="12" r="10" fill="#25d1da" />
-                            <path d="M8 12l2 2 4-4" stroke="white" strokeWidth="2" />
-                        </svg>
+                        <div className='text-[#25d1da]'>
+                            <BadgeIcon />
+                        </div>
                     )}
                 </div>
 
@@ -83,17 +74,9 @@ function UserProfileInfo({ user }: UserProfileInfo) {
                         }}
                         disabled={isLoading}
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="17"
-                            height="17"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                fill="currentColor"
-                                d="M16,3 C14.499,3 13.092,3.552 12,4.544 C10.908,3.552 9.501,3 8,3 C4.691,3 2,5.691 2,9 C2,14.535 8.379,18.788 11.445,20.832 C11.613,20.944 11.807,21 12,21 C12.193,21 12.387,20.944 12.555,20.832 C15.62,18.788 22,14.535 22,9 C22,5.691 19.309,3 16,3 Z"
-                            />
-                        </svg>
+                        <div className='text-white'>
+                            <HeartIconFilled width="17" height="17" />
+                        </div>
                         {isLoading
                             ? "Loading..."
                             : currentUser?.id === userId
@@ -109,12 +92,7 @@ function UserProfileInfo({ user }: UserProfileInfo) {
                             className="p-2 hover:bg-white/10 rounded-full transition-colors"
                             onClick={() => setShowDropdown(!showDropdown)}
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                                <path
-                                    fill="currentColor"
-                                    d="M19,14 C17.895,14 17,13.105 17,12 C17,10.895 17.895,10 19,10 C20.105,10 21,10.895 21,12 C21,13.105 20.105,14 19,14 Z M14,12 C14,10.895 13.105,10 12,10 C10.895,10 10,10.895 10,12 C10,13.105 10.895,14 12,14 C13.105,14 14,13.105 14,12 Z M7,12 C7,10.895 6.105,10 5,10 C3.895,10 3,10.895 3,12 C3,13.105 3.895,14 5,14 C6.105,14 7,13.105 7,12 Z"
-                                />
-                            </svg>
+                            <MoreIcon width="24" height="24" />
                         </button>
 
                         {/* Dropdown Menu */}

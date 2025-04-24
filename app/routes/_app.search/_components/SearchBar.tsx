@@ -2,6 +2,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import useSearchStore from '~/store/useSearchStore';
 import { useActiveTabStore } from '~/store/useActiveTabStore';
 import { useSearchHistoryStore } from '~/store/useSearchHistoryStore';
+import { CrossIcon, SearchIcon } from '~/Svgs';
 
 const SearchBar = () => {
   const navigate = useNavigate();
@@ -58,20 +59,14 @@ const SearchBar = () => {
             className="w-6 h-6 rounded-full bg-white text-black flex items-center justify-center text-xs mx-2"
             onClick={clearSearchQuery}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
+            <CrossIcon width="14" height="14"/>
           </button>
         )}
         <button
           className="w-7 h-7 rounded-full bg-cyan-400 text-black flex items-center justify-center"
           onClick={handleSubmit}
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
+          <SearchIcon width="18" height="18"/>
         </button>
       </div>
     ) : (
@@ -83,20 +78,8 @@ const SearchBar = () => {
           {searchQuery || "Search"}
         </span>
         <div className="ml-2">
-          <svg 
-            width="20" 
-            height="20" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-            className={`text-black ${searchQuery ? "opacity-100" : "opacity-50"}`}
-          >
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
+        <SearchIcon width="20" height="20"/>
+          
         </div>
       </div>
     )}

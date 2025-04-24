@@ -5,6 +5,7 @@ import { useTrackStore } from '~/store/useTrackStore';
 import { cn } from '~/lib/utils'; // Utility to merge Tailwind classes
 import AnimatedEqualizer from './AnimatedEqualizer';
 import AnimatedEqualizerPause from './AnimatedEqualizerPause';
+import { CrossIcon, TwoLineIcon } from '~/Svgs';
 
 interface ShowQueueTracksProps {
     isQueueTrackVisible: boolean;
@@ -34,10 +35,7 @@ const ShowQueueTracks: React.FC<ShowQueueTracksProps> = ({
                     onClick={onHideQueueTrack}
                     className="rounded-full text-white hover:bg-transparent hover:text-white"
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x">
-                        <path d="M18 6 6 18" />
-                        <path d="m6 6 12 12" />
-                    </svg>
+                    <CrossIcon width="2" height="24"/>
                 </Button>
             </div>
 
@@ -81,9 +79,7 @@ const ShowQueueTracks: React.FC<ShowQueueTracksProps> = ({
                 {/* Next in Queue Section */}
                 <div className="w-full max-w-2xl">
                     <h3 className="text-lg sm:text-xl font-bold text-white mb-3 md:mb-4 flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
-                            <path d="M6 9h12M6 15h12" />
-                        </svg>
+                        <TwoLineIcon width="18" height="18"/>
                         Next in Queue
                     </h3>
                     <div className="space-y-2 sm:space-y-3">
@@ -113,20 +109,6 @@ const ShowQueueTracks: React.FC<ShowQueueTracksProps> = ({
                                     <div className="text-xs sm:text-sm text-gray-400 truncate">
                                         {track.singer}
                                     </div>
-                                </div>
-                                
-                                <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity ml-1 sm:ml-2">
-                                    <Button
-                                        variant="ghost" 
-                                        size="icon"
-                                        className="h-6 w-6 sm:h-8 sm:w-8 rounded-full text-gray-400 hover:text-white hover:bg-white/10"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="sm:w-4 sm:h-4">
-                                            <circle cx="12" cy="12" r="1" />
-                                            <circle cx="19" cy="12" r="1" />
-                                            <circle cx="5" cy="12" r="1" />
-                                        </svg>
-                                    </Button>
                                 </div>
                             </div>
                         ))}

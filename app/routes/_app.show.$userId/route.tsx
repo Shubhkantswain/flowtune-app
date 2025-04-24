@@ -11,6 +11,7 @@ import UserProfileInfo from './_components/UserProfileInfo';
 import UserTracks from './_components/UserTracks';
 import LoadMore from './_components/LoadMore';
 import UserDoesNotExists from './_components/UserDoesNotExists';
+import Footer from '~/components/Footer';
 
 interface UserData {
     data: GetUserProfileResponse | null
@@ -108,16 +109,18 @@ const UserPage = () => {
         return <UserDoesNotExists />;
     }
 
+    console.log(tracks, "alltraxks");
+
     return (
         <div className="text-white relative min-h-screen">
             <div
                 className="absolute inset-0 bg-gradient-to-b from-transparent to-black z-0"
                 style={{
-                    backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,1) 100%), url(${user?.data?.profileImageURL || "https://www.shutterstock.com/image-vector/male-default-avatar-profile-icon-600nw-1725062341.jpg"})`,
+                    backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,1) 10%), url(${user?.data?.profileImageURL || "https://www.shutterstock.com/image-vector/male-default-avatar-profile-icon-600nw-1725062341.jpg"})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center top',
-                    filter: 'blur(20px)',
-                    opacity: '0.6',
+                    filter: 'blur(100px)',
+                    opacity: '0.7',
                 }}
             />
 
@@ -128,8 +131,9 @@ const UserPage = () => {
                     <UserTracks tracks={user.tracks} page={page} allTracks={tracks} />
                 </div>
 
-                <LoadMore handleLoadMore={handleLoadMore} isLoading={isLoading} />
+                <LoadMore handleLoadMore={handleLoadMore} isLoading={isLoading && page != 1} />
 
+                <Footer/>
             </div>
         </div>
     );

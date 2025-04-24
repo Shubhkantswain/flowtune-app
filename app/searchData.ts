@@ -1,145 +1,79 @@
-export const searchData = {
-    a: [
-        { title: `Apna Bana Le From("Bhediya")`, coverImageUrl: "https://res.cloudinary.com/daz21loyl/image/upload/v1743304307/rdytkigkz1jivqvhiivs.jpg" },
-        { title: `Ae Dil Hai Mushkil From("Ae Dil Hai Mushkil")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2734a00b4392365a753c201bd75" },
-        { title: `Akhiyaan Gulaab From("TBMAUJ")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27352e3a807b72281cb40c08092" },
-        { title: `Abhi Mujh Mein Kahin From("Agneepath")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273c2fd8e88b0dcb889089a0abc" },
+export const searchData = [
+    { title: `Apna Bana Le From("Bhediya")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273c7b32b2ebd1ed948c9e7e5c5" },
+    { title: `Ae Dil Hai Mushkil From("Ae Dil Hai Mushkil")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2734a00b4392365a753c201bd75" },
+    { title: `Akhiyaan Gulaab From("TBMAUJ")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27352e3a807b72281cb40c08092" },
+    { title: `Abhi Mujh Mein Kahin From("Agneepath")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273c2fd8e88b0dcb889089a0abc" },
 
+    { title: `Be Intehaan From("Race 2")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2738357346ac0ff5f43c325a0e3" },
+    { title: `Bewajah From ("Sanam Teri Kasam")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ddaabc10aebdc619c1c9504c" },
+    { title: `Bulleya From("Ae Dil Hai Mushkil")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273cfdf2cecda3a566ca424df3e" },
+    { title: `Badtameez Dil From("Yeh Jawaani Hai Deewani")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273707ea5b8023ac77d31756ed4" },
+    { title: `Bekhayali From("Kabir Singh")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27390d98409f70719daa0dc0421" },
 
-    ],
-    b: [
+    { title: `Chaleya From("Jawan")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27360dbbb589dff0c57a3a4ffb2" },
+    { title: `Chaand Baaliyan`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ec4ecaa0fcf68c0966f21514" },
+    { title: `Cutiepie From("Ae Dil Hai Mushkil")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2733420c3d84f78ea149550d004" },
+    { title: `Chahun Main Ya Naa From("Aashiqui 2")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2736404721c1943d5069f0805f3" },
 
-        { title: `Be Intehaan From("Race 2")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2738357346ac0ff5f43c325a0e3" },
-        { title: `Bewajah From ("Sanam Teri Kasam")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ddaabc10aebdc619c1c9504c" },
-        { title: `Bulleya From("Ae Dil Hai Mushkil")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273cfdf2cecda3a566ca424df3e" },
-        { title: `Badtameez Dil From("Yeh Jawaani Hai Deewani")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273707ea5b8023ac77d31756ed4" },
-        { title: `Bekhayali From("Kabir Singh")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27390d98409f70719daa0dc0421" },
+    { title: `Dil Meri Na Sune From("Genius")`, coverImageUrl: "https://c.saavncdn.com/014/Dil-Meri-Na-Sune-From-Genius--Hindi-2018-20191216191847-500x500.jpg" },
+    { title: `Dooriyan From("Love Aaj Kal")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273b47eb88571640ed71dd2fd47" },
+    { title: `Dil Ibaadat From("Tum Mile")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2734910290f1a40686d6e1d2d0e" },
+    { title: `Dekhte Dekhte From("Batti Gul Meter Chalu")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2733c199be22bc9591750cfdab9" },
 
+    { title: `Enna Sona From("Ok Jaanu")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ca99ff80246fc0fb4d670126" },
 
+    { title: `Fitoor From("Fitoor")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273b99c0e6b9bf5ba4da74e816d" },
 
+    { title: `Galliyan From("Ek Villain")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273a2ef89ae0f8d1848081c1449" },
 
-    ],
-    c: [
-        { title: `Chaleya From("Jawan")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27360dbbb589dff0c57a3a4ffb2" },
-        { title: `Chaand Baaliyan`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ec4ecaa0fcf68c0966f21514" },
-        { title: `Cutiepie From("Ae Dil Hai Mushkil")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2733420c3d84f78ea149550d004" },
-        { title: `Chahun Main Ya Naa From("Aashiqui 2")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2736404721c1943d5069f0805f3" },
+    { title: `Heeriye`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2734a60872ae145776164540a7f" },
+    { title: `Humdard From("Ek Villain")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273a2ef89ae0f8d1848081c1449" },
+    { title: `Hua Main From("Animal")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ac2f40efa7f20f169acfb46f" },
+    { title: `Hale Dil From("Murder 2")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273f6a65bf4f6220e58013c752d" },
 
+    { title: `Ilahi From("Yeh Jawaani Hai Deewani")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273707ea5b8023ac77d31756ed4" },
 
-    ],
-    d: [
-        { title: `Dil Meri Na Sune From("Genius")`, coverImageUrl: "https://c.saavncdn.com/014/Dil-Meri-Na-Sune-From-Genius--Hindi-2018-20191216191847-500x500.jpg" },
-        { title: `Dooriyan From("Love Aaj Kal")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273b47eb88571640ed71dd2fd47" },
-        { title: `Dil Ibaadat From("Tum Mile")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2734910290f1a40686d6e1d2d0e" },
+    { title: `Jo Tum Mere Ho`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27372a77d038887cdc425f5ee55" },
+    { title: `Jeena Jeena From("Badlapur")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273e6498bb9a267972ab7596705" },
 
+    { title: `Kesariya From("Brahmastra")`, coverImageUrl: "https://c.saavncdn.com/191/Kesariya-From-Brahmastra-Hindi-2022-20220717092820-500x500.jpg" },
+    { title: `Khamoshiyan From("Khamoshiyan")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273d79e0d62e3946104b9f07870" },
+    { title: `Kaise Hua From("Kabir Singh")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ce1f4349305971b5beb75fcd" },
+    { title: `Kya Khoya From("Khamoshiyan")`, coverImageUrl: "https://c.saavncdn.com/378/Khamoshiyan-Hindi-2014-20190516123124-500x500.jpg" },
+    { title: `Kya Mujhe Pyaar Hai From("Woh Lamhe")`, coverImageUrl: "https://c.saavncdn.com/720/Kya-Mujhe-Pyaar-Hai-Hindi-2021-20211201011527-500x500.jpg" },
+    { title: `Kabira From("Yeh Jawaani Hai Deewani")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273707ea5b8023ac77d31756ed4" },
 
-    ],
-    e: [
-        { title: `Enna Sona From("Ok Jaanu")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ca99ff80246fc0fb4d670126" },
+    { title: `Lutt Putt Gaya From("Dunki")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2731a2e85cf59d754808254425f" },
 
-    ],
-    f: [
-        { title: `Fitoor From("Fitoor")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273b99c0e6b9bf5ba4da74e816d" },
-    ],
-    g: [
-        { title: `Galliyan From("Ek Villain")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273a2ef89ae0f8d1848081c1449" },
-    ],
-    h: [
-        { title: `Heeriye`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2734a60872ae145776164540a7f" },
-        { title: `Humdard From("Ek Villain")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273a2ef89ae0f8d1848081c1449" },
-        { title: `Hua Main From("Animal")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ac2f40efa7f20f169acfb46f" },
-        { title: `Hale Dil From("Murder 2")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273f6a65bf4f6220e58013c752d" },
+    { title: `Mann Mera From("Table No 21")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27396fec3d5c7afafc59ed0043e" },
 
+    { title: `O Meri Laila From("Laila Majnu")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273fc8c4535825cdc0bcafde19a" },
 
+    { title: `Phir Se Udd Chala From("Rockstar")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273869a9b15675b514a06d2c049" },
+    { title: `Phir Mohabbat From("Murder 2")`, coverImageUrl: "https://i.scdn.co/image/ab67616d00001e02c60fa2360b6dfbd7e1ff20b4" },
+    { title: `Pehli Dafa`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273afd2bc3f876235be94c0d36d" },
 
+    { title: `Raataan Lambiyan From("Shershaah")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273a75c2f26913099a420050f01" },
 
-    ],
-    i: [
-        { title: `Ilahi From("Yeh Jawaani Hai Deewani")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273707ea5b8023ac77d31756ed4" },
-    ],
-    j: [
-        { title: `Jo Tum Mere Ho`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27372a77d038887cdc425f5ee55" },
-        { title: `Jeena Jeena From("Badlapur")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273e6498bb9a267972ab7596705" },
+    { title: `Sajni From("Laapataa Ladies")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273d5f4378b1ffc9119fdc7306d" },
+    { title: `Satranga From("Animal")`, coverImageUrl: "https://c.saavncdn.com/415/Satranga-From-ANIMAL-Hindi-2023-20231027131032-500x500.jpg" },
+    { title: `Senorita From("Zindagi Na Milegi Dobara")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2730acb5a72549287bf33b51b71" },
+    { title: `Sunn Raha Hai From("Aashiqui")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2736404721c1943d5069f0805f3" },
+    { title: `Sanam Re From("Sanam Re")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ce6e8a2a6cce64f2cc077218" },
+    { title: `Sooraj Dooba Hain From("Roy")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273f6371011af4c82fb31d54820" },
+    { title: `Shayad From("Love Aaj Kal")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273c51066dc572e8942e5ef1f44" },
 
+    { title: `Tera Ban Jaunga From("Kabir Singh")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273c5545f737b16ad5ee767b62a" },
+    { title: `Tum Se Hi From ("Jab We Met")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27352fe6875028c892308ffc2f7" },
+    { title: `Tum Hi Ho From("Aashiqui 2")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2736404721c1943d5069f0805f3" },
+    { title: `Tera Chehra From("Sanam Teri Kasam")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ddaabc10aebdc619c1c9504c" },
+    { title: `Tum Ho From("Rockstar")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273869a9b15675b514a06d2c049" },
+    { title: `Tera Yaar Ho Main From("SKTKS")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27322927ab54277255e23fc4756" },
+    { title: `Tere Liye From("Prince")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27378109adafee981634990753a" },
 
-    ],
-    k: [
-        { title: `Kesariya From("Brahmastra")`, coverImageUrl: "https://c.saavncdn.com/191/Kesariya-From-Brahmastra-Hindi-2022-20220717092820-500x500.jpg" },
-        { title: `Khamoshiyan From("Khamoshiyan")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273d79e0d62e3946104b9f07870" },
-        { title: `Kaise Hua From("Kabir Singh")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ce1f4349305971b5beb75fcd" },
-        { title: `Kya Khoya From("Khamoshiyan")`, coverImageUrl: "https://c.saavncdn.com/378/Khamoshiyan-Hindi-2014-20190516123124-500x500.jpg" },
-        { title: `Kya Mujhe Pyaar Hai From("Woh Lamhe")`, coverImageUrl: "https://c.saavncdn.com/720/Kya-Mujhe-Pyaar-Hai-Hindi-2021-20211201011527-500x500.jpg" },
+    { title: `Zara Sa From("Jannat")`, coverImageUrl: "https://i.scdn.co/image/ab67616d00001e02a41b4623b061d9b773221615" },
 
-
-
-    ],
-    l: [
-
-    ],
-    m: [
-        { title: `Mann Mera From("Table No 21")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27396fec3d5c7afafc59ed0043e" },
-
-    ],
-    n: [
-
-
-    ],
-    o: [
-        { title: `O Meri Laila From("Laila Majnu")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273fc8c4535825cdc0bcafde19a" },
-
-    ],
-    p: [
-        { title: `Phir Se Udd Chala From("Rockstar")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273869a9b15675b514a06d2c049" },
-        { title: `Phir Mohabbat From("Murder 2")`, coverImageUrl: "https://i.scdn.co/image/ab67616d00001e02c60fa2360b6dfbd7e1ff20b4" },
-        { title: `Pehli Dafa`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273afd2bc3f876235be94c0d36d" },
-
-
-
-
-    ],
-    q: [],
-    r: [
-        { title: `Raataan Lambiyan From("Shershaah")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273a75c2f26913099a420050f01" },
-
-    ],
-    s: [
-        { title: `Sajni From("Laapataa Ladies")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273d5f4378b1ffc9119fdc7306d" },
-        { title: `Satranga From("Animal")`, coverImageUrl: "https://c.saavncdn.com/415/Satranga-From-ANIMAL-Hindi-2023-20231027131032-500x500.jpg" },
-        { title: `Senorita From("Zindagi Na Milegi Dobara")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2730acb5a72549287bf33b51b71" },
-        { title: `Sunn Raha Hai From("Aashiqui")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2736404721c1943d5069f0805f3" },
-        { title: `Sanam Re From("Sanam Re")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ce6e8a2a6cce64f2cc077218" },
-        { title: `Sooraj Dooba Hain From("Roy")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273f6371011af4c82fb31d54820" },
-        { title: `Shayad From("Love Aaj Kal")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273c51066dc572e8942e5ef1f44" },
-
-
-
-
-    ],
-    t: [
-        { title: `Tera Ban Jaunga From("Kabir Singh")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273c5545f737b16ad5ee767b62a" },
-        { title: `Tum Se Hi From ("Jab We Met")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27352fe6875028c892308ffc2f7" },
-        { title: `Tum Hi Ho From("Aashiqui 2")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2736404721c1943d5069f0805f3" },
-        { title: `Tera Chehra From("Sanam Teri Kasam")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ddaabc10aebdc619c1c9504c" },
-        { title: `Tum Ho From("Rockstar")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273869a9b15675b514a06d2c049" },
-        { title: `Tera Yaar Ho Main From("SKTKS")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27322927ab54277255e23fc4756" },
-        { title: `Tere Liye From("Prince")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27378109adafee981634990753a" },
-
-
-
-
-
-    ],
-    u: [],
-    v: [],
-    w: [
-
-    ],
-    x: [],
-    y: [],
-    z: [
-        { title: `Zara Sa From("Jannat")`, coverImageUrl: "https://i.scdn.co/image/ab67616d00001e02a41b4623b061d9b773221615" },
-    ]
-};
+]
 
 export const playlistSearchData = {
     a: [],

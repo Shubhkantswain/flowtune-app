@@ -41,7 +41,7 @@ type Documents = {
     "#graphql\n  query GetLikedTracks {\n    getLikedTracks {\n      id   \n      title            \n      singer          \n      starCast\n      duration             \n      coverImageUrl    \n      videoUrl\n      audioFileUrl \n      hasLiked\n      authorId\n    }\n  }\n": typeof types.GetLikedTracksDocument,
     "#graphql\n    query GetUserProfile($userId: String!) {\n      getUserProfile(userId: $userId) {\n            id\n            username\n            fullName\n            profileImageURL\n            bio\n            totalTracks\n            followedByMe\n      }\n    }\n        ": typeof types.GetUserProfileDocument,
     "#graphql\n  query GetSearchUser($input: SearchInput!) {\n  getSearchUser(input: $input) {\n    id\n    username\n    profileImageURL\n  }\n}\n": typeof types.GetSearchUserDocument,
-    "#graphql\n    query GetUserTracks($payload: GetUserTracksPayload!) {\n      getUserTracks(payload: $payload) {\n        id   \n        title            \n        singer          \n        starCast\n        duration             \n        coverImageUrl    \n        videoUrl\n        audioFileUrl \n        hasLiked\n        authorId\n      }\n    }\n": typeof types.GetUserTracksDocument,
+    "#graphql\n    query GetUserTracks($payload: GetUserTracksPayload!) {\n      getUserTracks(payload: $payload) {\n        id   \n        title            \n        singer          \n        starCast\n        duration             \n        coverImageUrl    \n        videoUrl\n        audioFileUrl \n        hasLiked\n        authorId\n        createdAt\n      }\n    }\n": typeof types.GetUserTracksDocument,
 };
 const documents: Documents = {
     "#graphql\n    mutation SignupUser($input: SignupUserInput!) {\n        signupUser(input: $input)\n    }\n": types.SignupUserDocument,
@@ -71,7 +71,7 @@ const documents: Documents = {
     "#graphql\n  query GetLikedTracks {\n    getLikedTracks {\n      id   \n      title            \n      singer          \n      starCast\n      duration             \n      coverImageUrl    \n      videoUrl\n      audioFileUrl \n      hasLiked\n      authorId\n    }\n  }\n": types.GetLikedTracksDocument,
     "#graphql\n    query GetUserProfile($userId: String!) {\n      getUserProfile(userId: $userId) {\n            id\n            username\n            fullName\n            profileImageURL\n            bio\n            totalTracks\n            followedByMe\n      }\n    }\n        ": types.GetUserProfileDocument,
     "#graphql\n  query GetSearchUser($input: SearchInput!) {\n  getSearchUser(input: $input) {\n    id\n    username\n    profileImageURL\n  }\n}\n": types.GetSearchUserDocument,
-    "#graphql\n    query GetUserTracks($payload: GetUserTracksPayload!) {\n      getUserTracks(payload: $payload) {\n        id   \n        title            \n        singer          \n        starCast\n        duration             \n        coverImageUrl    \n        videoUrl\n        audioFileUrl \n        hasLiked\n        authorId\n      }\n    }\n": types.GetUserTracksDocument,
+    "#graphql\n    query GetUserTracks($payload: GetUserTracksPayload!) {\n      getUserTracks(payload: $payload) {\n        id   \n        title            \n        singer          \n        starCast\n        duration             \n        coverImageUrl    \n        videoUrl\n        audioFileUrl \n        hasLiked\n        authorId\n        createdAt\n      }\n    }\n": types.GetUserTracksDocument,
 };
 
 /**
@@ -199,7 +199,7 @@ export function graphql(source: "#graphql\n  query GetSearchUser($input: SearchI
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "#graphql\n    query GetUserTracks($payload: GetUserTracksPayload!) {\n      getUserTracks(payload: $payload) {\n        id   \n        title            \n        singer          \n        starCast\n        duration             \n        coverImageUrl    \n        videoUrl\n        audioFileUrl \n        hasLiked\n        authorId\n      }\n    }\n"): (typeof documents)["#graphql\n    query GetUserTracks($payload: GetUserTracksPayload!) {\n      getUserTracks(payload: $payload) {\n        id   \n        title            \n        singer          \n        starCast\n        duration             \n        coverImageUrl    \n        videoUrl\n        audioFileUrl \n        hasLiked\n        authorId\n      }\n    }\n"];
+export function graphql(source: "#graphql\n    query GetUserTracks($payload: GetUserTracksPayload!) {\n      getUserTracks(payload: $payload) {\n        id   \n        title            \n        singer          \n        starCast\n        duration             \n        coverImageUrl    \n        videoUrl\n        audioFileUrl \n        hasLiked\n        authorId\n        createdAt\n      }\n    }\n"): (typeof documents)["#graphql\n    query GetUserTracks($payload: GetUserTracksPayload!) {\n      getUserTracks(payload: $payload) {\n        id   \n        title            \n        singer          \n        starCast\n        duration             \n        coverImageUrl    \n        videoUrl\n        audioFileUrl \n        hasLiked\n        authorId\n        createdAt\n      }\n    }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

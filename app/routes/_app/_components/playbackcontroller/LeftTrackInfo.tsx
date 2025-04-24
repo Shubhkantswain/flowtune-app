@@ -1,5 +1,7 @@
 import React from 'react';
 import { useTrackStore } from '~/store/useTrackStore';
+import PlaceholderTrack from '../PlaceholderTrack';
+import { ExpandIcon } from '~/Svgs';
 
 interface LeftTrackInfoProps {
     setIsOpen: (isOpen: boolean) => void;
@@ -34,26 +36,12 @@ const LeftTrackInfo: React.FC<LeftTrackInfoProps> = ({ setIsOpen }) => {
                         className="w-full h-full object-cover group-hover:opacity-75 transition-opacity"
                     />
                 ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-[#313232] rounded-md">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24"
-                            viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor"
-                            strokeWidth="2" strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="w-8 h-8 text-gray-300"
-                        >
-                            <circle cx="8" cy="18" r="4" />
-                            <path d="M12 18V2l7 4" />
-                        </svg>
-                    </div>
-
+                    <PlaceholderTrack width='35' height='35' />
                 )}
 
                 {isTrackSelected && (
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity bg-black/40 group-hover:opacity-100">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-maximize-2"><polyline points="15 3 21 3 21 9" /><polyline points="9 21 3 21 3 15" /><line x1="21" x2="14" y1="3" y2="10" /><line x1="3" x2="10" y1="21" y2="14" /></svg>
+                        <ExpandIcon width="24" height="24"/>
                     </div>
                 )}
             </button>

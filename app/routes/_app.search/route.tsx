@@ -11,6 +11,7 @@ import { useSearchHistoryStore } from '~/store/useSearchHistoryStore';
 import { LoaderFunctionArgs } from '@remix-run/cloudflare';
 import { createGraphqlClient } from '~/clients/api';
 import { getLikedTracksQuery } from '~/graphql/queries/track';
+import EmptyState from '~/components/EmptyState';
 
 interface Song {
   title: string;
@@ -49,42 +50,56 @@ const BrowsePage = () => {
   const [suggestionResults, setSuggestionResults] = useState<Song[]>([]);
   const { history, setHistory } = useSearchHistoryStore()
 
+  const [page, setPage] = useState(1)
+  const [hasMore, setHasMore] = useState(false)
+
   const { data } = useCurrentUser()
 
-  console.log("user", data);
+  console.log("page", page);
 
   const { activeTab, setActiveTab } = useActiveTabStore()
 
   useEffect(() => {
+    setPage(1)
+  }, [searchQuery])
+
+  useEffect(() => {
     if (searchQuery.trim()) {
       if (activeTab == "Tracks") {
-
-        const firstLetter = searchQuery[0].toLowerCase(); // Extract first letter
-        const filteredSongs: Song[] = searchData[firstLetter as searchKey] || []; // Get songs for that letter
-
         // Filter songs containing searchQuery
-        const results = filteredSongs.filter((song) =>
+        const filteredResults = searchData.filter((song) =>
           song.title.toLowerCase().includes(searchQuery.toLowerCase())
         );
 
-        setSuggestionResults(results);
-      }
+        // Calculate the start and end index for the current page
+        const startIndex = 0;
+        const endIndex = 20;
 
-      if (activeTab == "Playlists") {
-        const firstLetter = searchQuery[0].toLowerCase(); // Extract first letter
-        const filteredSongs: Song[] = playlistSearchData[firstLetter as searchKey] || []; // Get songs for that letter
-
-        // Filter songs containing searchQuery
-        const results = filteredSongs.filter((song) =>
-          song.title.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-
-        setSuggestionResults(results);
+        // Slice the results for the current page
+        const paginatedResults = filteredResults.slice(startIndex, endIndex);
+        setHasMore(paginatedResults.length >= 20)
+        setSuggestionResults(paginatedResults);
       }
     } else {
       setSuggestionResults([]); // Clear results when searchQuery is empty
     }
   }, [searchQuery, activeTab]);
+
+  useEffect(() => {
+    if (page == 1) return
+    const filteredResults = searchData.filter((song) =>
+      song.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    // Calculate the start and end index for the current page
+    const startIndex = (page - 1) * 20;
+    const endIndex = startIndex + 20;
+
+    // Slice the results for the current page
+    const paginatedResults = filteredResults.slice(startIndex, endIndex);
+    setHasMore(paginatedResults.length >= 20)
+    setSuggestionResults([...suggestionResults, ...paginatedResults]);
+  }, [page])
 
   const navigate = useNavigate()
 
@@ -171,12 +186,13 @@ const BrowsePage = () => {
               ))}
             </div>
             {suggestionResults.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-                {suggestionResults.map((song, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-4 p-3 rounded-lg bg-[#1a1a1a] hover:bg-[#2A2A2A] transition duration-200 cursor-pointer shadow-sm"
-                    onClick={() => {
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                  {suggestionResults.map((song, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center gap-4 p-3 rounded-lg bg-[#1a1a1a] hover:bg-[#2A2A2A] transition duration-200 cursor-pointer shadow-sm"
+                      onClick={() => {
                         if (!history.some(item => item === searchQuery)) {
                           const data = [song.title, ...history.slice(0, 9)];
                           setHistory(data);
@@ -187,24 +203,57 @@ const BrowsePage = () => {
                           localStorage.setItem("searchHistory", JSON.stringify([song.title, ...data]));
                         }
                         navigate(`/search-results/${activeTab.toLocaleLowerCase()}/${song.title}`);
-                    }}
-                  >
-                    <img
-                      src={song.coverImageUrl}
-                      alt={song.title}
-                      className="w-12 h-12 sm:w-14 sm:h-14 md:w-14 md:h-14 rounded-sm object-cover"
-                    />
-                    <div>
-                      <p className="text-xs uppercase text-[#25d1da] font-semibold mb-1">Track</p>
-                      <h3 className="text-white text-sm font-medium leading-tight hover:text-[#25d1da]">
-                        {song.title}
-                      </h3>
+                      }}
+                    >
+                      <img
+                        src={song.coverImageUrl}
+                        alt={song.title}
+                        className="w-12 h-12 sm:w-14 sm:h-14 md:w-14 md:h-14 rounded-sm object-cover"
+                      />
+                      <div>
+                        <p className="text-xs uppercase text-[#25d1da] font-semibold mb-1">Track</p>
+                        <h3 className="text-white text-sm font-medium leading-tight hover:text-[#25d1da]">
+                          {song.title}
+                        </h3>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div >
+                {
+                  hasMore && (
+                    <button
+                      onClick={() => setPage(page + 1)}
+                      aria-label="Load more tracks"
+                      className="mx-auto block px-4 py-2 mt-5 text-white bg-[#292a2a] hover:bg-[#5D5E5E] text-sm font-medium rounded-full disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow transition-all duration-200 w-fit"
+                    >
+                      Load More
+                    </button>
+                  )
+                }
+              </>
             ) : (
-              <p className="text-gray-400 mt-4 text-sm">No results found.</p>
+              // <p className="text-gray-400 mt-4 text-sm">No results found.</p>
+              <EmptyState
+                icon={
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-16 w-16 mb-4 text-gray-300"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={1.5}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z"
+                    />
+                  </svg>}
+
+                title='No results found'
+                message='Try a different search term or check your spelling.'
+              />
+
             )}
           </>
         ) : (

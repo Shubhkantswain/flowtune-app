@@ -1,6 +1,7 @@
 import { Track } from 'gql/graphql'
 import React from 'react'
 import TrackCollectionsCover from './TrackCollectionsCover';
+import { CompactIcon, ListIcon, MoreIcon } from '~/Svgs';
 
 interface TrackCollectionsInfoProps {
     showDropdown: boolean;
@@ -41,44 +42,41 @@ const TrackCollectionsInfo: React.FC<TrackCollectionsInfoProps> = ({
                     </button>
 
                     {/* Toggle view button */}
-                    <div className="relative mt-1.5 group">
-                        <div className="absolute -top-12 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                            Switch to {screenType == "compact" ? "list" : "compact"} screen
-                        </div>
-
+                    <div className="relative mt-1.5">
                         <button
-                            className="text-white hover:text-[#25d1da] transition-colors"
+                            className="transition-colors group hover:text-[#93D0D5] cursor-pointer"
                             onClick={toggleScreenType}
                         >
+                            {/* Tooltip */}
+                            <div className="absolute -top-12 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
+                            opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                                Switch to {screenType == "compact" ? "list" : "compact"} screen
+                            </div>
+
+                            {/* Icon */}
                             {screenType === "compact" ? (
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-list-icon lucide-list"><path d="M3 12h.01" /><path d="M3 18h.01" /><path d="M3 6h.01" /><path d="M8 12h13" /><path d="M8 18h13" /><path d="M8 6h13" /></svg>
+                                <CompactIcon width="24" height="24" />
                             ) : (
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-align-justify-icon lucide-align-justify"><path d="M3 12h18" /><path d="M3 18h18" /><path d="M3 6h18" /></svg>
+                                <ListIcon width="24" height="24" />
                             )}
                         </button>
                     </div>
+
 
                     {/* More options button with dropdown */}
                     <div className="relative" ref={dropdownRef}>
                         <button
                             onClick={toggleDropdown}
-                            className="p-2 rounded-full transition-colors focus:outline-none group"
+                            className="group mt-1.5 transition-colors focus:outline-none hover:text-[#93D0D5]"
                             aria-label="More options"
                         >
-                            {/* Tooltip inside the button */}
+                            {/* Tooltip INSIDE the button */}
                             <div className="absolute -top-7 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                            opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                            opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white z-10">
                                 More
                             </div>
 
-                            <div className='hover:scale-110'>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-ellipsis">
-                                    <circle cx="12" cy="12" r="1" />
-                                    <circle cx="19" cy="12" r="1" />
-                                    <circle cx="5" cy="12" r="1" />
-                                </svg>
-                            </div>
+                            <MoreIcon width="24" height="24" />
                         </button>
 
                         {showDropdown && (
@@ -125,6 +123,8 @@ const TrackCollectionsInfo: React.FC<TrackCollectionsInfoProps> = ({
                             </div>
                         )}
                     </div>
+
+
                 </div>
             </div>
         </div>

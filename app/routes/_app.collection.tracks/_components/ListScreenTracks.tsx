@@ -1,6 +1,7 @@
 import { Track } from 'gql/graphql'
 import React from 'react'
 import { useTrackStore } from '~/store/useTrackStore'
+import { ClockIcon, PauseIcon, PlayIcon } from '~/Svgs';
 import { formatDuration } from '~/utils'
 
 interface ListScreenTracksProps {
@@ -28,10 +29,7 @@ const ListScreenTracks: React.FC<ListScreenTracksProps> = ({
                         <th className="px-3 py-3 text-sm hidden lg:table-cell">Album</th>
                         <th className="px-3 py-3 text-right text-sm">
                             <div className="flex justify-end items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <polyline points="12 6 12 12 16 14"></polyline>
-                                </svg>
+                                <ClockIcon width="16" height="16" />
                             </div>
                         </th>
                     </tr>
@@ -50,19 +48,9 @@ const ListScreenTracks: React.FC<ListScreenTracksProps> = ({
                                     {/* Show play/pause icon when hovering */}
                                     <span className="hidden group-hover:block text-white">
                                         {(track?.id === trackDetails.id && trackDetails.isPlaying && initialized) ? (
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                                                <defs>
-                                                    <path id="ic_playback_pause-a" d="M9,22 L6,22 C5.45,22 5,21.55 5,21 L5,3 C5,2.45 5.45,2 6,2 L9,2 C9.55,2 10,2.45 10,3 L10,21 C10,21.55 9.55,22 9,22 Z M19,21 L19,3 C19,2.45 18.55,2 18,2 L15,2 C14.45,2 14,2.45 14,3 L14,21 C14,21.55 14.45,22 15,22 L18,22 C18.55,22 19,21.55 19,21 Z"></path>
-                                                </defs>
-                                                <g fillRule="evenodd" fill="transparent">
-                                                    <rect width="24" height="24"></rect>
-                                                    <use fillRule="nonzero" href="#ic_playback_pause-a" fill="currentColor"></use>
-                                                </g>
-                                            </svg>
+                                            <PauseIcon width="20" height="20" />
                                         ) : (
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="white" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                <polygon points="5 3 19 12 5 21 5 3" />
-                                            </svg>
+                                            <PlayIcon width="20" height="20" />
                                         )}
                                     </span>
                                 </div>

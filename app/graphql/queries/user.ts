@@ -38,6 +38,7 @@ export const getUserTracksQuery = graphql(`#graphql
         audioFileUrl 
         hasLiked
         authorId
+        createdAt
       }
     }
 `)

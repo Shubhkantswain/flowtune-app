@@ -9,6 +9,8 @@ export default function AppLayout() {
     const includes = location.pathname.includes("/genres")
     const params = useParams()
 
+    const isPlaylistPage = location.pathname.startsWith("/playlist")
+
     type GenreKey = keyof typeof genreIdsSwap;
 
     return (

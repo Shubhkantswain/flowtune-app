@@ -9,6 +9,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { searchData } from "~/searchData";
 import { useGetSearchTracks } from "~/hooks/track";
+import { CrossIcon, LoadingSpinnerIcon, MusicIcon, NonSelectIcon, SearchIcon, SelectedIcon, UploadIcon } from "~/Svgs";
 
 interface NewSong {
     name: string;
@@ -74,15 +75,19 @@ const CreatePlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }: Cr
 
     useEffect(() => {
         if (searchQuery.trim()) {
-            const firstLetter = searchQuery[0].toLowerCase(); // Extract first letter
-            const filteredSongs: Song[] = searchData[firstLetter as searchKey] || []; // Get songs for that letter
-
             // Filter songs containing searchQuery
-            const results = filteredSongs.filter((song) =>
+            const filteredResults = searchData.filter((song) =>
                 song.title.toLowerCase().includes(searchQuery.toLowerCase())
             );
 
-            setSuggestionSearchResults(results);
+            // Calculate the start and end index for the current page
+            const startIndex = 0;
+            const endIndex = 20;
+
+            // Slice the results for the current page
+            const paginatedResults = filteredResults.slice(startIndex, endIndex);
+            setHasMore(paginatedResults.length >= 20)
+            setSuggestionSearchResults(paginatedResults);
         } else {
             setSuggestionSearchResults([]); // Clear results when searchQuery is empty
         }
@@ -139,7 +144,7 @@ const CreatePlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }: Cr
                             ) : (
                                 <>
                                     <div className="p-3 bg-zinc-800 rounded-full inline-block mb-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-upload"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" x2="12" y1="3" y2="15" /></svg>
+                                        <UploadIcon width="24" height="24" />
                                     </div>
                                     <div className="text-sm text-zinc-400 mb-2">Upload artwork</div>
                                     <button
@@ -207,26 +212,13 @@ const CreatePlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }: Cr
                             />
                             <label
                                 htmlFor="playlist-search"
-                                className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+                                className="absolute text-zinc-400 hover:text-zinc-300 inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
                                 onClick={() => {
                                     setShouldSearch(true)
                                 }}
                             >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="16"
-                                    height="16"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    className="text-zinc-400 hover:text-zinc-300 transition-colors"
-                                >
-                                    <circle cx="11" cy="11" r="8"></circle>
-                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                </svg>
+                                <SearchIcon width="20" height="20" />
+
                             </label>
                         </div>
                     </div>
@@ -296,33 +288,9 @@ const CreatePlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }: Cr
                                                 }}
                                             >
                                                 {!!selectedTracks[track.id] ? (
-                                                    <svg
-                                                        width="20"
-                                                        height="20"
-                                                        viewBox="0 0 20 20"
-                                                        fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                    >
-                                                        <circle cx="10" cy="10" r="8" fill="#fa586a" />
-                                                        <circle cx="10" cy="10" r="4" fill="white" />
-                                                    </svg>
+                                                    <SelectedIcon width="20" height="20" />
                                                 ) : (
-                                                    <svg
-                                                        width="20"
-                                                        height="20"
-                                                        viewBox="0 0 20 20"
-                                                        fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                    >
-                                                        <circle
-                                                            cx="10"
-                                                            cy="10"
-                                                            r="7.5"
-                                                            stroke="#71717a"
-                                                            strokeWidth="1"
-                                                            fill="none"
-                                                        />
-                                                    </svg>
+                                                    <NonSelectIcon width="20" height="20" />
                                                 )}
                                             </div>
                                         </div>
@@ -341,10 +309,7 @@ const CreatePlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }: Cr
                                         >
                                             {isLoading && page != 1 ? (
                                                 <span className="flex items-center justify-center gap-1.5">
-                                                    <svg className="animate-spin h-4 w-4 text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3"></circle>
-                                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                                    </svg>
+                                                    <LoadingSpinnerIcon />
                                                     Loading...
                                                 </span>
                                             ) : (
@@ -360,11 +325,8 @@ const CreatePlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }: Cr
                     <div className="bg-gradient-to-br from-purple-600 to-blue-500 rounded-lg shadow-lg p-4">
                         <div className="flex items-center justify-between mb-3">
                             <h3 className="text-white font-bold text-lg flex items-center">
-                                <svg className="mr-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M9 18V5l12-2v13" />
-                                    <circle cx="6" cy="18" r="3" />
-                                    <circle cx="18" cy="16" r="3" />
-                                </svg>
+                                <MusicIcon width="20" height="20" />
+
                                 Selected Tracks
                             </h3>
                             <span className="bg-white bg-opacity-20 text-white text-xs px-2 py-1 rounded-full">
@@ -381,11 +343,9 @@ const CreatePlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }: Cr
                                             className="bg-white bg-opacity-10 hover:bg-opacity-20 transition-all duration-200 p-3 rounded-md flex items-center group"
                                         >
                                             <div className="w-8 h-8 flex items-center justify-center bg-white bg-opacity-20 rounded-full mr-3">
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                    <path d="M9 18V5l12-2v13" />
-                                                    <circle cx="6" cy="18" r="3" />
-                                                    <circle cx="18" cy="16" r="3" />
-                                                </svg>
+                                                <div className="text-white ml-1.5">
+                                                    <MusicIcon width="16" height="16" />
+                                                </div>
                                             </div>
                                             <span className="text-white font-medium">{track.title}</span>
                                             <button className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity text-white hover:text-red-300" onClick={() => {
@@ -399,23 +359,17 @@ const CreatePlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }: Cr
                                                     return newSelectedTracks;
                                                 });
                                             }}>
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                    <line x1="18" y1="6" x2="6" y2="18" />
-                                                    <line x1="6" y1="6" x2="18" y2="18" />
-                                                </svg>
+                                                <CrossIcon width="16" height="16" />
                                             </button>
                                         </div>
                                     ))}
                                 </div>
                             ) : (
-                                <div className="bg-white bg-opacity-10 p-6 rounded-md text-center">
-                                    <svg className="mx-auto mb-2 text-white opacity-50" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                        <path d="M9 18V5l12-2v13" />
-                                        <circle cx="6" cy="18" r="3" />
-                                        <circle cx="18" cy="16" r="3" />
-                                    </svg>
+                                <div className="bg-white bg-opacity-10 p-6 rounded-md text-center text-white opacity-50 flex flex-col items-center justify-center space-y-2">
+                                    <MusicIcon width="24" height="24" />
                                     <p className="text-white text-opacity-70">No tracks selected yet</p>
                                 </div>
+
                             )}
                         </div>
                     </div>

@@ -4,6 +4,7 @@ import { Input } from './ui/input'
 import { useAddSongToPlaylist, useGetCurrentUserPlaylists } from '~/hooks/playlist'
 import { useTrackStore } from '~/store/useTrackStore';
 import { Playlist } from 'gql/graphql';
+import { LoadingSpinnerIcon, PlusIcon } from '~/Svgs';
 
 // Define the props
 interface AddToPlaylistDialogProps {
@@ -21,13 +22,13 @@ const AddToPlaylistDialog: React.FC<AddToPlaylistDialogProps> = ({
 }) => {
     const [page, setPage] = useState(1)
     const [playlists, setPlaylists] = useState<Playlist[]>([])
-    const { data, isLoading } = useGetCurrentUserPlaylists({page, limit: 10}, true)
+    const { data, isLoading } = useGetCurrentUserPlaylists({ page, limit: 10 }, true)
     const { mutateAsync: addSongToPlaylist } = useAddSongToPlaylist()
 
     useEffect(() => {
         console.log("new ");
         if (data) {
-            
+
             setPlaylists((prev) => [...prev, ...data])
         }
     }, [data])
@@ -54,7 +55,7 @@ const AddToPlaylistDialog: React.FC<AddToPlaylistDialogProps> = ({
                         className="p-2 rounded-md flex items-center justify-center gap-2 bg-[#1a1a1a] cursor-pointer transition-colors hover:bg-[#1c1c1c] border border-transparent hover:border-[#25d1da] hover:shadow-md hover:shadow-[#25d1da]/30 duration-200 ease-in-out"
                         onClick={() => setNewPlaylistDialogOpen(true)}
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><defs><path id="ic_action_add-a" d="M21,11 L13,11 L13,3 C13,2.448 12.552,2 12,2 C11.448,2 11,2.448 11,3 L11,11 L3,11 C2.448,11 2,11.448 2,12 C2,12.552 2.448,13 3,13 L11,13 L11,21 C11,21.553 11.448,22 12,22 C12.552,22 13,21.553 13,21 L13,13 L21,13 C21.552,13 22,12.552 22,12 C22,11.448 21.552,11 21,11 Z"></path></defs><g fill-rule="evenodd" fill="transparent"><rect width="24" height="24"></rect><use href="#ic_action_add-a" fill="currentColor"></use></g></svg>
+                        <PlusIcon width="20" height="20" />
 
                         <span className="text-white text-sm">New Playlist</span>
                     </div>
@@ -95,10 +96,7 @@ const AddToPlaylistDialog: React.FC<AddToPlaylistDialogProps> = ({
                     >
                         {isLoading && page != 1 ? (
                             <span className="flex items-center justify-center gap-1.5">
-                                <svg className="animate-spin h-4 w-4 text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3"></circle>
-                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
+                                <LoadingSpinnerIcon />
                                 Loading...
                             </span>
                         ) : (

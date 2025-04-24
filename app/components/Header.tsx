@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { ScrollDirection } from '~/types'
 import ShowTrackDialog from './ShowTrackDialog'
 import { Track } from 'gql/graphql'
+import { LeftArrowIcon, RightArrowIcon } from '~/Svgs'
 
 interface HeaderProps {
     scroll: (direction: ScrollDirection) => void
@@ -31,50 +32,20 @@ const Header: React.FC<HeaderProps> = ({ scroll, tracks, initialized, setInitial
                         <div className='gap-8 flex'>
                             {/* Left Arrow Button */}
                             <button
-                                className={`${!canScrollLeft ? "cursor-not-allowed" : ""} rounded-full flex items-center justify-center transition-colors`}
+                                className={`${!canScrollLeft ? "cursor-not-allowed opacity-30" : "cursor-pointer opacity-100"} text-white rounded-full flex items-center justify-center transition-colors`}
                                 onClick={() => scroll("left")}
                                 disabled={!canScrollLeft}
                             >
-                                <svg
-                                    width="20"
-                                    height="20"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="text-white"
-                                >
-                                    <path
-                                        d="M15 18L9 12L15 6"
-                                        stroke="currentColor"
-                                        strokeWidth={`${canScrollLeft ? "2" : ".5"}`}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                </svg>
+                                <LeftArrowIcon width="20" height="20"/>
                             </button>
 
                             {/* Right Arrow Button */}
                             <button
-                                className={`${!canScrollRight ? "cursor-not-allowed" : ""} rounded-full flex items-center justify-center transition-colors`}
+                                className={`${!canScrollRight ? "cursor-not-allowed opacity-30" : "cursor-pointer opacity-100"} text-white rounded-full flex items-center justify-center transition-colors`}
                                 onClick={() => scroll("right")}
                                 disabled={!canScrollRight}
                             >
-                                <svg
-                                    width="20"
-                                    height="20"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="text-white"
-                                >
-                                    <path
-                                        d="M9 6L15 12L9 18"
-                                        stroke="currentColor"
-                                        strokeWidth={`${canScrollRight ? "2" : ".5"}`}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                </svg>
+                                <RightArrowIcon width="20" height="20"/>
                             </button>
                         </div>
 

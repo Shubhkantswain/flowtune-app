@@ -10,6 +10,7 @@ import usePlaylistStore from '~/store/usePlaylistStore';
 import { useTrackStore } from '~/store/useTrackStore';
 import PlaylistInfo from './_component/PlaylistInfo';
 import PlaylistTrackItems from './_component/PlaylistTrackItems';
+import Footer from '~/components/Footer';
 // import SpotifyMenu from '~/components/SpotifyMenu';
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
@@ -39,12 +40,12 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
 
 
-  
+
 function ExplorePlaylistsPage() {
     const res = useLoaderData<GetPlaylistTracksResponse>()
 
     console.log("resppppp", res);
-    
+
     const [initialized, setInitialized] = useState(false)
 
     const { setTrackDetails, trackDetails } = useTrackStore()
@@ -104,31 +105,36 @@ function ExplorePlaylistsPage() {
             </div>
         );
     }
-
-
+    
     return (
         <div className="text-white relative min-h-screen">
             <div
                 className="absolute inset-0 bg-gradient-to-b from-transparent to-black z-0"
                 style={{
-                    backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,1) 100%), url(${res.coverImageUrl})`,
+                    backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,1) 10%), url(${res.coverImageUrl})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center top',
-                    filter: 'blur(20px)',
-                    opacity: '0.6',
+                    filter: 'blur(100px)',
+                    opacity: '0.7',
                 }}
             />
- 
+
             <div className="relative z-10">
                 <div className="p-4 sm:p-6 md:p-8">
 
                     <PlaylistInfo res={res} handleControll={handleControll} />
 
-                    <PlaylistTrackItems res={res} handleControll={handleControll} initialized={initialized} setInitialized={setInitialized}/>
+                    <PlaylistTrackItems res={res} handleControll={handleControll} initialized={initialized} setInitialized={setInitialized} />
+
                 </div>
+                <Footer />
             </div>
         </div>
     )
 }
 
 export default ExplorePlaylistsPage
+
+
+
+

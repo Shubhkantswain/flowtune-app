@@ -17,6 +17,7 @@ import AddToNewPlaylistDialog from '~/components/AddToNewPlaylistDialog';
 import { useGetCurrentUserPlaylists } from '~/hooks/playlist';
 import { useLikedTrackStore } from '~/store/useLikedTrackStore';
 import { useCurrentUser } from '~/hooks/auth';
+import { LoadingSpinnerIcon, PlusIcon } from '~/Svgs';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   try {
@@ -178,11 +179,8 @@ const MusicApp = () => {
             disabled={isLoading}
           >
             {isLoading && page != 1 ? (
-              <span className="flex items-center justify-center gap-1.5">
-                <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
+              <span className="flex items-center justify-center gap-1.5 text-white">
+                <LoadingSpinnerIcon width="18" height="18" />
                 Loading...
               </span>
             ) : (
@@ -194,7 +192,7 @@ const MusicApp = () => {
       </div>
 
       <div className="w-full md:w-1/2 md:mr-auto md:ml-0 mx-auto">
-        <h2 className="text-xl font-bold mb-4">{data?.length > 0 ? "Recently Play" : ""}</h2>
+        <h2 className="text-xl font-bold mb-4">{(data?.length > 0) ? "Recently Play" : ""}</h2>
 
         {isLoading ? (
           <div className="space-y-4">
@@ -251,7 +249,7 @@ const MusicApp = () => {
                   </div>
 
                   <button className='text-gray-400 hover:text-white'>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><defs><path id="ic_action_add-a" d="M21,11 L13,11 L13,3 C13,2.448 12.552,2 12,2 C11.448,2 11,2.448 11,3 L11,11 L3,11 C2.448,11 2,11.448 2,12 C2,12.552 2.448,13 3,13 L11,13 L11,21 C11,21.553 11.448,22 12,22 C12.552,22 13,21.553 13,21 L13,13 L21,13 C21.552,13 22,12.552 22,12 C22,11.448 21.552,11 21,11 Z"></path></defs><g fill-rule="evenodd" fill="transparent"><rect width="24" height="24"></rect><use href="#ic_action_add-a" fill="currentColor"></use></g></svg>
+                    <PlusIcon width="20" height="20" />
                   </button>
                 </div>
               </div>

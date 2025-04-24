@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useCurrentUser } from '~/hooks/auth';
 import { Form, useActionData, useNavigation } from '@remix-run/react';
 import usePreviewFile from '~/hooks/image';
-import { IconArrowUp, IconCamera, IconCreditCard, IconLock, IconSave, IconStar, IconUser, IconX, IconZap } from '~/svg';
+import { IconArrowUp, IconCamera, IconCreditCard, IconLock, IconSave, IconStar, IconUser, IconX, IconZap } from '~/Svgs';
 import { ActionFunctionArgs, json } from '@remix-run/cloudflare';
 import { createGraphqlClient } from '~/clients/api';
 import { UpdateUserProfileMutation } from '~/graphql/mutations/user';
@@ -122,7 +122,7 @@ const EditProfilePage = () => {
             }`}>
             <span>{notification.message}</span>
             <button onClick={dismissNotification} className="text-gray-400 hover:text-gray-200">
-              <IconX />
+              <IconX width="18" height="18" />
             </button>
           </div>
         )}
@@ -158,7 +158,7 @@ const EditProfilePage = () => {
                     className="absolute bottom-0 right-0 bg-[#333333] hover:bg-[#252424] text-white p-2 rounded-full hover:bg-black/60 transition-colors"
                     onClick={() => imageInputRef.current?.click()}
                   >
-                    <IconCamera />
+                    <IconCamera width="20" height="20" />
                   </button>
 
                 </div>
@@ -169,7 +169,7 @@ const EditProfilePage = () => {
                 {/* Premium badge */}
                 {data?.isPro && (
                   <div className="bg-gradient-to-r from-yellow-600 to-amber-600 text-black px-4 py-2 rounded-full flex items-center gap-2 font-semibold">
-                    <IconStar />
+                    <IconStar width="18" height="18" />
                     <span>Pro Member</span>
                   </div>
                 )}
@@ -209,7 +209,7 @@ const EditProfilePage = () => {
                   <div className="flex justify-between items-start mb-4">
                     <div>
                       <h3 className="text-lg font-medium text-yellow-400 flex items-center gap-2">
-                        <IconStar />
+                        <IconStar width="18" height="18" />
                         Premium Membership
                       </h3>
                       <p className="text-gray-300">Your Premium membership is active</p>
@@ -220,7 +220,7 @@ const EditProfilePage = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                     <div className="flex items-start gap-3">
                       <div className="text-yellow-500 mt-1">
-                        <IconZap />
+                        <IconZap width="18" height="18" />
                       </div>
                       <div>
                         <h4 className="text-white font-medium">Priority Support</h4>
@@ -229,7 +229,7 @@ const EditProfilePage = () => {
                     </div>
                     <div className="flex items-start gap-3">
                       <div className="text-yellow-500 mt-1">
-                        <IconStar />
+                        <IconStar width="18" height="18" />
                       </div>
                       <div>
                         <h4 className="text-white font-medium">Custom Profile</h4>
@@ -239,7 +239,7 @@ const EditProfilePage = () => {
                   </div>
 
                   <button className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-lg flex items-center gap-2 transition-colors">
-                    <IconCreditCard />
+                    <IconCreditCard width="18" height="18" />
                     Manage Subscription
                   </button>
                 </div>
@@ -251,7 +251,7 @@ const EditProfilePage = () => {
                   <div className="flex justify-between items-start mb-4">
                     <div>
                       <h3 className="text-lg font-medium text-blue-400 flex items-center gap-2">
-                        <IconStar />
+                        <IconStar width="18" height="18" />
                         Upgrade to Premium
                       </h3>
                       <p className="text-gray-300">Enhance your experience with premium features</p>
@@ -262,7 +262,7 @@ const EditProfilePage = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                     <div className="flex items-start gap-3">
                       <div className="text-blue-500 mt-1">
-                        <IconZap />
+                        <IconZap width="18" height="18" />
                       </div>
                       <div>
                         <h4 className="text-white font-medium">Priority Support</h4>
@@ -271,7 +271,7 @@ const EditProfilePage = () => {
                     </div>
                     <div className="flex items-start gap-3">
                       <div className="text-blue-500 mt-1">
-                        <IconStar />
+                        <IconStar width="18" height="18" />
                       </div>
                       <div>
                         <h4 className="text-white font-medium">Custom Profile</h4>
@@ -281,7 +281,7 @@ const EditProfilePage = () => {
                   </div>
 
                   <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg flex items-center gap-2 transition-colors">
-                    <IconArrowUp />
+                    <IconArrowUp width="18" height="18" />
                     Upgrade Now
                   </button>
                 </div>
@@ -374,7 +374,7 @@ const EditProfilePage = () => {
                           </label>
                           <div className="relative">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500">
-                              <IconUser />
+                              <IconUser width="18" height="18" />
                             </div>
                             <input
                               type="text"
@@ -399,7 +399,7 @@ const EditProfilePage = () => {
                           </label>
                           <div className="relative">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500">
-                              <IconLock />
+                              <IconLock width="18" height="18" />
                             </div>
                             <input
                               type="password"
@@ -416,7 +416,7 @@ const EditProfilePage = () => {
                           </label>
                           <div className="relative">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500">
-                              <IconLock />
+                              <IconLock width="18" height="18" />
                             </div>
                             <input
                               type="password"
@@ -451,7 +451,7 @@ const EditProfilePage = () => {
                         type="submit"
                         className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg flex items-center gap-2 transition-colors"
                       >
-                        <IconSave />
+                        <IconSave width="18" height="18" />
                         {
                           isSubmitting ? "Saving..." : "Save Changes"
                         }
