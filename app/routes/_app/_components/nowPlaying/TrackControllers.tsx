@@ -6,7 +6,7 @@ import { MuteIcon, NextIcon, PauseIcon, PlayIcon, PrevIcon, SkipBackwardIcon, Sk
 
 const TrackControllers = () => {
     const { trackDetails, togglePlay, setTrackDetails, handleVolumeChange, handleSkip } = useTrackStore()
-    const { hasNext, hasPrev, next, prev } = usePlaylistStore()
+    const { hasNextTrack, hasPreviousTrack, playNextTrack, playPreviousTrack } = usePlaylistStore()
     const { mute, setMute } = useVolumeStore()
 
     const [volume, setVolume] = useState(0.5);
@@ -55,7 +55,7 @@ const TrackControllers = () => {
 
                 <div className='relative group'>
                     {
-                        (hasPrev() && trackDetails.id) && (
+                        (hasPreviousTrack() && trackDetails.id) && (
                             <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
         opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
                                 Previous
@@ -63,9 +63,9 @@ const TrackControllers = () => {
                         )
                     }
 
-                    <button className={`p-2 ${hasPrev() && trackDetails.id ? "text-white hover:text-white" : "text-[#353535]"} transition-colors`} onClick={() => {
-                        if (hasPrev() && trackDetails.id) {
-                            const prevTrack = prev()
+                    <button className={`p-2 ${hasPreviousTrack() && trackDetails.id ? "text-white hover:text-white" : "text-[#353535]"} transition-colors`} onClick={() => {
+                        if (hasPreviousTrack() && trackDetails.id) {
+                            const prevTrack = playPreviousTrack()
                             if (prevTrack) {
                                 setTrackDetails(prevTrack)
                             }
@@ -98,16 +98,16 @@ const TrackControllers = () => {
 
                 <div className='relative group'>
                     {
-                        (hasNext() && trackDetails.id) && (
+                        (hasNextTrack() && trackDetails.id) && (
                             <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
         opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
                                 Next
                             </div>
                         )
                     }
-                    <button className={`p-2 ${hasNext() && trackDetails.id ? "text-white hover:text-white" : "text-[#353535]"} transition-colors`} onClick={() => {
-                        if (hasNext() && trackDetails.id) {
-                            const nextTrack = next()
+                    <button className={`p-2 ${hasNextTrack() && trackDetails.id ? "text-white hover:text-white" : "text-[#353535]"} transition-colors`} onClick={() => {
+                        if (hasNextTrack() && trackDetails.id) {
+                            const nextTrack = playNextTrack()
                             if (nextTrack) {
                                 setTrackDetails(nextTrack)
                             }
@@ -139,9 +139,9 @@ const TrackControllers = () => {
                 <div className="flex items-center gap-2 w-full max-w-md">
                     {
                         volume <= 0 ? (
-                            <MuteIcon/>
-                        ): (
-                            <VolumeIcon/>
+                            <MuteIcon />
+                        ) : (
+                            <VolumeIcon />
                         )
                     }
                     <div

@@ -10,8 +10,8 @@ import useSearchStore from '~/store/useSearchStore';
 import { useTrackStore } from '~/store/useTrackStore';
 import SearchBar from '../_app.search/_components/SearchBar';
 import { MoreHorizontal } from 'lucide-react';
-import { useLikedTrackStore } from '~/store/useLikedTrackStore';
 import { LoadingSpinnerIcon } from '~/Svgs';
+import { useLikedTracksStore } from '~/store/useLikedTracksStore';
 
 // ─────────────────────────────
 // LOADER FUNCTION
@@ -45,10 +45,10 @@ function SearchResultsRoute() {
   const params = useParams();
 
   const { trackDetails, setTrackDetails } = useTrackStore();
-  const { initialize } = usePlaylistStore();
+  const { initializePlaylist } = usePlaylistStore();
   const { searchQuery, setSearchQuery } = useSearchStore();
 
-  const { likedTracks, setLikedTracks } = useLikedTrackStore()
+  const { likedTrackMap, setLikedTrackIds } = useLikedTracksStore()
 
   const [searchResults, setSearchResults] = useState<Track[]>([]);
   const [initialized, setInitialized] = useState(false);
@@ -93,18 +93,22 @@ function SearchResultsRoute() {
   useEffect(() => {
     const isFirstPage = page === 1;
     const sourceData = isFirstPage ? initialTracks : data ?? [];
-    const newTracks = sourceData.filter((item) => item.hasLiked);
 
-    setLikedTracks(
-      isFirstPage ? newTracks : [...likedTracks, ...newTracks]
-    );
+    // Proper filter that returns boolean
+    const newTracks = sourceData
+      .filter(item => item.hasLiked)
+      .map(item => item.id); // Convert to IDs if needed
+
+    const existingLikedIds = Object.keys(likedTrackMap);
+
+    setLikedTrackIds(isFirstPage ? newTracks : [...existingLikedIds, ...newTracks]);
   }, [data]);
 
   const handleTrackClick = (isPlayingCurrent: boolean, track: Track) => {
     if (isPlayingCurrent && initialized) {
       setTrackDetails({ isPlaying: false });
     } else {
-      if (!initialized) initialize([]);
+      if (!initialized) initializePlaylist([]);
 
       setTrackDetails({
         id: track.id,

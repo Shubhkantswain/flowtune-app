@@ -1,7 +1,7 @@
 import { Track } from 'gql/graphql'
 import React from 'react'
 import TrackCollectionsCover from './TrackCollectionsCover';
-import { CompactIcon, ListIcon, MoreIcon } from '~/Svgs';
+import { CompactIcon, ListIcon, MoreIcon, PlayIcon } from '~/Svgs';
 
 interface TrackCollectionsInfoProps {
     showDropdown: boolean;
@@ -29,15 +29,18 @@ const TrackCollectionsInfo: React.FC<TrackCollectionsInfoProps> = ({
 
             {/* Playlist Info */}
             <div className="flex flex-col gap-4 items-center md:items-start">
-                <span className="text-cyan-400 text-sm font-medium uppercase tracking-wide">Playlist</span>
-                <h1 className="text-white text-4xl md:text-6xl font-bold text-center md:text-left">My Likes</h1>
-                <span className="text-gray-400 text-sm">PRIVATE</span>
+                {/* <span className="text-cyan-400 text-sm font-medium uppercase tracking-wide">PRIVATE</span> */}
+                <span className="text-[#25d1da] text-sm">PRIVATE</span>
 
-                <div className="flex gap-4 items-center mt-4">
+                <h1 className="text-white text-4xl md:text-6xl font-bold text-center md:text-left">My Likes</h1>
+                <span className="text-gray-400 text-sm"></span>
+
+                <div className="flex gap-7 items-center mt-4">
                     <button
-                        className="flex items-center gap-2 bg-[#25d1da] hover:bg-[#25d1da]/70 text-black font-semibold px-8 py-3 rounded-full"
                         onClick={() => handlePlayTrack(initialTrack)}
+                        className="flex items-center gap-2 bg-[#25d1da] hover:scale-105 hover:bg-[#93D0D5] text-black  font-normal px-4 py-2 rounded-full transition-transform"
                     >
+                        <PlayIcon width='16' height='16' />
                         Play
                     </button>
 

@@ -108,7 +108,7 @@ const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists, activeTab, sho
                                                 className="w-full h-full object-cover group-hover:brightness-50 transition-all"
                                             />
                                         </div>
-                                    </div>
+                                    </div> 
                                     <div className="font-normal mt-2 truncate overflow-ellipsis">
                                         {playlist?.name}
                                     </div>

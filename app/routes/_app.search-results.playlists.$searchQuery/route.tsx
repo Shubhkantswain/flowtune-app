@@ -53,7 +53,6 @@ function SearchResultsRoute() {
     const params = useParams();
 
     const { trackDetails, setTrackDetails } = useTrackStore();
-    const { initialize } = usePlaylistStore();
     const {
         searchQuery,
         setSearchQuery,

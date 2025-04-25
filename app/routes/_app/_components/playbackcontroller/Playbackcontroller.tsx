@@ -10,16 +10,16 @@ import { useQueueStore } from '~/store/useQueueStore';
 import Swal from 'sweetalert2'
 import useSleepModeStore from '~/store/useSleepModeStore';
 import usePlaylistStore from '~/store/usePlaylistStore';
-import { useLikedTrackStore } from '~/store/useLikedTrackStore';
+import { useLikedTracksStore } from '~/store/useLikedTracksStore';
 
 const Playbackcontroller = () => {
     const { trackDetails, setTrackDetails, handleVolumeChange, handlePlaybackSpeed } = useTrackStore();
     const { isTrackRepeatable } = useRepeatableTracksStore()
     const { dequeueFirstTrack } = useQueueStore()
     const { isSleepModeComplete, endOfTheTrackEnabled } = useSleepModeStore()
-    const { hasNext, next, setCurrentTrack } = usePlaylistStore()
+    const { hasNextTrack, playNextTrack, setCurrentlyPlayingTrack } = usePlaylistStore()
 
-    const {likedTracks} = useLikedTrackStore()
+    const {isTrackLiked} = useLikedTracksStore()
 
     const [isOpen, setIsOpen] = useState(false)
     const [progress, setProgress] = useState(0);
@@ -51,8 +51,6 @@ const Playbackcontroller = () => {
 
             handleVolumeChange(Number(storedVolume));
 
-            console.log("store volume", storedVolume);
-
             const storedSpeed = Number(localStorage.getItem('speed')) || 1;
             handlePlaybackSpeed([storedSpeed]);
 
@@ -83,7 +81,6 @@ const Playbackcontroller = () => {
         };
 
         const handlePause = () => {
-            console.log("handlePause");
 
             if (trackDetails.isPlaying) {
                 setTrackDetails({ isPlaying: false })
@@ -131,12 +128,12 @@ const Playbackcontroller = () => {
                     authorId: track.authorId,
                     isPlaying: true,
                 });
-                setCurrentTrack(track.id)
+                setCurrentlyPlayingTrack(track.id)
                 return
             }
 
-            if (hasNext()) {
-                const nextTrack = next()
+            if (hasNextTrack()) {
+                const nextTrack = playNextTrack()
                 if (nextTrack) {
                     setTrackDetails({
                         id: nextTrack.id,
@@ -186,21 +183,21 @@ const Playbackcontroller = () => {
         }
     }, [isSleepModeComplete])
 
-    useEffect(() => {
-        const isLiked = likedTracks.some((item) => item.id === trackDetails.id);
+    // useEffect(() => {
+    //     const isLiked = isTrackLiked(trackDetails.id)
     
-        // Only update if the value actually changed
-        if (isLiked && !trackDetails.hasLiked) {
-            setTrackDetails({
-                hasLiked: true
-            });
-        } 
-        if(!isLiked && trackDetails.hasLiked){
-            setTrackDetails({
-                hasLiked: false
-            });
-        }
-    }, [trackDetails]);
+    //     // Only update if the value actually changed
+    //     if (isLiked && !trackDetails.hasLiked) {
+    //         setTrackDetails({
+    //             hasLiked: true
+    //         });
+    //     } 
+    //     if(!isLiked && trackDetails.hasLiked){
+    //         setTrackDetails({
+    //             hasLiked: false
+    //         });
+    //     }
+    // }, [trackDetails]);
     
     return (
         <>

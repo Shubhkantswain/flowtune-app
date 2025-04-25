@@ -4,7 +4,7 @@ import { NextIcon, PauseIcon, PlayIcon, PrevIcon, SkipBackwardIcon, SkipForwardI
 
 const CenterPlaybackControllers = () => {
     const { trackDetails, togglePlay, handleSkip, setTrackDetails } = useTrackStore()
-    const { hasNext, hasPrev, next, prev } = usePlaylistStore()
+    const { hasNextTrack, hasPreviousTrack, playNextTrack, playPreviousTrack } = usePlaylistStore()
 
     const isPlaying = trackDetails.isPlaying
 
@@ -32,7 +32,7 @@ const CenterPlaybackControllers = () => {
 
             <div className="relative group">
                 {
-                    (hasPrev() && trackDetails.id) && (
+                    (hasPreviousTrack() && trackDetails.id) && (
                         <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
         opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
                             Previous
@@ -41,16 +41,16 @@ const CenterPlaybackControllers = () => {
                 }
 
                 <button
-                    className={`p-2 ${hasPrev() && trackDetails.id ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-white`}
+                    className={`p-2 ${hasPreviousTrack() && trackDetails.id ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-white`}
                     onClick={() => {
-                        if (hasPrev() && trackDetails.id) {
-                            const prevTrack = prev()
+                        if (hasPreviousTrack() && trackDetails.id) {
+                            const prevTrack = playPreviousTrack()
                             if (prevTrack) {
                                 setTrackDetails(prevTrack)
                             }
                         }
                     }}
-                    disabled={!hasPrev() || !trackDetails.id}
+                    disabled={!hasPreviousTrack() || !trackDetails.id}
                 >
                     <PrevIcon width="24" height="24" />
 
@@ -84,7 +84,7 @@ const CenterPlaybackControllers = () => {
 
             <div className="relative group">
                 {
-                    (hasNext() && trackDetails.id) && (
+                    (hasNextTrack() && trackDetails.id) && (
                         <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
         opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
                             Next
@@ -93,16 +93,16 @@ const CenterPlaybackControllers = () => {
                 }
 
                 <button
-                    className={`p-2 ${hasNext() && trackDetails.id ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-white`}
+                    className={`p-2 ${hasNextTrack() && trackDetails.id ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-white`}
                     onClick={() => {
-                        if (hasNext() && trackDetails.id) {
-                            const nextTrack = next()
+                        if (hasNextTrack() && trackDetails.id) {
+                            const nextTrack = playNextTrack()
                             if (nextTrack) {
                                 setTrackDetails(nextTrack)
                             }
                         }
                     }}
-                    disabled={!hasNext() || !trackDetails.id}
+                    disabled={!hasNextTrack() || !trackDetails.id}
                 >
                     <NextIcon width="24" height="24" />
 

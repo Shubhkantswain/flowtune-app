@@ -15,6 +15,7 @@ import { toast } from 'sonner';
 import usePlaylistStore from '~/store/usePlaylistStore';
 import Footer from '~/components/Footer';
 import { HeartIcon, HeartIconFilled, MoreIcon, PauseIcon, PlayIcon } from '~/Svgs';
+import { useLikedTracksStore } from '~/store/useLikedTracksStore';
 
 interface PlaylistTrackItemsProps {
     res: GetPlaylistTracksResponse;
@@ -26,7 +27,7 @@ interface PlaylistTrackItemsProps {
 function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }: PlaylistTrackItemsProps) {
     const { trackDetails, setTrackDetails } = useTrackStore();
     const { isTrackInQueue, dequeueTrack, enqueueTrack, getAllTracks, getQueueSize } = useQueueStore()
-    const { initialize, setCurrentTrack } = usePlaylistStore()
+    const { initializePlaylist, setCurrentlyPlayingTrack, removeTrackFromPlaylist } = usePlaylistStore()
 
     const [showDropdown, setShowDropdown] = useState<number | null>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -39,7 +40,9 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
     const { mutateAsync: removeSongFromPlaylist } = useRemoveSongFromPlaylist()
     const { data } = useCurrentUser()
 
-    const { mutateAsync: likeTrack } = useLikeTrack()
+    const { mutateAsync: likeTrackMutation } = useLikeTrack()
+
+    const { likedTrackMap, setLikedTrackIds, unlikeTrack, likeTrack } = useLikedTracksStore()
 
     useEffect(() => {
         if (res.tracks) {
@@ -68,26 +71,36 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
         await removeSongFromPlaylist({ trackId, playlistId: res.id })
         const newTracks = tracks.filter((track) => track.id != trackId)
         setTracks(newTracks)
-        initialize(newTracks)
-        setCurrentTrack(trackDetails.id)
+        removeTrackFromPlaylist(trackId)
+        setCurrentlyPlayingTrack(trackDetails.id)
         setShowDropdown(null);
     }
 
     const handleLikeTrack = async (trackId: string) => {
-        await likeTrack(trackId)
-        setTracks((prev) => {
-            return prev.map((item) => {
-                if (item.id == trackId) {
-                    return {
-                        ...item,
-                        hasLiked: !item.hasLiked
-                    }
-                } else {
-                    return item
-                }
-            })
+        const like = await likeTrackMutation(trackId)
 
-        })
+        if (like) {
+            likeTrack(trackId)
+            if (trackId == trackDetails.id) {
+                setTrackDetails({ hasLiked: true })
+            }
+        } else {
+            unlikeTrack(trackId)
+            if (trackId == trackDetails.id) {
+                setTrackDetails({ hasLiked: false })
+            }
+        }
+
+    }
+
+    const handleAddToQueue = (track: Track) => {
+        if (queueTracks?.[track.id]) {
+            dequeueTrack(trackDetails.id);
+            toast.success(`"${trackDetails.title}" removed from queue`);
+        } else {
+            enqueueTrack(track);
+            toast.success(`"${trackDetails.title}" added to queue`);
+        }
     }
     // Function to toggle dropdown
     const toggleDropdown = (index: number) => {
@@ -122,9 +135,9 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                                             <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded">
                                                 <button className='hover:text-[#93D0D5] text-white'>
                                                     {(track?.id === trackDetails.id && trackDetails.isPlaying && initialized) ? (
-                                                        <PauseIcon width="24" height="24"/> 
+                                                        <PauseIcon width="24" height="24" />
                                                     ) : (
-                                                        <PlayIcon width="24" height="24"/>
+                                                        <PlayIcon width="24" height="24" />
                                                     )}
                                                 </button>
                                             </div>
@@ -147,10 +160,10 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                                 <td className="text-right hidden md:table-cell text-gray-400 px-24 text-sm">{formatDuration(track?.duration || "")}</td>
                                 <td className="text-right px-4 relative hidden sm:table-cell">
                                     <button
-                                        className={`cursor-pointer hover:text-[#93D0D5] ${track.hasLiked ? "text-[#25d1da]": "text-white"} flex-shrink-0 ml-2`}
+                                        className={`cursor-pointer hover:text-[#93D0D5] ${track.hasLiked ? "text-[#25d1da]" : "text-white"} flex-shrink-0 ml-2`}
                                         onClick={async (e) => {
                                             e.stopPropagation();
-                             
+                                            await handleLikeTrack(track.id)
                                         }}
                                     >
                                         {
@@ -171,7 +184,7 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                                             toggleDropdown(index);
                                         }}
                                     >
-                                        <MoreIcon width="20" height="20"/>
+                                        <MoreIcon width="20" height="20" />
                                     </button>
                                     {showDropdown === index && (
                                         <div
@@ -198,13 +211,7 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                                                         className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white"
                                                         onClick={(e) => {
                                                             e.stopPropagation()
-                                                            if (queueTracks?.[track.id]) {
-                                                                dequeueTrack(trackDetails.id);
-                                                                toast.success(`"${trackDetails.title}" removed from queue`);
-                                                            } else {
-                                                                enqueueTrack(track);
-                                                                toast.success(`"${trackDetails.title}" added to queue`);
-                                                            }
+                                                            handleAddToQueue(track)
                                                         }}
                                                     >
                                                         {queueTracks?.[track.id] ? "Remove From Queue" : "Add To Queue"}
@@ -216,10 +223,7 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                                                         className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white"
                                                         onClick={async (e) => {
                                                             e.preventDefault()
-                                                            await likeTrack(track.id)
-                                                            if (track.id == trackDetails.id) {
-                                                                setTrackDetails({ hasLiked: !track.hasLiked })
-                                                            }
+                                                            await handleLikeTrack(track.id)
                                                         }}
                                                     >
                                                         {
@@ -248,7 +252,10 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
 
                                                                 <button
                                                                     className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white"
-                                                                    onClick={() => handleRemoveTrackFromPlaylist(track.id)}
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation()
+                                                                        handleRemoveTrackFromPlaylist(track.id)
+                                                                    }}
                                                                 >
                                                                     Remove This Track
 

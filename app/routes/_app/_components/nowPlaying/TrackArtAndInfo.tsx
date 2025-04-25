@@ -2,10 +2,11 @@ import { useLikeTrack } from '~/hooks/track'
 import { useTrackStore } from '~/store/useTrackStore'
 import LeftSideWaveLines from './LeftSideWaveLines';
 import RightSideWaveLines from './RightSideWaveLines';
-import { useLikedTrackStore } from '~/store/useLikedTrackStore';
+// import { useLikedTrackStore } from '~/store/useLikedTrackStore';
 import usePlaylistStore from '~/store/usePlaylistStore';
 import { useEffect } from 'react';
 import { HeartIcon, HeartIconFilled, MoreIcon } from '~/Svgs';
+import { useLikedTracksStore } from '~/store/useLikedTracksStore';
 
 interface TrackArtAndInfoProps {
     onShow: () => void;
@@ -13,10 +14,21 @@ interface TrackArtAndInfoProps {
 }
 
 const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled }) => {
-    const { mutateAsync: likeTrack, isPending } = useLikeTrack()
+    const { mutateAsync: likeTrackMutation, isPending } = useLikeTrack()
     const { trackDetails, setTrackDetails } = useTrackStore()
-    const { removeLikedTrack, addLikedTrack, likedTracks, setLikedTracks } = useLikedTrackStore()
-    const { initialize, setCurrentTrack } = usePlaylistStore()
+    const { initializePlaylist, setCurrentlyPlayingTrack } = usePlaylistStore()
+    const { likeTrack, unlikeTrack } = useLikedTracksStore()
+
+    const handleLike = async () => {
+        const like = await likeTrackMutation(trackDetails.id)
+        if (like) {
+            likeTrack(trackDetails.id)
+            setTrackDetails({ hasLiked: true })
+        } else {
+            unlikeTrack(trackDetails.id)
+            setTrackDetails({ hasLiked: false })
+        }
+    }
 
     return (
         <div className="px-8 pt-8 -mt-7">
@@ -97,44 +109,8 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
                             )
                         }
                         <button
-                            className={`p-2.5 rounded-full transition-all duration-300 group ${!trackDetails.hasLiked ? "text-white": "text-[#25d1da]"} hover:text-[#93D0D5]`}
-                            onClick={async () => {
-                                await likeTrack(trackDetails.id);
-
-                                if (trackDetails.hasLiked) {
-                                    const newTracks = likedTracks.filter((item) => item.id != trackDetails.id)
-                                    setLikedTracks(newTracks)
-
-                                    if (location.pathname == "/collection/tracks") {
-                                        initialize(newTracks)
-                                        setCurrentTrack(trackDetails.id);
-                                    }
-                                } else {
-                                    const newTracks = [
-                                        ...likedTracks,
-                                        {
-                                            id: trackDetails.id,
-                                            title: trackDetails.title,
-                                            singer: trackDetails.singer,
-                                            startCast: trackDetails.starCast,
-                                            duration: trackDetails.duration,
-                                            coverImageUrl: trackDetails.coverImageUrl,
-                                            videoUrl: trackDetails.videoUrl,
-                                            audioFileUrl: trackDetails.audioFileUrl,
-                                            hasLiked: true,
-                                            authorId: trackDetails.authorId,
-                                            isPlaying: true,
-                                        }
-                                    ]
-                                    setLikedTracks(newTracks)
-                                    if (location.pathname == "/collection/tracks") {
-                                        initialize(newTracks)
-                                        setCurrentTrack(trackDetails.id);
-                                    }
-                                }
-
-                                setTrackDetails({ hasLiked: !trackDetails.hasLiked });
-                            }}
+                            className={`p-2.5 rounded-full transition-all duration-300 group ${!trackDetails.hasLiked ? "text-white" : "text-[#25d1da]"} hover:text-[#93D0D5]`}
+                            onClick={handleLike}
                             disabled={isPending}
                         >
                             {isPending ? (
@@ -166,7 +142,7 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
                             className="p-2.5 rounded-full text-white hover:text-[#93D0D5] transition-all duration-300 group rotate-90"
                             onClick={onShow}
                         >
-                            <MoreIcon width="24" height="24"/>
+                            <MoreIcon width="24" height="24" />
                         </button>
                     </div>
                 </div>

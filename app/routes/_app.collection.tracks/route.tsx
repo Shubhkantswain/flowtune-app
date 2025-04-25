@@ -10,7 +10,7 @@ import NoTracks from './_components/NoTracks';
 import ListScreenTracks from './_components/ListScreenTracks';
 import TrackCollectionsInfo from './_components/TrackCollectionsInfo';
 import CompactScreenTracks from './_components/CompactScreenTracks';
-import { useLikedTrackStore } from '~/store/useLikedTrackStore';
+import { useLikedTracksStore } from '~/store/useLikedTracksStore';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   try {
@@ -37,9 +37,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 const LikedTracks = () => {
   const initialTracks = useLoaderData<Track[]>();
-  const { initialize, setCurrentTrack, getCurrent, setActiveSectionIndex } = usePlaylistStore();
+  const [likedTracks, setLikedTracks] = useState<Track[]>([])
+
+  const { initializePlaylist, setCurrentlyPlayingTrack, setActiveSectionIndex } = usePlaylistStore();
   const { setTrackDetails, trackDetails } = useTrackStore();
-  const { likedTracks, setLikedTracks } = useLikedTrackStore();
+  const { setLikedTrackIds } = useLikedTracksStore();
 
   const [initialized, setInitialized] = useState(false);
   const [screenType, setScreenType] = useState("compact");
@@ -60,16 +62,18 @@ const LikedTracks = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  console.log("likedTraks", likedTracks);
-  
-
   useEffect(() => {
     setActiveSectionIndex(-1);
   }, []);
 
   useEffect(() => {
-    setLikedTracks(initialTracks);
-  }, [initialTracks, setLikedTracks]);
+    setLikedTracks(initialTracks)
+  }, [])
+
+  useEffect(() => {
+    const newTracks = initialTracks.map(track => track.id)
+    setLikedTrackIds(newTracks);
+  }, [initialTracks]);
 
   const handlePlayTrack = (track: Track) => {
     const isPlayingCurrentSong = track?.id === trackDetails.id && trackDetails.isPlaying;
@@ -82,7 +86,7 @@ const LikedTracks = () => {
       return;
     } else {
       if (!initialized) {
-        initialize(initialTracks);
+        initializePlaylist(initialTracks);
       }
 
       setTrackDetails({
@@ -99,7 +103,7 @@ const LikedTracks = () => {
         isPlaying: true,
       });
 
-      setCurrentTrack(track.id);
+      setCurrentlyPlayingTrack(track.id);
       setInitialized(true);
     }
   };

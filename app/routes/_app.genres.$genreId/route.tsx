@@ -11,8 +11,8 @@ import { getTitle } from '~/utils';
 import { SECTION_SIZE } from '~/constants';
 import { useGetTracksByGenreId } from '~/hooks/track';
 import Footer from '~/components/Footer';
-import { useLikedTrackStore } from '~/store/useLikedTrackStore';
 import { LoadingSpinnerIcon } from '~/Svgs';
+import { useLikedTracksStore } from '~/store/useLikedTracksStore';
 
 interface genreTracksData {
   tracks: Track[],
@@ -54,7 +54,7 @@ const AppleMusicHomepage: React.FC = () => {
   // Fetching data
   const tracksByGenreIdData = useLoaderData<genreTracksData>();
 
-  const { likedTracks, setLikedTracks } = useLikedTrackStore()
+  const { likedTrackMap, setLikedTrackIds } = useLikedTracksStore()
 
   const params = useParams()
 
@@ -101,14 +101,16 @@ const AppleMusicHomepage: React.FC = () => {
   useEffect(() => {
     const isFirstPage = page === 1;
     const sourceData = isFirstPage ? tracksByGenreIdData.tracks : data ?? [];
-    const newTracks = sourceData.filter((item) => item.hasLiked);
 
-    setLikedTracks(
-      isFirstPage ? newTracks : [...likedTracks, ...newTracks]
-    );
+    // Proper filter that returns boolean
+    const newTracks = sourceData
+      .filter(item => item.hasLiked)
+      .map(item => item.id); // Convert to IDs if needed
+
+    const existingLikedIds = Object.keys(likedTrackMap);
+
+    setLikedTrackIds(isFirstPage ? newTracks : [...existingLikedIds, ...newTracks]);
   }, [data]);
-
-  console.log("likedtracks", likedTracks);
 
   useEffect(() => {
     setActiveSectionIndex(-1)

@@ -1,144 +1,191 @@
 import { Track } from 'gql/graphql';
 import { create } from 'zustand';
 
-class Node {
-  track: Track | null; // `track` can be null for dummy nodes
-  next: Node | null;
-  prev: Node | null;
-
-  constructor(track: Track | null = null) {
-    this.track = track;
-    this.next = null;
-    this.prev = null;
-  }
+interface DoublyLinkedListNode<T> {
+  data: T | null;
+  next: DoublyLinkedListNode<T> | null;
+  previous: DoublyLinkedListNode<T> | null;
 }
 
-interface PlaylistState {
-  head: Node; // Dummy head node (always exists)
-  tail: Node; // Dummy tail node (always exists)
-  current: Node | null; // Current track node (can be null if no track is selected)
-  nodesMap: Record<string, Node>; // Hash map for O(1) lookup
+class PlaylistNode implements DoublyLinkedListNode<Track> {
+  constructor(
+    public data: Track | null = null,
+    public next: DoublyLinkedListNode<Track> | null = null,
+    public previous: DoublyLinkedListNode<Track> | null = null
+  ) { }
+}
+
+interface PlaylistStoreState {
+  // Boundary nodes (sentinel nodes)
+  readonly headSentinel: PlaylistNode;
+  readonly tailSentinel: PlaylistNode;
+
+  // Current state
+  currentlyPlayingNode: PlaylistNode | null;
+  trackNodeMap: Map<string, PlaylistNode>;
   activeSectionIndex: number;
+
+  // Store actions
+  initializePlaylist: (tracks: Track[]) => void;
+  removeTrackFromPlaylist: (trackId: string) => boolean;
+  playNextTrack: () => Track | null;
+  playPreviousTrack: () => Track | null;
+  getCurrentlyPlayingTrack: () => Track | null;
+  hasNextTrack: () => boolean;
+  hasPreviousTrack: () => boolean;
   setActiveSectionIndex: (index: number) => void;
-  initialize: (tracks: Track[]) => void;
-  next: () => Track | null;
-  prev: () => Track | null;
-  getCurrentTrack: () => Track | null;
-  hasNext: () => boolean;
-  hasPrev: () => boolean;
-  setCurrentTrack: (trackId: string) => void; // O(1) lookup
-  getAllTracks: () => Track[]
-  getCurrent: () => Track | null
+  setCurrentlyPlayingTrack: (trackId: string) => boolean;
+  getAllPlaylistTracks: () => Track[];
+  clearPlaylist: () => void;
 }
 
-const usePlaylistStore = create<PlaylistState>((set, get) => ({
-  head: new Node(), // Dummy head node
-  tail: new Node(), // Dummy tail node
-  current: null,
-  activeSectionIndex: -1,
-  nodesMap: {}, // Initialize the hash map
+const usePlaylistStore = create<PlaylistStoreState>((set, get) => {
+  // Initialize boundary nodes (immutable after creation)
+  const headSentinel = new PlaylistNode();
+  const tailSentinel = new PlaylistNode();
+  headSentinel.next = tailSentinel;
+  tailSentinel.previous = headSentinel;
 
-  initialize: (tracks: Track[]) => {
-    const { head, tail } = get();
+  return {
+    headSentinel,
+    tailSentinel,
+    currentlyPlayingNode: null,
+    trackNodeMap: new Map(),
+    activeSectionIndex: -1,
 
-    // Clear existing nodes (if any)
-    head.next = tail;
-    tail.prev = head;
+    initializePlaylist: (tracks) => {
+      const { headSentinel, tailSentinel, trackNodeMap } = get();
 
-    const nodesMap: Record<string, Node> = {};
+      // Reset playlist state
+      headSentinel.next = tailSentinel;
+      tailSentinel.previous = headSentinel;
+      trackNodeMap.clear();
 
-    // Build the doubly linked list between dummy head and tail
-    let current = head;
-    for (const track of tracks) {
-      const newNode = new Node(track);
-      current.next = newNode;
-      newNode.prev = current;
-      current = newNode;
-      nodesMap[track.id] = newNode; // Add to the hash map
-    }
-
-    // Connect the last node to the dummy tail
-    current.next = tail;
-    tail.prev = current;
-
-    set({
-      current: head.next?.track ? head.next : null, // Set current to the first track (if any)
-      nodesMap: nodesMap, // Set the hash map
-    });
-  },
-
-  next: () => {
-    const { current, tail } = get();
-    if (current && current.next !== tail) {
-      set({ current: current.next });
-      return current.next!.track;
-    }
-    return null;
-  },
-
-  prev: () => {
-    const { current, head } = get();
-    if (current && current.prev !== head) {
-      set({ current: current.prev });
-      return current.prev!.track;
-    }
-    return null;
-  },
-
-  getCurrentTrack: () => {
-    const { current } = get();
-    return current ? current.track : null;
-  },
-
-  hasNext: () => {
-    const { current, tail } = get();
-    return current !== null && current.next !== tail;
-  },
-
-  hasPrev: () => {
-    const { current, head } = get();
-    return current !== null && current.prev !== head;
-  },
-
-  setActiveSectionIndex: (index) => {
-    set({activeSectionIndex: index})
-  },
-
-  // O(1) lookup using the hash map
-  setCurrentTrack: (trackId) => {
-    const { nodesMap } = get();
-    console.log("nodeMap", nodesMap);
-
-    const node = nodesMap[trackId]; // Directly access the node
-    console.log("node", node);
-
-    if (node) {
-      set({ current: node });
-    } else {
-      set({ current: null })
-    }
-  },
-
-  getAllTracks: () => {
-    const { head, tail } = usePlaylistStore.getState();
-    const tracks: Track[] = [];
-
-    let current = head.next;
-    while (current && current !== tail) {
-      if (current.track) {
-        tracks.push(current.track);
+      // Build the linked list
+      let lastNode = headSentinel;
+      for (const track of tracks) {
+        const newNode = new PlaylistNode(track, tailSentinel, lastNode);
+        lastNode.next = newNode;
+        tailSentinel.previous = newNode;
+        lastNode = newNode;
+        trackNodeMap.set(track.id, newNode);
       }
-      current = current.next;
-    }
 
-    return tracks;
-  },
+      set({
+        currentlyPlayingNode: headSentinel.next?.data ? headSentinel.next : null,
+        trackNodeMap: new Map(trackNodeMap),
+      });
+    },
 
-  getCurrent: () => {
-    const { current } = get();
-    return current?.track || null
-  }
+    removeTrackFromPlaylist: (trackId) => {
+      const { trackNodeMap } = get();
+      const nodeToRemove = trackNodeMap.get(trackId);
 
-}));
+      if (!nodeToRemove?.data) return false;
+
+      // Save references before disconnecting
+      const previousNode = nodeToRemove.previous;
+      const nextNode = nodeToRemove.next;
+
+      // Update adjacent nodes to skip over the removed node
+      if (previousNode) previousNode.next = nextNode;
+      if (nextNode) nextNode.previous = previousNode;
+
+      // Clean up the removed node's references (IMPORTANT FIX)
+      nodeToRemove.previous = null;
+      nodeToRemove.next = null;
+
+      // Remove from tracking map
+      trackNodeMap.delete(trackId);
+
+      set({ trackNodeMap: new Map(trackNodeMap) });
+
+      return true;
+    },
+
+    playNextTrack: () => {
+      const { currentlyPlayingNode, tailSentinel } = get();
+      if (!currentlyPlayingNode?.next || currentlyPlayingNode.next === tailSentinel) return null;
+
+      const nextTrackNode = currentlyPlayingNode.next;
+      set({ currentlyPlayingNode: nextTrackNode });
+      return nextTrackNode.data;
+    },
+
+    playPreviousTrack: () => {
+      const { currentlyPlayingNode, headSentinel } = get();
+      if (!currentlyPlayingNode?.previous || currentlyPlayingNode.previous === headSentinel) return null;
+
+      const previousTrackNode = currentlyPlayingNode.previous;
+      set({ currentlyPlayingNode: previousTrackNode });
+      return previousTrackNode.data;
+    },
+
+    getCurrentlyPlayingTrack: () => {
+      return get().currentlyPlayingNode?.data ?? null;
+    },
+
+    hasNextTrack: () => {
+      const { currentlyPlayingNode, tailSentinel } = get();
+      
+      // Explicitly check for null/undefined first
+      if (currentlyPlayingNode == null) return false;
+      
+      // Now safely check the next node
+      return currentlyPlayingNode.next !== null && currentlyPlayingNode.next !== tailSentinel;
+    },
+    
+    hasPreviousTrack: () => {
+      const { currentlyPlayingNode, headSentinel } = get();
+      
+      // Explicitly check for null/undefined first
+      if (currentlyPlayingNode == null) return false;
+      
+      // Now safely check the previous node
+      return currentlyPlayingNode.previous !== null && currentlyPlayingNode.previous !== headSentinel;
+    },
+
+    setActiveSectionIndex: (index) => {
+      set({ activeSectionIndex: index });
+    },
+
+    setCurrentlyPlayingTrack: (trackId) => {
+      const { trackNodeMap } = get();
+      const targetNode = trackNodeMap.get(trackId);
+
+      if (!targetNode?.data) return false;
+
+      set({ currentlyPlayingNode: targetNode });
+      return true;
+    },
+
+    getAllPlaylistTracks: () => {
+      const { headSentinel, tailSentinel } = get();
+      const playlistTracks: Track[] = [];
+
+      let currentNode = headSentinel.next;
+      while (currentNode && currentNode !== tailSentinel) {
+        if (currentNode.data) {
+          playlistTracks.push(currentNode.data);
+        }
+        currentNode = currentNode.next;
+      }
+
+      return playlistTracks;
+    },
+
+    clearPlaylist: () => {
+      const { headSentinel, tailSentinel } = get();
+      headSentinel.next = tailSentinel;
+      tailSentinel.previous = headSentinel;
+
+      set({
+        currentlyPlayingNode: null,
+        trackNodeMap: new Map(),
+        activeSectionIndex: -1,
+      });
+    },
+  };
+});
 
 export default usePlaylistStore;

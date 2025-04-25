@@ -22,7 +22,7 @@ const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitial
 
   const { trackDetails, setTrackDetails } = useTrackStore()
 
-  const { initialize, setCurrentTrack, getCurrent, activeSectionIndex, setActiveSectionIndex } = usePlaylistStore()
+  const { initializePlaylist, setCurrentlyPlayingTrack, activeSectionIndex, setActiveSectionIndex } = usePlaylistStore()
 
   const handleClick = (isPlayingCurrentSong: boolean, track: Track) => {
     if (isPlayingCurrentSong && initialized) {
@@ -35,8 +35,7 @@ const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitial
     }
     else {
       if (index != activeSectionIndex) {
-        console.log("else ooooooooooooo");
-        initialize(tracks);
+        initializePlaylist(tracks);
       }
 
       setTrackDetails({
@@ -53,7 +52,7 @@ const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitial
         isPlaying: true,
       });
 
-      setCurrentTrack(track.id)
+      setCurrentlyPlayingTrack(track.id)
       setInitialized(true)
       setActiveSectionIndex(index)
     }

@@ -15,9 +15,9 @@ import { Skeleton } from '~/components/ui/skeleton';
 import AddToPlaylistDialog from '~/components/AddToPlaylistDialog';
 import AddToNewPlaylistDialog from '~/components/AddToNewPlaylistDialog';
 import { useGetCurrentUserPlaylists } from '~/hooks/playlist';
-import { useLikedTrackStore } from '~/store/useLikedTrackStore';
 import { useCurrentUser } from '~/hooks/auth';
 import { LoadingSpinnerIcon, PlusIcon } from '~/Svgs';
+import { useLikedTracksStore } from '~/store/useLikedTracksStore';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   try {
@@ -58,7 +58,7 @@ const MusicApp = () => {
 
   const { data: user, isLoading: isFetchingUser } = useCurrentUser()
 
-  const { likedTracks, setLikedTracks } = useLikedTrackStore()
+  const { likedTrackMap, setLikedTrackIds } = useLikedTracksStore()
 
   const [recentTracks, setRecentTracks] = useState<string[]>([]);
 
@@ -99,14 +99,14 @@ const MusicApp = () => {
   }, [trackDetails])
 
 
-  const { initialize } = usePlaylistStore()
+  const { initializePlaylist } = usePlaylistStore()
 
   const handleClick = (isPlayingCurrentSong: boolean, track: Track) => {
     if (isPlayingCurrentSong && initialized) {
       setTrackDetails({ isPlaying: false });
     } else {
       if (!initialized) {
-        initialize([])
+        initializePlaylist([])
       }
       setTrackDetails({
         id: track.id,
@@ -142,9 +142,10 @@ const MusicApp = () => {
   }, [userPlaylists])
 
   useEffect(() => {
-    const newTracks = data?.filter((item) => item.hasLiked) || [];
-
-    setLikedTracks(newTracks);
+    if(data){
+      const newTracks = data.map(track => track.id)
+      setLikedTrackIds(newTracks);
+    }
   }, [data]);
 
   return (

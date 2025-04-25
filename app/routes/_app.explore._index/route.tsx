@@ -12,8 +12,11 @@ import { useGetExploreTracks } from "~/hooks/track";
 import { getTitle } from "~/utils";
 import { SECTION_SIZE } from "~/constants";
 import Footer from "../../components/Footer";
-import { useLikedTrackStore } from "~/store/useLikedTrackStore";
 import { LoadingSpinnerIcon } from "~/Svgs";
+import { useLikedTracksStore } from "~/store/useLikedTracksStore";
+import { useCurrentActivePageStore } from "~/store/useCurrentActivePageStore";
+import { useQueryClient } from "@tanstack/react-query";
+import { i } from "node_modules/vite/dist/node/types.d-aGj9QkWt";
 
 export const meta: MetaFunction = () => {
   return [
@@ -64,58 +67,48 @@ const AppleMusicHomepage: React.FC = () => {
 
   // State management
   const [page, setPage] = useState(1);
-  const [exploreTracks, setExploreTracks] = useState<Track[][]>([]);
 
-  const { setLikedTracks, likedTracks } = useLikedTrackStore()
+  const { setCurrentPage, flag, setFlag } = useCurrentActivePageStore()
+  const [exploreTracks, setExploreTracks] = useState<Track[][]>([]);
 
   // Internal Hooks
   const { setActiveSectionIndex } = usePlaylistStore();
-  const { data, isLoading } = useGetExploreTracks(page);
 
-  // Derived data
+  const { data, isLoading } = useGetExploreTracks(page, exploreTracksData.tracks);
+
+  // Derived dataactiveSectionIndex
   const trackSections = [
     exploreTracksData.tracks.slice(0, SECTION_SIZE),
     exploreTracksData.tracks.slice(SECTION_SIZE, SECTION_SIZE * 2),
     exploreTracksData.tracks.slice(SECTION_SIZE * 2, SECTION_SIZE * 3),
   ];
 
-  console.log("useGetExploreTracks", data);
+  //for active page and perform queryclient
+  useEffect(() => {
+    setCurrentPage(page)
+    setFlag(true)
+  }, [])
 
   useEffect(() => {
-    if (data?.length) {
-      setExploreTracks(prev => {
-        const newSections = [
-          data.slice(0, SECTION_SIZE),
-          data.slice(SECTION_SIZE, SECTION_SIZE * 2),
-        ];
+    if (!data?.length) return;
 
-        // If page is 2, include both the initial trackSections and new data
-        if (page === 2) {
-          const initialSections = [
-            exploreTracksData.tracks.slice(0, SECTION_SIZE),
-            exploreTracksData.tracks.slice(SECTION_SIZE, SECTION_SIZE * 2),
-            exploreTracksData.tracks.slice(SECTION_SIZE * 2, SECTION_SIZE * 3),
-          ];
-          return [...initialSections, ...newSections];
+    setExploreTracks(prev => {
+      if (!flag) return prev;
 
+      const createSections = (startIndex: number, count: number) => {
+        const sections = [];
+        for (let i = 0; i < count; i++) {
+          const start = startIndex + i * SECTION_SIZE;
+          sections.push(data.slice(start, start + SECTION_SIZE));
         }
+        return sections;
+      };
 
-        // For other pages, just append new sections
-        return [...prev, ...newSections];
-      });
-    }
-  }, [data])
-
-  useEffect(() => {
-    const isFirstPage = page === 1;
-    const sourceData = isFirstPage ? exploreTracksData.tracks : data ?? [];
-    const newTracks = sourceData.filter((item) => item.hasLiked);
-  
-    setLikedTracks(
-      isFirstPage ? newTracks : [...likedTracks, ...newTracks]
-    );
+      return page === 1
+        ? createSections(0, 3)  // Initial load: 3 sections
+        : [...prev, ...createSections(0, 2)]; // Pagination: append 2 sections
+    });
   }, [data]);
-  
 
   useEffect(() => {
     setActiveSectionIndex(-1)
@@ -126,8 +119,6 @@ const AppleMusicHomepage: React.FC = () => {
       localStorage.setItem("__FlowTune_Token", "")
     }
   }, [exploreTracksData.isAuthenticated])
-
-  console.log("likedTracks", likedTracks);
 
   return (
     <>
@@ -142,14 +133,19 @@ const AppleMusicHomepage: React.FC = () => {
       </div>
 
       <button
-        onClick={() => setPage(page + 1)}
+        onClick={() => {
+          setPage(page + 1)
+          setCurrentPage(page)
+          setFlag(true)
+        }
+        }
         aria-label="Load more tracks"
         className="mx-auto block px-4 py-2 mt-5 text-white bg-[#292a2a] hover:bg-[#5D5E5E] text-sm font-medium rounded-full disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow transition-all duration-200 w-fit"
         disabled={isLoading}
       >
         {isLoading && page != 1 ? (
           <span className="flex items-center justify-center gap-1.5 text-white">
-           <LoadingSpinnerIcon width="18" height="18"/>
+            <LoadingSpinnerIcon width="18" height="18" />
             Loading...
           </span>
         ) : (

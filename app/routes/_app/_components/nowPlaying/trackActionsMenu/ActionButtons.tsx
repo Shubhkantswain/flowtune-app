@@ -9,15 +9,15 @@ import { useLikeTrack } from '~/hooks/track';
 import { useAddSongToPlaylist, useGetCurrentUserPlaylists } from '~/hooks/playlist';
 import AddToPlaylistDialog from '~/components/AddToPlaylistDialog';
 import AddToNewPlaylistDialog from '~/components/AddToNewPlaylistDialog';
-import { useLikedTrackStore } from '~/store/useLikedTrackStore';
 import usePlaylistStore from '~/store/usePlaylistStore';
+import { useLikedTracksStore } from '~/store/useLikedTracksStore';
 
 interface ActionButtonsProps {
     videoEnabled: boolean;
     setVideoEnabled: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEnabled }) => {
-    const { mutateAsync: likeTrack, isPending } = useLikeTrack()
+    const { mutateAsync: likeTrackMutation, isPending } = useLikeTrack()
 
     const { trackDetails, setTrackDetails } = useTrackStore();
     const { enqueueTrack, dequeueTrack, isTrackInQueue } = useQueueStore()
@@ -30,9 +30,19 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEna
     const [isAddToPlaylistOpen, setAddToPlaylistOpen] = useState(false);
     const [isNewPlaylistDialogOpen, setNewPlaylistDialogOpen] = useState(false);
 
-    const { removeLikedTrack, addLikedTrack, likedTracks, setLikedTracks } = useLikedTrackStore()
-    const { initialize, setCurrentTrack } = usePlaylistStore()
+    const { initializePlaylist, setCurrentlyPlayingTrack } = usePlaylistStore()
+    const { likeTrack, unlikeTrack } = useLikedTracksStore()
 
+    const handleLike = async () => {
+        const like = await likeTrackMutation(trackDetails.id)
+        if (like) {
+            likeTrack(trackDetails.id)
+            setTrackDetails({ hasLiked: true })
+        } else {
+            unlikeTrack(trackDetails.id)
+            setTrackDetails({ hasLiked: false })
+        }
+    }
 
     // Check if the current track is in the queue
     useEffect(() => {
@@ -42,43 +52,8 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ videoEnabled, setVideoEna
 
     return (
         <div className="space-y-4">
-            <button className="flex items-center w-full gap-3 p-4 rounded-lg text-white" onClick={async () => {
-                await likeTrack(trackDetails.id);
-
-                if (trackDetails.hasLiked) {
-                    const newTracks = likedTracks.filter((item) => item.id != trackDetails.id)
-                    setLikedTracks(newTracks)
-
-                    if (location.pathname == "/collection/tracks") {
-                        initialize(newTracks)
-                        setCurrentTrack(trackDetails.id);
-                    }
-                } else {
-                    const newTracks = [
-                        ...likedTracks,
-                        {
-                            id: trackDetails.id,
-                            title: trackDetails.title,
-                            singer: trackDetails.singer,
-                            startCast: trackDetails.starCast,
-                            duration: trackDetails.duration,
-                            coverImageUrl: trackDetails.coverImageUrl,
-                            videoUrl: trackDetails.videoUrl,
-                            audioFileUrl: trackDetails.audioFileUrl,
-                            hasLiked: true,
-                            authorId: trackDetails.authorId,
-                            isPlaying: true,
-                        }
-                    ]
-                    setLikedTracks(newTracks)
-                    if (location.pathname == "/collection/tracks") {
-                        initialize(newTracks)
-                        setCurrentTrack(trackDetails.id);
-                    }
-                }
-
-                setTrackDetails({ hasLiked: !trackDetails.hasLiked });
-            }}>
+            <button className="flex items-center w-full gap-3 p-4 rounded-lg text-white"
+                onClick={handleLike}>
                 {trackDetails.hasLiked ? (
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><defs><path id="ic_action_favoriteon-a" d="M16,3 C14.499,3 13.092,3.552 12,4.544 C10.908,3.552 9.501,3 8,3 C4.691,3 2,5.691 2,9 C2,14.535 8.379,18.788 11.445,20.832 C11.613,20.944 11.807,21 12,21 C12.193,21 12.387,20.944 12.555,20.832 C15.62,18.788 22,14.535 22,9 C22,5.691 19.309,3 16,3 Z"></path></defs><g fill-rule="evenodd" fill="transparent"><rect width="24" height="24"></rect><use href="#ic_action_favoriteon-a" fill="#25d1da"></use></g></svg>
                 ) : (

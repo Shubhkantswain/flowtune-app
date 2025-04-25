@@ -16,7 +16,7 @@ interface ShowTrackDialogProps {
 
 function ShowTrackDialog({ isOpen, onClose, tracks, initialized, setInitialized, index }: ShowTrackDialogProps) {
     const { trackDetails, setTrackDetails } = useTrackStore()
-    const { getCurrent, initialize, setCurrentTrack, setActiveSectionIndex, activeSectionIndex } = usePlaylistStore()
+    const { initializePlaylist, setCurrentlyPlayingTrack, setActiveSectionIndex, activeSectionIndex } = usePlaylistStore()
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
@@ -43,8 +43,7 @@ function ShowTrackDialog({ isOpen, onClose, tracks, initialized, setInitialized,
                                 }
                                 else {
                                     if (index != activeSectionIndex) {
-                                        console.log("done------------");
-                                        initialize(tracks)
+                                        initializePlaylist(tracks)
                                     }
 
                                     setTrackDetails({
@@ -61,7 +60,7 @@ function ShowTrackDialog({ isOpen, onClose, tracks, initialized, setInitialized,
                                         isPlaying: true,
                                     });
 
-                                    setCurrentTrack(track.id)
+                                    setCurrentlyPlayingTrack(track.id)
                                     setInitialized(true)
                                     setActiveSectionIndex(index)
                                 }

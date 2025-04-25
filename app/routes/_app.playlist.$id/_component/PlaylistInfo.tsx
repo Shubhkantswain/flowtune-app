@@ -83,7 +83,7 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
                     {`${formatTotalDuration(arr || [])} . ${res?.tracks?.length} TRACKS`}
                 </div>
 
-                <div className="flex items-center gap-4 mt-4">
+                <div className="flex items-center gap-7 mt-4">
                     <button
                         onClick={() => {
                             if (res.tracks?.length) {
@@ -98,7 +98,7 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
 
                     <div className='relative'>
                         <button
-                            className="mt-1.5 ml-4 hover:text-[#93D0D5] rounded-full transition-colors focus:outline-none group"
+                            className="mt-1.5 hover:text-[#93D0D5] rounded-full transition-colors focus:outline-none group"
                             aria-label="More options"
                             onClick={async () => {
                                 const shareUrl = window.location.href;
@@ -137,7 +137,7 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
                     <div className="relative" ref={dropdownRef}>
                         <button
                             onClick={toggleDropdown}
-                            className="mt-1.5 ml-3 hover:text-[#93D0D5] rounded-full transition-colors focus:outline-none group"
+                            className="mt-1.5  hover:text-[#93D0D5] rounded-full transition-colors focus:outline-none group"
                             aria-label="More options"
                         >
                             {/* Tooltip inside the button */}

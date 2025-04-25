@@ -1,72 +1,68 @@
 import { useLocation } from '@remix-run/react'
+import { useQueryClient } from '@tanstack/react-query'
+import { Track } from 'gql/graphql'
 import React, { useEffect, useState } from 'react'
 import { useLikeTrack } from '~/hooks/track'
-import { useLikedTrackStore } from '~/store/useLikedTrackStore'
+import { useCurrentActivePageStore } from '~/store/useCurrentActivePageStore'
+import { useLikedTracksStore } from '~/store/useLikedTracksStore'
 import usePlaylistStore from '~/store/usePlaylistStore'
 import { useTrackStore } from '~/store/useTrackStore'
 import { useVolumeStore } from '~/store/useVloumeStore'
 import { HeartIcon, HeartIconFilled, MuteIcon, PauseIcon, PlayIcon, VolumeIcon } from '~/Svgs'
 
 const RightControllers = () => {
-    const { mutateAsync: likeTrack, isPending } = useLikeTrack()
+    const { mutateAsync: likeTrackMutation, isPending } = useLikeTrack()
     const { trackDetails, togglePlay, setTrackDetails, handleVolumeChange } = useTrackStore()
     const { mute, setMute } = useVolumeStore()
-    const { removeLikedTrack, addLikedTrack, setLikedTracks, likedTracks } = useLikedTrackStore()
-    const { initialize, setCurrentTrack } = usePlaylistStore()
+    const { likedTrackMap, setLikedTrackIds, likeTrack, unlikeTrack } = useLikedTracksStore()
+    const { activeSectionIndex } = usePlaylistStore()
+
+    const { currentPage, setFlag } = useCurrentActivePageStore()
+
+    const queryClient = useQueryClient()
 
     const isPlaying = trackDetails.isPlaying
 
-    // trackDetails: {
-    //     id: '',
-    //     title: '',
-    //     singer: '',
-    //     starCast: '',
-    //     duration: '',
-    //     coverImageUrl: null,
-    //     videoUrl: null,
-    //     audioFileUrl: '',
-    //     hasLiked: false,
-    //     authorId: "",
-    //     isPlaying: false,
-    //     audoRef: null,
-    // },
-
-    const location = useLocation()
-
     const handleLike = async () => {
-        await likeTrack(trackDetails.id)
-        if (trackDetails.hasLiked) {
-            const newTracks = likedTracks.filter((item) => item.id != trackDetails.id)
-            setLikedTracks(newTracks)
-            if (location.pathname == "/collection/tracks") {
-                initialize(newTracks)
-                setCurrentTrack(trackDetails.id);
-            }
+
+        const like = await likeTrackMutation(trackDetails.id)
+
+        if (like) {
+            likeTrack(trackDetails.id)
+            setTrackDetails({ hasLiked: true })
+            console.log("queryClient.getQueryData(['exploreTracks', currentPage])", queryClient.getQueryData(['exploreTracks', currentPage]));
+             
+            queryClient.setQueryData(['exploreTracks', currentPage], (prev: Track[]) => {
+                const newTracks = prev.map((track) => {
+                    if (track.id == trackDetails.id) {
+                        return { ...track, hasLiked: true }
+                    } else {
+                        return track
+                    }
+                })
+
+                return newTracks
+            })
         } else {
-            const newTracks = [
-                ...likedTracks,
-                {
-                    id: trackDetails.id,
-                    title: trackDetails.title,
-                    singer: trackDetails.singer,
-                    startCast: trackDetails.starCast,
-                    duration: trackDetails.duration,
-                    coverImageUrl: trackDetails.coverImageUrl,
-                    videoUrl: trackDetails.videoUrl,
-                    audioFileUrl: trackDetails.audioFileUrl,
-                    hasLiked: true,
-                    authorId: trackDetails.authorId,
-                    isPlaying: true,
-                }
-            ]
-            setLikedTracks(newTracks)
-            if (location.pathname == "/collection/tracks") {
-                initialize(newTracks)
-                setCurrentTrack(trackDetails.id);
-            }
+            unlikeTrack(trackDetails.id)
+            setTrackDetails({ hasLiked: false })
+            queryClient.setQueryData(['exploreTracks', currentPage], (prev: Track[]) => {
+                const newTracks = prev.map((track) => {
+                    if (track.id == trackDetails.id) {
+                        return { ...track, hasLiked: false }
+                    } else {
+                        return track
+                    }
+                })
+
+                return newTracks
+            })
         }
-        setTrackDetails({ hasLiked: !trackDetails.hasLiked })
+
+        setFlag(false)
     }
+
+    console.log("likedtracksmap", likedTrackMap);
 
     useEffect(() => {
         let storedVolume = localStorage.getItem('volume');
@@ -119,7 +115,7 @@ const RightControllers = () => {
                     )
                 }
 
-                <button className={`${trackDetails.hasLiked ? "text-[#25d1da]": "text-white hover:text-[#93D0D5]"} ${trackDetails.id ? "opacity-100" : "opacity-50 cursor-not-allowed"} rounded-full flex items-center justify-center transition-transform`}
+                <button className={`${trackDetails.hasLiked ? "text-[#25d1da]" : "text-white hover:text-[#93D0D5]"} ${trackDetails.id ? "opacity-100" : "opacity-50 cursor-not-allowed"} rounded-full flex items-center justify-center transition-transform`}
                     onClick={handleLike}
                     disabled={isPending || !trackDetails.id}
                 >
@@ -162,9 +158,9 @@ const RightControllers = () => {
                     >
                         {
                             mute ? (
-                               <MuteIcon width="24" height="24"/>
+                                <MuteIcon width="24" height="24" />
                             ) : (
-                                <VolumeIcon width="24" height="24"/>
+                                <VolumeIcon width="24" height="24" />
                             )
                         }
                     </button>

@@ -51,7 +51,6 @@ function SearchResultsRoute() {
 
 
   const { trackDetails, setTrackDetails } = useTrackStore();
-  const { initialize } = usePlaylistStore();
   const { searchQuery, setSearchQuery } = useSearchStore();
 
   const [page, setPage] = useState(1);

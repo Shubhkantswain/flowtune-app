@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { CreateTrackPayload, GetTracksByGenreIdInput, SearchInput } from "gql/graphql";
+import { CreateTrackPayload, GetTracksByGenreIdInput, SearchInput, Track } from "gql/graphql";
 import { toast } from "sonner";
 import { createGraphqlClient } from "~/clients/api";
 import { createTrackMutation, likeTrackMutation } from "~/graphql/mutations/track";
@@ -47,11 +47,11 @@ export const useCreateTrack = () => {
     });
 };
 
-export const useGetExploreTracks = (page: number) => {
+export const useGetExploreTracks = (page: number, initialTracks: Track[]) => {
     return useQuery({
         queryKey: ['exploreTracks', page],
         queryFn: async () => {
-            if (page == 1) return []
+            if (page == 1) return initialTracks
 
             let token = ""
             if (typeof window !== "undefined") {
@@ -60,7 +60,8 @@ export const useGetExploreTracks = (page: number) => {
             const graphqlClient = createGraphqlClient(token);
             const { getExploreTracks } = await graphqlClient.request(getExploreTracksQuery, { page });
             return getExploreTracks
-        }
+        },
+        staleTime: page === 1 ? 0 : 1000 * 60 * 5,
     })
 }
 

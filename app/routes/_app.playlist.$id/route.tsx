@@ -11,7 +11,7 @@ import { useTrackStore } from '~/store/useTrackStore';
 import PlaylistInfo from './_component/PlaylistInfo';
 import PlaylistTrackItems from './_component/PlaylistTrackItems';
 import Footer from '~/components/Footer';
-// import SpotifyMenu from '~/components/SpotifyMenu';
+import { useLikedTracksStore } from '~/store/useLikedTracksStore';
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
     try {
@@ -49,8 +49,9 @@ function ExplorePlaylistsPage() {
     const [initialized, setInitialized] = useState(false)
 
     const { setTrackDetails, trackDetails } = useTrackStore()
-    const { initialize, setCurrentTrack } = usePlaylistStore()
+    const { initializePlaylist, setCurrentlyPlayingTrack } = usePlaylistStore()
 
+    const { setLikedTrackIds } = useLikedTracksStore();
 
     const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
 
@@ -68,7 +69,7 @@ function ExplorePlaylistsPage() {
         else {
             if (!initialized) {
                 if (res?.tracks) {
-                    initialize(res.tracks);
+                    initializePlaylist(res.tracks);
                 }
             }
 
@@ -86,10 +87,22 @@ function ExplorePlaylistsPage() {
                 isPlaying: true,
             });
 
-            setCurrentTrack(track.id)
+            setCurrentlyPlayingTrack(track.id)
             setInitialized(true)
         }
     }
+
+    useEffect(() => {
+        if (res.tracks) {
+            // Proper filter that returns boolean
+            const newTracks = res.tracks
+                .filter(item => item.hasLiked)
+                .map(item => item.id); // Convert to IDs if needed
+
+
+            setLikedTrackIds(newTracks);
+        }
+    }, [res, setLikedTrackIds]);
 
     if (!res.id) {
         return (
@@ -105,7 +118,7 @@ function ExplorePlaylistsPage() {
             </div>
         );
     }
-    
+
     return (
         <div className="text-white relative min-h-screen">
             <div

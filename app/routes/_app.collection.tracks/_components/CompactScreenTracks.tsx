@@ -1,7 +1,7 @@
 import { Track } from 'gql/graphql'
 import React, { Dispatch, SetStateAction } from 'react'
 import { useLikeTrack } from '~/hooks/track';
-import { useLikedTrackStore } from '~/store/useLikedTrackStore';
+import { useLikedTracksStore } from '~/store/useLikedTracksStore';
 import usePlaylistStore from '~/store/usePlaylistStore';
 import { useTrackStore } from '~/store/useTrackStore'
 import { HeartIconFilled, MoreIcon, PauseIcon, PlayIcon } from '~/Svgs';
@@ -19,8 +19,8 @@ const CompactScreenTracks: React.FC<CompactScreenTracksProps> = ({
 }) => {
     const { trackDetails, setTrackDetails } = useTrackStore()
     const { mutateAsync: likeTrack } = useLikeTrack()
-    const { removeLikedTrack, setLikedTracks } = useLikedTrackStore()
-    const { initialize, setCurrentTrack } = usePlaylistStore()
+    const { unlikeTrack } = useLikedTracksStore()
+    const { initializePlaylist, setCurrentlyPlayingTrack } = usePlaylistStore()
 
     return (
         <div className="">
@@ -72,9 +72,9 @@ const CompactScreenTracks: React.FC<CompactScreenTracksProps> = ({
                                 await likeTrack(track.id)
 
                                 const newTracks = likedTracks.filter((item) => item.id != track.id)
-                                setLikedTracks(newTracks)
-                                initialize(newTracks)
-                                setCurrentTrack(trackDetails.id);
+                                unlikeTrack(track.id)
+                                initializePlaylist(newTracks)
+                                setCurrentlyPlayingTrack(trackDetails.id);
                                 if (track.id == trackDetails.id) {
                                     setTrackDetails({ hasLiked: false })
                                 }
