@@ -50,30 +50,32 @@ export default function AppLayout() {
 
     return (
         <>
-            <div className="block md:hidden p-4 sm:p-6 md:p-8 -mb-10">
-                <SearchBar />
-            </div>
+            <div className="max-w-[90rem] mx-auto">
+                <div className="block md:hidden p-4 sm:p-6 md:p-8 -mb-10">
+                    <SearchBar />
+                </div>
 
-            {/* Tabs */}
-            <div className="flex space-x-2 p-4 sm:p-6 md:p-8 overflow-x-auto no-scrollbar">
-                {tabs.map(tab => (
-                    <button
-                        key={tab.label}
-                        className={`px-4 py-2 rounded-full text-xs font-medium whitespace-nowrap transition-colors duration-200 ${location.pathname.includes(tab.pathname)
-                            ? 'text-white border bg-[#5D5E5E] border-white'
-                            : 'bg-[#292a2a] hover:bg-[#5D5E5E] text-gray-300'
-                            }`}
-                        onClick={() => navigate(`${tab.pathname}/${searchQuery}`)}
-                    >
-                        {tab.label}
-                    </button>
-                ))}
-            </div>
+                {/* Tabs */}
+
+                <div className="flex space-x-2 p-4 sm:p-6 md:p-8 overflow-x-auto no-scrollbar">
+                    {tabs.map(tab => (
+                        <button
+                            key={tab.label}
+                            className={`px-4 py-2 rounded-full text-xs font-medium whitespace-nowrap transition-colors duration-200 ${location.pathname.includes(tab.pathname)
+                                ? 'text-white border bg-[#5D5E5E] border-white'
+                                : 'bg-[#292a2a] hover:bg-[#5D5E5E] text-gray-300'
+                                }`}
+                            onClick={() => navigate(`${tab.pathname}/${searchQuery}`)}
+                        >
+                            {tab.label}
+                        </button>
+                    ))}
+                </div>
             <Outlet />
 
             <ArtistsGrid />
 
-            <Footer />
+            </div>
         </>
     );
 }

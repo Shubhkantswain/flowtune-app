@@ -3,6 +3,7 @@ import { Outlet, useLocation, useParams } from "@remix-run/react";
 import Playbackcontroller from "./_components/playbackcontroller/Playbackcontroller";
 import Header from "./_components/header/Header";
 import { genreIdsSwap } from "~/searchData";
+import Footer from "~/components/Footer";
 
 export default function AppLayout() {
     const location = useLocation()
@@ -22,6 +23,10 @@ export default function AppLayout() {
                 {/* Main Content */}
                 <main className={`flex-1 overflow-y-auto pb-24 ${includes ? genreIdsSwap[params.genreId as GenreKey][1] : "bg-gradient-to-b from-[#030304] to-[#0D1011]"} text-gray-300`}>
                     <Outlet />
+                    <div className="p-4 sm:p-6 md:p-8 max-w-[90rem] mx-auto">
+
+                    <Footer/>
+                    </div>
                 </main>
 
                 {/* Playback Controller */}

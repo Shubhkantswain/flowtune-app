@@ -15,8 +15,6 @@ import Footer from "../../components/Footer";
 import { LoadingSpinnerIcon } from "~/Svgs";
 import { useLikedTracksStore } from "~/store/useLikedTracksStore";
 import { useCurrentActivePageStore } from "~/store/useCurrentActivePageStore";
-import { useQueryClient } from "@tanstack/react-query";
-import { i } from "node_modules/vite/dist/node/types.d-aGj9QkWt";
 
 export const meta: MetaFunction = () => {
   return [
@@ -71,10 +69,11 @@ const AppleMusicHomepage: React.FC = () => {
   const { setCurrentPage, flag, setFlag } = useCurrentActivePageStore()
   const [exploreTracks, setExploreTracks] = useState<Track[][]>([]);
 
+  const { setLikedTrackIds, likedTrackMap } = useLikedTracksStore()
+
   // Internal Hooks
   const { setActiveSectionIndex } = usePlaylistStore();
-
-  const { data, isLoading } = useGetExploreTracks(page, exploreTracksData.tracks);
+  const { data, isLoading } = useGetExploreTracks(page);
 
   // Derived dataactiveSectionIndex
   const trackSections = [
@@ -90,26 +89,50 @@ const AppleMusicHomepage: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    if (!data?.length) return;
+    if (data?.length) {
+      setExploreTracks(prev => {
+        if (flag) {
+          const newSections = [
+            data.slice(0, SECTION_SIZE),
+            data.slice(SECTION_SIZE, SECTION_SIZE * 2),
+          ];
 
-    setExploreTracks(prev => {
-      if (!flag) return prev;
+          // If page is 2, include both the initial trackSections and new data
+          if (page === 2) {
+            const initialSections = [
+              exploreTracksData.tracks.slice(0, SECTION_SIZE),
+              exploreTracksData.tracks.slice(SECTION_SIZE, SECTION_SIZE * 2),
+              exploreTracksData.tracks.slice(SECTION_SIZE * 2, SECTION_SIZE * 3),
+            ];
+            return [...initialSections, ...newSections];
 
-      const createSections = (startIndex: number, count: number) => {
-        const sections = [];
-        for (let i = 0; i < count; i++) {
-          const start = startIndex + i * SECTION_SIZE;
-          sections.push(data.slice(start, start + SECTION_SIZE));
+          }
+
+          // For other pages, just append new sections
+          return [...prev, ...newSections];
         }
-        return sections;
-      };
 
-      return page === 1
-        ? createSections(0, 3)  // Initial load: 3 sections
-        : [...prev, ...createSections(0, 2)]; // Pagination: append 2 sections
-    });
-  }, [data]);
+        return prev
+      });
+    }
+  }, [data])
 
+  // useEffect(() => {
+  //   const isFirstPage = page === 1;
+  //   const sourceData = isFirstPage ? exploreTracksData.tracks : data ?? [];
+
+  //   // Proper filter that returns boolean
+  //   const newTracks = sourceData
+  //     .filter(item => item.hasLiked)
+  //     .map(item => item.id); // Convert to IDs if needed
+
+  //   const existingLikedIds = Object.keys(likedTrackMap);
+
+  //   setLikedTrackIds(isFirstPage ? newTracks : [...existingLikedIds, ...newTracks]);
+  // }, [data]); // Added all dependencies
+
+ // like store only store track that i recently like 
+ // 
   useEffect(() => {
     setActiveSectionIndex(-1)
   }, [])
@@ -119,6 +142,8 @@ const AppleMusicHomepage: React.FC = () => {
       localStorage.setItem("__FlowTune_Token", "")
     }
   }, [exploreTracksData.isAuthenticated])
+
+  console.log("data----", data);
 
   return (
     <>
@@ -135,10 +160,8 @@ const AppleMusicHomepage: React.FC = () => {
       <button
         onClick={() => {
           setPage(page + 1)
-          setCurrentPage(page)
           setFlag(true)
-        }
-        }
+        }}
         aria-label="Load more tracks"
         className="mx-auto block px-4 py-2 mt-5 text-white bg-[#292a2a] hover:bg-[#5D5E5E] text-sm font-medium rounded-full disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow transition-all duration-200 w-fit"
         disabled={isLoading}
@@ -153,7 +176,7 @@ const AppleMusicHomepage: React.FC = () => {
         )}
       </button>
 
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

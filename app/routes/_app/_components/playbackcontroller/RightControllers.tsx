@@ -10,18 +10,21 @@ import { useTrackStore } from '~/store/useTrackStore'
 import { useVolumeStore } from '~/store/useVloumeStore'
 import { HeartIcon, HeartIconFilled, MuteIcon, PauseIcon, PlayIcon, VolumeIcon } from '~/Svgs'
 
+
 const RightControllers = () => {
     const { mutateAsync: likeTrackMutation, isPending } = useLikeTrack()
     const { trackDetails, togglePlay, setTrackDetails, handleVolumeChange } = useTrackStore()
     const { mute, setMute } = useVolumeStore()
-    const { likedTrackMap, setLikedTrackIds, likeTrack, unlikeTrack } = useLikedTracksStore()
+    const { likedTrackMap, unlikedTrackMap,setLikedTrackIds, likeTrack, unlikeTrack, isTrackLiked, isTrackUnliked } = useLikedTracksStore()
     const { activeSectionIndex } = usePlaylistStore()
-
+    
     const { currentPage, setFlag } = useCurrentActivePageStore()
 
     const queryClient = useQueryClient()
 
     const isPlaying = trackDetails.isPlaying
+
+    const location = useLocation
 
     const handleLike = async () => {
 
@@ -29,40 +32,41 @@ const RightControllers = () => {
 
         if (like) {
             likeTrack(trackDetails.id)
-            setTrackDetails({ hasLiked: true })
-            console.log("queryClient.getQueryData(['exploreTracks', currentPage])", queryClient.getQueryData(['exploreTracks', currentPage]));
+            // setTrackDetails({ hasLiked: true })
              
-            queryClient.setQueryData(['exploreTracks', currentPage], (prev: Track[]) => {
-                const newTracks = prev.map((track) => {
-                    if (track.id == trackDetails.id) {
-                        return { ...track, hasLiked: true }
-                    } else {
-                        return track
-                    }
-                })
+            // queryClient.setQueryData(['exploreTracks', currentPage], (prev: Track[]) => {
+            //     const newTracks = prev.map((track) => {
+            //         if (track.id == trackDetails.id) {
+            //             return { ...track, hasLiked: true }
+            //         } else {
+            //             return track 
+            //         }  
+            //     })
 
-                return newTracks
-            })
+            //     return newTracks
+            // })
         } else {
             unlikeTrack(trackDetails.id)
-            setTrackDetails({ hasLiked: false })
-            queryClient.setQueryData(['exploreTracks', currentPage], (prev: Track[]) => {
-                const newTracks = prev.map((track) => {
-                    if (track.id == trackDetails.id) {
-                        return { ...track, hasLiked: false }
-                    } else {
-                        return track
-                    }
-                })
+            // setTrackDetails({ hasLiked: false })
+            // queryClient.setQueryData(['exploreTracks', currentPage], (prev: Track[]) => {
+            //     const newTracks = prev.map((track) => {
+            //         if (track.id == trackDetails.id) {
+            //             return { ...track, hasLiked: false }
+            //         } else {
+            //             return track
+            //         }
+            //     })
 
-                return newTracks
-            })
+            //     return newTracks
+            // })
         }
 
         setFlag(false)
     }
 
     console.log("likedtracksmap", likedTrackMap);
+    console.log("unlikedTrackMap", unlikedTrackMap);
+
 
     useEffect(() => {
         let storedVolume = localStorage.getItem('volume');
@@ -77,6 +81,29 @@ const RightControllers = () => {
             setMute(true);
         }
     }, []);
+
+
+    // const detectLike = () => {
+    //     if(!trackDetails.id) return false
+
+    //     if(trackDetails.hasLiked){
+    //         if(!isTrackUnliked(trackDetails.id)){
+    //             return true
+    //         } else{
+    //             return false 
+    //         }
+    //     }
+
+    //     if(!trackDetails.hasLiked){
+    //         if(!isTrackLiked(trackDetails.id)){
+    //             return false
+    //         } else{
+    //             return true 
+    //         }
+    //     }
+
+        
+    // }
 
     return (
         <div className="flex items-center justify-end flex-1 md:w-1/3 space-x-7">
@@ -115,7 +142,7 @@ const RightControllers = () => {
                     )
                 }
 
-                <button className={`${trackDetails.hasLiked ? "text-[#25d1da]" : "text-white hover:text-[#93D0D5]"} ${trackDetails.id ? "opacity-100" : "opacity-50 cursor-not-allowed"} rounded-full flex items-center justify-center transition-transform`}
+                <button className={`${trackDetails.hasLiked ? "text-[#25d1da]" : "text-white hover:text-[#93D0D5]"} ${trackDetails.id ? "opacity-100" : "opacity-50 cursor-not-allowed"} rounded-full flex items-center justify-center transition-transform mr-20`}
                     onClick={handleLike}
                     disabled={isPending || !trackDetails.id}
                 >
@@ -131,6 +158,34 @@ const RightControllers = () => {
                     }
                 </button>
             </div>
+
+
+            {/* {
+                    if(trackdetail.hasliked){
+                        if(!unlikedTrack[id]){
+                            return true
+                        } else{
+                            return false 
+                        }
+                    }
+
+                    if(!trackdetail.hasliked){
+                        if(!likedTrack[id]){
+                            return false
+                        } else{
+                            return true 
+                        }
+                    }
+
+                        likeTracks[id] ? (
+                            <HeartIconFilled width="24" height="24" />
+
+                        ) : (
+
+                            <HeartIcon width="24" height="24" />
+
+                        )
+                    } */}
 
             {/* Volume Control (Hidden on Small Screens) */}
             <div className="hidden md:flex items-center justify-end">

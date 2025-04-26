@@ -3,7 +3,7 @@ import { FaceBookIcon, InstagramIcon, TwitterIcon } from '~/Svgs'
 
 function Footer() {
     return (
-        <footer className="text-white py-6 px-4 text- mt-10">
+        <footer className="text-white mt-16">
             <div className="container mx-auto grid grid-cols-4 gap-4">
                 {/* Company Column */}
                 <div>

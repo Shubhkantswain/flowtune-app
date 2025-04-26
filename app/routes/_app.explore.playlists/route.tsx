@@ -138,8 +138,6 @@ const AppleMusicHomepage: React.FC = () => {
                     'Load More'
                 )}
             </button>
-
-            <Footer />
         </>
     );
 };

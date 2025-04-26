@@ -47,11 +47,11 @@ export const useCreateTrack = () => {
     });
 };
 
-export const useGetExploreTracks = (page: number, initialTracks: Track[]) => {
+export const useGetExploreTracks = (page: number) => {
     return useQuery({
         queryKey: ['exploreTracks', page],
         queryFn: async () => {
-            if (page == 1) return initialTracks
+            if (page == 1) return []
 
             let token = ""
             if (typeof window !== "undefined") {
@@ -65,11 +65,11 @@ export const useGetExploreTracks = (page: number, initialTracks: Track[]) => {
     })
 }
 
-export const useGetTracksByGenreId = (input: GetTracksByGenreIdInput) => {
+export const useGetTracksByGenreId = (input: GetTracksByGenreIdInput, initialTracks: Track[]) => {
     return useQuery({
         queryKey: ['tracksByGenreId', input.page, input.genreId],
         queryFn: async () => {
-            if (input.page == 1) return []
+            if (input.page == 1) return initialTracks
 
             let token = ""
             if (typeof window !== "undefined") {
@@ -78,7 +78,8 @@ export const useGetTracksByGenreId = (input: GetTracksByGenreIdInput) => {
             const graphqlClient = createGraphqlClient(token);
             const { getTracksByGenreId } = await graphqlClient.request(getTracksByGenreIdQuery, { input });
             return getTracksByGenreId
-        }
+        },
+        staleTime: input.page === 1 ? 0 : 1000 * 60 * 5,
     })
 }
 

@@ -62,7 +62,7 @@ const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists, activeTab, sho
 
     return (
         <>
-            <ScrollControls canScroll={canScroll} scroll={scroll} />
+            <ScrollControls canScroll={canScroll} scroll={scroll} activeTab={activeTab} />
             <div
                 ref={scrollContainerRef}
                 className="overflow-x-auto pb-4 hide-scrollbar"

@@ -133,7 +133,7 @@ function SearchResultsRoute() {
   return (
     <>
       {/* Track Results */}
-      <div className="p-4 sm:p-6 md:p-8 -mt-4 lg:-mt-12 md:-mt-12">
+      <div className="max-w-[90rem] mx-auto p-4 sm:p-6 md:p-8 -mt-4 lg:-mt-12 md:-mt-12">
         {displayedTracks.map(track => (
           <div
             key={track.id}

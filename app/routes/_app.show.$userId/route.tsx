@@ -75,7 +75,7 @@ const UserPage = () => {
     const { userId } = useParams(); // Get the dynamic userId
 
     const { trackDetails } = useTrackStore();
-    const { initialize, setCurrentTrack, setActiveSectionIndex } = usePlaylistStore();
+    const { initializePlaylist, setCurrentlyPlayingTrack, setActiveSectionIndex } = usePlaylistStore();
 
     const [tracks, setTracks] = useState<Track[]>(user.tracks);
     const [page, setPage] = useState(1);
@@ -86,8 +86,8 @@ const UserPage = () => {
         if (data && data.length > 0) {
             const newArray = [...tracks, ...(Array.isArray(data) ? data : [data])];
             setTracks(newArray);
-            initialize(newArray);
-            setCurrentTrack(trackDetails.id);
+            initializePlaylist(newArray);
+            setCurrentlyPlayingTrack(trackDetails.id);
         }
     }, [data]);
 
@@ -112,15 +112,15 @@ const UserPage = () => {
     console.log(tracks, "alltraxks");
 
     return (
-        <div className="text-white relative min-h-screen">
+        <div className="text-white relative max-w-[90rem] mx-auto ">
             <div
                 className="absolute inset-0 bg-gradient-to-b from-transparent to-black z-0"
                 style={{
-                    backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,1) 10%), url(${user?.data?.profileImageURL || "https://www.shutterstock.com/image-vector/male-default-avatar-profile-icon-600nw-1725062341.jpg"})`,
+                    backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,1) 10%), url(${user?.data?.profileImageURL || "https://m.media-amazon.com/images/X/l6Hv/M/Wl6HvhcrtVmM8aW._UX250_FMwebp_QL85_.jpg"})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center top',
                     filter: 'blur(100px)',
-                    opacity: '0.7',
+                    opacity: '0.9',
                 }}
             />
 
@@ -133,7 +133,6 @@ const UserPage = () => {
 
                 <LoadMore handleLoadMore={handleLoadMore} isLoading={isLoading && page != 1} />
 
-                <Footer/>
             </div>
         </div>
     );

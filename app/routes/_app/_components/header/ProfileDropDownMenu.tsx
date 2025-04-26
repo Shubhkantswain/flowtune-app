@@ -165,7 +165,7 @@ const ProfileDropDownMenu: React.FC<ProfileDropDownMenuProps> = ({
 
                                     <div className="border-b border-[#2E3030]"></div>
 
-                                    <Link to="/settings" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white">
+                                    <Link to="/change-language" className="block px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white">
                                         Change Display Language
                                     </Link>
                                     <div className="border-b border-[#2E3030]"></div>

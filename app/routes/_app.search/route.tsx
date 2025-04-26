@@ -12,6 +12,7 @@ import { LoaderFunctionArgs } from '@remix-run/cloudflare';
 import { createGraphqlClient } from '~/clients/api';
 import { getLikedTracksQuery } from '~/graphql/queries/track';
 import EmptyState from '~/components/EmptyState';
+import Footer from '~/components/Footer';
 
 interface Song {
   title: string;
@@ -132,7 +133,7 @@ const BrowsePage = () => {
         <SearchBar />
       </div>
 
-      <div className="min-h-screen p-4 sm:p-6 md:p-8 text-white">
+      <div className="max-w-[90rem] mx-auto  p-4 sm:p-6 md:p-8 text-white">
         {/* Only show search history if there's no search query */}
         {!searchQuery.trim() && history.length > 0 && (
           <div className="mb-10 text-white rounded-xl max-w-md">
@@ -263,6 +264,7 @@ const BrowsePage = () => {
             <ExploreSearch title="Music By Genre" exploreItems={genre} gapFromTop={true} />
           </>
         )}
+      {/* <Footer/> */}
       </div>
     </>
 

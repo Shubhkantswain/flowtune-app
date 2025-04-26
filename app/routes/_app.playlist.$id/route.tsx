@@ -92,18 +92,6 @@ function ExplorePlaylistsPage() {
         }
     }
 
-    useEffect(() => {
-        if (res.tracks) {
-            // Proper filter that returns boolean
-            const newTracks = res.tracks
-                .filter(item => item.hasLiked)
-                .map(item => item.id); // Convert to IDs if needed
-
-
-            setLikedTrackIds(newTracks);
-        }
-    }, [res, setLikedTrackIds]);
-
     if (!res.id) {
         return (
             <div className="flex flex-col items-center justify-center h-screen text-center bg-black">
@@ -119,8 +107,22 @@ function ExplorePlaylistsPage() {
         );
     }
 
+    // useEffect(() => {
+    //     if (res.tracks) {
+    //         // Proper filter that returns boolean
+    //         const newTracks = res.tracks
+    //             .filter(item => item.hasLiked)
+    //             .map(item => item.id); // Convert to IDs if needed
+
+
+    //         setLikedTrackIds(newTracks);
+    //     }
+    // }, [res, setLikedTrackIds]);
+
+
+
     return (
-        <div className="text-white relative min-h-screen">
+        <div className="text-white relative max-w-[90rem] mx-auto">
             <div
                 className="absolute inset-0 bg-gradient-to-b from-transparent to-black z-0"
                 style={{
@@ -128,7 +130,7 @@ function ExplorePlaylistsPage() {
                     backgroundSize: 'cover',
                     backgroundPosition: 'center top',
                     filter: 'blur(100px)',
-                    opacity: '0.7',
+                    opacity: '0.9',
                 }}
             />
 
@@ -140,7 +142,6 @@ function ExplorePlaylistsPage() {
                     <PlaylistTrackItems res={res} handleControll={handleControll} initialized={initialized} setInitialized={setInitialized} />
 
                 </div>
-                <Footer />
             </div>
         </div>
     )

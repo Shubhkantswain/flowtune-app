@@ -42,7 +42,7 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
 
     const { mutateAsync: likeTrackMutation } = useLikeTrack()
 
-    const { likedTrackMap, setLikedTrackIds, unlikeTrack, likeTrack } = useLikedTracksStore()
+    const { likedTrackMap, setLikedTrackIds, unlikeTrack, likeTrack, isTrackLiked, isTrackUnliked } = useLikedTracksStore()
 
     useEffect(() => {
         if (res.tracks) {
@@ -81,14 +81,39 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
 
         if (like) {
             likeTrack(trackId)
-            if (trackId == trackDetails.id) {
-                setTrackDetails({ hasLiked: true })
-            }
+            // if (trackId == trackDetails.id) {
+            //     setTrackDetails({ hasLiked: true })
+            // }
+            // const newTracks = tracks.map((track) => {
+            //     if (track.id == trackId) {
+            //         return {
+            //             ...track,
+            //             hasLiked: true
+            //         }
+            //     }
+
+            //     return track
+            // })
+
+            // setTracks(newTracks)
         } else {
             unlikeTrack(trackId)
-            if (trackId == trackDetails.id) {
-                setTrackDetails({ hasLiked: false })
-            }
+            // if (trackId == trackDetails.id) {
+            //     setTrackDetails({ hasLiked: false })
+            // }
+            // const newTracks = tracks.map((track) => {
+            //     if (track.id == trackId) {
+            //         return {
+            //             ...track,
+            //             hasLiked: false
+            //         }
+            //     }
+
+            //     return track
+            // })
+
+            // setTracks(newTracks)
+
         }
 
     }
@@ -109,6 +134,25 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
 
     const queueTracks = getAllTracks()
 
+    const detectLike = (track: Track) => {
+        if(track.hasLiked){
+            if(!isTrackUnliked(track.id)){
+                return true
+            } else{
+                return false 
+            }
+        }
+
+        if(!track.hasLiked){
+            if(!isTrackLiked(track.id)){
+                return false
+            } else{
+                return true 
+            }
+        }
+
+        
+    }
     return (
         <>
             <div className="pb-8 mt-3">
@@ -160,14 +204,14 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                                 <td className="text-right hidden md:table-cell text-gray-400 px-24 text-sm">{formatDuration(track?.duration || "")}</td>
                                 <td className="text-right px-4 relative hidden sm:table-cell">
                                     <button
-                                        className={`cursor-pointer hover:text-[#93D0D5] ${track.hasLiked ? "text-[#25d1da]" : "text-white"} flex-shrink-0 ml-2`}
+                                        className={`cursor-pointer hover:text-[#93D0D5] ${detectLike(track) ? "text-[#25d1da]" : "text-white"} flex-shrink-0 ml-2`}
                                         onClick={async (e) => {
                                             e.stopPropagation();
                                             await handleLikeTrack(track.id)
                                         }}
                                     >
                                         {
-                                            track.hasLiked ? (
+                                            detectLike(track) ? (
                                                 <HeartIconFilled width="20" height="20" />
                                             ) : (
                                                 <HeartIcon width="20" height="20" />

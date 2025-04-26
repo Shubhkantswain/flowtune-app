@@ -39,7 +39,7 @@ function UserProfileInfo({ user }: UserProfileInfo) {
     return (
         <div className="py-8 md:py-12 flex flex-col md:flex-row items-center md:items-start gap-8">
             <img
-                src={user?.profileImageURL || "https://www.shutterstock.com/image-vector/male-default-avatar-profile-icon-600nw-1725062341.jpg"}
+                src={user?.profileImageURL || "https://m.media-amazon.com/images/X/l6Hv/M/Wl6HvhcrtVmM8aW._UX250_FMwebp_QL85_.jpg"}
                 alt={user?.username}
                 className="w-56 h-56 md:w-64 md:h-64 rounded-none shadow-2xl object-cover"
             />

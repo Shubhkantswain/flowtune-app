@@ -2,6 +2,7 @@ import { Track } from "gql/graphql";
 import { useEffect, useState } from "react";
 import { SECTION_SIZE } from "~/constants";
 import PlaceholderTrack from "~/routes/_app/_components/PlaceholderTrack";
+import { useCurrentActivePageStore } from "~/store/useCurrentActivePageStore";
 import usePlaylistStore from "~/store/usePlaylistStore";
 import { useTrackStore } from "~/store/useTrackStore";
 import { PauseIcon, PlayIcon } from "~/Svgs";
@@ -19,6 +20,7 @@ const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitial
     ...Array(Math.max(0, SECTION_SIZE - tracks.length)).fill(null)
   ];
 
+  const { setCurrentPage } = useCurrentActivePageStore()
 
   const { trackDetails, setTrackDetails } = useTrackStore()
 
@@ -55,7 +57,15 @@ const TrackLists: React.FC<TrackListsProps> = ({ tracks, initialized, setInitial
       setCurrentlyPlayingTrack(track.id)
       setInitialized(true)
       setActiveSectionIndex(index)
+
     }
+
+    const getPageFromIndex = (index: number) => {
+      if (index < 3) return 1;
+      return Math.floor((index - 3) / 2) + 2;
+    };
+
+    setCurrentPage(getPageFromIndex(index));
   };
 
   return (

@@ -1,58 +1,54 @@
-import { useState } from 'react';
+import React from 'react';
 
-export default function ArtistsGrid() {
-    const [artists] = useState([
-        {
-          id: 1,
-          name: 'Imran Khan',
-          role: 'Artist',
-          image: 'https://m.media-amazon.com/images/I/41s1sa+DhML._SX354_SY354_BL0_QL100__UX250_FMwebp_QL85_.jpg'
-        },
-        {
-          id: 2,
-          name: 'Ikka',
-          role: 'Artist',
-          image: 'https://m.media-amazon.com/images/I/41s1sa+DhML._SX354_SY354_BL0_QL100__UX250_FMwebp_QL85_.jpg'
-        },
-        {
-          id: 3,
-          name: 'Imagine Dragons',
-          role: 'Artist',
-          image: 'https://m.media-amazon.com/images/I/41s1sa+DhML._SX354_SY354_BL0_QL100__UX250_FMwebp_QL85_.jpg'
-        },
-        {
-          id: 4,
-          name: 'Indresh Upadhyay',
-          role: 'Artist',
-          image: 'https://m.media-amazon.com/images/I/41s1sa+DhML._SX354_SY354_BL0_QL100__UX250_FMwebp_QL85_.jpg'
-        },
-        {
-          id: 5,
-          name: 'Ikky',
-          role: 'Artist',
-          image: 'https://m.media-amazon.com/images/I/41s1sa+DhML._SX354_SY354_BL0_QL100__UX250_FMwebp_QL85_.jpg'
-        }
-      ]);
+const artists = [
+  {
+    name: 'Pritam',
+    role: 'Artist',
+    image: '/images/pritam.jpg',
+  },
+  {
+    name: 'Arijit Singh',
+    role: 'Artist',
+    image: '/images/arijit.jpg',
+  },
+  {
+    name: 'A.R. Rahman',
+    role: 'Artist',
+    image: '/images/arrahman.jpg',
+  },
+  {
+    name: 'Sachin-Jigar',
+    role: 'Artist',
+    image: '/images/sachinjigar.jpg',
+  },
+  {
+    name: 'Vishal-Shekhar',
+    role: 'Artist',
+    image: '/images/vishalshekhar.jpg',
+  },
+];
 
+function ArtistGrid() {
   return (
-    <div className="text-white p-6 w-full">
-      <h2 className="text-2xl font-bold mb-6">Artists</h2>
-      
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-        {artists.map((artist) => (
-          <div key={artist.id} className="flex flex-col items-center group cursor-pointer">
-            <div className="relative mb-4 overflow-hidden rounded-full">
-              <img 
-                src={artist.image} 
+    <div className="p-4 sm:p-6 md:p-8 ">
+      <h2 className="text-white text-3xl font-bold mb-8">Popular artists</h2>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
+        {artists.map((artist, index) => (
+          <div key={index} className="flex flex-col items-center text-center">
+            <div className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full overflow-hidden bg-gray-800">
+              <img
+                src={"https://i.scdn.co/image/ab6761610000e5eb5ba2d75eb08a2d672f9b69b7"}
                 alt={artist.name}
-                className="w-32 h-32 md:w-36 md:h-36 lg:w-40 lg:h-40 object-cover rounded-full transition-transform duration-300 group-hover:scale-105"
+                className="w-full h-full object-cover"
               />
             </div>
-            <h3 className="font-medium text-center text-lg">{artist.name}</h3>
-            <p className="text-gray-400 text-sm text-center">{artist.role}</p>
+            <h3 className="text-white text-lg font-semibold mt-4">{artist.name}</h3>
+            <p className="text-gray-400 text-sm">{artist.role}</p>
           </div>
         ))}
       </div>
     </div>
   );
 }
+
+export default ArtistGrid;

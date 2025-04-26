@@ -15,7 +15,7 @@ interface UserProfileInfo {
 
 function UserTracks({ tracks, allTracks, page }: UserProfileInfo) {
     const { trackDetails, setTrackDetails } = useTrackStore()
-    const { initialize, setCurrentTrack } = usePlaylistStore()
+    const { initializePlaylist, setCurrentlyPlayingTrack } = usePlaylistStore()
 
     const [initialized, setInitialized] = useState(false)
 
@@ -57,7 +57,7 @@ function UserTracks({ tracks, allTracks, page }: UserProfileInfo) {
                                             }
                                             else {
                                                 if (!initialized) {
-                                                    initialize(tracks)
+                                                    initializePlaylist(tracks)
                                                 }
 
                                                 setTrackDetails({
@@ -74,7 +74,7 @@ function UserTracks({ tracks, allTracks, page }: UserProfileInfo) {
                                                     isPlaying: true,
                                                 });
 
-                                                setCurrentTrack(track.id)
+                                                setCurrentlyPlayingTrack(track.id)
                                                 setInitialized(true)
                                             }
                                         }}>
@@ -105,7 +105,7 @@ function UserTracks({ tracks, allTracks, page }: UserProfileInfo) {
                                             }
                                             else {
                                                 if (!initialized) {
-                                                    initialize(tracks)
+                                                    initializePlaylist(tracks)
                                                 }
 
                                                 setTrackDetails({
@@ -122,7 +122,7 @@ function UserTracks({ tracks, allTracks, page }: UserProfileInfo) {
                                                     isPlaying: true,
                                                 });
 
-                                                setCurrentTrack(track.id)
+                                                setCurrentlyPlayingTrack(track.id)
                                                 setInitialized(true)
                                             }
                                         }}>

@@ -109,7 +109,7 @@ const LikedTracks = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="max-w-[90rem] mx-auto">
       <div className="p-4 sm:p-6 md:p-8">
         <TrackCollectionsInfo
           showDropdown={showDropdown}

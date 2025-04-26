@@ -89,16 +89,20 @@ const DesktopSearch = () => {
       ) : (
         // Default search input (unchanged)
         <div
-          className="flex items-center bg-white rounded-full overflow-hidden cursor-pointer w-48 sm:w-56 md:w-64 h-11"
-          onClick={handleSearchClick}
+        className="flex items-center bg-white rounded-full overflow-hidden cursor-pointer w-48 sm:w-56 md:w-64 h-11 relative"
+        onClick={handleSearchClick}
+      >
+        <span
+          className={`pl-4 pr-10 text-black whitespace-nowrap overflow-hidden text-ellipsis ${searchQuery ? "opacity-100" : "opacity-50"}`}
         >
-          <span className={`pl-4 text-black ${searchQuery ? "opacity-100" : "opacity-50"}`}>
-            {searchQuery || "Search"}
-          </span>
-          <button className={`absolute right-3 text-black ${searchQuery ? "opacity-100" : "opacity-50"}`}>
-            <SearchIcon width="20" height="20" />
-          </button>
-        </div>
+          {searchQuery || "Search"}
+        </span>
+      
+        <button className={`absolute right-3 text-black ${searchQuery ? "opacity-100" : "opacity-50"}`}>
+          <SearchIcon width="20" height="20" />
+        </button>
+      </div>
+      
       )}
     </div>
   );

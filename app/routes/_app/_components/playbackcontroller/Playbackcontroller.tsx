@@ -11,6 +11,7 @@ import Swal from 'sweetalert2'
 import useSleepModeStore from '~/store/useSleepModeStore';
 import usePlaylistStore from '~/store/usePlaylistStore';
 import { useLikedTracksStore } from '~/store/useLikedTracksStore';
+import { useLocation } from '@remix-run/react';
 
 const Playbackcontroller = () => {
     const { trackDetails, setTrackDetails, handleVolumeChange, handlePlaybackSpeed } = useTrackStore();
@@ -19,7 +20,9 @@ const Playbackcontroller = () => {
     const { isSleepModeComplete, endOfTheTrackEnabled } = useSleepModeStore()
     const { hasNextTrack, playNextTrack, setCurrentlyPlayingTrack } = usePlaylistStore()
 
-    const {isTrackLiked} = useLikedTracksStore()
+    const location = useLocation()
+
+    const { isTrackLiked, isTrackUnliked, likedTrackMap, unlikedTrackMap } = useLikedTracksStore()
 
     const [isOpen, setIsOpen] = useState(false)
     const [progress, setProgress] = useState(0);
@@ -81,7 +84,6 @@ const Playbackcontroller = () => {
         };
 
         const handlePause = () => {
-
             if (trackDetails.isPlaying) {
                 setTrackDetails({ isPlaying: false })
             }
@@ -183,45 +185,63 @@ const Playbackcontroller = () => {
         }
     }, [isSleepModeComplete])
 
-    // useEffect(() => {
-    //     const isLiked = isTrackLiked(trackDetails.id)
-    
-    //     // Only update if the value actually changed
-    //     if (isLiked && !trackDetails.hasLiked) {
-    //         setTrackDetails({
-    //             hasLiked: true
-    //         });
-    //     } 
-    //     if(!isLiked && trackDetails.hasLiked){
-    //         setTrackDetails({
-    //             hasLiked: false
-    //         });
-    //     }
-    // }, [trackDetails]);
-    
+
+    useEffect(() => {
+        const detectLike = () => {
+            if (!trackDetails.id) return false
+
+            if (trackDetails.hasLiked) {
+                if (!isTrackUnliked(trackDetails.id)) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+
+            if (!trackDetails.hasLiked) {
+                if (!isTrackLiked(trackDetails.id)) {
+                    return false
+                } else {
+                    return true
+                }
+            }
+
+
+        }
+        if (detectLike() && !trackDetails.hasLiked) {
+            setTrackDetails({ hasLiked: detectLike() })
+        }
+        if (!detectLike() && trackDetails.hasLiked) {
+            setTrackDetails({ hasLiked: detectLike() })
+        }
+    }, [trackDetails, likedTrackMap, unlikedTrackMap]);
+
     return (
         <>
             <div className="fixed bottom-0 left-0 right-0 z-40 bg-black/70 backdrop-blur-lg">
-                {/* Progress Bar */}
-                <ProgressBar progress={progress} currentTime={currentTime} duration={duration} />
+                <div className='max-w-[90rem] mx-auto'>
 
-                <div className="px-4 py-3 flex items-center justify-between">
-                    {/* Left: Track Info */}
-                    <LeftTrackInfo setIsOpen={setIsOpen} />
+                    {/* Progress Bar */}
+                    <ProgressBar progress={progress} currentTime={currentTime} duration={duration} />
 
-                    {/* Center: Playback Controls (Hidden on Small Screens) */}
-                    <CenterPlaybackControllers />
+                    <div className="px-4 py-3 flex items-center justify-between">
+                        {/* Left: Track Info */}
+                        <LeftTrackInfo setIsOpen={setIsOpen} />
 
-                    {/* Right: Play Button and Heart Icon for Small Screens */}
-                    <RightControllers />
+                        {/* Center: Playback Controls (Hidden on Small Screens) */}
+                        <CenterPlaybackControllers />
+
+                        {/* Right: Play Button and Heart Icon for Small Screens */}
+                        <RightControllers />
+                    </div>
+                    {
+                        trackDetails.id && (
+                            <audio ref={audioRef} src={trackDetails.audioFileUrl} />
+                        )
+                    }
                 </div>
-                {
-                    trackDetails.id && (
-                        <audio ref={audioRef} src={trackDetails.audioFileUrl} />
-                    )
-                }
-            </div>
 
+            </div>
             {isOpen && (
                 <NowPlaying isOpen={isOpen} onClose={() => setIsOpen(false)} progress={progress} currentTime={currentTime} duration={duration} />
             )}

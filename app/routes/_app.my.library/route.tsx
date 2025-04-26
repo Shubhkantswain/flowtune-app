@@ -141,16 +141,16 @@ const MusicApp = () => {
     }
   }, [userPlaylists])
 
-  useEffect(() => {
-    if(data){
-      const newTracks = data.map(track => track.id)
-      setLikedTrackIds(newTracks);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if(data){
+  //     const newTracks = data.map(track => track.id)
+  //     setLikedTrackIds(newTracks);
+  //   }
+  // }, [data]);
 
   return (
-    <div className="text-white min-h-screen p-4 sm:p-6 md:p-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="text-white max-w-[90rem] mx-auto p-4 sm:p-6 md:p-8">
+      <div className="">
         {/* Header */}
         <Header activeTab={activeTab} setActiveTab={setActiveTab} tabs={tabs} />
 

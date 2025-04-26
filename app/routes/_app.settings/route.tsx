@@ -283,7 +283,6 @@ const SpotifySettings = () => {
                 </div>
             </div>
 
-            <Footer />
         </>
     );
 };

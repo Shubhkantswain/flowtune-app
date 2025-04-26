@@ -12,9 +12,10 @@ interface ScrollState {
 interface ScrollControlsProps {
     canScroll: ScrollState;
     scroll: (direction: 'left' | 'right') => void;
+    activeTab: string
 }
 
-const ScrollControls: React.FC<ScrollControlsProps> = ({ canScroll, scroll }) => {
+const ScrollControls: React.FC<ScrollControlsProps> = ({ canScroll, scroll, activeTab }) => {
     const [isOpen, setIsOpen] = useState(false)
     const { data, isLoading } = useCurrentUser()
     const navigate = useNavigate()
@@ -22,7 +23,7 @@ const ScrollControls: React.FC<ScrollControlsProps> = ({ canScroll, scroll }) =>
     return (
         <>
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl md:text-2xl font-bold">Playlists</h2>
+                <h2 className="text-xl md:text-2xl font-bold">{activeTab}</h2>
                 <div className="flex items-center gap-4">
                     <div className="flex gap-2">
                         {(canScroll.left || canScroll.right) && (

@@ -113,7 +113,7 @@ const EditProfilePage = () => {
 
 
   return (
-    <div className="bg-black min-h-screen text-gray-300">
+    <div className=" text-gray-300">
       {/* Main content */}
       <main className="max-w-5xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
         {/* Notification */}

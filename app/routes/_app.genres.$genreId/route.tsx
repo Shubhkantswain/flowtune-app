@@ -13,6 +13,7 @@ import { useGetTracksByGenreId } from '~/hooks/track';
 import Footer from '~/components/Footer';
 import { LoadingSpinnerIcon } from '~/Svgs';
 import { useLikedTracksStore } from '~/store/useLikedTracksStore';
+import { useCurrentActivePageStore } from '~/store/useCurrentActivePageStore';
 
 interface genreTracksData {
   tracks: Track[],
@@ -54,62 +55,51 @@ const AppleMusicHomepage: React.FC = () => {
   // Fetching data
   const tracksByGenreIdData = useLoaderData<genreTracksData>();
 
-  const { likedTrackMap, setLikedTrackIds } = useLikedTracksStore()
-
   const params = useParams()
 
   // State management
   const [page, setPage] = useState(1);
+
+  const { setCurrentPage, flag, setFlag } = useCurrentActivePageStore()
   const [tracksByGenreId, setTracksByGenreId] = useState<Track[][]>([]);
 
   // Internal Hooks
   const { setActiveSectionIndex } = usePlaylistStore();
-  const { data, isLoading } = useGetTracksByGenreId({ genreId: params.genreId || "", page });
 
-  // Derived data
+  const { data, isLoading } = useGetTracksByGenreId({page, genreId:params.genreId || ""}, tracksByGenreIdData.tracks);
+
+  // Derived dataactiveSectionIndex
   const trackSections = [
     tracksByGenreIdData.tracks.slice(0, SECTION_SIZE),
     tracksByGenreIdData.tracks.slice(SECTION_SIZE, SECTION_SIZE * 2),
     tracksByGenreIdData.tracks.slice(SECTION_SIZE * 2, SECTION_SIZE * 3),
   ];
 
+  //for active page and perform queryclient
   useEffect(() => {
-    if (data?.length) {
-      setTracksByGenreId(prev => {
-        const newSections = [
-          data.slice(0, SECTION_SIZE),
-          data.slice(SECTION_SIZE, SECTION_SIZE * 2),
-        ];
+    setCurrentPage(page)
+    setFlag(true)
+  }, [])
 
-        // If page is 2, include both the initial trackSections and new data
-        if (page === 2) {
-          const initialSections = [
-            tracksByGenreIdData.tracks.slice(0, SECTION_SIZE),
-            tracksByGenreIdData.tracks.slice(SECTION_SIZE, SECTION_SIZE * 2),
-            tracksByGenreIdData.tracks.slice(SECTION_SIZE * 2, SECTION_SIZE * 3),
-          ];
-          return [...initialSections, ...newSections];
+  useEffect(() => {
+    if (!data?.length) return;
 
+    setTracksByGenreId(prev => {
+      if (!flag) return prev;
+
+      const createSections = (startIndex: number, count: number) => {
+        const sections = [];
+        for (let i = 0; i < count; i++) {
+          const start = startIndex + i * SECTION_SIZE;
+          sections.push(data.slice(start, start + SECTION_SIZE));
         }
+        return sections;
+      };
 
-        // For other pages, just append new sections
-        return [...prev, ...newSections];
-      });
-    }
-  }, [data])
-
-  useEffect(() => {
-    const isFirstPage = page === 1;
-    const sourceData = isFirstPage ? tracksByGenreIdData.tracks : data ?? [];
-
-    // Proper filter that returns boolean
-    const newTracks = sourceData
-      .filter(item => item.hasLiked)
-      .map(item => item.id); // Convert to IDs if needed
-
-    const existingLikedIds = Object.keys(likedTrackMap);
-
-    setLikedTrackIds(isFirstPage ? newTracks : [...existingLikedIds, ...newTracks]);
+      return page === 1
+        ? createSections(0, 3)  // Initial load: 3 sections
+        : [...prev, ...createSections(0, 2)]; // Pagination: append 2 sections
+    });
   }, [data]);
 
   useEffect(() => {
