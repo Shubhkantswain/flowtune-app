@@ -12,6 +12,8 @@ import UserTracks from './_components/UserTracks';
 import LoadMore from './_components/LoadMore';
 import UserDoesNotExists from './_components/UserDoesNotExists';
 import Footer from '~/components/Footer';
+import EmptyState from '~/components/EmptyState';
+import { SadIcon } from '~/Svgs';
 
 interface UserData {
     data: GetUserProfileResponse | null
@@ -106,7 +108,13 @@ const UserPage = () => {
     };
 
     if (!user.userExist) {
-        return <UserDoesNotExists />;
+        return (
+            <EmptyState 
+            icon={<SadIcon width="60" height="60" />}
+            title='No user found'
+            message='You might lost your path, try another way'
+            />
+        )
     }
 
     console.log(tracks, "alltraxks");

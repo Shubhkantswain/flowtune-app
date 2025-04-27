@@ -13,6 +13,7 @@ import { createGraphqlClient } from '~/clients/api';
 import { getLikedTracksQuery } from '~/graphql/queries/track';
 import EmptyState from '~/components/EmptyState';
 import Footer from '~/components/Footer';
+import { SearchIcon } from '~/Svgs';
 
 interface Song {
   title: string;
@@ -236,20 +237,8 @@ const BrowsePage = () => {
               // <p className="text-gray-400 mt-4 text-sm">No results found.</p>
               <EmptyState
                 icon={
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-16 w-16 mb-4 text-gray-300"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={1.5}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z"
-                    />
-                  </svg>}
+                  <SearchIcon width="60" height="60"/>
+                  }
 
                 title='No results found'
                 message='Try a different search term or check your spelling.'

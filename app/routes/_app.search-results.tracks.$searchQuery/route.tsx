@@ -10,8 +10,9 @@ import useSearchStore from '~/store/useSearchStore';
 import { useTrackStore } from '~/store/useTrackStore';
 import SearchBar from '../_app.search/_components/SearchBar';
 import { MoreHorizontal } from 'lucide-react';
-import { LoadingSpinnerIcon } from '~/Svgs';
+import { LoadingSpinnerIcon, SadIcon, SearchIcon } from '~/Svgs';
 import { useLikedTracksStore } from '~/store/useLikedTracksStore';
+import EmptyState from '~/components/EmptyState';
 
 // ─────────────────────────────
 // LOADER FUNCTION
@@ -113,6 +114,19 @@ function SearchResultsRoute() {
 
   const displayedTracks = searchResults.length ? searchResults : initialTracks;
 
+  if (!initialTracks.length) {
+    return (
+      <EmptyState
+        icon={
+          <SearchIcon width="60" height="60" />
+        }
+        title='No results found'
+        message='Try a different search term or check your spelling.'
+      />
+    )
+  }
+
+
   return (
     <>
       {/* Track Results */}
@@ -145,7 +159,7 @@ function SearchResultsRoute() {
               <MoreHorizontal size={20} />
             </button>
           </div>
-        ))} 
+        ))}
 
         {/* Load More Button */}
         {hasMore && (

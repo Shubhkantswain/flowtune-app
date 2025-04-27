@@ -12,6 +12,8 @@ import PlaylistInfo from './_component/PlaylistInfo';
 import PlaylistTrackItems from './_component/PlaylistTrackItems';
 import Footer from '~/components/Footer';
 import { useLikedTracksStore } from '~/store/useLikedTracksStore';
+import EmptyState from '~/components/EmptyState';
+import { SadIcon, SearchIcon } from '~/Svgs';
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
     try {
@@ -87,31 +89,15 @@ function ExplorePlaylistsPage() {
 
     if (!res.id) {
         return (
-            <div className="flex flex-col items-center justify-center h-screen text-center bg-black">
-                <h1 className="text-2xl font-semibold text-white">Oops! Playlist not found.</h1>
-                <p className="text-white mt-2">The playlist you are looking for doesn't exist or has been removed.</p>
-                <button
-                    onClick={() => window.history.back()}
-                    className="mt-4 px-4 py-2 bg-white text-black rounded-md hover:opacity-80 transition"
-                >
-                    Go Back
-                </button>
-            </div>
+            <EmptyState 
+            icon={<SadIcon width="60" height="60" />}
+            title='No playlist found'
+            message='You might lost your path, try another way'
+            />
         );
-    }
-
-    // useEffect(() => {
-    //     if (res.tracks) {
-    //         // Proper filter that returns boolean
-    //         const newTracks = res.tracks
-    //             .filter(item => item.hasLiked)
-    //             .map(item => item.id); // Convert to IDs if needed
-
-
-    //         setLikedTrackIds(newTracks);
-    //     }
-    // }, [res, setLikedTrackIds]);
-
+      }
+      
+    
 
 
     return (
