@@ -22,7 +22,7 @@ export default function LanguageSelectionModal() {
   };
 
   const handleConfirm = () => {
-    console.log(`Selected language: ${selectedLanguage}`);
+    localStorage.setItem("selectedLanguage", selectedLanguage)
     navigate(-1);
   };
 

@@ -1,9 +1,11 @@
 import { Link, useLocation } from '@remix-run/react';
 import { MouseEvent } from 'react';
+import { useLanguageStore } from '~/store/useLanguageStore';
 import { ExploreIcon, HomeIcon, LibraryIcon } from '~/Svgs';
 
 const DesktopNavigation = () => {
   const location = useLocation();
+  const { language } = useLanguageStore()
 
   // Handles exact matches and explore sub-routes
   const isActive = (path: string) => {
@@ -65,7 +67,7 @@ const DesktopNavigation = () => {
             className={`flex items-center ${isActive("/my/library") ? "text-[#25d1da]" : "hover:text-[#25d1da]"
               } transition-colors`}
           >
-            <LibraryIcon width="24" height="24"/>
+            <LibraryIcon width="24" height="24" />
             <span className="hidden lg:inline ml-2 font-medium text-lg">Library</span>
           </button>
         </Link>

@@ -27,11 +27,11 @@ const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists }) => {
                             navigate(`/playlist/${playlist.id}`)
                         }}
                     >
-                        <div className="group relative overflow-hidden rounded-lg shadow-xl hover:shadow-2xl transition-shadow duration-300">
+                        <div className="group relative overflow-hidden rounded-sm shadow-xl hover:shadow-2xl transition-shadow duration-300">
                             <img
                                 src={playlist.coverImageUrl || ""}
                                 alt={`Album cover for ${playlist.name}`}
-                                className="w-full aspect-square rounded-lg transition-opacity duration-300 group-hover:brightness-50 object-cover"
+                                className="w-full aspect-square rounded-sm transition-opacity duration-300 group-hover:brightness-50 object-cover"
                             />
                         </div>
                         <div className="font-normal mt-2 truncate overflow-ellipsis">

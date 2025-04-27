@@ -85,24 +85,7 @@ function SearchResultsRoute() {
         setHasMore(data?.length >= 5)
       }
     }
-    // if (searchQuery && data.length === 0 && !isLoading) {
-    //   setHasMore(false);
-    // }
   }, [data, page]);
-
-  useEffect(() => {
-    const isFirstPage = page === 1;
-    const sourceData = isFirstPage ? initialTracks : data ?? [];
-
-    // Proper filter that returns boolean
-    const newTracks = sourceData
-      .filter(item => item.hasLiked)
-      .map(item => item.id); // Convert to IDs if needed
-
-    const existingLikedIds = Object.keys(likedTrackMap);
-
-    setLikedTrackIds(isFirstPage ? newTracks : [...existingLikedIds, ...newTracks]);
-  }, [data]);
 
   const handleTrackClick = (isPlayingCurrent: boolean, track: Track) => {
     if (isPlayingCurrent && initialized) {
@@ -162,7 +145,7 @@ function SearchResultsRoute() {
               <MoreHorizontal size={20} />
             </button>
           </div>
-        ))}
+        ))} 
 
         {/* Load More Button */}
         {hasMore && (

@@ -11,6 +11,8 @@ import ListScreenTracks from './_components/ListScreenTracks';
 import TrackCollectionsInfo from './_components/TrackCollectionsInfo';
 import CompactScreenTracks from './_components/CompactScreenTracks';
 import { useLikedTracksStore } from '~/store/useLikedTracksStore';
+import { useGetLikedTracks, useLikeTrack } from '~/hooks/track';
+import { LoadingSpinnerIcon } from '~/Svgs';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   try {
@@ -26,7 +28,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     if (!token) return redirect("/ft/signin");
 
     const graphqlClient = createGraphqlClient(token);
-    const { getLikedTracks } = await graphqlClient.request(getLikedTracksQuery);
+    const { getLikedTracks } = await graphqlClient.request(getLikedTracksQuery, { page: 1 });
 
     return getLikedTracks || [];
   } catch (error) {
@@ -41,12 +43,16 @@ const LikedTracks = () => {
 
   const { initializePlaylist, setCurrentlyPlayingTrack, setActiveSectionIndex } = usePlaylistStore();
   const { setTrackDetails, trackDetails } = useTrackStore();
-  const { setLikedTrackIds } = useLikedTracksStore();
 
   const [initialized, setInitialized] = useState(false);
   const [screenType, setScreenType] = useState("compact");
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [page, setPage] = useState(1)
+  const [hasMore, setHasMore] = useState(false)
+
+  const { data, isLoading } = useGetLikedTracks(page)
+  const {isTrackUnliked} = useLikedTracksStore()
 
   const toggleDropdown = () => setShowDropdown(!showDropdown);
   const toggleScreenType = () => setScreenType(prev => (prev === "compact" ? "list" : "compact"));
@@ -71,9 +77,28 @@ const LikedTracks = () => {
   }, [])
 
   useEffect(() => {
-    const newTracks = initialTracks.map(track => track.id)
-    setLikedTrackIds(newTracks);
-  }, [initialTracks]);
+    if (data?.length) {
+      setLikedTracks(prev => {
+        const newTracks = data.filter((track) => !isTrackUnliked(track.id))
+
+        // If page is 2, include both the initial trackSections and new data
+        if (page === 2) {
+          return [...initialTracks, ...newTracks];
+        }
+
+        // For other pages, just append new sections
+        return [...prev, ...newTracks];
+      });
+
+    }
+    if (data) {
+      if (page == 1) {
+        setHasMore(initialTracks.length >= 20)
+      } else {
+        setHasMore(data?.length >= 20)
+      }
+    }
+  }, [data, page]);
 
   const handlePlayTrack = (track: Track) => {
     const isPlayingCurrentSong = track?.id === trackDetails.id && trackDetails.isPlaying;
@@ -86,7 +111,7 @@ const LikedTracks = () => {
       return;
     } else {
       if (!initialized) {
-        initializePlaylist(initialTracks);
+        initializePlaylist(likedTracks);
       }
 
       setTrackDetails({
@@ -127,6 +152,7 @@ const LikedTracks = () => {
           ) : screenType === "compact" ? (
             <CompactScreenTracks
               likedTracks={likedTracks.length ? likedTracks : initialTracks}
+              setLikedTracks={setLikedTracks}
               initialized={initialized}
               handlePlayTrack={handlePlayTrack}
             />
@@ -138,6 +164,24 @@ const LikedTracks = () => {
             />
           )}
         </div>
+
+        {hasMore && (
+          <button
+            onClick={() => setPage(page + 1)}
+            aria-label="Load more tracks"
+            className="mx-auto block px-4 py-2 mt-5 text-white bg-[#292a2a] hover:bg-[#5D5E5E] text-sm font-medium rounded-full disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow transition-all duration-200 w-fit"
+            disabled={isLoading}
+          >
+            {isLoading && page != 1 ? (
+              <span className="flex items-center justify-center gap-1.5 text-white">
+                <LoadingSpinnerIcon width="18" height="18" />
+                Loading...
+              </span>
+            ) : (
+              'Load More'
+            )}
+          </button>
+        )}
       </div>
     </div>
   );

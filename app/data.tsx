@@ -100,16 +100,30 @@ export const genre = [
   }
 ];
 
+export type Artist = {
+  name: string;
+  coverImageUrl: string;
+  role?: string; // optional, since your data doesn't have role right now
+};
 
-export const englishToHindi = {
-  "Home": "घर",
-  "Explore": "अन्वेषण",
-  "Library": "संग्रह",
-  "Search": "खोजे",
-  "Tracks": "गाने",
-  "Playlists": "प्लेलिस्ट",
-  "Welcome back": "वापसी पर स्वागत है",
-  "Good Evening": "शुभ संध्या",
-  "Discover More": "और ढूंढें",
-  "Load More": "और लोड करें",
-}
+export type ArtistsData = {
+  [language: string]: Artist[];
+};
+
+export const artistsData: ArtistsData = {
+  "Hindi": [
+    {
+      name: "Arijit Singh",
+      coverImageUrl: "https://i.scdn.co/image/ab6761610000e5eb5ba2d75eb08a2d672f9b69b7"
+    },
+    {
+      name: "Sonu Nigam",
+      coverImageUrl: "https://i.scdn.co/image/ab6761610000e5ebbc959d7569618ec2af2210f5"
+    },
+    {
+      name: "Atif Aslam",
+      coverImageUrl: "https://i.scdn.co/image/ab6761610000e5ebc40600e02356cc86f0debe84"
+    }
+  ]
+};
+

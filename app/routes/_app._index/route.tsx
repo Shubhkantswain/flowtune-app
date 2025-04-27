@@ -58,11 +58,13 @@ function HomePage() {
   return (
     <>
       {/* TRACK SECTIONS */}
+      <div className="max-w-[90rem] mx-auto">
+
       {trackSections.map((section, index) => (
         <TrackSection key={index} tracks={section} index={index} title={getTitle(index)} />
       ))}
+      </div>
 
-      <Footer />
     </>)
 }
 

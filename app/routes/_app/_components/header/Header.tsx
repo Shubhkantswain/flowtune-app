@@ -5,6 +5,7 @@ import MobileNavigation from './MobileNavigation'
 import DesktopAccount from './DesktopAccount'
 
 const Header = () => {
+    
     return (
         <header className="sticky top-0 z-50 bg-black/40 backdrop-blur-lg border-b border-[#2E3030]">
             <div className="flex items-center max-w-[90rem] mx-auto justify-between px-4 lg:px-6 py-4">

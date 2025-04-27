@@ -87,19 +87,20 @@ export const getSearchTracksQuery = graphql(`
   }
 `);
 
-export const getLikedTracksQuery = graphql(`#graphql
-  query GetLikedTracks {
-    getLikedTracks {
-      id   
-      title            
-      singer          
+export const getLikedTracksQuery = graphql(`
+  #graphql
+  query GetLikedTracks($page: Int!) {
+    getLikedTracks(page: $page) {
+      id
+      title
+      singer
       starCast
-      duration             
-      coverImageUrl    
+      duration
+      coverImageUrl
       videoUrl
-      audioFileUrl 
+      audioFileUrl
       hasLiked
       authorId
     }
   }
-`)
+`);

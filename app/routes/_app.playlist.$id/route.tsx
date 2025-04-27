@@ -44,17 +44,10 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 function ExplorePlaylistsPage() {
     const res = useLoaderData<GetPlaylistTracksResponse>()
 
-    console.log("resppppp", res);
-
     const [initialized, setInitialized] = useState(false)
 
     const { setTrackDetails, trackDetails } = useTrackStore()
     const { initializePlaylist, setCurrentlyPlayingTrack } = usePlaylistStore()
-
-    const { setLikedTrackIds } = useLikedTracksStore();
-
-    const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
-
 
     const handleControll = (track: Track) => {
         const isPlayingCurrentSong = track?.id == trackDetails.id && trackDetails.isPlaying;

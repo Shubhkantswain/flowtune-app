@@ -3,6 +3,8 @@ export const searchData = [
     { title: `Ae Dil Hai Mushkil From("Ae Dil Hai Mushkil")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2734a00b4392365a753c201bd75" },
     { title: `Akhiyaan Gulaab From("TBMAUJ")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27352e3a807b72281cb40c08092" },
     { title: `Abhi Mujh Mein Kahin From("Agneepath")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273c2fd8e88b0dcb889089a0abc" },
+    { title: `Aashiqui 2 The Love Theme ("Guitar")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2736404721c1943d5069f0805f3" },
+
 
     { title: `Be Intehaan From("Race 2")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2738357346ac0ff5f43c325a0e3" },
     { title: `Bewajah From ("Sanam Teri Kasam")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ddaabc10aebdc619c1c9504c" },
@@ -65,6 +67,8 @@ export const searchData = [
 
     { title: `Tera Ban Jaunga From("Kabir Singh")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273c5545f737b16ad5ee767b62a" },
     { title: `Tum Se Hi From ("Jab We Met")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27352fe6875028c892308ffc2f7" },
+    { title: `Tum Se Hi ("Guitar")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27352fe6875028c892308ffc2f7" },
+
     { title: `Tum Hi Ho From("Aashiqui 2")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2736404721c1943d5069f0805f3" },
     { title: `Tera Chehra From("Sanam Teri Kasam")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ddaabc10aebdc619c1c9504c" },
     { title: `Tum Ho From("Rockstar")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273869a9b15675b514a06d2c049" },

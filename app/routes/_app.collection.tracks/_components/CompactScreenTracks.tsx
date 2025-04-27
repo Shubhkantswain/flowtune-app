@@ -8,19 +8,21 @@ import { HeartIconFilled, MoreIcon, PauseIcon, PlayIcon } from '~/Svgs';
 
 interface CompactScreenTracksProps {
     likedTracks: Track[];
+    setLikedTracks: React.Dispatch<React.SetStateAction<Track[]>>;
     initialized: boolean;
     handlePlayTrack: (track: Track) => void;
 }
 
 const CompactScreenTracks: React.FC<CompactScreenTracksProps> = ({
     likedTracks,
+    setLikedTracks,
     handlePlayTrack,
     initialized,
 }) => {
     const { trackDetails, setTrackDetails } = useTrackStore()
     const { mutateAsync: likeTrack } = useLikeTrack()
     const { unlikeTrack } = useLikedTracksStore()
-    const { initializePlaylist, setCurrentlyPlayingTrack } = usePlaylistStore()
+    const { initializePlaylist, setCurrentlyPlayingTrack, removeTrackFromPlaylist } = usePlaylistStore()
 
     return (
         <div className="">
@@ -70,14 +72,13 @@ const CompactScreenTracks: React.FC<CompactScreenTracksProps> = ({
                             onClick={async (e) => {
                                 e.stopPropagation()
                                 await likeTrack(track.id)
-
                                 const newTracks = likedTracks.filter((item) => item.id != track.id)
+                                setLikedTracks(newTracks)
                                 unlikeTrack(track.id)
-                                initializePlaylist(newTracks)
+                                // initializePlaylist(newTracks)
+                                removeTrackFromPlaylist(track.id)
                                 setCurrentlyPlayingTrack(trackDetails.id);
-                                if (track.id == trackDetails.id) {
-                                    setTrackDetails({ hasLiked: false })
-                                }
+                               
 
                             }}
                         >

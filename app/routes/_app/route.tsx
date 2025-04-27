@@ -4,6 +4,8 @@ import Playbackcontroller from "./_components/playbackcontroller/Playbackcontrol
 import Header from "./_components/header/Header";
 import { genreIdsSwap } from "~/searchData";
 import Footer from "~/components/Footer";
+import { useLanguageStore } from "~/store/useLanguageStore";
+import { useEffect } from "react";
 
 export default function AppLayout() {
     const location = useLocation()
@@ -25,7 +27,7 @@ export default function AppLayout() {
                     <Outlet />
                     <div className="p-4 sm:p-6 md:p-8 max-w-[90rem] mx-auto">
 
-                    <Footer/>
+                        <Footer />
                     </div>
                 </main>
 

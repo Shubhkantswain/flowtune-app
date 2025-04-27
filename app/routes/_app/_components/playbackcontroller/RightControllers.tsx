@@ -142,7 +142,7 @@ const RightControllers = () => {
                     )
                 }
 
-                <button className={`${trackDetails.hasLiked ? "text-[#25d1da]" : "text-white hover:text-[#93D0D5]"} ${trackDetails.id ? "opacity-100" : "opacity-50 cursor-not-allowed"} rounded-full flex items-center justify-center transition-transform mr-20`}
+                <button className={`${trackDetails.hasLiked ? "text-[#25d1da]" : "text-white hover:text-[#93D0D5]"} ${trackDetails.id ? "opacity-100" : "opacity-50 cursor-not-allowed"} rounded-full flex items-center justify-center transition-transform`}
                     onClick={handleLike}
                     disabled={isPending || !trackDetails.id}
                 >

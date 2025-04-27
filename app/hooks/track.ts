@@ -3,7 +3,7 @@ import { CreateTrackPayload, GetTracksByGenreIdInput, SearchInput, Track } from 
 import { toast } from "sonner";
 import { createGraphqlClient } from "~/clients/api";
 import { createTrackMutation, likeTrackMutation } from "~/graphql/mutations/track";
-import { getExploreTracksQuery, getRecentTracksQuery, getSearchTracksQuery, getTracksByGenreIdQuery } from "~/graphql/queries/track";
+import { getExploreTracksQuery, getLikedTracksQuery, getRecentTracksQuery, getSearchTracksQuery, getTracksByGenreIdQuery } from "~/graphql/queries/track";
 
 export const useCreateTrack = () => {
     return useMutation({
@@ -60,6 +60,24 @@ export const useGetExploreTracks = (page: number) => {
             const graphqlClient = createGraphqlClient(token);
             const { getExploreTracks } = await graphqlClient.request(getExploreTracksQuery, { page });
             return getExploreTracks
+        },
+        staleTime: page === 1 ? 0 : 1000 * 60 * 5,
+    })
+}
+
+export const useGetLikedTracks = (page: number) => {
+    return useQuery({
+        queryKey: ['likedTracks', page],
+        queryFn: async () => {
+            if (page == 1) return []
+
+            let token = ""
+            if (typeof window !== "undefined") {
+                token = localStorage.getItem("__FlowTune_Token") || ""
+            }
+            const graphqlClient = createGraphqlClient(token);
+            const { getLikedTracks } = await graphqlClient.request(getLikedTracksQuery, { page });
+            return getLikedTracks
         },
         staleTime: page === 1 ? 0 : 1000 * 60 * 5,
     })
