@@ -22,8 +22,11 @@ interface PlaylistStoreState {
 
   // Current state
   currentlyPlayingNode: PlaylistNode | null;
+  firstNode: PlaylistNode | null,
+  lastNode: PlaylistNode | null,
   trackNodeMap: Map<string, PlaylistNode>;
   activeSectionIndex: number;
+  isPlaylistRepeat: boolean;
 
   // Store actions
   initializePlaylist: (tracks: Track[]) => void;
@@ -34,6 +37,7 @@ interface PlaylistStoreState {
   hasNextTrack: () => boolean;
   hasPreviousTrack: () => boolean;
   setActiveSectionIndex: (index: number) => void;
+  setIsPlaylistRepeat: (repeat: boolean) => void;
   setCurrentlyPlayingTrack: (trackId: string) => boolean;
   getAllPlaylistTracks: () => Track[];
   clearPlaylist: () => void;
@@ -50,8 +54,11 @@ const usePlaylistStore = create<PlaylistStoreState>((set, get) => {
     headSentinel,
     tailSentinel,
     currentlyPlayingNode: null,
+    firstNode: null,
+    lastNode: null,
     trackNodeMap: new Map(),
     activeSectionIndex: -1,
+    isPlaylistRepeat: false,
 
     initializePlaylist: (tracks) => {
       const { headSentinel, tailSentinel, trackNodeMap } = get();
@@ -73,11 +80,13 @@ const usePlaylistStore = create<PlaylistStoreState>((set, get) => {
 
       set({
         currentlyPlayingNode: headSentinel.next?.data ? headSentinel.next : null,
+        firstNode: headSentinel.next?.data ? headSentinel.next : null,
+        lastNode: tailSentinel.previous?.data ? tailSentinel.previous : null,
         trackNodeMap: new Map(trackNodeMap),
       });
     },
 
-    removeTrackFromPlaylist: (trackId) => {
+    removeTrackFromPlaylist: (trackId) => { // 1 2 3 4 5
       const { trackNodeMap } = get();
       const nodeToRemove = trackNodeMap.get(trackId);
 
@@ -86,6 +95,16 @@ const usePlaylistStore = create<PlaylistStoreState>((set, get) => {
       // Save references before disconnecting
       const previousNode = nodeToRemove.previous;
       const nextNode = nodeToRemove.next;
+
+      let newLastNode = null
+      if (nodeToRemove == tailSentinel.previous) {
+        newLastNode = nodeToRemove.previous
+      }
+
+      let newFirstNode = null 
+      if (nodeToRemove == headSentinel.next) {
+        newFirstNode = nodeToRemove.next
+      }
 
       // Update adjacent nodes to skip over the removed node
       if (previousNode) previousNode.next = nextNode;
@@ -98,8 +117,26 @@ const usePlaylistStore = create<PlaylistStoreState>((set, get) => {
       // Remove from tracking map
       trackNodeMap.delete(trackId);
 
-      set({ trackNodeMap: new Map(trackNodeMap) });
+      if (newLastNode) {
+        set({
+          trackNodeMap: new Map(trackNodeMap),
+          lastNode: newLastNode
+        });
+      } 
+      if(!newLastNode){
+        set({ trackNodeMap: new Map(trackNodeMap) });
+      }
 
+      if (newFirstNode) {
+        set({
+          trackNodeMap: new Map(trackNodeMap),
+          firstNode: newFirstNode
+        });
+      } 
+      if(!newFirstNode){
+        set({ trackNodeMap: new Map(trackNodeMap) });
+      }
+      
       return true;
     },
 
@@ -125,28 +162,37 @@ const usePlaylistStore = create<PlaylistStoreState>((set, get) => {
       return get().currentlyPlayingNode?.data ?? null;
     },
 
+    getFirstTrack: () => {
+      return get().headSentinel?.next?.data ?? null;
+
+    },
+
     hasNextTrack: () => {
       const { currentlyPlayingNode, tailSentinel } = get();
-      
+
       // Explicitly check for null/undefined first
       if (currentlyPlayingNode == null) return false;
-      
+
       // Now safely check the next node
       return currentlyPlayingNode.next !== null && currentlyPlayingNode.next !== tailSentinel;
     },
-    
+
     hasPreviousTrack: () => {
       const { currentlyPlayingNode, headSentinel } = get();
-      
+
       // Explicitly check for null/undefined first
       if (currentlyPlayingNode == null) return false;
-      
+
       // Now safely check the previous node
       return currentlyPlayingNode.previous !== null && currentlyPlayingNode.previous !== headSentinel;
     },
 
     setActiveSectionIndex: (index) => {
       set({ activeSectionIndex: index });
+    },
+
+    setIsPlaylistRepeat: (repeat) => {
+      set({ isPlaylistRepeat: repeat });
     },
 
     setCurrentlyPlayingTrack: (trackId) => {

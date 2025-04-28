@@ -4,9 +4,30 @@ import { NextIcon, PauseIcon, PlayIcon, PrevIcon, SkipBackwardIcon, SkipForwardI
 
 const CenterPlaybackControllers = () => {
     const { trackDetails, togglePlay, handleSkip, setTrackDetails } = useTrackStore()
-    const { hasNextTrack, hasPreviousTrack, playNextTrack, playPreviousTrack } = usePlaylistStore()
+    const { hasNextTrack, hasPreviousTrack, playNextTrack, playPreviousTrack, isPlaylistRepeat, setCurrentlyPlayingTrack, firstNode, lastNode } = usePlaylistStore()
 
     const isPlaying = trackDetails.isPlaying
+
+    const isDisableForNext = () => {
+        if(!trackDetails.id) return true
+
+        if(isPlaylistRepeat || hasNextTrack()){
+            return false
+        } 
+
+        return true
+    }
+
+    
+    const isDisableForPrev = () => {
+        if(!trackDetails.id) return true
+
+        if(isPlaylistRepeat || hasPreviousTrack()){
+            return false
+        } 
+
+        return true
+    }
 
     return (
         <div className="hidden md:flex items-center justify-center flex-1 md:w-1/3 space-x-2 md:space-x-4">
@@ -15,7 +36,7 @@ const CenterPlaybackControllers = () => {
                 {
                     trackDetails.id && (
                         <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
                             Skip Backward 15s
                         </div>
                     )
@@ -32,7 +53,7 @@ const CenterPlaybackControllers = () => {
 
             <div className="relative group">
                 {
-                    (hasPreviousTrack() && trackDetails.id) && (
+                    ((isPlaylistRepeat) || (hasPreviousTrack() && trackDetails.id)) && (
                         <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
         opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
                             Previous
@@ -41,16 +62,49 @@ const CenterPlaybackControllers = () => {
                 }
 
                 <button
-                    className={`p-2 ${hasPreviousTrack() && trackDetails.id ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-white`}
+                    className={`p-2 ${((isPlaylistRepeat || hasPreviousTrack()) && (trackDetails.id)) ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-white`}
                     onClick={() => {
-                        if (hasPreviousTrack() && trackDetails.id) {
+                        if (!trackDetails.id) return
+                        if (hasPreviousTrack()) {
                             const prevTrack = playPreviousTrack()
                             if (prevTrack) {
-                                setTrackDetails(prevTrack)
+                                setTrackDetails({
+                                    id: prevTrack.id,
+                                    title: prevTrack.title,
+                                    singer: prevTrack.singer,
+                                    starCast: prevTrack.starCast,
+                                    duration: prevTrack.duration,
+                                    coverImageUrl: prevTrack.coverImageUrl || "",
+                                    videoUrl: prevTrack.videoUrl,
+                                    audioFileUrl: prevTrack.audioFileUrl,
+                                    hasLiked: prevTrack.hasLiked,
+                                    authorId: prevTrack.authorId,
+                                    isPlaying: true,
+                                })
+                            }
+                        }
+
+                        else {
+                            if (lastNode) {
+                                setTrackDetails({
+                                    id: lastNode.data?.id,
+                                    title: lastNode.data?.title,
+                                    singer: lastNode.data?.singer,
+                                    starCast: lastNode.data?.starCast,
+                                    duration: lastNode.data?.duration,
+                                    coverImageUrl: lastNode.data?.coverImageUrl || "",
+                                    videoUrl: lastNode.data?.videoUrl,
+                                    audioFileUrl: lastNode.data?.audioFileUrl,
+                                    hasLiked: lastNode.data?.hasLiked,
+                                    authorId: lastNode.data?.authorId,
+                                    isPlaying: true,
+                                })
+                                setCurrentlyPlayingTrack(lastNode.data?.id || "")
                             }
                         }
                     }}
-                    disabled={!hasPreviousTrack() || !trackDetails.id}
+                    disabled={isDisableForPrev()}
+
                 >
                     <PrevIcon width="24" height="24" />
 
@@ -84,7 +138,7 @@ const CenterPlaybackControllers = () => {
 
             <div className="relative group">
                 {
-                    (hasNextTrack() && trackDetails.id) && (
+                    ((isPlaylistRepeat) || (hasNextTrack() && trackDetails.id)) && (
                         <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
         opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
                             Next
@@ -93,16 +147,48 @@ const CenterPlaybackControllers = () => {
                 }
 
                 <button
-                    className={`p-2 ${hasNextTrack() && trackDetails.id ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-white`}
+                    className={`p-2 ${((isPlaylistRepeat || hasNextTrack()) && (trackDetails.id)) ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-white`}
                     onClick={() => {
-                        if (hasNextTrack() && trackDetails.id) {
+                        if (!trackDetails.id) return
+                        if (hasNextTrack()) {
                             const nextTrack = playNextTrack()
                             if (nextTrack) {
-                                setTrackDetails(nextTrack)
+                                setTrackDetails({
+                                    id: nextTrack.id,
+                                    title: nextTrack.title,
+                                    singer: nextTrack.singer,
+                                    starCast: nextTrack.starCast,
+                                    duration: nextTrack.duration,
+                                    coverImageUrl: nextTrack.coverImageUrl || "",
+                                    videoUrl: nextTrack.videoUrl,
+                                    audioFileUrl: nextTrack.audioFileUrl,
+                                    hasLiked: nextTrack.hasLiked,
+                                    authorId: nextTrack.authorId,
+                                    isPlaying: true,
+                                })
+                            }
+                        }
+
+                        else {
+                            if (firstNode) {
+                                setTrackDetails({
+                                    id: firstNode.data?.id,
+                                    title: firstNode.data?.title,
+                                    singer: firstNode.data?.singer,
+                                    starCast: firstNode.data?.starCast,
+                                    duration: firstNode.data?.duration,
+                                    coverImageUrl: firstNode.data?.coverImageUrl || "",
+                                    videoUrl: firstNode.data?.videoUrl,
+                                    audioFileUrl: firstNode.data?.audioFileUrl,
+                                    hasLiked: firstNode.data?.hasLiked,
+                                    authorId: firstNode.data?.authorId,
+                                    isPlaying: true,
+                                })
+                                setCurrentlyPlayingTrack(firstNode.data?.id || "")
                             }
                         }
                     }}
-                    disabled={!hasNextTrack() || !trackDetails.id}
+                    disabled={isDisableForNext()}
                 >
                     <NextIcon width="24" height="24" />
 

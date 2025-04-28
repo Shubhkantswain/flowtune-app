@@ -32,6 +32,8 @@ export const searchData = [
     { title: `Humdard From("Ek Villain")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273a2ef89ae0f8d1848081c1449" },
     { title: `Hua Main From("Animal")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ac2f40efa7f20f169acfb46f" },
     { title: `Hale Dil From("Murder 2")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273f6a65bf4f6220e58013c752d" },
+    { title: `Humnava Mere `, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273b27f16d3b96b21ad1a9e6895" },
+
 
     { title: `Ilahi From("Yeh Jawaani Hai Deewani")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273707ea5b8023ac77d31756ed4" },
 
@@ -44,6 +46,8 @@ export const searchData = [
     { title: `Kya Khoya From("Khamoshiyan")`, coverImageUrl: "https://c.saavncdn.com/378/Khamoshiyan-Hindi-2014-20190516123124-500x500.jpg" },
     { title: `Kya Mujhe Pyaar Hai From("Woh Lamhe")`, coverImageUrl: "https://c.saavncdn.com/720/Kya-Mujhe-Pyaar-Hai-Hindi-2021-20211201011527-500x500.jpg" },
     { title: `Kabira From("Yeh Jawaani Hai Deewani")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273707ea5b8023ac77d31756ed4" },
+    { title: `Kinna Sona From("Marjaavaan")`, coverImageUrl: "https://c.saavncdn.com/268/Kinna-Sona-From-Marjaavaan--Hindi-2019-20191106064921-500x500.jpg" },
+
 
     { title: `Lutt Putt Gaya From("Dunki")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2731a2e85cf59d754808254425f" },
 

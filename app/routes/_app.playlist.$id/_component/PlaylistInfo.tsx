@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { useCurrentUser } from '~/hooks/auth'
 import { useDeletePlaylist } from '~/hooks/playlist'
+import usePlaylistStore from '~/store/usePlaylistStore'
 import { MoreIcon, PlayIcon } from '~/Svgs'
 import { formatTotalDuration } from '~/utils'
 
@@ -16,6 +17,7 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
     const dropdownRef = useRef<HTMLDivElement>(null)
     const navigate = useNavigate()
     const { mutateAsync: deletePlaylist } = useDeletePlaylist()
+    const { setIsPlaylistRepeat } = usePlaylistStore()
 
     const [showDropdown, setShowDropdown] = useState(false)
     const [imgSize, setImgSize] = useState({ width: 224, height: 224 }) // 56 * 4 = 224 (56rem)
@@ -153,7 +155,7 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
                             <div className={`absolute bottom-12 left-1/2 -translate-x-1/2 w-64 z-50 transform transition-all duration-300 ease-in-out ${showDropdown ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
                                 <div className="bg-gradient-to-b from-neutral-950 to-neutral-900 rounded-md shadow-xl border border-[#2E3030]">
                                     <div className="py-1">
-                                       
+
 
                                         <button
                                             className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white"
@@ -192,6 +194,18 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
                                             }}
                                         >
                                             Share
+                                        </button>
+                                        <div className="border-b border-[#2E3030]"></div>
+
+                                        <button
+                                            className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white"
+                                           onClick={() => {
+                                            setIsPlaylistRepeat(true)
+                                            toast.success("This playlist is now set to repeat! Enjoy")
+                                            setShowDropdown(false)
+                                        }}
+                                        >
+                                            Repeat This Playlist
                                         </button>
                                         <div className="border-b border-[#2E3030]"></div>
 

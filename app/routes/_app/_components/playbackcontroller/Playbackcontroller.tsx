@@ -18,7 +18,7 @@ const Playbackcontroller = () => {
     const { isTrackRepeatable } = useRepeatableTracksStore()
     const { dequeueFirstTrack } = useQueueStore()
     const { isSleepModeComplete, endOfTheTrackEnabled } = useSleepModeStore()
-    const { hasNextTrack, playNextTrack, setCurrentlyPlayingTrack } = usePlaylistStore()
+    const { hasNextTrack, playNextTrack, setCurrentlyPlayingTrack, firstNode } = usePlaylistStore()
 
     const location = useLocation()
 
@@ -43,7 +43,7 @@ const Playbackcontroller = () => {
         }
     }, [trackDetails, trackDetails.isPlaying]);
 
-
+ 
     useEffect(() => {
         if (trackDetails?.audoRef?.current) {
             let storedVolume = localStorage.getItem('volume');
@@ -150,6 +150,23 @@ const Playbackcontroller = () => {
                         authorId: nextTrack.authorId,
                         isPlaying: true,
                     })
+                }
+            } else {
+                if (firstNode) {
+                    setTrackDetails({
+                        id: firstNode.data?.id,
+                        title: firstNode.data?.title,
+                        singer: firstNode.data?.singer,
+                        starCast: firstNode.data?.starCast,
+                        duration: firstNode.data?.duration,
+                        coverImageUrl: firstNode.data?.coverImageUrl || "",
+                        videoUrl: firstNode.data?.videoUrl,
+                        audioFileUrl: firstNode.data?.audioFileUrl,
+                        hasLiked: firstNode.data?.hasLiked,
+                        authorId: firstNode.data?.authorId,
+                        isPlaying: true,
+                    })
+                    setCurrentlyPlayingTrack(firstNode.data?.id || "")
                 }
             }
 

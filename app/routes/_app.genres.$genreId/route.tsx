@@ -117,6 +117,8 @@ const AppleMusicHomepage: React.FC = () => {
   return (
     <>
       {/* HEADER */}
+
+      <div className='max-w-[90rem] mx-auto'>
       <h1 className="text-5xl font-bold p-4 sm:p-6 md:p-8 mt-5 -mb-2">{genreIdsSwap[params.genreId as GenreKey][0]}</h1>
 
       {tracksByGenreId.length > 0
@@ -142,6 +144,7 @@ const AppleMusicHomepage: React.FC = () => {
           'Load More'
         )}
       </button>
+          </div>
     </>
   );
 };
