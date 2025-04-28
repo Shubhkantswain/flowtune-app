@@ -31,7 +31,7 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
     }
 
     return (
-        <div className="px-8 pt-8 -mt-7">
+        <div className="px-8 pt-8 -mt-5">
             <div
                 className={`aspect-square w-full max-w-sm lg:max-w-[300px] lg:ml-0 mx-auto rounded-lg mb-8 will-change-transform transition-transform duration-500 ease-out transform wave-container ${trackDetails.isPlaying
                     ? 'scale-100 playing'

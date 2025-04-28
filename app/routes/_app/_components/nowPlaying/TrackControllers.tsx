@@ -1,3 +1,4 @@
+import { Track } from 'gql/graphql'
 import { useEffect, useState } from 'react'
 import usePlaylistStore from '~/store/usePlaylistStore'
 import { useTrackStore } from '~/store/useTrackStore'
@@ -6,12 +7,40 @@ import { MuteIcon, NextIcon, PauseIcon, PlayIcon, PrevIcon, SkipBackwardIcon, Sk
 
 const TrackControllers = () => {
     const { trackDetails, togglePlay, setTrackDetails, handleVolumeChange, handleSkip } = useTrackStore()
-    const { hasNextTrack, hasPreviousTrack, playNextTrack, playPreviousTrack } = usePlaylistStore()
+    const { hasNextTrack, hasPreviousTrack, playNextTrack, playPreviousTrack, setCurrentlyPlayingTrack, firstNode, lastNode, isPlaylistRepeat } = usePlaylistStore()
     const { mute, setMute } = useVolumeStore()
 
     const [volume, setVolume] = useState(0.5);
 
+    const hasTrack = Boolean(trackDetails.id)
     const isPlaying = trackDetails.isPlaying
+
+    const isDisabledForDirection = (direction: 'next' | 'prev') => {
+        if (!hasTrack) return true
+        if (isPlaylistRepeat) return false
+        return direction === 'next' ? !hasNextTrack() : !hasPreviousTrack()
+    }
+
+    const updateTrackDetails = (track: Track) => {
+        setTrackDetails({
+            ...track,
+            coverImageUrl: track.coverImageUrl || "",
+            isPlaying: true,
+        })
+    }
+
+    const playTrack = (direction: 'next' | 'prev') => {
+        if (!hasTrack) return
+
+        const track = direction === 'next'
+            ? (hasNextTrack() ? playNextTrack() : firstNode?.data)
+            : (hasPreviousTrack() ? playPreviousTrack() : lastNode?.data)
+
+        if (track) {
+            updateTrackDetails(track)
+            setCurrentlyPlayingTrack(track.id)
+        }
+    }
 
     useEffect(() => {
         let storedVolume = localStorage.getItem('volume');
@@ -42,7 +71,7 @@ const TrackControllers = () => {
                     {
 
                         <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-     opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
                             Skip Backward 15s
                         </div>
 
@@ -55,35 +84,28 @@ const TrackControllers = () => {
 
                 <div className='relative group'>
                     {
-                        (hasPreviousTrack() && trackDetails.id) && (
+                        !isDisabledForDirection("prev") && (
                             <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
+                            opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
                                 Previous
                             </div>
                         )
                     }
 
-                    <button className={`p-2 ${hasPreviousTrack() && trackDetails.id ? "text-white hover:text-white" : "text-[#353535]"} transition-colors`} onClick={() => {
-                        if (hasPreviousTrack() && trackDetails.id) {
-                            const prevTrack = playPreviousTrack()
-                            if (prevTrack) {
-                                setTrackDetails(prevTrack)
-                            }
-                        }
-                    }}>
+                    <button
+                        className={`p-2 ${!isDisabledForDirection('prev') ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-white`}
+                        onClick={() => playTrack('prev')}
+                        disabled={isDisabledForDirection('prev')}
+                    >
                         <PrevIcon width="24" height="24" />
                     </button>
                 </div>
 
                 <div className='relative group'>
-                    {
-                        trackDetails.id && (
-                            <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
-                                {isPlaying ? "Pause" : "Play"}
-                            </div>
-                        )
-                    }
+                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
+                        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
+                        {isPlaying ? "Pause" : "Play"}
+                    </div>
 
                     <button className="w-16 h-16 hover:bg-white/40 bg-white/20 rounded-full flex items-center justify-center hover:scale-105 transition-transform" onClick={() => trackDetails.id && togglePlay()}>
                         {
@@ -98,35 +120,27 @@ const TrackControllers = () => {
 
                 <div className='relative group'>
                     {
-                        (hasNextTrack() && trackDetails.id) && (
+                        !isDisabledForDirection('next') && (
                             <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
+                            opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
                                 Next
                             </div>
                         )
                     }
-                    <button className={`p-2 ${hasNextTrack() && trackDetails.id ? "text-white hover:text-white" : "text-[#353535]"} transition-colors`} onClick={() => {
-                        if (hasNextTrack() && trackDetails.id) {
-                            const nextTrack = playNextTrack()
-                            if (nextTrack) {
-                                setTrackDetails(nextTrack)
-                            }
-                        }
-                    }}>
+                    <button
+                        className={`p-2 ${!isDisabledForDirection('next') ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-white`}
+                        onClick={() => playTrack('next')}
+                        disabled={isDisabledForDirection('next')}
+                    >
                         <NextIcon width="24" height="24" />
                     </button>
                 </div>
 
                 <div className='relative group'>
-
-                    {
-                        trackDetails.id && (
-                            <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                                Skip Forward 30s
-                            </div>
-                        )
-                    }
+                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
+                        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                        Skip Forward 30s
+                    </div>
                     <button className="p-2 text-white hover:text-white transition-colors" onClick={() => handleSkip('forward')}>
                         <SkipForwardIcon width="24" height="24" />
                     </button>

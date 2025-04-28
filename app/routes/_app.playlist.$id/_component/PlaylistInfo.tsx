@@ -17,7 +17,7 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
     const dropdownRef = useRef<HTMLDivElement>(null)
     const navigate = useNavigate()
     const { mutateAsync: deletePlaylist } = useDeletePlaylist()
-    const { setIsPlaylistRepeat } = usePlaylistStore()
+    const { setIsPlaylistRepeat, isPlaylistRepeat } = usePlaylistStore()
 
     const [showDropdown, setShowDropdown] = useState(false)
     const [imgSize, setImgSize] = useState({ width: 224, height: 224 }) // 56 * 4 = 224 (56rem)
@@ -199,13 +199,17 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
 
                                         <button
                                             className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white"
-                                           onClick={() => {
-                                            setIsPlaylistRepeat(true)
-                                            toast.success("This playlist is now set to repeat! Enjoy")
-                                            setShowDropdown(false)
-                                        }}
+                                            onClick={() => {
+                                                setIsPlaylistRepeat(!isPlaylistRepeat)
+                                                toast.success(
+                                                    isPlaylistRepeat
+                                                        ? "Repeat mode disabled for this playlist."
+                                                        : "Repeat mode enabled! The playlist will loop automatically."
+                                                )
+                                                setShowDropdown(false)
+                                            }}
                                         >
-                                            Repeat This Playlist
+                                            {isPlaylistRepeat ? "Disable Repeat" : "Enable Repeat"}
                                         </button>
                                         <div className="border-b border-[#2E3030]"></div>
 
