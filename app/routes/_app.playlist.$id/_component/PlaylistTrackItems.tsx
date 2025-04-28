@@ -40,6 +40,8 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
     const { mutateAsync: removeSongFromPlaylist } = useRemoveSongFromPlaylist()
     const { data } = useCurrentUser()
 
+    const [trackId, setTrackId] = useState("")
+
     const { mutateAsync: likeTrackMutation } = useLikeTrack()
 
     const { likedTrackMap, setLikedTrackIds, unlikeTrack, likeTrack, isTrackLiked, isTrackUnliked } = useLikedTracksStore()
@@ -242,6 +244,7 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                                                         onClick={(e) => {
                                                             e.stopPropagation()
                                                             setAddToPlaylistOpen(true)
+                                                            setTrackId(track.id)
                                                         }}
 
                                                     >
@@ -321,13 +324,13 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
 
                 {
                     isAddToPlaylistOpen && (
-                        <AddToPlaylistDialog isOpen={isAddToPlaylistOpen} setIsOpen={setAddToPlaylistOpen} setNewPlaylistDialogOpen={setNewPlaylistDialogOpen} trackId={trackDetails.id} />
+                        <AddToPlaylistDialog isOpen={isAddToPlaylistOpen} setIsOpen={setAddToPlaylistOpen} setNewPlaylistDialogOpen={setNewPlaylistDialogOpen} trackId={trackId} />
                     )
                 }
 
                 {
                     isNewPlaylistDialogOpen && (
-                        <AddToNewPlaylistDialog isOpen={isNewPlaylistDialogOpen} setIsOpen={setNewPlaylistDialogOpen} trackId={trackDetails.id} />
+                        <AddToNewPlaylistDialog isOpen={isNewPlaylistDialogOpen} setIsOpen={setNewPlaylistDialogOpen} trackId={trackId} />
                     )
                 }
 

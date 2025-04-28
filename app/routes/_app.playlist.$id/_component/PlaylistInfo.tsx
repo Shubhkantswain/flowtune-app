@@ -147,7 +147,7 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
                             opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
                                 More
                             </div>
-
+                            
                             <MoreIcon width="24" height="24" />
                         </button>
 

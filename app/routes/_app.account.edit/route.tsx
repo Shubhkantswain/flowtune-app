@@ -149,7 +149,7 @@ const EditProfilePage = () => {
                 <div className="relative">
                   <div className="w-40 h-40 rounded-full bg-gray-900 overflow-hidden">
                     <img
-                      src={imgUrl ? imgUrl : data?.profileImageURL || "https://www.shutterstock.com/image-vector/male-default-avatar-profile-icon-600nw-1725062341.jpg"}
+                      src={imgUrl ? imgUrl : data?.profileImageURL || "https://m.media-amazon.com/images/X/l6Hv/M/Wl6HvhcrtVmM8aW._UX250_FMwebp_QL85_.jpg"}
                       alt="Profile"
                       className="w-full h-full object-cover"
                     />

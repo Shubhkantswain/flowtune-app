@@ -50,7 +50,7 @@ const DesktopSearch = () => {
       setHistory([]);
     }
   }, []);
-  
+
   return (
     <div className="hidden md:block relative mr-6">
       {isSearchPage ? (
@@ -68,41 +68,52 @@ const DesktopSearch = () => {
               }
             }}
           />
-          {
-            searchQuery && (
+          {searchQuery && (
+            <div className='relative'>
               <button
-                className="p-1 rounded-full bg-white text-black flex items-center justify-center text-xs mx-2"
+                className="group p-1 rounded-full bg-white text-black flex items-center justify-center text-xs mx-2 relative"
                 onClick={clearSearchQuery}
               >
                 <CrossIcon width="16" height="16" />
+                <div className="absolute top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
+                  opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                  Clear Search Query
+                </div>
               </button>
-            )
-          }
-          <button
-            className="p-1.5 rounded-full bg-[#25d1da] text-black flex items-center justify-center"
-            onClick={handleSubmit}
-          >
-            <SearchIcon width="16" height="16" />
+            </div>
+          )}
 
-          </button>
+          <div className='relative'>
+            <button
+              className="group p-1.5 rounded-full bg-[#25d1da] text-black flex items-center justify-center"
+              onClick={handleSubmit}
+            >
+              <SearchIcon width="16" height="16" />
+              <div className="absolute top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
+                opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                Go To The Search Results
+              </div>
+
+            </button>
+          </div>
         </div>
       ) : (
         // Default search input (unchanged)
         <div
-        className="flex items-center bg-white rounded-full overflow-hidden cursor-pointer w-48 sm:w-56 md:w-64 h-11 relative"
-        onClick={handleSearchClick}
-      >
-        <span
-          className={`pl-4 pr-10 text-black whitespace-nowrap overflow-hidden text-ellipsis ${searchQuery ? "opacity-100" : "opacity-50"}`}
+          className="flex items-center bg-white rounded-full overflow-hidden cursor-pointer w-48 sm:w-56 md:w-64 h-11 relative"
+          onClick={handleSearchClick}
         >
-          {searchQuery || "Search"}
-        </span>
-      
-        <button className={`absolute right-3 text-black ${searchQuery ? "opacity-100" : "opacity-50"}`}>
-          <SearchIcon width="20" height="20" />
-        </button>
-      </div>
-      
+          <span
+            className={`pl-4 pr-10 text-black whitespace-nowrap overflow-hidden text-ellipsis ${searchQuery ? "opacity-100" : "opacity-50"}`}
+          >
+            {searchQuery || "Search"}
+          </span>
+
+          <button className={`absolute right-3 text-black ${searchQuery ? "opacity-100" : "opacity-50"}`}>
+            <SearchIcon width="20" height="20" />
+          </button>
+        </div>
+
       )}
     </div>
   );

@@ -249,8 +249,8 @@ const MusicApp = () => {
                     Add To Playlist
                   </div>
 
-                  <button className='text-gray-400 hover:text-white'>
-                    <PlusIcon width="20" height="20" />
+                  <button className='text-black bg-white rounded-full p-0.5 hover:bg-[#93D0D5]'>
+                    <PlusIcon width="15" height="15" />
                   </button>
                 </div>
               </div>

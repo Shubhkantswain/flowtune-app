@@ -48,7 +48,7 @@ const CenterPlaybackControllers = () => {
           </div>
         )}
         <button
-          className={`p-2 ${hasTrack ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-white`}
+          className={`p-2 ${hasTrack ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-[#93D0D5]`}
           onClick={() => handleSkip('backward')}
           disabled={!hasTrack}
         >
@@ -64,7 +64,7 @@ const CenterPlaybackControllers = () => {
           </div>
         )}
         <button
-          className={`p-2 ${!isDisabledForDirection('prev') ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-white`}
+          className={`p-2 ${!isDisabledForDirection('prev') ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-[#93D0D5]`}
           onClick={() => playTrack('prev')}
           disabled={isDisabledForDirection('prev')}
         >
@@ -96,7 +96,7 @@ const CenterPlaybackControllers = () => {
           </div>
         )}
         <button
-          className={`p-2 ${!isDisabledForDirection('next') ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-white`}
+          className={`p-2 ${!isDisabledForDirection('next') ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-[#93D0D5]`}
           onClick={() => playTrack('next')}
           disabled={isDisabledForDirection('next')}
         >
@@ -112,7 +112,7 @@ const CenterPlaybackControllers = () => {
           </div>
         )}
         <button
-          className={`p-2 ${hasTrack ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-white`}
+          className={`p-2 ${hasTrack ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-[#93D0D5]`}
           onClick={() => handleSkip('forward')}
           disabled={!hasTrack}
         >

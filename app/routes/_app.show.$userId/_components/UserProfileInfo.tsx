@@ -89,69 +89,91 @@ function UserProfileInfo({ user }: UserProfileInfo) {
 
                     <div className="relative" ref={dropdownRef}>
                         <button
-                            className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                            className="p-2 relative group hover:text-[#93D0D5] rounded-full transition-colors"
                             onClick={() => setShowDropdown(!showDropdown)}
                         >
+                            <div className="absolute -top-7 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
+                                opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                                More
+                            </div>
                             <MoreIcon width="24" height="24" />
                         </button>
 
-                        {/* Dropdown Menu */}
                         {showDropdown && (
-                            <div className="absolute z-10 -translate-x-1/2 left-1/2 bottom-full mb-2 w-48 rounded-md bg-gradient-to-b from-neutral-950 to-neutral-900 border border-[#2E3030] shadow-lg overflow-hidden">
-                                {[
-                                    isLoading
-                                        ? "Loading..."
-                                        : currentUser?.id === userId
-                                            ? "Edit Profile"
-                                            : follow
-                                                ? "Unfollow"
-                                                : "Follow",
-                                    "Rate this page",
-                                    "Share",
-                                ].map((item, index) => (
-                                    <button
-                                        key={index}
-                                        className="flex items-center w-full px-4 py-3 text-sm text-white hover:bg-[#1E1E1E] border-b border-[#2E3030] last:border-b-0"
-                                        onClick={async () => {
-                                            if (item == "Edit Profile") {
-                                                return navigate("/account/edit")
-                                            }
-                                            if (item == "Follow") {
-                                                await followUser(user?.id || "");
-                                                setFollow(!follow);
-                                            }
+                            <div className={`absolute bottom-12 left-1/2 -translate-x-1/2 w-64 z-50 transform transition-all duration-300 ease-in-out ${showDropdown ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
+                                <div className="bg-gradient-to-b from-neutral-950 to-neutral-900 rounded-md shadow-xl border border-[#2E3030]">
+                                    <div className="py-1">
 
-                                            if (item === "Share") {
-                                                const shareUrl = window.location.href;
 
-                                                if (navigator.share) {
-                                                    try {
-                                                        await navigator.share({
-                                                            title: document.title,
-                                                            url: shareUrl,
-                                                        });
-                                                    } catch (error) {
-                                                        console.error("Error sharing:", error);
-                                                    }
-                                                } else {
-                                                    try {
-                                                        await navigator.clipboard.writeText(shareUrl);
-                                                        alert("Link copied to clipboard!");
-                                                    } catch (error) {
-                                                        console.error("Failed to copy link:", error);
-                                                    }
+
+
+
+                                        {[
+                                            isLoading
+                                                ? "Loading..."
+                                                : currentUser?.id === userId
+                                                    ? "Edit Profile"
+                                                    : follow
+                                                        ? "Unfollow"
+                                                        : "Follow",
+                                            "Rate this page",
+                                            "Share",
+                                        ].map((item, index) => (
+                                            <>
+                                                <button
+                                                    key={index}
+                                                    className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white"
+
+                                                    onClick={async () => {
+                                                        if (item == "Edit Profile") {
+                                                            return navigate("/account/edit")
+                                                        }
+                                                        if (item == "Follow") {
+                                                            await followUser(user?.id || "");
+                                                            setFollow(!follow);
+                                                        }
+
+                                                        if (item === "Share") {
+                                                            const shareUrl = window.location.href;
+
+                                                            if (navigator.share) {
+                                                                try {
+                                                                    await navigator.share({
+                                                                        title: document.title,
+                                                                        url: shareUrl,
+                                                                    });
+                                                                } catch (error) {
+                                                                    console.error("Error sharing:", error);
+                                                                }
+                                                            } else {
+                                                                try {
+                                                                    await navigator.clipboard.writeText(shareUrl);
+                                                                    alert("Link copied to clipboard!");
+                                                                } catch (error) {
+                                                                    console.error("Failed to copy link:", error);
+                                                                }
+                                                            }
+                                                        }
+
+                                                    }}
+                                                >
+                                                    {item}
+                                                </button>
+                                                {
+                                                    index != 2 && (
+                                                        <div className="border-b border-[#2E3030]"></div>
+                                                    )
                                                 }
-                                            }
 
-                                            // Add logic for other actions if needed (e.g., follow/unfollow, edit)
-                                        }}
-                                    >
-                                        {item}
-                                    </button>
-                                ))}
+                                            </>
 
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
                         )}
+
+
                     </div>
                 </div>
             </div>

@@ -77,7 +77,7 @@ const TrackControllers = () => {
 
                     }
 
-                    <button className="p-2 text-white hover:text-white transition-colors" onClick={() => handleSkip('backward')}>
+                    <button className="p-2 text-white hover:text-[#93D0D5] transition-colors" onClick={() => handleSkip('backward')}>
                         <SkipBackwardIcon width="24" height="24" />
                     </button>
                 </div>
@@ -93,7 +93,7 @@ const TrackControllers = () => {
                     }
 
                     <button
-                        className={`p-2 ${!isDisabledForDirection('prev') ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-white`}
+                        className={`p-2 ${!isDisabledForDirection('prev') ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-[#93D0D5]`}
                         onClick={() => playTrack('prev')}
                         disabled={isDisabledForDirection('prev')}
                     >
@@ -128,7 +128,7 @@ const TrackControllers = () => {
                         )
                     }
                     <button
-                        className={`p-2 ${!isDisabledForDirection('next') ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-white`}
+                        className={`p-2 ${!isDisabledForDirection('next') ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-[#93D0D5]`}
                         onClick={() => playTrack('next')}
                         disabled={isDisabledForDirection('next')}
                     >
@@ -141,7 +141,7 @@ const TrackControllers = () => {
                         opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
                         Skip Forward 30s
                     </div>
-                    <button className="p-2 text-white hover:text-white transition-colors" onClick={() => handleSkip('forward')}>
+                    <button className="p-2 text-white hover:text-[#93D0D5] transition-colors" onClick={() => handleSkip('forward')}>
                         <SkipForwardIcon width="24" height="24" />
                     </button>
                 </div>

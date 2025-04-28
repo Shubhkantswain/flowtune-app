@@ -171,7 +171,7 @@ const SpotifySettings = () => {
                         </div>
                     </div>
 
-                    <div className="space-y-6">
+                    <div className="space-y-12">
                         {/* Account Section */}
                         <div>
                             <h2 className="text-lg font-semibold mb-3">Account</h2>
@@ -255,6 +255,37 @@ const SpotifySettings = () => {
                             <div className="space-y-3">
                                 <div className="flex justify-between items-center">
                                     <p className="text-gray-400 text-sm">Show the background video in tracks</p>
+                                    <Switch
+                                        checked={videoEnabled}
+                                        onCheckedChange={(checked: boolean) => {
+                                            if (checked) {
+                                                if (typeof window !== "undefined") {
+                                                    localStorage.setItem("videoEnabled", "true");
+                                                }
+                                                toast.success("Background video is enabled, Enjoy");
+                                            } else {
+                                                if (typeof window !== "undefined") {
+                                                    localStorage.setItem("videoEnabled", "false");
+                                                }
+                                                toast.success("Background video is disabled");
+                                            }
+
+                                            setVideoEnabled(!videoEnabled);
+                                        }}
+                                        className="data-[state=checked]:bg-[#25d1da]"
+                                    />
+                                </div>
+
+                              
+                            </div>
+                        </div>
+
+                        {/* Tooltip Section */}
+                        <div>
+                            <h2 className="text-lg font-semibold mb-3">Tooltip</h2>
+                            <div className="space-y-3">
+                                <div className="flex justify-between items-center">
+                                    <p className="text-gray-400 text-sm">Show tooltip for begginer friendly</p>
                                     <Switch
                                         checked={videoEnabled}
                                         onCheckedChange={(checked: boolean) => {

@@ -194,13 +194,13 @@ const RightControllers = () => {
                     {
                         trackDetails.id && (
                             <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                            opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
                                 {mute ? "Unmute" : "Mute"}
                             </div>
                         )
                     }
 
-                    <button className={`${trackDetails.id ? "opacity-100" : "opacity-50 cursor-not-allowed"} p-2 hover:text-white transition-colors`} onClick={() => {
+                    <button className={`${trackDetails.id ? "opacity-100" : "opacity-50 cursor-not-allowed"} p-2 hover:text-[#93D0D5] transition-colors`} onClick={() => {
                         if (mute) {
                             handleVolumeChange(100)
                             setMute(false)

@@ -1,11 +1,9 @@
 import { Link, useLocation } from '@remix-run/react';
 import { MouseEvent } from 'react';
-import { useLanguageStore } from '~/store/useLanguageStore';
 import { ExploreIcon, HomeIcon, LibraryIcon } from '~/Svgs';
 
 const DesktopNavigation = () => {
   const location = useLocation();
-  const { language } = useLanguageStore()
 
   // Handles exact matches and explore sub-routes
   const isActive = (path: string) => {
