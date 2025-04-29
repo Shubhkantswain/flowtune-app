@@ -10,6 +10,7 @@ import { Form, Link, useActionData, useNavigation } from '@remix-run/react';
 import { toast } from 'sonner';
 import { useQueryClient } from '@tanstack/react-query';
 import Footer from '../../components/Footer';
+import { useTooltipStore } from '~/store/useTooltipStore';
 
 const musicLanguages = [
     { name: "Hindi", native: "हिन्दी" },
@@ -94,6 +95,8 @@ const SpotifySettings = () => {
     const [initialLanguage, setInitialLanguage] = useState("");
     const [showSearchBar, setShowSearchBar] = useState(false);
     const [videoEnabled, setVideoEnabled] = useState(false)
+    const {showTooltip, setShowTooltip} = useTooltipStore()
+
     const [showQueue, setShowQueue] = useState(false)
     const { data } = useCurrentUser()
 
@@ -276,7 +279,7 @@ const SpotifySettings = () => {
                                     />
                                 </div>
 
-                              
+
                             </div>
                         </div>
 
@@ -287,27 +290,28 @@ const SpotifySettings = () => {
                                 <div className="flex justify-between items-center">
                                     <p className="text-gray-400 text-sm">Show tooltip for begginer friendly</p>
                                     <Switch
-                                        checked={videoEnabled}
+                                        checked={showTooltip}
                                         onCheckedChange={(checked: boolean) => {
                                             if (checked) {
                                                 if (typeof window !== "undefined") {
-                                                    localStorage.setItem("videoEnabled", "true");
+                                                    localStorage.setItem("showTooltip", "true");
                                                 }
-                                                toast.success("Background video is enabled, Enjoy");
+                                                toast.success("Now you can see tooltip! more begginer friednly");
                                             } else {
                                                 if (typeof window !== "undefined") {
-                                                    localStorage.setItem("videoEnabled", "false");
+                                                    localStorage.setItem("showTooltip", "false");
                                                 }
-                                                toast.success("Background video is disabled");
+                                                toast.success("Now you disable tooltip!");
+
                                             }
 
-                                            setVideoEnabled(!videoEnabled);
+                                            setShowTooltip(!showTooltip);
                                         }}
                                         className="data-[state=checked]:bg-[#25d1da]"
                                     />
                                 </div>
 
-                              
+
                             </div>
                         </div>
                     </div>

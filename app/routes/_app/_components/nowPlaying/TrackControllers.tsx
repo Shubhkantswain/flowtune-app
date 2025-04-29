@@ -1,5 +1,6 @@
 import { Track } from 'gql/graphql'
 import { useEffect, useState } from 'react'
+import Tooltip from '~/components/Tooltip'
 import usePlaylistStore from '~/store/usePlaylistStore'
 import { useTrackStore } from '~/store/useTrackStore'
 import { useVolumeStore } from '~/store/useVloumeStore'
@@ -67,47 +68,31 @@ const TrackControllers = () => {
             {/* Playback Controls */}
             <div className="flex items-center justify-center space-x-3 sm:space-x-4 md:space-x-5 lg:space-x-6 xl:space-x-8 mb-6 sm:mb-8 md:mb-10 lg:mb-12">
 
-                <div className='relative group'>
-                    {
 
-                        <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                            Skip Backward 15s
-                        </div>
+                <button className="relative group rounded-full p-2 text-white hover:text-[#93D0D5] transition-colors" onClick={() => handleSkip('backward')}>
+                    <Tooltip text='Skip Backward 15s' className='-top-10' />
+                    <SkipBackwardIcon width="24" height="24" />
+                </button>
 
-                    }
 
-                    <button className="p-2 text-white hover:text-[#93D0D5] transition-colors" onClick={() => handleSkip('backward')}>
-                        <SkipBackwardIcon width="24" height="24" />
-                    </button>
-                </div>
-
-                <div className='relative group'>
+                <button
+                    className={`p-2 relative group rounded-full ${!isDisabledForDirection('prev') ? "opacity-100 hover:text-[#93D0D5]" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-[#93D0D5]`}
+                    onClick={() => playTrack('prev')}
+                    disabled={isDisabledForDirection('prev')}
+                >
                     {
                         !isDisabledForDirection("prev") && (
-                            <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                            opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
-                                Previous
-                            </div>
+                            <Tooltip text='Previous' className='-top-10' />
                         )
                     }
 
-                    <button
-                        className={`p-2 ${!isDisabledForDirection('prev') ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-[#93D0D5]`}
-                        onClick={() => playTrack('prev')}
-                        disabled={isDisabledForDirection('prev')}
-                    >
-                        <PrevIcon width="24" height="24" />
-                    </button>
-                </div>
+                    <PrevIcon width="24" height="24" />
+                </button>
 
-                <div className='relative group'>
-                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
-                        {isPlaying ? "Pause" : "Play"}
-                    </div>
 
-                    <button className="w-16 h-16 hover:bg-white/40 bg-white/20 rounded-full flex items-center justify-center hover:scale-105 transition-transform" onClick={() => trackDetails.id && togglePlay()}>
+                <div className='relative group rounded-full'>
+                    <Tooltip text={isPlaying ? "Pause" : "Play"} className='-top-10' />
+                    <button className="w-16 h-16 hover:scale-105 hover:bg-white/40 bg-white/20 rounded-full flex items-center justify-center transition-transform" onClick={() => trackDetails.id && togglePlay()}>
                         {
                             isPlaying ? (
                                 <PauseIcon width="30" height="30" />
@@ -118,33 +103,24 @@ const TrackControllers = () => {
                     </button>
                 </div>
 
-                <div className='relative group'>
+
+                <button
+                    className={`p-2 relative group rounded-full ${!isDisabledForDirection('next') ? "opacity-100 hover:text-[#93D0D5]" : "opacity-50 cursor-not-allowed"} transition-colors text-white`}
+                    onClick={() => playTrack('next')}
+                    disabled={isDisabledForDirection('next')}
+                >
                     {
                         !isDisabledForDirection('next') && (
-                            <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                            opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
-                                Next
-                            </div>
+                            <Tooltip text='Next' className='-top-10' />
                         )
                     }
-                    <button
-                        className={`p-2 ${!isDisabledForDirection('next') ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-[#93D0D5]`}
-                        onClick={() => playTrack('next')}
-                        disabled={isDisabledForDirection('next')}
-                    >
-                        <NextIcon width="24" height="24" />
-                    </button>
-                </div>
+                    <NextIcon width="24" height="24" />
+                </button>
 
-                <div className='relative group'>
-                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                        Skip Forward 30s
-                    </div>
-                    <button className="p-2 text-white hover:text-[#93D0D5] transition-colors" onClick={() => handleSkip('forward')}>
-                        <SkipForwardIcon width="24" height="24" />
-                    </button>
-                </div>
+                <button className="p-2 relative group rounded-full text-white hover:text-[#93D0D5] transition-colors" onClick={() => handleSkip('forward')}>
+                    <Tooltip text='Skip Forward 30s' className='-top-10' />
+                    <SkipForwardIcon width="24" height="24" />
+                </button>
 
             </div>
 

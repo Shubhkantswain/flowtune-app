@@ -1,4 +1,5 @@
 import { Track } from 'gql/graphql'
+import Tooltip from '~/components/Tooltip'
 import usePlaylistStore from '~/store/usePlaylistStore'
 import { useTrackStore } from '~/store/useTrackStore'
 import { NextIcon, PauseIcon, PlayIcon, PrevIcon, SkipBackwardIcon, SkipForwardIcon } from '~/Svgs'
@@ -41,43 +42,35 @@ const CenterPlaybackControllers = () => {
     <div className="hidden md:flex items-center justify-center flex-1 md:w-1/3 space-x-2 md:space-x-4">
 
       {/* Skip Backward 15s */}
-      <div className="relative group hidden lg:block md:hidden">
-        {hasTrack && (
-          <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-            Skip Backward 15s
-          </div>
-        )}
+      <div className="hidden lg:block md:hidden">
         <button
-          className={`p-2 ${hasTrack ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-[#93D0D5]`}
+          className={`p-2 rounded-full relative group ${hasTrack ? "opacity-100 hover:text-[#93D0D5]" : "opacity-50 cursor-not-allowed"} transition-colors text-white`}
           onClick={() => handleSkip('backward')}
           disabled={!hasTrack}
         >
+          {hasTrack && (
+            <Tooltip text='Skip Backward 15s' className='-top-10' />
+          )}
           <SkipBackwardIcon width="24" height="24" />
         </button>
       </div>
 
       {/* Previous Button */}
-      <div className="relative group">
-        {!isDisabledForDirection('prev') && ( 
-          <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
-            Previous
-          </div>
+      <button
+        className={`p-2 relative group rounded-full ${!isDisabledForDirection('prev') ? "opacity-100 hover:text-[#93D0D5]" : "opacity-50 cursor-not-allowed"} transition-colors text-white`}
+        onClick={() => playTrack('prev')}
+        disabled={isDisabledForDirection('prev')}
+      >
+        {!isDisabledForDirection('prev') && (
+          <Tooltip text='Previous' className='-top-10' />
         )}
-        <button
-          className={`p-2 ${!isDisabledForDirection('prev') ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-[#93D0D5]`}
-          onClick={() => playTrack('prev')}
-          disabled={isDisabledForDirection('prev')}
-        >
-          <PrevIcon width="24" height="24" />
-        </button>
-      </div>
+        <PrevIcon width="24" height="24" />
+      </button>
 
       {/* Play/Pause Button */}
-      <div className="relative group">
+      <div className="relative group rounded-full">
         {hasTrack && (
-          <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
-            {isPlaying ? "Pause" : "Play"}
-          </div>
+          <Tooltip text={isPlaying ? "Pause" : "Play"} className='-top-10' />
         )}
         <button
           className={`${hasTrack ? "opacity-100 hover:bg-white/40 hover:scale-105" : "opacity-50 cursor-not-allowed"} w-12 h-12 bg-white/20 rounded-full flex items-center justify-center transition-transform`}
@@ -89,33 +82,27 @@ const CenterPlaybackControllers = () => {
       </div>
 
       {/* Next Button */}
-      <div className="relative group">
+      <button
+        className={`p-2 relative group ${!isDisabledForDirection('next') ? "opacity-100 hover:text-[#93D0D5]" : "opacity-50 cursor-not-allowed"} transition-colors text-white rounded-full`}
+        onClick={() => playTrack('next')}
+        disabled={isDisabledForDirection('next')}
+      >
         {!isDisabledForDirection('next') && (
-          <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none border border-white">
-            Next
-          </div>
+          <Tooltip text='Next' className='-top-10' />
         )}
-        <button
-          className={`p-2 ${!isDisabledForDirection('next') ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-[#93D0D5]`}
-          onClick={() => playTrack('next')}
-          disabled={isDisabledForDirection('next')}
-        >
-          <NextIcon width="24" height="24" />
-        </button>
-      </div>
+        <NextIcon width="24" height="24" />
+      </button>
 
       {/* Skip Forward 30s */}
-      <div className="relative group hidden lg:block md:hidden">
-        {hasTrack && (
-          <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-            Skip Forward 30s
-          </div>
-        )}
+      <div className="hidden lg:block md:hidden">
         <button
-          className={`p-2 ${hasTrack ? "opacity-100" : "opacity-50 cursor-not-allowed"} transition-colors text-white hover:text-[#93D0D5]`}
+          className={`p-2 relative group rounded-full ${hasTrack ? "opacity-100 hover:text-[#93D0D5]" : "opacity-50 cursor-not-allowed"} transition-colors text-white`}
           onClick={() => handleSkip('forward')}
           disabled={!hasTrack}
         >
+          {hasTrack && (
+            <Tooltip text='Skip Forward 30s' className='-top-10' />
+          )}
           <SkipForwardIcon width="24" height="24" />
         </button>
       </div>

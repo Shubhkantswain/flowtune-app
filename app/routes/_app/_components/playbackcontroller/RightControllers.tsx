@@ -2,6 +2,7 @@ import { useLocation } from '@remix-run/react'
 import { useQueryClient } from '@tanstack/react-query'
 import { Track } from 'gql/graphql'
 import React, { useEffect, useState } from 'react'
+import Tooltip from '~/components/Tooltip'
 import { useLikeTrack } from '~/hooks/track'
 import { useCurrentActivePageStore } from '~/store/useCurrentActivePageStore'
 import { useLikedTracksStore } from '~/store/useLikedTracksStore'
@@ -15,9 +16,9 @@ const RightControllers = () => {
     const { mutateAsync: likeTrackMutation, isPending } = useLikeTrack()
     const { trackDetails, togglePlay, setTrackDetails, handleVolumeChange } = useTrackStore()
     const { mute, setMute } = useVolumeStore()
-    const { likedTrackMap, unlikedTrackMap,setLikedTrackIds, likeTrack, unlikeTrack, isTrackLiked, isTrackUnliked } = useLikedTracksStore()
+    const { likedTrackMap, unlikedTrackMap, setLikedTrackIds, likeTrack, unlikeTrack, isTrackLiked, isTrackUnliked } = useLikedTracksStore()
     const { activeSectionIndex } = usePlaylistStore()
-    
+
     const { currentPage, setFlag } = useCurrentActivePageStore()
 
     const queryClient = useQueryClient()
@@ -33,7 +34,7 @@ const RightControllers = () => {
         if (like) {
             likeTrack(trackDetails.id)
             // setTrackDetails({ hasLiked: true })
-             
+
             // queryClient.setQueryData(['exploreTracks', currentPage], (prev: Track[]) => {
             //     const newTracks = prev.map((track) => {
             //         if (track.id == trackDetails.id) {
@@ -102,18 +103,15 @@ const RightControllers = () => {
     //         }
     //     }
 
-        
+
     // }
 
     return (
         <div className="flex items-center justify-end flex-1 md:w-1/3 space-x-7">
             {/* Play Button for Small Screens (Visible Only on Small Screens) */}
-            <div className="relative group md:hidden">
+            <div className="relative group md:hidden rounded-full">
                 {trackDetails.id && (
-                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-    opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                        {isPlaying ? "Pause" : "Play"}
-                    </div>
+                    <Tooltip text={isPlaying ? "Pause" : "Play"} className='-top-10' />
                 )}
 
                 <button
@@ -132,13 +130,10 @@ const RightControllers = () => {
             </div>
 
             {/* Heart Icon for Small Screens (Visible Only on Small Screens) */}
-            <div className="relative group md:hidden">
+            <div className="relative group md:hidden rounded-full">
                 {
                     trackDetails.id && (
-                        <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                            {trackDetails.hasLiked ? "Unlike" : "Like"}
-                        </div>
+                        <Tooltip text={trackDetails.hasLiked ? "Unlike" : "Like"} className='-top-10' />
                     )
                 }
 
@@ -189,37 +184,30 @@ const RightControllers = () => {
 
             {/* Volume Control (Hidden on Small Screens) */}
             <div className="hidden md:flex items-center justify-end">
-                <div className="relative group">
-                    {/** Tooltip **/}
+                <button className={`${trackDetails.id ? "opacity-100" : "opacity-50 cursor-not-allowed"} p-2 hover:text-[#93D0D5] transition-colors relative group`} onClick={() => {
+                    if (mute) {
+                        handleVolumeChange(100)
+                        setMute(false)
+                    } else {
+                        handleVolumeChange(0)
+                        setMute(true)
+                    }
+                }}
+                    disabled={!trackDetails.id}
+                >
                     {
                         trackDetails.id && (
-                            <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                            opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                                {mute ? "Unmute" : "Mute"}
-                            </div>
+                            <Tooltip text={mute ? "Unmute" : "Mute"} className='-top-10' />
                         )
                     }
-
-                    <button className={`${trackDetails.id ? "opacity-100" : "opacity-50 cursor-not-allowed"} p-2 hover:text-[#93D0D5] transition-colors`} onClick={() => {
-                        if (mute) {
-                            handleVolumeChange(100)
-                            setMute(false)
-                        } else {
-                            handleVolumeChange(0)
-                            setMute(true)
-                        }
-                    }}
-                        disabled={!trackDetails.id}
-                    >
-                        {
-                            mute ? (
-                                <MuteIcon width="24" height="24" />
-                            ) : (
-                                <VolumeIcon width="24" height="24" />
-                            )
-                        }
-                    </button>
-                </div>
+                    {
+                        mute ? (
+                            <MuteIcon width="24" height="24" />
+                        ) : (
+                            <VolumeIcon width="24" height="24" />
+                        )
+                    }
+                </button>
             </div>
 
         </div>

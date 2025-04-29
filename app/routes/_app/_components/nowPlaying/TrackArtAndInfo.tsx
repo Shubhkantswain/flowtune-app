@@ -7,6 +7,7 @@ import usePlaylistStore from '~/store/usePlaylistStore';
 import { useEffect } from 'react';
 import { HeartIcon, HeartIconFilled, MoreIcon } from '~/Svgs';
 import { useLikedTracksStore } from '~/store/useLikedTracksStore';
+import Tooltip from '~/components/Tooltip';
 
 interface TrackArtAndInfoProps {
     onShow: () => void;
@@ -39,7 +40,7 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
                     }`}
 
             >
-                <div className="hidden md:block relative w-full h-full">
+                <div className="hidden md:block relative w-full h-full mt-3">
                     {/* Left side wave lines */}
                     <LeftSideWaveLines />
 
@@ -57,7 +58,7 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
 
                 {
                     (!trackDetails.videoUrl || !videoEnabled) && (
-                        <div className="block md:hidden aspect-square relative w-full h-full">
+                        <div className="block md:hidden aspect-square relative w-full h-full mt-3">
                             {/* Left side wave lines */}
                             <LeftSideWaveLines />
 
@@ -98,21 +99,13 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
                 </div>
 
 
-                <div className="flex gap-3 items-center">
-                    <div className='relative group'>
-                        {
-                            trackDetails.id && (
-                                <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                                opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                                    {trackDetails.hasLiked ? "Unlike This Track" : "Like This Track"}
-                                </div>
-                            )
-                        }
+                <div className="flex gap-7 items-center">
                         <button
-                            className={`p-2.5 rounded-full transition-all duration-300 group ${!trackDetails.hasLiked ? "text-white" : "text-[#25d1da]"} hover:text-[#93D0D5]`}
+                            className={` relative group rounded-full transition-all duration-300 group ${!trackDetails.hasLiked ? "text-white" : "text-[#25d1da]"} hover:text-[#93D0D5]`}
                             onClick={handleLike}
                             disabled={isPending}
                         >
+                        <Tooltip text={trackDetails.hasLiked ? "Unlike This Track" : "Like This Track"} className='-top-10'/>
                             {isPending ? (
                                 <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
                             ) : (
@@ -126,25 +119,16 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
 
                             )}
                         </button>
-                    </div>
 
-                    <div className='relative group'>
 
-                        {
-                            trackDetails.id && (
-                                <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                                    More
-                                </div>
-                            )
-                        }
+                       
                         <button
-                            className="p-2.5 rounded-full text-white hover:text-[#93D0D5] transition-all duration-300 group rotate-90"
+                            className="relative group rounded-full text-white hover:text-[#93D0D5] transition-all duration-300 group rotate-90"
                             onClick={onShow}
                         >
+                        <Tooltip text='More' className='-left-8 -rotate-90'/>
                             <MoreIcon width="24" height="24" />
                         </button>
-                    </div>
                 </div>
             </div>
         </div>

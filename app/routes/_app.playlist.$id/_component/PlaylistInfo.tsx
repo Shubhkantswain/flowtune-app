@@ -2,6 +2,7 @@ import { useNavigate } from '@remix-run/react'
 import { GetPlaylistTracksResponse, Track } from 'gql/graphql'
 import React, { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
+import Tooltip from '~/components/Tooltip'
 import { useCurrentUser } from '~/hooks/auth'
 import { useDeletePlaylist } from '~/hooks/playlist'
 import usePlaylistStore from '~/store/usePlaylistStore'
@@ -124,10 +125,8 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
                             }}
                         >
                             {/* Tooltip inside the button */}
-                            <div className="absolute -top-7 left-1/2 ml-0.5 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                            opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                                Share
-                            </div>
+                            <Tooltip text='Share' className='-top-8' />
+                            
 
                             {/* <MoreIcon width="2/4" height="24" /> */}
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><defs><path id="ic_action_shareandroid-a" d="M18,15 C16.798,15 15.732,15.542 14.999,16.381 L7.91,12.836 C7.967,12.566 8,12.287 8,12 C8,11.713 7.967,11.434 7.909,11.164 L14.998,7.619 C15.732,8.458 16.798,9 18,9 C20.209,9 22,7.209 22,5 C22,2.791 20.209,1 18,1 C15.791,1 14,2.791 14,5 C14,5.287 14.033,5.566 14.091,5.836 L7.001,9.381 C6.268,8.542 5.202,8 4,8 C1.791,8 0,9.791 0,12 C0,14.209 1.791,16 4,16 C5.202,16 6.268,15.458 7.001,14.619 L14.09,18.164 C14.033,18.434 14,18.713 14,19 C14,21.209 15.791,23 18,23 C20.209,23 22,21.209 22,19 C22,16.791 20.209,15 18,15 Z"></path></defs><g fill-rule="evenodd" fill="transparent"><rect width="24" height="24"></rect><use href="#ic_action_shareandroid-a" fill="currentColor"></use></g></svg>
@@ -143,10 +142,9 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
                             aria-label="More options"
                         >
                             {/* Tooltip inside the button */}
-                            <div className="absolute -top-7 left-1/2 ml-0.5 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                            opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                                More
-                            </div>
+                          
+                            <Tooltip text='More' className='-top-7' />
+
                             
                             <MoreIcon width="24" height="24" />
                         </button>

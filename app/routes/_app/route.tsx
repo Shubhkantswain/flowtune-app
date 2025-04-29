@@ -4,7 +4,6 @@ import Playbackcontroller from "./_components/playbackcontroller/Playbackcontrol
 import Header from "./_components/header/Header";
 import { genreIdsSwap } from "~/searchData";
 import Footer from "~/components/Footer";
-import { useLanguageStore } from "~/store/useLanguageStore";
 import { useEffect } from "react";
 
 export default function AppLayout() {
@@ -12,7 +11,6 @@ export default function AppLayout() {
     const includes = location.pathname.includes("/genres")
     const params = useParams()
 
-    const isPlaylistPage = location.pathname.startsWith("/playlist")
 
     type GenreKey = keyof typeof genreIdsSwap;
 

@@ -63,7 +63,7 @@ const LeftTrackInfo: React.FC<LeftTrackInfoProps> = ({ setIsOpen }) => {
                 <div className="relative group">
                     {trackDetails.id && (
                         <div className="absolute -top-10 left-0 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
+                        opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
                             {trackDetails.singer}
                         </div>
                     )}

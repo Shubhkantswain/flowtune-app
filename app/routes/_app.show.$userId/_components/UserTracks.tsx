@@ -3,6 +3,7 @@ import { Track } from 'gql/graphql';
 import React, { useEffect, useState } from 'react'
 import AddToNewPlaylistDialog from '~/components/AddToNewPlaylistDialog';
 import AddToPlaylistDialog from '~/components/AddToPlaylistDialog';
+import Tooltip from '~/components/Tooltip';
 import { useCurrentUser } from '~/hooks/auth';
 import { useGetUserTracks } from '~/hooks/user';
 import usePlaylistStore from '~/store/usePlaylistStore';
@@ -64,11 +65,8 @@ function UserTracks({ tracks, allTracks, page }: UserProfileInfo) {
                                     </div>
                                     <div className="hidden md:flex items-center gap-4 ml-4">
                                         <div className='group relative'>
+                                            <Tooltip text={trackDetails.isPlaying ? "Pause This Track" : "Play This Track"} className='-top-10' />
 
-                                            <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                                                opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                                                {trackDetails.isPlaying ? "Pause This Track" : "Play This Track"}
-                                            </div>
 
                                             <button className="hover:bg-white/20 backdrop-blur-sm hover:scale-105 bg-white/10 rounded-full p-1.5 md:p-2 transition-all"
                                                 onClick={() => {
@@ -117,10 +115,8 @@ function UserTracks({ tracks, allTracks, page }: UserProfileInfo) {
                                         <div className="text-gray-400  text-xs md:text-sm w-12 text-center">{formatDuration(track.duration)}</div>
 
                                         <div className='group relative'>
-                                            <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                                                opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                                                Add To Playlist
-                                            </div>
+                                            <Tooltip text='Add To Playlist' className='-top-10' />
+
                                             <button className="hover:bg-white/20 backdrop-blur-sm bg-white/10 rounded-full p-1 md:p-1.5 transition-all"
                                                 onClick={() => handleAddToPlaylist(track.id)}
                                             >
@@ -133,10 +129,8 @@ function UserTracks({ tracks, allTracks, page }: UserProfileInfo) {
                                 <div className="md:hidden flex items-center justify-between mt-3 md:mt-4">
                                     <div className="flex items-center gap-2">
                                         <div className='group relative'>
-                                            <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                                                opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                                                {trackDetails.isPlaying ? "Pause This Track" : "Play This Track"}
-                                            </div>
+                                            <Tooltip text={trackDetails.isPlaying ? "Pause This Track" : "Play This Track"} className='-top-10' />
+
                                             <button className="bg-white/10 hover:scale-105 backdrop-blur-sm hover:bg-white/20 rounded-full p-1.5 transition-all" onClick={() => {
                                                 const isPlayingCurrentSong = track?.id == trackDetails.id && trackDetails.isPlaying;
 
@@ -181,10 +175,8 @@ function UserTracks({ tracks, allTracks, page }: UserProfileInfo) {
                                     </div>
 
                                     <div className='group relative'>
-                                        <div className="absolute -top-10 left-1/2 -ml-2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                                                opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                                            Add To Playlist
-                                        </div>
+                                        <Tooltip text='Add To Playlist' className='-top-10' />
+
                                         <button className="bg-white/10 backdrop-blur-sm hover:bg-white/20 rounded-full p-1.5 transition-all"
                                             onClick={() => handleAddToPlaylist(track.id)}
                                         >

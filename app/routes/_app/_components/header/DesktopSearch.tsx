@@ -4,6 +4,7 @@ import { useActiveTabStore } from '~/store/useActiveTabStore';
 import { useSearchHistoryStore } from '~/store/useSearchHistoryStore';
 import { useEffect } from 'react';
 import { CrossIcon, SearchIcon } from '~/Svgs';
+import Tooltip from '~/components/Tooltip';
 
 const DesktopSearch = () => {
   const navigate = useNavigate();
@@ -74,26 +75,22 @@ const DesktopSearch = () => {
                 className="group p-1 rounded-full bg-white text-black flex items-center justify-center text-xs mx-2 relative"
                 onClick={clearSearchQuery}
               >
+                <Tooltip text='Clear Search Query' className='top-10' />
+
                 <CrossIcon width="16" height="16" />
-                <div className="absolute top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                  opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                  Clear Search Query
-                </div>
               </button>
             </div>
           )}
 
           <div className='relative'>
             <button
-              className="group p-1.5 rounded-full bg-[#25d1da] text-black flex items-center justify-center"
+              className={`${!searchQuery ? "opacity-50" : "opacity-100"} group p-1.5 rounded-full bg-[#25d1da] text-black flex items-center justify-center`}
               onClick={handleSubmit}
+              disabled={!Boolean(searchQuery)}
             >
-              <SearchIcon width="16" height="16" />
-              <div className="absolute top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                Go To The Search Results
-              </div>
+              <Tooltip text='Go To The Search Results' className='top-10' />
 
+              <SearchIcon width="16" height="16" />
             </button>
           </div>
         </div>

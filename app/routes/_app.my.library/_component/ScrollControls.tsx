@@ -2,6 +2,7 @@ import { useNavigate } from '@remix-run/react';
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react'
 import React, { useState } from 'react'
 import CreatePlaylistDialog from '~/components/CreatePlaylistDialog';
+import Tooltip from '~/components/Tooltip';
 import { useCurrentUser } from '~/hooks/auth';
 
 interface ScrollState {
@@ -48,23 +49,21 @@ const ScrollControls: React.FC<ScrollControlsProps> = ({ canScroll, scroll, acti
                         )}
                     </div>
 
-                    <div className='relative group'>
+                    <div className='relative group rounded-full'>
 
-                        <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                            opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                            Create New Playlist
-                        </div>
+                        <Tooltip text='Create New Playlist' className='-top-10' />
+
                         <button className="bg-[#292a2a] hover:bg-[#5D5E5E] text-white px-2 py-1 md:px-3 md:py-1.5 rounded-full flex items-center gap-1 transition-colors duration-200 text-xs md:text-sm"
                             onClick={() => {
-                                if(isLoading) return
+                                if (isLoading) return
 
-                                if(data?.isPro){
+                                if (data?.isPro) {
                                     setIsOpen(true)
                                 } else {
                                     navigate("/pro-plan")
                                 }
                             }
-                        }>
+                            }>
                             <Plus size={16} /> NEW PLAYLIST
                         </button>
                     </div>

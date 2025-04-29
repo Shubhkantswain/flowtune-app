@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from '@remix-run/react'
 import { GetUserProfileResponse, Track } from 'gql/graphql'
 import React, { useState, useRef, useEffect } from 'react'
+import Tooltip from '~/components/Tooltip'
 import { useCurrentUser } from '~/hooks/auth'
 import { useFollowUser } from '~/hooks/user'
 import { BadgeIcon, HeartIconFilled, MoreIcon } from '~/Svgs'
@@ -92,10 +93,8 @@ function UserProfileInfo({ user }: UserProfileInfo) {
                             className="p-2 relative group hover:text-[#93D0D5] rounded-full transition-colors"
                             onClick={() => setShowDropdown(!showDropdown)}
                         >
-                            <div className="absolute -top-7 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                                opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                                More
-                            </div>
+                            <Tooltip text='More' className='-top-7' />
+
                             <MoreIcon width="24" height="24" />
                         </button>
 
@@ -103,11 +102,6 @@ function UserProfileInfo({ user }: UserProfileInfo) {
                             <div className={`absolute bottom-12 left-1/2 -translate-x-1/2 w-64 z-50 transform transition-all duration-300 ease-in-out ${showDropdown ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
                                 <div className="bg-gradient-to-b from-neutral-950 to-neutral-900 rounded-md shadow-xl border border-[#2E3030]">
                                     <div className="py-1">
-
-
-
-
-
                                         {[
                                             isLoading
                                                 ? "Loading..."

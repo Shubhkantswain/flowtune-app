@@ -18,6 +18,7 @@ import { useGetCurrentUserPlaylists } from '~/hooks/playlist';
 import { useCurrentUser } from '~/hooks/auth';
 import { LoadingSpinnerIcon, PlusIcon } from '~/Svgs';
 import { useLikedTracksStore } from '~/store/useLikedTracksStore';
+import Tooltip from '~/components/Tooltip';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   try {
@@ -233,26 +234,25 @@ const MusicApp = () => {
                     <p className="text-neutral-400 text-sm">{track.singer}</p>
                   </div>
                 </div>
-                <div className="relative group flex items-center space-x-2"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    if (isFetchingUser) return
-                    if (!user?.isPro) {
-                      return navigate("/pro-plan")
-                    }
-                    setAddToPlaylistOpen(true)
-                    setTrackId(track.id)
-                  }}
-                >
-                  <div className="absolute -top-10 left-0 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                  opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                    Add To Playlist
-                  </div>
 
-                  <button className='text-black bg-white rounded-full p-0.5 hover:bg-[#93D0D5]'>
+                <div className="flex items-center space-x-2">
+                  <button
+                    className='relative group text-black bg-white rounded-full p-0.5 hover:bg-[#93D0D5]'
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      if (isFetchingUser) return
+                      if (!user?.isPro) {
+                        return navigate("/pro-plan")
+                      }
+                      setAddToPlaylistOpen(true)
+                      setTrackId(track.id)
+                    }}
+                  >
+                    <Tooltip text='Add To Playlist' className='-top-10' />
                     <PlusIcon width="15" height="15" />
                   </button>
                 </div>
+
               </div>
             ))}
           </div>

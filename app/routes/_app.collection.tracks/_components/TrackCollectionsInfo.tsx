@@ -2,6 +2,7 @@ import { Track } from 'gql/graphql'
 import React from 'react'
 import TrackCollectionsCover from './TrackCollectionsCover';
 import { CompactIcon, ListIcon, MoreIcon, PlayIcon } from '~/Svgs';
+import Tooltip from '~/components/Tooltip';
 
 interface TrackCollectionsInfoProps {
     showDropdown: boolean;
@@ -51,10 +52,7 @@ const TrackCollectionsInfo: React.FC<TrackCollectionsInfoProps> = ({
                             onClick={toggleScreenType}
                         >
                             {/* Tooltip */}
-                            <div className="absolute -top-12 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                            opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white">
-                                Switch to {screenType == "compact" ? "list" : "compact"} screen
-                            </div>
+                            <Tooltip text={`Switch To ${screenType == "compact" ? "List" : "Compact"} Screen`} className='-top-12' />
 
                             {/* Icon */}
                             {screenType === "compact" ? (
@@ -70,14 +68,10 @@ const TrackCollectionsInfo: React.FC<TrackCollectionsInfoProps> = ({
                     <div className="relative" ref={dropdownRef}>
                         <button
                             onClick={toggleDropdown}
-                            className="group mt-1.5 transition-colors focus:outline-none hover:text-[#93D0D5]"
+                            className="group mt-1.5 rounded-full transition-colors focus:outline-none hover:text-[#93D0D5]"
                             aria-label="More options"
                         >
-                            {/* Tooltip INSIDE the button */}
-                            <div className="absolute -top-7 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-zinc-800 text-white shadow-lg 
-                            opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white z-10">
-                                More
-                            </div>
+                            <Tooltip text='more' className='-top-7' />
 
                             <MoreIcon width="24" height="24" />
                         </button>
