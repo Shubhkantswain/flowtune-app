@@ -34,7 +34,7 @@ export const useAddSongToPlaylist = () => {
                     return [...prev, data]
                 })
             }
-            toast.success("Playlist created successfully");
+            toast.success("Added Track To This Playlist Successfully");
 
         },
         onError: (error: any) => {

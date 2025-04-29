@@ -52,6 +52,8 @@ export const searchData = [
     { title: `Lutt Putt Gaya From("Dunki")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2731a2e85cf59d754808254425f" },
 
     { title: `Mann Mera From("Table No 21")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27396fec3d5c7afafc59ed0043e" },
+    { title: `Mann Mera ("Guitar")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27396fec3d5c7afafc59ed0043e" },
+
 
     { title: `O Meri Laila From("Laila Majnu")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273fc8c4535825cdc0bcafde19a" },
 
@@ -68,6 +70,8 @@ export const searchData = [
     { title: `Sanam Re From("Sanam Re")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ce6e8a2a6cce64f2cc077218" },
     { title: `Sooraj Dooba Hain From("Roy")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273f6371011af4c82fb31d54820" },
     { title: `Shayad From("Love Aaj Kal")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273c51066dc572e8942e5ef1f44" },
+    { title: `Saman Teri Kasam From("STK")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ddaabc10aebdc619c1c9504c" },
+
 
     { title: `Tera Ban Jaunga From("Kabir Singh")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273c5545f737b16ad5ee767b62a" },
     { title: `Tum Se Hi From ("Jab We Met")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27352fe6875028c892308ffc2f7" },
@@ -123,42 +127,6 @@ export const playlistSearchData = {
 };
 
 
-const dummyData = [
-    "O Meri Laila",
-    "Jo Tum Mere Ho",
-    "Chaand Baaliyan",
-    "Phir Se Ud Chala",
-    "Kheech Meri Photo",
-    "Mann Mera",
-    "Be Intehaan",
-    "Khamoshiyan",
-    "Tere Liye",
-    "Khude Jaane",
-    "Iya Khoya",
-    "Hal-E-Dil",
-    "Ae Dil Hai Mushkil",
-    "Dooriyan",
-    "Kabira",
-    "Tera Ban Jaunga",
-    "Tu Hai Kahan",
-    "Badtameez Dil",
-    "Tum Ho",
-    "Lat Lag Gayee",
-    "Ilahi",
-    "Sanam Teri Kasam",
-    "Kuch Iss Tarah",
-    "Matargashti",
-    "Bewajah",
-    "Balam Pichkari",
-    "Bekhayali",
-    "Jaan Ban Gaye",
-    "Chaleya",
-    "Sadda Haq",
-    "Tera Chehara",
-    "Senorita",
-    "Tum Hi Ho",
-    "Kesariya"
-]
 
 export const genreIds = {
     // MoodsAndActivities
