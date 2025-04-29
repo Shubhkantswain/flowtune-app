@@ -18,7 +18,7 @@ const Playbackcontroller = () => {
     const { isTrackRepeatable } = useRepeatableTracksStore()
     const { dequeueFirstTrack } = useQueueStore()
     const { isSleepModeComplete, endOfTheTrackEnabled } = useSleepModeStore()
-    const { hasNextTrack, playNextTrack, setCurrentlyPlayingTrack, firstNode } = usePlaylistStore()
+    const { hasNextTrack, playNextTrack, setCurrentlyPlayingTrack, firstNode, isPlaylistRepeat } = usePlaylistStore()
 
     const location = useLocation()
 
@@ -152,7 +152,7 @@ const Playbackcontroller = () => {
                     })
                 }
             } else {
-                if (firstNode) {
+                if (isPlaylistRepeat && firstNode) {
                     setTrackDetails({
                         id: firstNode.data?.id,
                         title: firstNode.data?.title,

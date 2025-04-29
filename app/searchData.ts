@@ -54,6 +54,7 @@ export const searchData = [
     { title: `Mann Mera From("Table No 21")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27396fec3d5c7afafc59ed0043e" },
     { title: `Mann Mera ("Guitar")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27396fec3d5c7afafc59ed0043e" },
 
+    { title: `Nadaaniyan`, coverImageUrl: "https://i.scdn.co/image/ab67616d00001e02e43ca4e786be8a8006afdbc1" },
 
     { title: `O Meri Laila From("Laila Majnu")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273fc8c4535825cdc0bcafde19a" },
 
@@ -62,6 +63,8 @@ export const searchData = [
     { title: `Pehli Dafa`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273afd2bc3f876235be94c0d36d" },
 
     { title: `Raataan Lambiyan From("Shershaah")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273a75c2f26913099a420050f01" },
+    { title: `Ranjha From("Shershaah")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27309426d9ae9d8d981735ebc5e" },
+
 
     { title: `Sajni From("Laapataa Ladies")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273d5f4378b1ffc9119fdc7306d" },
     { title: `Satranga From("Animal")`, coverImageUrl: "https://c.saavncdn.com/415/Satranga-From-ANIMAL-Hindi-2023-20231027131032-500x500.jpg" },
@@ -70,15 +73,16 @@ export const searchData = [
     { title: `Sanam Re From("Sanam Re")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ce6e8a2a6cce64f2cc077218" },
     { title: `Sooraj Dooba Hain From("Roy")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273f6371011af4c82fb31d54820" },
     { title: `Shayad From("Love Aaj Kal")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273c51066dc572e8942e5ef1f44" },
-    { title: `Saman Teri Kasam From("STK")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ddaabc10aebdc619c1c9504c" },
+    { title: `Sanam Teri Kasam From("STK")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ddaabc10aebdc619c1c9504c" },
 
 
     { title: `Tera Ban Jaunga From("Kabir Singh")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273c5545f737b16ad5ee767b62a" },
     { title: `Tum Se Hi From ("Jab We Met")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27352fe6875028c892308ffc2f7" },
     { title: `Tum Se Hi ("Guitar")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27352fe6875028c892308ffc2f7" },
-
     { title: `Tum Hi Ho From("Aashiqui 2")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2736404721c1943d5069f0805f3" },
     { title: `Tera Chehra From("Sanam Teri Kasam")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ddaabc10aebdc619c1c9504c" },
+    { title: `Tera Chehra ("Guitar")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ddaabc10aebdc619c1c9504c" },
+
     { title: `Tum Ho From("Rockstar")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273869a9b15675b514a06d2c049" },
     { title: `Tera Yaar Ho Main From("SKTKS")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27322927ab54277255e23fc4756" },
     { title: `Tere Liye From("Prince")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27378109adafee981634990753a" },
