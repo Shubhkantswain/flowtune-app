@@ -33,17 +33,20 @@ const LeftTrackInfo: React.FC<LeftTrackInfoProps> = ({ setIsOpen }) => {
                     <img
                         src={trackDetails.coverImageUrl}
                         alt={`${trackDetails.title} album cover`}
-                        className="w-full h-full object-cover group-hover:opacity-75 transition-opacity"
+                        className="w-full h-full object-cover group-hover:opacity-75 rounded-sm transition-opacity"
                     />
                 ) : (
                     <PlaceholderTrack width='35' height='35' />
                 )}
 
                 {isTrackSelected && (
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity bg-black/40 group-hover:opacity-100">
-                        <ExpandIcon width="24" height="24"/>
-                    </div>
+                    <button className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity bg-black/40 group-hover:opacity-100">
+                        <div className="hover:text-[#93D0D5] p-1 rounded-full transition-colors">
+                            <ExpandIcon width="24" height="24" />
+                        </div>
+                    </button>
                 )}
+
             </button>
 
             <div className="min-w-0">

@@ -16,6 +16,7 @@ import usePlaylistStore from '~/store/usePlaylistStore';
 import Footer from '~/components/Footer';
 import { HeartIcon, HeartIconFilled, MoreIcon, PauseIcon, PlayIcon } from '~/Svgs';
 import { useLikedTracksStore } from '~/store/useLikedTracksStore';
+import Tooltip from '~/components/Tooltip';
 
 interface PlaylistTrackItemsProps {
     res: GetPlaylistTracksResponse;
@@ -137,23 +138,23 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
     const queueTracks = getAllTracks()
 
     const detectLike = (track: Track) => {
-        if(track.hasLiked){
-            if(!isTrackUnliked(track.id)){
+        if (track.hasLiked) {
+            if (!isTrackUnliked(track.id)) {
                 return true
-            } else{
-                return false 
-            }
-        }
-
-        if(!track.hasLiked){
-            if(!isTrackLiked(track.id)){
+            } else {
                 return false
-            } else{
-                return true 
             }
         }
 
-        
+        if (!track.hasLiked) {
+            if (!isTrackLiked(track.id)) {
+                return false
+            } else {
+                return true
+            }
+        }
+
+
     }
     return (
         <>
@@ -206,12 +207,14 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                                 <td className="text-right hidden md:table-cell text-gray-400 px-24 text-sm">{formatDuration(track?.duration || "")}</td>
                                 <td className="text-right px-4 relative hidden sm:table-cell">
                                     <button
-                                        className={`cursor-pointer hover:text-[#93D0D5] ${detectLike(track) ? "text-[#25d1da]" : "text-white"} flex-shrink-0 ml-2`}
+                                        className={`cursor-pointer group/more hover:text-[#93D0D5] ${detectLike(track) ? "text-[#25d1da]" : "text-white"} flex-shrink-0 ml-2`}
                                         onClick={async (e) => {
                                             e.stopPropagation();
                                             await handleLikeTrack(track.id)
                                         }}
                                     >
+                                        <Tooltip text="Add To Your Collection" className="-top-4 group-hover/more:opacity-100 group-hover/more:visible opacity-0 invisible transition-opacity" />
+
                                         {
                                             detectLike(track) ? (
                                                 <HeartIconFilled width="20" height="20" />
@@ -224,14 +227,16 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                                 </td>
                                 <td className="text-right px-4 relative">
                                     <button
-                                        className="cursor-pointer hover:text-[#93D0D5] flex-shrink-0 ml-2"
+                                        className="cursor-pointer relative group/more hover:text-[#93D0D5] flex-shrink-0 ml-2"
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             toggleDropdown(index);
                                         }}
                                     >
+                                        <Tooltip text="More" className="-top-10 group-hover/more:opacity-100 group-hover/more:visible opacity-0 invisible transition-opacity" />
                                         <MoreIcon width="20" height="20" />
                                     </button>
+
                                     {showDropdown === index && (
                                         <div
                                             ref={dropdownRef}
