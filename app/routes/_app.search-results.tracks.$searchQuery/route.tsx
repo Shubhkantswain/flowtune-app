@@ -120,7 +120,7 @@ function SearchResultsRoute() {
         icon={
           <SearchIcon width="60" height="60" />
         }
-        title='No results found'
+        title='No Results Found'
         message='Try a different search term or check your spelling.'
       />
     )

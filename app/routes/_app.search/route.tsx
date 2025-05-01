@@ -237,10 +237,9 @@ const BrowsePage = () => {
               // <p className="text-gray-400 mt-4 text-sm">No results found.</p>
               <EmptyState
                 icon={
-                  <SearchIcon width="60" height="60"/>
-                  }
-
-                title='No results found'
+                  <SearchIcon width="60" height="60" />
+                }
+                title='No Results Found'
                 message='Try a different search term or check your spelling.'
               />
 
@@ -253,7 +252,7 @@ const BrowsePage = () => {
             <ExploreSearch title="Music By Genre" exploreItems={genre} gapFromTop={true} />
           </>
         )}
-      {/* <Footer/> */}
+        {/* <Footer/> */}
       </div>
     </>
 

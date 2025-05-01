@@ -30,25 +30,7 @@ const RightControllers = () => {
     const location = useLocation()
 
     const handleLike = async () => {
-
         const like = await likeTrackMutation(trackDetails.id)
-
-        // id: ID!    
-
-        // title: String!            
-        // singer: String          
-        // starCast: String
-        // duration: String!             
-
-        // coverImageUrl: String      
-        // videoUrl: String
-        // audioFileUrl: String!  
-
-        // hasLiked: Boolean!
-        // authorId: String!
-
-        // createdAt: String
-
         if (like) {
             likeTrack(trackDetails.id)
             setLlikedTracksData([
@@ -66,36 +48,10 @@ const RightControllers = () => {
                     authorId: trackDetails.authorId,
                 }
             ])
-            // setTrackDetails({ hasLiked: true })
-
-            // queryClient.setQueryData(['exploreTracks', currentPage], (prev: Track[]) => {
-            //     const newTracks = prev.map((track) => {
-            //         if (track.id == trackDetails.id) {
-            //             return { ...track, hasLiked: true }
-            //         } else {
-            //             return track 
-            //         }  
-            //     })
-
-            //     return newTracks
-            // })
         } else {
             unlikeTrack(trackDetails.id)
             const newArray = likedTracksData.filter((track) => track.id != trackDetails.id)
             setLlikedTracksData(newArray)
-            // unlikeTrack(trackDetails.id)
-            // setTrackDetails({ hasLiked: false })
-            // queryClient.setQueryData(['exploreTracks', currentPage], (prev: Track[]) => {
-            //     const newTracks = prev.map((track) => {
-            //         if (track.id == trackDetails.id) {
-            //             return { ...track, hasLiked: false }
-            //         } else {
-            //             return track
-            //         }
-            //     })
-
-            //     return newTracks
-            // })
         }
 
         setFlag(false)
@@ -169,11 +125,11 @@ const RightControllers = () => {
             <div className="relative group md:hidden rounded-full">
                 {
                     trackDetails.id && (
-                        <Tooltip text={trackDetails.hasLiked ? "Unlike" : "Like"} className='-top-10' />
+                        <Tooltip text={trackDetails.hasLiked ?  "Remove From Your Tracks Collection" : "Add To Your Tracks Collection"} className='-top-10 -left-20 md:left-1/2' />
                     )
                 }
 
-                <button className={`${trackDetails.hasLiked ? "text-[#25d1da]" : "text-white hover:text-[#93D0D5]"} ${trackDetails.id ? "opacity-100" : "opacity-50 cursor-not-allowed"} rounded-full flex items-center justify-center transition-transform`}
+                <button className={`hover:text-[#93D0D5] ${trackDetails.hasLiked ? "text-[#25d1da]" : "text-white"} ${trackDetails.id ? "opacity-100" : "opacity-50 cursor-not-allowed"} rounded-full flex items-center justify-center transition-transform`}
                     onClick={handleLike}
                     disabled={isPending || !trackDetails.id}
                 >

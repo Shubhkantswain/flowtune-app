@@ -94,7 +94,7 @@ const UserPage = () => {
     }, [data]);
 
     console.log("tracks", tracks);
-    
+
 
     useEffect(() => {
         setActiveSectionIndex(-1); // To prevent the main page
@@ -112,10 +112,10 @@ const UserPage = () => {
 
     if (!user.userExist) {
         return (
-            <EmptyState 
-            icon={<SadIcon width="60" height="60" />}
-            title='No user found'
-            message='You might lost your path, try another way'
+            <EmptyState
+                icon={<SadIcon width="60" height="60" />}
+                title='Sorry, No User Found'
+                message='You might lost your path, try another way'
             />
         )
     }

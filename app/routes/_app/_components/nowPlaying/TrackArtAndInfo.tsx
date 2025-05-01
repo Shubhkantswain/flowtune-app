@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { HeartIcon, HeartIconFilled, MoreIcon } from '~/Svgs';
 import { useLikedTracksStore } from '~/store/useLikedTracksStore';
 import Tooltip from '~/components/Tooltip';
+import { useLikedTracksDataStore } from '~/store/useLikedTracksDataStore';
 
 interface TrackArtAndInfoProps {
     onShow: () => void;
@@ -19,16 +20,33 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
     const { trackDetails, setTrackDetails } = useTrackStore()
     const { initializePlaylist, setCurrentlyPlayingTrack } = usePlaylistStore()
     const { likeTrack, unlikeTrack } = useLikedTracksStore()
+    const { likedTracksData, setLlikedTracksData } = useLikedTracksDataStore()
 
     const handleLike = async () => {
         const like = await likeTrackMutation(trackDetails.id)
         if (like) {
             likeTrack(trackDetails.id)
-            setTrackDetails({ hasLiked: true })
+            setLlikedTracksData([
+                ...likedTracksData,
+                {
+                    id: trackDetails.id,
+                    title: trackDetails.title,
+                    singer: trackDetails.singer,
+                    starCast: trackDetails.starCast,
+                    duration: trackDetails.duration,
+                    coverImageUrl: trackDetails.coverImageUrl,
+                    videoUrl: trackDetails.videoUrl,
+                    audioFileUrl: trackDetails.audioFileUrl,
+                    hasLiked: true,
+                    authorId: trackDetails.authorId,
+                }
+            ])
         } else {
             unlikeTrack(trackDetails.id)
-            setTrackDetails({ hasLiked: false })
+            const newArray = likedTracksData.filter((track) => track.id != trackDetails.id)
+            setLlikedTracksData(newArray)
         }
+
     }
 
     return (
@@ -99,36 +117,36 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
                 </div>
 
 
-                <div className="flex gap-7 items-center">
-                        <button
-                            className={` relative group rounded-full transition-all duration-300 group ${!trackDetails.hasLiked ? "text-white" : "text-[#25d1da]"} hover:text-[#93D0D5]`}
-                            onClick={handleLike}
-                            disabled={isPending}
-                        >
-                        <Tooltip text={trackDetails.hasLiked ? "Unlike This Track" : "Like This Track"} className='-top-10'/>
-                            {isPending ? (
-                                <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
+                <div className="flex gap-9 items-center">
+                    <button
+                        className={`relative group rounded-full transition-all duration-300 group ${!trackDetails.hasLiked ? "text-white" : "text-[#25d1da]"} hover:text-[#93D0D5]`}
+                        onClick={handleLike}
+                        disabled={isPending}
+                    >
+                        <Tooltip text={trackDetails.hasLiked ? "Remove From Your Tracks Collection" : "Add To Your Tracks Collection"} className='-top-12 -left-2 md:left-1/2' />
+                        {isPending ? (
+                            <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
+                        ) : (
+                            trackDetails.hasLiked ? (
+                                <HeartIconFilled width="24" height="24" />
+
                             ) : (
-                                trackDetails.hasLiked ? (
-                                    <HeartIconFilled width="24" height="24" />
+                                <HeartIcon width="24" height="24" />
 
-                                ) : (
-                                    <HeartIcon width="24" height="24" />
+                            )
 
-                                )
-
-                            )}
-                        </button>
+                        )}
+                    </button>
 
 
-                       
-                        <button
-                            className="relative group rounded-full text-white hover:text-[#93D0D5] transition-all duration-300 group rotate-90"
-                            onClick={onShow}
-                        >
-                        <Tooltip text='More' className='-left-8 -rotate-90'/>
-                            <MoreIcon width="24" height="24" />
-                        </button>
+
+                    <button
+                        className="relative group rounded-full text-white hover:text-[#93D0D5] transition-all duration-300 group rotate-90"
+                        onClick={onShow}
+                    >
+                        <Tooltip text='More' className='-left-9 -rotate-90' />
+                        <MoreIcon width="24" height="24" />
+                    </button>
                 </div>
             </div>
         </div>

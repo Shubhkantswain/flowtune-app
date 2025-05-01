@@ -91,7 +91,7 @@ function ExplorePlaylistsPage() {
         return (
             <EmptyState 
             icon={<SadIcon width="60" height="60" />}
-            title='No playlist found'
+            title='No Playlist Found'
             message='You might lost your path, try another way'
             />
         );

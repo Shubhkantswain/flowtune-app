@@ -12,8 +12,9 @@ import TrackCollectionsInfo from './_components/TrackCollectionsInfo';
 import CompactScreenTracks from './_components/CompactScreenTracks';
 import { useLikedTracksStore } from '~/store/useLikedTracksStore';
 import { useLikeTrack } from '~/hooks/track';
-import { LoadingSpinnerIcon } from '~/Svgs';
+import { LoadingSpinnerIcon, SadIcon } from '~/Svgs';
 import { useLikedTracksDataStore } from '~/store/useLikedTracksDataStore';
+import EmptyState from '~/components/EmptyState';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   try {
@@ -79,8 +80,12 @@ const LikedTracks = () => {
   }, [])
 
   useEffect(() => {
-    if (likedTracks.length) {
-      setLikedTracks([...likedTracksData, ...likedTracks])
+    if (likedTracks.length && likedTracksData.length) {
+      setLikedTracks([...Object.values(likedTracksData), ...likedTracks])
+      if (initialized) {
+        initializePlaylist([...Object.values(likedTracksData), ...likedTracks]);
+        setCurrentlyPlayingTrack(trackDetails.id);
+      }
     }
   }, [likedTracksData])
 
@@ -98,7 +103,7 @@ const LikedTracks = () => {
       }
 
       if (removedTrack) {
-        if(initialized){
+        if (initialized) {
           removeTrackFromPlaylist(removedTrack.id);
           setCurrentlyPlayingTrack(trackDetails.id);
         }
@@ -110,7 +115,7 @@ const LikedTracks = () => {
 
 
 
-  console.log("currentlyPlayingNode", currentlyPlayingNode);
+  console.log("likedTracks", likedTracks);
 
 
   const handlePlayTrack = (track: Track) => {
@@ -164,8 +169,13 @@ const LikedTracks = () => {
 
           <TrackCollectionsInfo initialTrack={likedTracks.length > 0 ? likedTracks[0] : initialTracks[0]} handlePlayTrack={handlePlayTrack} toggleScreenType={toggleScreenType} screenType={screenType} />
 
-          {initialTracks.length === 0 ? (
-            <NoTracks />
+          {initialTracks.length == 0 ? (
+            <EmptyState
+              icon={<SadIcon width="60" height="60" />}
+              title="No Liked Tracks Yet"
+              message="Start exploring and like some tracks to see them here."
+            />
+
           ) : screenType === "compact" ? (
             <CompactScreenTracks
               likedTracks={likedTracks.length ? likedTracks : initialTracks}

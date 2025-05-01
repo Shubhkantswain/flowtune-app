@@ -248,7 +248,7 @@ const MusicApp = () => {
                       setTrackId(track.id)
                     }}
                   >
-                    <Tooltip text='Add To Playlist' className='-top-10' />
+                    <Tooltip text='Add To Playlist' className='-top-10 -left-7 md:left-1/2' />
                     <PlusIcon width="15" height="15" />
                   </button>
                 </div>

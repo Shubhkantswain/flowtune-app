@@ -116,9 +116,9 @@ export const useLikeTrack = () => {
         },
         onSuccess: (data) => {
             if (data) {
-                toast.success('Track Added To Your Favourite')
+                toast.success('Added To Your Tracks Collection')
             } else {
-                toast.success('Track Remove From Your Favourite')
+                toast.success('Remove From Your Tracks Collection')
             }
 
         },

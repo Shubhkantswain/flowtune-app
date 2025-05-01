@@ -63,7 +63,7 @@ const Header: React.FC<HeaderProps> = ({ onClose, onShowQueueTrack, hide, setHid
                         <button className="relative group text-white hover:text-[#93D0D5] transition-colors duration-300" onClick={onShowQueueTrack}>
                             <Tooltip
                                 text="Show Queue"
-                                className="top-6 -left-6 md:left-1/2"
+                                className="top-6 -left-7 md:left-1/2"
                             />
 
                             <QueueIcon width="24" height="24" />
