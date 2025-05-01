@@ -93,6 +93,9 @@ const UserPage = () => {
         }
     }, [data]);
 
+    console.log("tracks", tracks);
+    
+
     useEffect(() => {
         setActiveSectionIndex(-1); // To prevent the main page
     }, []);

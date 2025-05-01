@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import Tooltip from '~/components/Tooltip'
 import { useLikeTrack } from '~/hooks/track'
 import { useCurrentActivePageStore } from '~/store/useCurrentActivePageStore'
+import { useLikedTracksDataStore } from '~/store/useLikedTracksDataStore'
 import { useLikedTracksStore } from '~/store/useLikedTracksStore'
 import usePlaylistStore from '~/store/usePlaylistStore'
 import { useTrackStore } from '~/store/useTrackStore'
@@ -17,7 +18,8 @@ const RightControllers = () => {
     const { trackDetails, togglePlay, setTrackDetails, handleVolumeChange } = useTrackStore()
     const { mute, setMute } = useVolumeStore()
     const { likedTrackMap, unlikedTrackMap, setLikedTrackIds, likeTrack, unlikeTrack, isTrackLiked, isTrackUnliked } = useLikedTracksStore()
-    const { activeSectionIndex } = usePlaylistStore()
+    const { removeTrackFromPlaylist, setCurrentlyPlayingTrack } = usePlaylistStore()
+    const { likedTracksData, setLlikedTracksData } = useLikedTracksDataStore()
 
     const { currentPage, setFlag } = useCurrentActivePageStore()
 
@@ -25,14 +27,45 @@ const RightControllers = () => {
 
     const isPlaying = trackDetails.isPlaying
 
-    const location = useLocation
+    const location = useLocation()
 
     const handleLike = async () => {
 
         const like = await likeTrackMutation(trackDetails.id)
 
+        // id: ID!    
+
+        // title: String!            
+        // singer: String          
+        // starCast: String
+        // duration: String!             
+
+        // coverImageUrl: String      
+        // videoUrl: String
+        // audioFileUrl: String!  
+
+        // hasLiked: Boolean!
+        // authorId: String!
+
+        // createdAt: String
+
         if (like) {
             likeTrack(trackDetails.id)
+            setLlikedTracksData([
+                ...likedTracksData,
+                {
+                    id: trackDetails.id,
+                    title: trackDetails.title,
+                    singer: trackDetails.singer,
+                    starCast: trackDetails.starCast,
+                    duration: trackDetails.duration,
+                    coverImageUrl: trackDetails.coverImageUrl,
+                    videoUrl: trackDetails.videoUrl,
+                    audioFileUrl: trackDetails.audioFileUrl,
+                    hasLiked: true,
+                    authorId: trackDetails.authorId,
+                }
+            ])
             // setTrackDetails({ hasLiked: true })
 
             // queryClient.setQueryData(['exploreTracks', currentPage], (prev: Track[]) => {
@@ -48,6 +81,9 @@ const RightControllers = () => {
             // })
         } else {
             unlikeTrack(trackDetails.id)
+            const newArray = likedTracksData.filter((track) => track.id != trackDetails.id)
+            setLlikedTracksData(newArray)
+            // unlikeTrack(trackDetails.id)
             // setTrackDetails({ hasLiked: false })
             // queryClient.setQueryData(['exploreTracks', currentPage], (prev: Track[]) => {
             //     const newTracks = prev.map((track) => {

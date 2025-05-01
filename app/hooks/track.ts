@@ -65,24 +65,6 @@ export const useGetExploreTracks = (page: number) => {
     })
 }
 
-export const useGetLikedTracks = (page: number) => {
-    return useQuery({
-        queryKey: ['likedTracks', page],
-        queryFn: async () => {
-            if (page == 1) return []
-
-            let token = ""
-            if (typeof window !== "undefined") {
-                token = localStorage.getItem("__FlowTune_Token") || ""
-            }
-            const graphqlClient = createGraphqlClient(token);
-            const { getLikedTracks } = await graphqlClient.request(getLikedTracksQuery, { page });
-            return getLikedTracks
-        },
-        staleTime: page === 1 ? 0 : 1000 * 60 * 5,
-    })
-}
-
 export const useGetTracksByGenreId = (input: GetTracksByGenreIdInput, initialTracks: Track[]) => {
     return useQuery({
         queryKey: ['tracksByGenreId', input.page, input.genreId],

@@ -82,6 +82,8 @@ export const searchData = [
     { title: `Tum Hi Ho From("Aashiqui 2")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2736404721c1943d5069f0805f3" },
     { title: `Tera Chehra From("Sanam Teri Kasam")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ddaabc10aebdc619c1c9504c" },
     { title: `Tera Chehra ("Guitar")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273ddaabc10aebdc619c1c9504c" },
+    { title: `Tum Hi Aana From("Marjaavaan")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b2736539071e0f1833190a491d4d" },
+
 
     { title: `Tum Ho From("Rockstar")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273869a9b15675b514a06d2c049" },
     { title: `Tera Yaar Ho Main From("SKTKS")`, coverImageUrl: "https://i.scdn.co/image/ab67616d0000b27322927ab54277255e23fc4756" },

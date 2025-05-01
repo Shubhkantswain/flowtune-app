@@ -72,12 +72,12 @@ const CompactScreenTracks: React.FC<CompactScreenTracksProps> = ({
                             onClick={async (e) => {
                                 e.stopPropagation()
                                 await likeTrack(track.id)
-                                const newTracks = likedTracks.filter((item) => item.id != track.id)
-                                setLikedTracks(newTracks)
                                 unlikeTrack(track.id)
-                                // initializePlaylist(newTracks)
-                                removeTrackFromPlaylist(track.id)
-                                setCurrentlyPlayingTrack(trackDetails.id);
+                                // const newTracks = likedTracks.filter((item) => item.id != track.id)
+                                // setLikedTracks(newTracks)
+                                // // initializePlaylist(newTracks)
+                                // removeTrackFromPlaylist(track.id)
+                                // setCurrentlyPlayingTrack(trackDetails.id);
                                
 
                             }}

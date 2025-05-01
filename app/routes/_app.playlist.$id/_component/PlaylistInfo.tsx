@@ -25,7 +25,7 @@ function PlaylistInfo({ res, handleControll }: PlaylistInfoProps) {
     const { data } = useCurrentUser()
 
     const toggleDropdown = () => {
-        setShowDropdown(!showDropdown)
+        setShowDropdown(!showDropdown)  
     }
 
     // Handle outside click to close dropdown

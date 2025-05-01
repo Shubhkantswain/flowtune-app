@@ -11,8 +11,9 @@ import ListScreenTracks from './_components/ListScreenTracks';
 import TrackCollectionsInfo from './_components/TrackCollectionsInfo';
 import CompactScreenTracks from './_components/CompactScreenTracks';
 import { useLikedTracksStore } from '~/store/useLikedTracksStore';
-import { useGetLikedTracks, useLikeTrack } from '~/hooks/track';
+import { useLikeTrack } from '~/hooks/track';
 import { LoadingSpinnerIcon } from '~/Svgs';
+import { useLikedTracksDataStore } from '~/store/useLikedTracksDataStore';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   try {
@@ -28,7 +29,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     if (!token) return redirect("/ft/signin");
 
     const graphqlClient = createGraphqlClient(token);
-    const { getLikedTracks } = await graphqlClient.request(getLikedTracksQuery, { page: 1 });
+    const { getLikedTracks } = await graphqlClient.request(getLikedTracksQuery);
 
     return getLikedTracks || [];
   } catch (error) {
@@ -41,7 +42,7 @@ const LikedTracks = () => {
   const initialTracks = useLoaderData<Track[]>();
   const [likedTracks, setLikedTracks] = useState<Track[]>([])
 
-  const { initializePlaylist, setCurrentlyPlayingTrack, setActiveSectionIndex } = usePlaylistStore();
+  const { initializePlaylist, setCurrentlyPlayingTrack, setActiveSectionIndex, currentlyPlayingNode, getAllPlaylistTracks, removeTrackFromPlaylist } = usePlaylistStore();
   const { setTrackDetails, trackDetails } = useTrackStore();
 
   const [initialized, setInitialized] = useState(false);
@@ -51,8 +52,8 @@ const LikedTracks = () => {
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(false)
 
-  const { data, isLoading } = useGetLikedTracks(page)
-  const {isTrackUnliked} = useLikedTracksStore()
+  const { isTrackUnliked, likedTrackMap, unlikedTrackMap } = useLikedTracksStore()
+  const { likedTracksData } = useLikedTracksDataStore()
 
   const toggleDropdown = () => setShowDropdown(!showDropdown);
   const toggleScreenType = () => setScreenType(prev => (prev === "compact" ? "list" : "compact"));
@@ -68,6 +69,7 @@ const LikedTracks = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // To Reset the Current Active Index
   useEffect(() => {
     setActiveSectionIndex(-1);
   }, []);
@@ -77,28 +79,39 @@ const LikedTracks = () => {
   }, [])
 
   useEffect(() => {
-    if (data?.length) {
-      setLikedTracks(prev => {
-        const newTracks = data.filter((track) => !isTrackUnliked(track.id))
-
-        // If page is 2, include both the initial trackSections and new data
-        if (page === 2) {
-          return [...initialTracks, ...newTracks];
-        }
-
-        // For other pages, just append new sections
-        return [...prev, ...newTracks];
-      });
-
+    if (likedTracks.length) {
+      setLikedTracks([...likedTracksData, ...likedTracks])
     }
-    if (data) {
-      if (page == 1) {
-        setHasMore(initialTracks.length >= 20)
-      } else {
-        setHasMore(data?.length >= 20)
+  }, [likedTracksData])
+
+  useEffect(() => {
+    if (likedTracks.length) {
+      let removedTrack: Track | null = null;
+      const newArray: Track[] = [];
+
+      for (const track of likedTracks) {
+        if (isTrackUnliked(track.id)) {
+          removedTrack = track;
+          continue;
+        }
+        newArray.push(track);
+      }
+
+      if (removedTrack) {
+        if(initialized){
+          removeTrackFromPlaylist(removedTrack.id);
+          setCurrentlyPlayingTrack(trackDetails.id);
+        }
+        setLikedTracks(newArray);
       }
     }
-  }, [data, page]);
+  }, [unlikedTrackMap]);
+
+
+
+
+  console.log("currentlyPlayingNode", currentlyPlayingNode);
+
 
   const handlePlayTrack = (track: Track) => {
     const isPlayingCurrentSong = track?.id === trackDetails.id && trackDetails.isPlaying;
@@ -111,7 +124,7 @@ const LikedTracks = () => {
       return;
     } else {
       if (!initialized) {
-        initializePlaylist(likedTracks);
+        initializePlaylist(likedTracks.length > 0 ? likedTracks : initialTracks);
       }
 
       setTrackDetails({
@@ -134,19 +147,23 @@ const LikedTracks = () => {
   };
 
   return (
-    <div className="max-w-[90rem] mx-auto">
-      <div className="p-4 sm:p-6 md:p-8">
-        <TrackCollectionsInfo
-          showDropdown={showDropdown}
-          screenType={screenType}
-          handlePlayTrack={handlePlayTrack}
-          toggleScreenType={toggleScreenType}
-          toggleDropdown={toggleDropdown}
-          dropdownRef={dropdownRef}
-          initialTrack={initialTracks[0]}
-        />
+    <div className="text-white relative max-w-[90rem] mx-auto">
+      <div
+        className="absolute inset-0 bg-gradient-to-b from-transparent to-black z-0"
+        style={{
+          backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,1) 10%), url(${"https://res.cloudinary.com/daz21loyl/image/upload/v1746024685/oge5lchk6elcmrzpxtpo.jpg"})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center top',
+          filter: 'blur(100px)',
+          opacity: '0.9',
+        }}
+      />
 
-        <div className="relative">
+      <div className="relative z-10">
+        <div className="p-4 sm:p-6 md:p-8">
+
+          <TrackCollectionsInfo initialTrack={likedTracks.length > 0 ? likedTracks[0] : initialTracks[0]} handlePlayTrack={handlePlayTrack} toggleScreenType={toggleScreenType} screenType={screenType} />
+
           {initialTracks.length === 0 ? (
             <NoTracks />
           ) : screenType === "compact" ? (
@@ -163,28 +180,47 @@ const LikedTracks = () => {
               handlePlayTrack={handlePlayTrack}
             />
           )}
-        </div>
 
-        {hasMore && (
-          <button
-            onClick={() => setPage(page + 1)}
-            aria-label="Load more tracks"
-            className="mx-auto block px-4 py-2 mt-5 text-white bg-[#292a2a] hover:bg-[#5D5E5E] text-sm font-medium rounded-full disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow transition-all duration-200 w-fit"
-            disabled={isLoading}
-          >
-            {isLoading && page != 1 ? (
-              <span className="flex items-center justify-center gap-1.5 text-white">
-                <LoadingSpinnerIcon width="18" height="18" />
-                Loading...
-              </span>
-            ) : (
-              'Load More'
-            )}
-          </button>
-        )}
+        </div>
       </div>
     </div>
   );
 };
 
 export default LikedTracks;
+
+
+// <div className="max-w-[90rem] mx-auto">
+// <div className="p-4 sm:p-6 md:p-8">
+//   <TrackCollectionsInfo
+//     showDropdown={showDropdown}
+//     screenType={screenType}
+//     handlePlayTrack={handlePlayTrack}
+//     toggleScreenType={toggleScreenType}
+//     toggleDropdown={toggleDropdown}
+//     dropdownRef={dropdownRef}
+//     initialTrack={initialTracks[0]}
+//   />
+
+//   <div className="relative">
+//     {initialTracks.length === 0 ? (
+//       <NoTracks />
+//     ) : screenType === "compact" ? (
+//       <CompactScreenTracks
+//         likedTracks={likedTracks.length ? likedTracks : initialTracks}
+//         setLikedTracks={setLikedTracks}
+//         initialized={initialized}
+//         handlePlayTrack={handlePlayTrack}
+//       />
+//     ) : (
+//       <ListScreenTracks
+//         likedTracks={likedTracks.length ? likedTracks : initialTracks}
+//         initialized={initialized}
+//         handlePlayTrack={handlePlayTrack}
+//       />
+//     )}
+//   </div>
+
+
+// </div>
+// </div>

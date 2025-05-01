@@ -79,7 +79,6 @@ const usePlaylistStore = create<PlaylistStoreState>((set, get) => {
       }
 
       set({
-        currentlyPlayingNode: headSentinel.next?.data ? headSentinel.next : null,
         firstNode: headSentinel.next?.data ? headSentinel.next : null,
         lastNode: tailSentinel.previous?.data ? tailSentinel.previous : null,
         trackNodeMap: new Map(trackNodeMap),
@@ -201,6 +200,8 @@ const usePlaylistStore = create<PlaylistStoreState>((set, get) => {
 
       if (!targetNode?.data) return false;
 
+      console.log("pls dont'ooo");
+      
       set({ currentlyPlayingNode: targetNode });
       return true;
     },

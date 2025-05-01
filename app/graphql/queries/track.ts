@@ -89,8 +89,8 @@ export const getSearchTracksQuery = graphql(`
 
 export const getLikedTracksQuery = graphql(`
   #graphql
-  query GetLikedTracks($page: Int!) {
-    getLikedTracks(page: $page) {
+  query GetLikedTracks {
+    getLikedTracks {
       id
       title
       singer
@@ -103,4 +103,5 @@ export const getLikedTracksQuery = graphql(`
       authorId
     }
   }
+
 `);
