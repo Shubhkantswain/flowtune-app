@@ -1,55 +1,56 @@
+import { Track } from 'gql/graphql';
 import { create } from 'zustand';
 
 interface LikedTracksState {
-  likedTrackMap: Record<string, true>;
-  unlikedTrackMap: Record<string, true>;
-  setLikedTrackIds: (trackIds: string[]) => void;
-  likeTrack: (trackId: string) => void;
+  likedTracks: Record<string, Track>;
+  unlikedTracks: Record<string, true>;
+  setLikedTracks: (tracks: Track[]) => void;
+  likeTrack: (track: Track) => void;
   unlikeTrack: (trackId: string) => void;
   isTrackLiked: (trackId: string) => boolean;
   isTrackUnliked: (trackId: string) => boolean;
 }
 
 export const useLikedTracksStore = create<LikedTracksState>((set, get) => ({
-  likedTrackMap: {},
-  unlikedTrackMap: {},
+  likedTracks: {},
+  unlikedTracks: {},
 
-  setLikedTrackIds: (trackIds) => {
-    const trackMap: Record<string, true> = {};
-    for (const id of trackIds) {
-      trackMap[id] = true;
+  setLikedTracks: (tracks) => {
+    const trackMap: Record<string, Track> = {};
+    for (const track of tracks) {
+      trackMap[track.id] = track;
     }
-    set({ likedTrackMap: trackMap });
+    set({ likedTracks: trackMap });
   },
 
-  likeTrack: (trackId) =>
+  likeTrack: (track) =>
     set((state) => {
-      const updatedUnliked = { ...state.unlikedTrackMap };
-      delete updatedUnliked[trackId];
+      const updatedUnliked = { ...state.unlikedTracks };
+      delete updatedUnliked[track.id];
 
       return {
-        likedTrackMap: {
-          ...state.likedTrackMap,
-          [trackId]: true,
+        likedTracks: {
+          ...state.likeTrack,
+          [track.id]: track,
         },
-        unlikedTrackMap: updatedUnliked,
+        unlikedTracks: updatedUnliked,
       };
     }),
 
   unlikeTrack: (trackId) =>
     set((state) => {
-      const updatedLiked = { ...state.likedTrackMap };
+      const updatedLiked = { ...state.likedTracks };
       delete updatedLiked[trackId];
 
       return {
-        likedTrackMap: updatedLiked,
-        unlikedTrackMap: {
-          ...state.unlikedTrackMap,
+        likedTracks: updatedLiked,
+        unlikedTracks: {
+          ...state.unlikedTracks,
           [trackId]: true,
         },
       };
     }),
 
-  isTrackLiked: (trackId) => !!get().likedTrackMap[trackId],
-  isTrackUnliked: (trackId) => !!get().unlikedTrackMap[trackId],
+  isTrackLiked: (trackId) => !!get().likedTracks[trackId],
+  isTrackUnliked: (trackId) => !!get().unlikedTracks[trackId],
 }));

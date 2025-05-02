@@ -22,7 +22,7 @@ const Playbackcontroller = () => {
 
     const location = useLocation()
 
-    const { isTrackLiked, isTrackUnliked, likedTrackMap, unlikedTrackMap } = useLikedTracksStore()
+    const { isTrackLiked, isTrackUnliked, likedTracks, unlikedTracks } = useLikedTracksStore()
 
     const [isOpen, setIsOpen] = useState(false)
     const [progress, setProgress] = useState(0);
@@ -231,7 +231,7 @@ const Playbackcontroller = () => {
         if (!detectLike() && trackDetails.hasLiked) {
             setTrackDetails({ hasLiked: detectLike() })
         }
-    }, [trackDetails, likedTrackMap, unlikedTrackMap]);
+    }, [trackDetails, likedTracks, unlikedTracks]);
 
     return (
         <>

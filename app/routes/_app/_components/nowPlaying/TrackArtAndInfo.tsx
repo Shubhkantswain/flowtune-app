@@ -8,7 +8,6 @@ import { useEffect } from 'react';
 import { HeartIcon, HeartIconFilled, MoreIcon } from '~/Svgs';
 import { useLikedTracksStore } from '~/store/useLikedTracksStore';
 import Tooltip from '~/components/Tooltip';
-import { useLikedTracksDataStore } from '~/store/useLikedTracksDataStore';
 
 interface TrackArtAndInfoProps {
     onShow: () => void;
@@ -20,14 +19,11 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
     const { trackDetails, setTrackDetails } = useTrackStore()
     const { initializePlaylist, setCurrentlyPlayingTrack } = usePlaylistStore()
     const { likeTrack, unlikeTrack } = useLikedTracksStore()
-    const { likedTracksData, setLlikedTracksData } = useLikedTracksDataStore()
 
     const handleLike = async () => {
         const like = await likeTrackMutation(trackDetails.id)
         if (like) {
-            likeTrack(trackDetails.id)
-            setLlikedTracksData([
-                ...likedTracksData,
+            likeTrack(
                 {
                     id: trackDetails.id,
                     title: trackDetails.title,
@@ -40,11 +36,9 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
                     hasLiked: true,
                     authorId: trackDetails.authorId,
                 }
-            ])
+            )
         } else {
             unlikeTrack(trackDetails.id)
-            const newArray = likedTracksData.filter((track) => track.id != trackDetails.id)
-            setLlikedTracksData(newArray)
         }
 
     }
@@ -123,7 +117,7 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
                         onClick={handleLike}
                         disabled={isPending}
                     >
-                        <Tooltip text={trackDetails.hasLiked ? "Remove From Your Tracks Collection" : "Add To Your Tracks Collection"} className='-top-12 -left-2 md:left-1/2' />
+                        <Tooltip text={trackDetails.hasLiked ? "Remove From Your Collection" : "Add To Your Collection"} className={`${trackDetails.hasLiked ? " -left-2 -ml-4 md:ml-0 md:left-1/2" : ""} -top-12`} />
                         {isPending ? (
                             <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
                         ) : (
@@ -144,7 +138,7 @@ const TrackArtAndInfo: React.FC<TrackArtAndInfoProps> = ({ onShow, videoEnabled 
                         className="relative group rounded-full text-white hover:text-[#93D0D5] transition-all duration-300 group rotate-90"
                         onClick={onShow}
                     >
-                        <Tooltip text='More' className='-left-9 -rotate-90' />
+                        <Tooltip text='More' className='-left-10 ml-2 -rotate-90' />
                         <MoreIcon width="24" height="24" />
                     </button>
                 </div>

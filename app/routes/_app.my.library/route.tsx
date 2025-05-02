@@ -59,7 +59,6 @@ const MusicApp = () => {
 
   const { data: user, isLoading: isFetchingUser } = useCurrentUser()
 
-  const { likedTrackMap, setLikedTrackIds } = useLikedTracksStore()
 
   const [recentTracks, setRecentTracks] = useState<string[]>([]);
 
@@ -248,7 +247,7 @@ const MusicApp = () => {
                       setTrackId(track.id)
                     }}
                   >
-                    <Tooltip text='Add To Playlist' className='-top-10 -left-7 md:left-1/2' />
+                    <Tooltip text='Add To Playlist' className='-top-10 -left-8 ml-5 md:ml-0 md:left-1/2' />
                     <PlusIcon width="15" height="15" />
                   </button>
                 </div>

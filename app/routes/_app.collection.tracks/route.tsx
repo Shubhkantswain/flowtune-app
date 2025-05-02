@@ -13,7 +13,6 @@ import CompactScreenTracks from './_components/CompactScreenTracks';
 import { useLikedTracksStore } from '~/store/useLikedTracksStore';
 import { useLikeTrack } from '~/hooks/track';
 import { LoadingSpinnerIcon, SadIcon } from '~/Svgs';
-import { useLikedTracksDataStore } from '~/store/useLikedTracksDataStore';
 import EmptyState from '~/components/EmptyState';
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -53,8 +52,7 @@ const LikedTracks = () => {
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(false)
 
-  const { isTrackUnliked, likedTrackMap, unlikedTrackMap } = useLikedTracksStore()
-  const { likedTracksData } = useLikedTracksDataStore()
+  const { isTrackUnliked, likedTracks: likedTracksData, unlikedTracks } = useLikedTracksStore()
 
   const toggleDropdown = () => setShowDropdown(!showDropdown);
   const toggleScreenType = () => setScreenType(prev => (prev === "compact" ? "list" : "compact"));
@@ -80,7 +78,7 @@ const LikedTracks = () => {
   }, [])
 
   useEffect(() => {
-    if (likedTracks.length && likedTracksData.length) {
+    if (likedTracks.length) {
       setLikedTracks([...Object.values(likedTracksData), ...likedTracks])
       if (initialized) {
         initializePlaylist([...Object.values(likedTracksData), ...likedTracks]);
@@ -88,6 +86,7 @@ const LikedTracks = () => {
       }
     }
   }, [likedTracksData])
+
 
   useEffect(() => {
     if (likedTracks.length) {
@@ -110,12 +109,11 @@ const LikedTracks = () => {
         setLikedTracks(newArray);
       }
     }
-  }, [unlikedTrackMap]);
-
-
-
+  }, [unlikedTracks]);
 
   console.log("likedTracks", likedTracks);
+  // console.log("unlikedTracks", unlikedTracks);
+
 
 
   const handlePlayTrack = (track: Track) => {

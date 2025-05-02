@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react'
 import Tooltip from '~/components/Tooltip'
 import { useLikeTrack } from '~/hooks/track'
 import { useCurrentActivePageStore } from '~/store/useCurrentActivePageStore'
-import { useLikedTracksDataStore } from '~/store/useLikedTracksDataStore'
 import { useLikedTracksStore } from '~/store/useLikedTracksStore'
 import usePlaylistStore from '~/store/usePlaylistStore'
 import { useTrackStore } from '~/store/useTrackStore'
@@ -17,9 +16,8 @@ const RightControllers = () => {
     const { mutateAsync: likeTrackMutation, isPending } = useLikeTrack()
     const { trackDetails, togglePlay, setTrackDetails, handleVolumeChange } = useTrackStore()
     const { mute, setMute } = useVolumeStore()
-    const { likedTrackMap, unlikedTrackMap, setLikedTrackIds, likeTrack, unlikeTrack, isTrackLiked, isTrackUnliked } = useLikedTracksStore()
+    const { likedTracks, setLikedTracks, likeTrack, unlikeTrack, isTrackLiked, isTrackUnliked } = useLikedTracksStore()
     const { removeTrackFromPlaylist, setCurrentlyPlayingTrack } = usePlaylistStore()
-    const { likedTracksData, setLlikedTracksData } = useLikedTracksDataStore()
 
     const { currentPage, setFlag } = useCurrentActivePageStore()
 
@@ -32,9 +30,7 @@ const RightControllers = () => {
     const handleLike = async () => {
         const like = await likeTrackMutation(trackDetails.id)
         if (like) {
-            likeTrack(trackDetails.id)
-            setLlikedTracksData([
-                ...likedTracksData,
+            likeTrack(
                 {
                     id: trackDetails.id,
                     title: trackDetails.title,
@@ -47,18 +43,16 @@ const RightControllers = () => {
                     hasLiked: true,
                     authorId: trackDetails.authorId,
                 }
-            ])
+            )
+           
         } else {
             unlikeTrack(trackDetails.id)
-            const newArray = likedTracksData.filter((track) => track.id != trackDetails.id)
-            setLlikedTracksData(newArray)
+            // const newArray = Object.values(likedTracks).filter((track) => track.id != trackDetails.id)
+            // setLikedTracks(newArray)
         }
 
         setFlag(false)
     }
-
-    console.log("likedtracksmap", likedTrackMap);
-    console.log("unlikedTrackMap", unlikedTrackMap);
 
 
     useEffect(() => {
@@ -125,11 +119,11 @@ const RightControllers = () => {
             <div className="relative group md:hidden rounded-full">
                 {
                     trackDetails.id && (
-                        <Tooltip text={trackDetails.hasLiked ?  "Remove From Your Tracks Collection" : "Add To Your Tracks Collection"} className='-top-10 -left-20 md:left-1/2' />
+                        <Tooltip text={trackDetails.hasLiked ?  "Remove From Your Collection" : "Add To Your Collection"} className={`${trackDetails.hasLiked ? " -left-10 -ml-9 md:ml-0 md:left-1/2" : "-left-10 -ml-4 md:ml-0 md:left-1/2"} -top-10`} />
                     )
                 }
 
-                <button className={`hover:text-[#93D0D5] ${trackDetails.hasLiked ? "text-[#25d1da]" : "text-white"} ${trackDetails.id ? "opacity-100" : "opacity-50 cursor-not-allowed"} rounded-full flex items-center justify-center transition-transform`}
+                <button className={`${trackDetails.hasLiked ? "text-[#25d1da]" : "text-white"} ${trackDetails.id ? "opacity-100 hover:text-[#93D0D5]" : "opacity-50 cursor-not-allowed"} rounded-full flex items-center justify-center transition-transform`}
                     onClick={handleLike}
                     disabled={isPending || !trackDetails.id}
                 >
@@ -176,7 +170,7 @@ const RightControllers = () => {
 
             {/* Volume Control (Hidden on Small Screens) */}
             <div className="hidden md:flex items-center justify-end">
-                <button className={`${trackDetails.id ? "opacity-100" : "opacity-50 cursor-not-allowed"} p-2 hover:text-[#93D0D5] transition-colors relative group`} onClick={() => {
+                <button className={`${trackDetails.id ? "opacity-100 hover:text-[#93D0D5]" : "opacity-50 cursor-not-allowed"} p-2 transition-colors relative group`} onClick={() => {
                     if (mute) {
                         handleVolumeChange(100)
                         setMute(false)

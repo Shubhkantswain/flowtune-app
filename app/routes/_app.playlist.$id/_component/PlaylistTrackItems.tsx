@@ -45,7 +45,7 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
 
     const { mutateAsync: likeTrackMutation } = useLikeTrack()
 
-    const { likedTrackMap, setLikedTrackIds, unlikeTrack, likeTrack, isTrackLiked, isTrackUnliked } = useLikedTracksStore()
+    const { unlikeTrack, likeTrack, isTrackLiked, isTrackUnliked } = useLikedTracksStore()
 
     useEffect(() => {
         if (res.tracks) {
@@ -79,44 +79,13 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
         setShowDropdown(null);
     }
 
-    const handleLikeTrack = async (trackId: string) => {
-        const like = await likeTrackMutation(trackId)
+    const handleLikeTrack = async (track: Track) => {
+        const like = await likeTrackMutation(track.id)
 
         if (like) {
-            likeTrack(trackId)
-            // if (trackId == trackDetails.id) {
-            //     setTrackDetails({ hasLiked: true })
-            // }
-            // const newTracks = tracks.map((track) => {
-            //     if (track.id == trackId) {
-            //         return {
-            //             ...track,
-            //             hasLiked: true
-            //         }
-            //     }
-
-            //     return track
-            // })
-
-            // setTracks(newTracks)
+            likeTrack(track)
         } else {
-            unlikeTrack(trackId)
-            // if (trackId == trackDetails.id) {
-            //     setTrackDetails({ hasLiked: false })
-            // }
-            // const newTracks = tracks.map((track) => {
-            //     if (track.id == trackId) {
-            //         return {
-            //             ...track,
-            //             hasLiked: false
-            //         }
-            //     }
-
-            //     return track
-            // })
-
-            // setTracks(newTracks)
-
+            unlikeTrack(track.id)
         }
 
     }
@@ -210,10 +179,10 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                                         className={`cursor-pointer group/more hover:text-[#93D0D5] ${detectLike(track) ? "text-[#25d1da]" : "text-white"} flex-shrink-0 ml-2`}
                                         onClick={async (e) => {
                                             e.stopPropagation();
-                                            await handleLikeTrack(track.id)
+                                            await handleLikeTrack(track)
                                         }}
                                     >
-                                        <Tooltip text="Add To Your Collection" className="-top-4 group-hover/more:opacity-100 group-hover/more:visible opacity-0 invisible transition-opacity" />
+                                        <Tooltip text={`${detectLike(track) ? "Remove From Your Collection" : "Add To Your Collection"}`} className="-top-4 group-hover/more:opacity-100 group-hover/more:visible opacity-0 invisible transition-opacity" />
 
                                         {
                                             detectLike(track) ? (
@@ -275,7 +244,7 @@ function PlaylistTrackItems({ res, handleControll, initialized, setInitialized }
                                                         className="flex items-center justify-between w-full text-left px-4 py-4 text-sm text-gray-200 hover:bg-[#29292A] hover:text-white"
                                                         onClick={async (e) => {
                                                             e.preventDefault()
-                                                            await handleLikeTrack(track.id)
+                                                            await handleLikeTrack(track)
                                                         }}
                                                     >
                                                         {
