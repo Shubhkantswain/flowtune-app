@@ -37,6 +37,8 @@ const CreatePlaylistDialog = ({ songDialogOpen, setSongDialogOpen, trackId }: Cr
     });
     const { mutateAsync: createPlaylist, isPending } = useCreatePlaylist()
 
+    console.log("one lone");
+    
     const onSubmit = async (data: NewSong) => {
         createPlaylist({
             name: data.name,
