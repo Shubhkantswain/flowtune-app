@@ -68,7 +68,7 @@ const AppleMusicHomepage: React.FC = () => {
 
   const { setCurrentPage, flag, setFlag } = useCurrentActivePageStore()
   const [exploreTracks, setExploreTracks] = useState<Track[][]>([]);
-
+ 
   // Internal Hooks
   const { setActiveSectionIndex } = usePlaylistStore();
   const { data, isLoading } = useGetExploreTracks(page);
